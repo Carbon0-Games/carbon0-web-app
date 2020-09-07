@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'carbon_quiz.apps.CarbonQuizConfig',
 ]
 
 MIDDLEWARE = [
