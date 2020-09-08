@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from carbon0.views import get_landing
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', get_landing, name="landing_page"),
     path('carbon-quiz/', include('carbon_quiz.urls')),
 ]

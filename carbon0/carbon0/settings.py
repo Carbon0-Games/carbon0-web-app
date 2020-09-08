@@ -66,7 +66,9 @@ ROOT_URLCONF = 'carbon0.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates') # path to the project tempates
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,7 +122,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = None
+# Since we use PostgreSQL for the db, the time zone can be changed at any time;
+# because the database takes care of converting datetimes to the desired time zone
+
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
