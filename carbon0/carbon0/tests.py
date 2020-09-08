@@ -18,7 +18,6 @@ class LandingPageTests(TestCase):
         response = self.client.get(reverse(self.url))
         self.assertEqual(response.status_code, 200)
 
-        # TODO: once the landing page template is implemented, test that
-        # the response the user sees contains the content on the template,
-        # i.e. use 
-        # self.assertContains(response, "text from the template goes here")
+        # TODO Henry: uncomment the tests for content on the landing page
+        # self.assertContains(response, "Log In")
+        # self.assertContains(response, "Sign Up")
