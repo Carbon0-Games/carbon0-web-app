@@ -138,8 +138,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # where to find static files in production
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 # Convert the DATABASE_URL environment variable into what Django understands
 db_from_env = dj_database_url.config()

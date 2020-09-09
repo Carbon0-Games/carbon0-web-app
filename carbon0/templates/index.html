@@ -5,12 +5,20 @@
 {% block content %}
     <!-- TODO Henry: Hero -->
         <!-- Take the image from slide 1 of MakeSchool Presentation: https://tinyurl.com/yxoxdaje -->
-    <div style="background-image: url('carbon0Home.png');"></div>
+        {% load static %}
+        <div class="container-fluid" style="background-image: url('{% static 'carbon0Home.png' %}'); height: 970px; background-size: cover; background-repeat: no-repeat;">
+            <div class="row align-items-center">
+                <div class="col-md-4 justify-content-center">
+                    <button href="#" type="button" class="btn btn-primary justify-content-end">New User?</button>
+                </div>
+                <div class="col-md-4 align-self-center"></div>
+                <div class="col-md-4 justify-content-center">
+                    <button href="#" type="button" class="btn btn-success justify-content-center">Login</button>
+                </div>
+            </div>
+        </div>
     <!-- TODO Henry: Call to ACTION -->
         <!-- "New User?" and "Log In" buttons go here-->
-        
-    <!-- <button href="#" type="button" class="btn btn-primary">New User?</button>
-    <button href="#" type="button" class="btn btn-success">Login</button> -->
 
 
 {% endblock %}
