@@ -61,11 +61,30 @@ class Quiz(models.Model):
     )
     
 
-
 class Mission(models.Model):
+    '''Represents a possible action the user takes to help the environment.'''
+    title = models.CharField(max_length=500,
+                             unique=True,
+                             help_text="Title of the mission.",
+                             null=True)
     completion_date = models.DateTimeField("date mission was accomplished")
-
-
+    description = models.TextField(
+        help_text="Explains the details of the mission.",
+        null=True, blank=True
+    )
+    status = models.BooleanField(
+        default=False,
+        help_text="If the mission is done or not.")
+    links = ArrayField(
+        models.CharField(max_length=500), 3,
+        help_text="Links that the user can click to complete the mission.",
+        null=True, blank=True
+    )
+    question = models.ForeignKey(
+        Question, on_delete=models.PROTECT,
+        help_text="The question to which this mission relates.",
+        null=True  # can be null to start, question should be populated later
+    )
 
 
 class Achievement(models.Model):
