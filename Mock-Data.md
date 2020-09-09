@@ -74,3 +74,9 @@ What to add in the "Links" field (separate using commas):
 - https://www.homedepot.com/b/Lighting-Light-Bulbs-LED-Light-Bulbs/N-5yc1vZbm79
 - https://www.amazon.com/led-bulbs/b?node=2314207011
 - https://www.1000bulbs.com/category/led-light-bulbs/
+
+## Achievement Model
+
+Please keep in mind that you will also need to make an Achievement model for every Mission there is; however for right now I will leave this section empty, as I promise filling out the forms for the model creation are self-explanatory! 
+
+Again, please ping @UPstartDeveloper in a GitHub issue if any problems arise!
