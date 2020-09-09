@@ -52,7 +52,8 @@ class QuizDetail(DetailView):
 
     def get(self, request, slug, question_answered=0):
         """
-        Renders a page to show the question currently being asked.
+        Renders a page to show the question currently being asked, or the
+        missions relevant for the User to complete.
        
         Parameters:
         request(HttpRequest): the GET request sent to the server
@@ -61,7 +62,7 @@ class QuizDetail(DetailView):
                                 passed in if the user answers yes
         
         Returns:
-        HttpResponse: the view of the detail template
+        HttpResponse: the view of the detail template for the Quiz
         
         """
         # get the Quiz instance 
@@ -105,6 +106,31 @@ class QuizDetail(DetailView):
                 'missions': missions,  # possible missions for the user 
                 'show_question': False  # tells us to display Missions
             }
+        # return the response
+        return render(request, self.template_name, context)
+
+
+class MissionDetail(DetailView):
+    '''Represents the view the user gets to complete their Mission.'''
+    model = Mission
+    template_name = 'carbon_quiz/mission/detail.html'
+
+    def get(self, request, pk):
+        """
+        Renders a page to show the question currently being asked.
+       
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(id): unique slug value of the Quiz instance
+        
+        Returns:
+        HttpResponse: the view of the detail template for the Mission
+        
+        """
+        # get the mission object 
+        mission = Mission.objects.get_object_or_404(id=pk)
+        # set the context
+        context = {'mission': mission}
         # return the response
         return render(request, self.template_name, context)
     
