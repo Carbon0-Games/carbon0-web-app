@@ -17,6 +17,11 @@ from .models import (
 )
 
 
+def get_landing(request):
+    '''Returns the view for the landing page template.'''
+    return render(request, "index.html")
+
+
 class QuizCreate(CreateView):
     '''View to create new Quiz instance from randomly picked questions.'''
     model = Quiz
