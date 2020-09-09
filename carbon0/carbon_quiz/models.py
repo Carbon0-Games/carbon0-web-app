@@ -59,6 +59,10 @@ class Quiz(models.Model):
         blank=True, default=0, 
         help_text='Total metric tons of carbon that the user can eliminate.'
     )
+
+    def __str__(self):
+        '''Returns human-readable name of the Quiz.'''
+        return f'{self.title}'
     
 
 class Mission(models.Model):
@@ -85,6 +89,10 @@ class Mission(models.Model):
         help_text="The question to which this mission relates.",
         null=True  # can be null to start, question should be populated later
     )
+
+    def __str__(self):
+        '''Returns human-readable name of the Mission.'''
+        return f'{self.title}'
 
 
 class Achievement(models.Model):
