@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'carbon_quiz.apps.CarbonQuizConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
