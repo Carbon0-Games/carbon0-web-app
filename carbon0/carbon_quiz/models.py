@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
@@ -99,7 +100,31 @@ class Mission(models.Model):
 
 
 class Achievement(models.Model):
+    '''Represents what the user attains for completing a mission.'''
+    mission = models.OneToOneField(
+        Mission, on_delete=models.PROTECT,
+        help_text='The mission that earns this achievement.',
+        null=True
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.PROTECT, null=True,
+        help_text='The user who completed the mission.'
+    )
     completion_date = models.DateTimeField(
         help_text="Date mission was accomplished",
         null=True, blank=True                                
     )
+    zeron_name = models.CharField(max_length=200, default="Zeron prize")
+    zeron_image = models.FileField(
+        null=True, blank=True, help_text='To be revisited in Feature 2.'
+    )
+    badge_name = models.CharField(
+        max_length=200, null=True, blank=True,
+        help_text='The badge that the user earns in this achievement.'
+    )
+
+    def __str__(self):
+        '''Returns a human-readable name for the Achievement.'''
+        mission = Mission.objects.get(id=self.mission.id)
+        return f"Achievement for Mission: '{mission.title}'"
+
