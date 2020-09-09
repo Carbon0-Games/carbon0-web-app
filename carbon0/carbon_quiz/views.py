@@ -133,4 +133,11 @@ class MissionDetail(DetailView):
         context = {'mission': mission}
         # return the response
         return render(request, self.template_name, context)
+
+
+"""
+class AchievementCreate(CreateView):
+    '''Represents the reward the user gets for completing a mission.'''
+    model = Achievement
+"""
     
