@@ -150,3 +150,7 @@ class Achievement(models.Model):
         mission = Mission.objects.get(id=self.mission.id)
         return f"Achievement for Mission: '{mission.title}'"
 
+    def get_absolute_url(self):
+        '''Returns a fully qualified path for a Achievement.'''
+        path_components = {'pk': self.pk,}
+        return reverse('carbon_quiz:achievement_detail', kwargs=path_components)

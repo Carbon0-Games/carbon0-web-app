@@ -169,7 +169,7 @@ class AchievementDetail(DetailView):
     '''Displays the award the user receives for completing a Mission,'''
     model = Achievement
     template_name = 'carbon_quiz/achievement/detail.html'
-    
+
     def get(self, request, pk):
         """
         Renders the view of the Achievement, specifically the zeron.
