@@ -37,7 +37,6 @@ ALLOWED_HOSTS = [
     'carbon0.herokuapp.com',
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
