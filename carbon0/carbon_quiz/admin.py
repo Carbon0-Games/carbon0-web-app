@@ -12,3 +12,6 @@ admin.site.register(Question)
 admin.site.register(Mission)
 admin.site.register(Quiz)
 admin.site.register(Achievement)
+
+# Custom header for the Admin Site
+admin.site.site_header = 'Carbon0 Games Administration'
