@@ -3,7 +3,6 @@ import random
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
     CreateView,
@@ -42,3 +41,8 @@ class QuizCreate(CreateView):
         # set the questions list on the model
         form.instance.questions = quiz_questions
         return super().form_valid(form)
+
+
+class QuizDetail(DetailView):
+    '''Displays questions on the quiz to answer, or the missions to complete.'''
+    pass

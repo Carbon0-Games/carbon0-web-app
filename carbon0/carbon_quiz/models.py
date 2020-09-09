@@ -91,7 +91,6 @@ class Mission(models.Model):
     question = models.ForeignKey(
         Question, on_delete=models.PROTECT,
         help_text="The question to which this mission relates.",
-        null=True  # can be null to start, question should be populated later
     )
 
     def __str__(self):
