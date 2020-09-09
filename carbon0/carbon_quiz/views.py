@@ -38,8 +38,8 @@ class QuizCreate(CreateView):
             category_value, category_full_name = category
             # get a Question instance in that category
             next_question = self.generate_random_question(category_value)
-            # add it to the list
-            quiz_questions.append(next_question)
+            # add the id of the Question to the list
+            quiz_questions.append(next_question.id)
         # set the questions list on the model
         form.instance.questions = quiz_questions
         return super().form_valid(form)
@@ -49,4 +49,61 @@ class QuizDetail(DetailView):
     '''Displays questions on the quiz to answer, or the missions to complete.'''
     model = Question
     template_name = 'carbon_quiz/quiz/detail.html'
+
+    def get(self, request, slug, question_answered=None):
+        """
+        Renders a page to show the question currently being asked.
+       
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        slug(slug): unique slug value of the Quiz instance
+        question_answered(int): the id field of the question,
+                                passed in if the user answers yes
+        
+        Returns:
+        HttpResponse: the view of the detail template
+        
+        """
+        # if no question just asked, then question wasn't answered 
+        if question_answered is None:
+            question_answered = 'no'
+        # get the Quiz instance 
+        quiz = Quiz.object.get(slug=slug)
+           # if the question just answered 'yes', then ignore it in .questions
+        if question_answered is not None:
+            quiz.questions[quiz.active_question] = 0
+        # if the next question needs to be shown
+        if quiz.active_question < 5:
+            # get the question to display
+            question_id = quiz.questions[quiz.active_question]
+            question_obj = Question.objects.get(id=question_id)
+            # increment the active_question for the next call
+            quiz.active_question += 1
+            # return the response
+            context = {
+                'quiz': quiz,
+                'question': question_obj,
+                'show_question': True  # tells us to display a Question
+            }
+        # otherwise show the mission start page
+        else:  # quiz.active_question = 5
+            # find the missions the user can choose
+            missions = list()
+            for question_id in quiz.questions:
+                # check if this question was answered no (needs a mission)
+                if question_id > 0:
+                    # get the question
+                    question_obj = Question.objects.get(id=question_id)
+                    # get a random Mission related to the Question
+                    related_missions = Mission.objects.filter(question=question_obj)
+                    mission = random.sample(related_missions, 1)
+                    # add to the list of Missions
+                    missions.append(mission)
+            # return the response
+            context = {
+                'quiz': quiz,
+                'question': question_obj,
+                'missions': missions,  # possible missions for the user 
+                'show_question': False  # tells us to display Missions
+            }
     
