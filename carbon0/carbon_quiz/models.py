@@ -71,16 +71,19 @@ class Mission(models.Model):
                              unique=True,
                              help_text="Title of the mission.",
                              null=True)
-    completion_date = models.DateTimeField("date mission was accomplished")
     description = models.TextField(
         help_text="Explains the details of the mission.",
+        null=True, blank=True
+    )
+    learn_more = models.TextField(
+        help_text="Explains why the mission matters.",
         null=True, blank=True
     )
     status = models.BooleanField(
         default=False,
         help_text="If the mission is done or not.")
     links = ArrayField(
-        models.CharField(max_length=500), 3,
+        models.CharField(max_length=500), size=3,
         help_text="Links that the user can click to complete the mission.",
         null=True, blank=True
     )
@@ -96,4 +99,7 @@ class Mission(models.Model):
 
 
 class Achievement(models.Model):
-    pass
+    completion_date = models.DateTimeField(
+        help_text="Date mission was accomplished",
+        null=True, blank=True                                
+    )
