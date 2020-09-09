@@ -135,9 +135,32 @@ class MissionDetail(DetailView):
         return render(request, self.template_name, context)
 
 
-"""
 class AchievementCreate(CreateView):
     '''Represents the reward the user gets for completing a mission.'''
     model = Achievement
-"""
+    fields = []
+    template_name = 'carbon_quiz/achievement/create.html'
+    queryset = Achievement.objects.all()
+
+    def form_valid(self, form, mission_id):
+        '''Instaniates a new Achievement model.'''
+        # get the related Mission model
+        mission = Mission.objects.get(id=mission_id)
+        # set it on the new Achievement
+        form.instance.mission = mission
+        return super().form_valid(form)
+
+    def post(self, request, mission_id):
+        """
+        Passes the id of the Mission the Achievement is for,
+        as part of the POST request.
+        """
+        # get form needed for Achievement model instantiation
+        form = self.get_form()
+        # validate, then create
+        if form.is_valid():
+            return self.form_valid(form, mission_id)
+        # or redirect back to the form
+        else:
+            return self.form_invalid(form)
     

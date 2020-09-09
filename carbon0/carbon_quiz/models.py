@@ -134,7 +134,7 @@ class Achievement(models.Model):
     )
     completion_date = models.DateTimeField(
         help_text="Date mission was accomplished",
-        null=True, blank=True                                
+        null=True, blank=True, auto_now=True                          
     )
     zeron_name = models.CharField(max_length=200, default="Zeron prize")
     zeron_image = models.FileField(
