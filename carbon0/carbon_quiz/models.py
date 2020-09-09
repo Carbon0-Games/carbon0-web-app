@@ -3,8 +3,9 @@ import datetime
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import User
 from django.db import models
-from django.shortcuts import reverse, reverse_lazy
-from django.utils import timezone, slugify
+from django.urls import reverse, reverse_lazy
+from django.utils import timezone
+from django.utils.text import slugify
 
 
 class Question(models.Model):
