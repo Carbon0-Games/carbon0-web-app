@@ -28,11 +28,9 @@ You will need to create a super user account on your local version of the projec
 
 ## Mission Model
 
-Sorry I changed the model in the middle of making these screenshots - you should have no problem though, since the new fields I added are nullable. Please go ahead and enter the data that's applicable in each shot, and please ping @UPstartDeveloper in a GitHub issue if any problems arise!
-
 1. Recycling Mission:
 
-![Screenshot 1](https://i.postimg.cc/pXLbKzK1/Screen-Shot-2020-09-08-at-9-13-50-PM.png)
+![Screen-Shot-2020-09-09-at-8-56-17-AM.png](https://i.postimg.cc/tCbSN0wg/Screen-Shot-2020-09-09-at-8-56-17-AM.png)
 
 What to add in the "Links" field (separate using commas):
 - https://goop.com/wellness/environmental-health-civics/the-ultimate-recycling-chart/
@@ -41,7 +39,7 @@ What to add in the "Links" field (separate using commas):
 
 2. Transit Mission:
 
-![Screenshot 2](https://i.postimg.cc/qvB5PT1b/Screen-Shot-2020-09-08-at-9-29-44-PM.png)
+![Screen-Shot-2020-09-09-at-8-57-38-AM.png](https://i.postimg.cc/gkKMMSbH/Screen-Shot-2020-09-09-at-8-57-38-AM.png)
 
 What to add in the "Links" field (separate using commas):
 - https://www.google.com/maps
@@ -50,7 +48,7 @@ What to add in the "Links" field (separate using commas):
 
 3. Diet Mission:
 
-![Screenshot 3](https://i.postimg.cc/HnhrTHQw/Screen-Shot-2020-09-08-at-9-32-30-PM.png)
+![Screen-Shot-2020-09-09-at-8-58-53-AM.png](https://i.postimg.cc/4xNWj6Jk/Screen-Shot-2020-09-09-at-8-58-53-AM.png)
 
 What to add in the "Links" field (separate using commas):
 - https://impossiblefoods.com/burger/
@@ -59,7 +57,7 @@ What to add in the "Links" field (separate using commas):
 
 4. Air Travel Mission:
 
-![Screenshot 4](https://i.postimg.cc/YqDPBPTt/Screen-Shot-2020-09-08-at-9-35-07-PM.png)
+![Screen-Shot-2020-09-09-at-9-02-21-AM.png](https://i.postimg.cc/vZq0y4B1/Screen-Shot-2020-09-09-at-9-02-21-AM.png)
 
 What to add in the "Links" field (separate using commas):
 - https://wanderingchocobo.com/offset-air-travel-fly-sustainably-tips/
@@ -68,7 +66,7 @@ What to add in the "Links" field (separate using commas):
 
 5. Utilities Mission:
 
-![Screenshot 5](https://i.postimg.cc/VNhnW3GH/Screen-Shot-2020-09-08-at-9-45-54-PM.png)
+![Screen-Shot-2020-09-09-at-8-54-35-AM.png](https://i.postimg.cc/NGmCXGNV/Screen-Shot-2020-09-09-at-8-54-35-AM.png)
 
 What to add in the "Links" field (separate using commas):
 - https://www.homedepot.com/b/Lighting-Light-Bulbs-LED-Light-Bulbs/N-5yc1vZbm79

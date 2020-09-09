@@ -72,17 +72,17 @@ class Mission(models.Model):
                              unique=True,
                              help_text="Title of the mission.",
                              null=True)
-    description = models.TextField(
-        help_text="Explains the details of the mission.",
-        null=True, blank=True
+    action = models.CharField(
+        max_length=500, null=True,
+        help_text='Describes what the user needs to do.'
+    )
+    clicks_needed = models.IntegerField(
+        default=1, help_text='Number of the links user needs to click.'
     )
     learn_more = models.TextField(
         help_text="Explains why the mission matters.",
         null=True, blank=True
     )
-    status = models.BooleanField(
-        default=False,
-        help_text="If the mission is done or not.")
     links = ArrayField(
         models.CharField(max_length=500), size=3,
         help_text="Links that the user can click to complete the mission.",
