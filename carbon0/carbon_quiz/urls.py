@@ -5,6 +5,7 @@ from .views import (
     QuizDetail,
     MissionDetail,
     AchievementCreate,
+    AchievementDetail,
 )
 
 app_name = 'carbon_quiz'
@@ -16,5 +17,7 @@ urlpatterns = [
     path('mission/<int:pk>/', MissionDetail.as_view(), name='mission_detail'),
     path('achievement/create/<int:mission_id>/', AchievementCreate.as_view(),
          name='achievement_create'),
+    path('achievement/details/<int:pk>/', AchievementDetail.as_view(),
+         name='achievement_detail'),
 
 ]

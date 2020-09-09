@@ -136,7 +136,7 @@ class MissionDetail(DetailView):
 
 
 class AchievementCreate(CreateView):
-    '''Represents the reward the user gets for completing a mission.'''
+    '''Creates the award the user gets for completing a mission.'''
     model = Achievement
     fields = []
     template_name = 'carbon_quiz/achievement/create.html'
@@ -163,4 +163,29 @@ class AchievementCreate(CreateView):
         # or redirect back to the form
         else:
             return self.form_invalid(form)
+
+
+class AchievementDetail(DetailView):
+    '''Displays the award the user receives for completing a Mission,'''
+    model = Achievement
+    template_name = 'carbon_quiz/achievement/detail.html'
+    
+    def get(self, request, pk):
+        """
+        Renders the view of the Achievement, specifically the zeron.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(id): unique slug value of the Achievement instance
+        
+        Returns:
+        HttpResponse: the view of the detail template for the Achievement
+        
+        """
+        # get the mission object 
+        achievement = Achievement.objects.get_object_or_404(id=pk)
+        # set the context
+        context = {'achievement': achievement}
+        # return the response
+        return render(request, self.template_name, context)
     
