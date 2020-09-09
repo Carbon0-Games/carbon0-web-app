@@ -50,7 +50,7 @@ class QuizDetail(DetailView):
     model = Question
     template_name = 'carbon_quiz/quiz/detail.html'
 
-    def get(self, request, slug, question_answered=None):
+    def get(self, request, slug, question_answered=0):
         """
         Renders a page to show the question currently being asked.
        
@@ -64,14 +64,13 @@ class QuizDetail(DetailView):
         HttpResponse: the view of the detail template
         
         """
-        # if no question just asked, then question wasn't answered 
-        if question_answered is None:
-            question_answered = 'no'
         # get the Quiz instance 
         quiz = Quiz.object.get(slug=slug)
-           # if the question just answered 'yes', then ignore it in .questions
-        if question_answered is not None:
+           # if the user just answered 'yes', then ignore the question
+        if question_answered > 0:
             quiz.questions[quiz.active_question] = 0
+        # set the context
+        context = dict()
         # if the next question needs to be shown
         if quiz.active_question < 5:
             # get the question to display
@@ -79,7 +78,7 @@ class QuizDetail(DetailView):
             question_obj = Question.objects.get(id=question_id)
             # increment the active_question for the next call
             quiz.active_question += 1
-            # return the response
+            # add key value pairs to the context
             context = {
                 'quiz': quiz,
                 'question': question_obj,
@@ -99,11 +98,13 @@ class QuizDetail(DetailView):
                     mission = random.sample(related_missions, 1)
                     # add to the list of Missions
                     missions.append(mission)
-            # return the response
+            # add key value pairs to the context
             context = {
                 'quiz': quiz,
                 'question': question_obj,
                 'missions': missions,  # possible missions for the user 
                 'show_question': False  # tells us to display Missions
             }
+        # return the response
+        return render(request, self.template_name, context)
     

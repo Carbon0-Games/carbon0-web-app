@@ -3,7 +3,8 @@ import datetime
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils import timezone
+from django.shortcuts import reverse, reverse_lazy
+from django.utils import timezone, slugify
 
 
 class Question(models.Model):
@@ -65,6 +66,27 @@ class Quiz(models.Model):
     def __str__(self):
         '''Returns human-readable name of the Quiz.'''
         return f'{self.title}'
+
+    def get_absolute_url(self):
+        """
+        Returns a fully qualified path for a Quiz.
+        The arg for question_answered on first GET after QuizCreate, is 0
+        because we want to make sure it can't refer to a real Question model.
+        """
+        path_components = {
+            'slug': self.slug,
+            'question_answered': 0  
+        }
+        return reverse('carbon_quiz:quiz_detail', kwargs=path_components)
+
+    def save(self, *args, **kwargs):
+        '''Creates a URL safe slug automatically when a new note is saved.'''
+        if not self.pk:
+            self.slug = slugify(self.title, allow_unicode=True)
+
+        # call save on the superclass
+        return super(Quiz, self).save(*args, **kwargs)
+
     
 
 class Mission(models.Model):
