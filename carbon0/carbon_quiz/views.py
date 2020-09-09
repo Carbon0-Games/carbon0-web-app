@@ -21,6 +21,8 @@ class QuizCreate(CreateView):
     '''View to create new Quiz instance from randomly picked questions.'''
     model = Quiz
     fields = []
+    template_name = 'carbon_quiz/quiz/create.html'
+    queryset = Question.objects.all()
 
     def generate_random_question(self, category):
         '''Gets a Question model in a specific category randomly.'''
@@ -45,4 +47,6 @@ class QuizCreate(CreateView):
 
 class QuizDetail(DetailView):
     '''Displays questions on the quiz to answer, or the missions to complete.'''
-    pass
+    model = Question
+    template_name = 'carbon_quiz/quiz/detail.html'
+    
