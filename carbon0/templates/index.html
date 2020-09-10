@@ -5,7 +5,20 @@
 {% block content %}
     <!-- TODO Henry: Hero -->
         <!-- Take the image from slide 1 of MakeSchool Presentation: https://tinyurl.com/yxoxdaje -->
-    
+        {% load static %}
+        <div class="container-fluid" style="background-image: url('{% static 'images/carbon0Home.png' %}'); height: 100vh; background-size: cover; background-repeat: no-repeat;">
+            <div class="container-fluid">
+                <div class="row align-items-center" style="height: 100vh">
+                    <div class="col-md-4 my-auto">
+                        <a href="#" type="button" class="btn btn-primary float-right" style="width: 150px">New User?</a>
+                    </div>
+                    <div class="col-md-4 my-auto"></div>
+                    <div class="col-md-4 my-auto">
+                        <a href="#" type="button" class="btn btn-success float-left" style="width: 150px">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- TODO Henry: Call to ACTION -->
         <!-- "New User?" and "Log In" buttons go here-->
 
