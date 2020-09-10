@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from carbon0.views import get_landing
+from carbon_quiz import views
 
 urlpatterns = [
     # Admin URLs
     path('admin/', admin.site.urls),
     # Project-wide URLs
-    path('', get_landing, name="landing_page"),
+    path('', views.get_landing, name="landing_page"),
     # Game-related URLs
     path('carbon-quiz/', include('carbon_quiz.urls')),
+    # Auth-related URLs
+    path('accounts/', include('accounts.urls')),
 ]

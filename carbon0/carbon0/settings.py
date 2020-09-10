@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts.apps.AccountsConfig',
     'carbon_quiz.apps.CarbonQuizConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -96,6 +98,8 @@ DATABASES = {
     }
 }
 
+# Redirect back to login page on logout
+LOGOUT_REDIRECT_URL = 'accounts:login'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
