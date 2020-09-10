@@ -79,8 +79,9 @@ class Quiz(models.Model):
         """
         path_components = {
             'slug': self.slug,
-            'question_answered': 0  
+            'is_question_answered': 0  # a question hasn't been answered before 
         }
+        print("made a call to absolute url")
         return reverse('carbon_quiz:quiz_detail', kwargs=path_components)
 
     def save(self, *args, **kwargs):

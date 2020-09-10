@@ -27,7 +27,7 @@
                         <div class="row mb-5">
                             <!-- Yes and No Buzzers-->
                             <div class="col-md-6">
-                                <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug question.id %}">
+                                <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug 1 %}">
                                     <img src="#" alt="Yes">
                                 </a>
                             </div>
@@ -73,7 +73,7 @@
                 <ul>
                     {% for mission in missions %}
                     <li>
-                        <!-- <a href="{% url 'carbon_quiz:mission_detail' mission.id %}">{{ mission.title }}</a> -->
+                        <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}">{{ mission.title }}</a> 
                     </li>
                     {% endfor %}
                 </ul>

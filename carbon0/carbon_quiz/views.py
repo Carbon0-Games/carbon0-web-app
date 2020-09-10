@@ -1,5 +1,6 @@
 import random
 
+from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
@@ -53,7 +54,7 @@ class QuizDetail(DetailView):
     model = Question
     template_name = 'carbon_quiz/quiz/detail.html'
 
-    def get(self, request, slug, question_answered=0):
+    def get(self, request, slug, is_question_answered):
         """
         Renders a page to show the question currently being asked, or the
         missions relevant for the User to complete.
@@ -81,10 +82,10 @@ class QuizDetail(DetailView):
             print(f'Question id: {question_id}')
             question_obj = Question.objects.get(id=question_id)
             # if the user just answered 'yes', then ignore the question later
-            if question_answered > 0:
+            if is_question_answered == 1:
                 quiz.questions[quiz.active_question] = 0
             # increment the active_question for the next call
-            quiz.active_question += 1
+            quiz.active_question = F('active_question') + 1
             quiz.save()
             # add key value pairs to the context
             context = {
@@ -92,6 +93,8 @@ class QuizDetail(DetailView):
                 'question': question_obj,
                 'show_question': True  # tells us to display a Question
             }
+             # return the response
+            return render(request, self.template_name, context)
         # otherwise show the mission start page
         elif quiz.active_question == 5:
             # find the missions the user can choose
@@ -103,7 +106,8 @@ class QuizDetail(DetailView):
                     question_obj = Question.objects.get(id=question_id)
                     # get a random Mission related to the Question
                     related_missions = Mission.objects.filter(question=question_obj)
-                    mission = random.sample(set(related_missions), 1)
+                    mission_set = random.sample(set(related_missions), 1)
+                    mission = mission_set.pop()
                     # add to the list of Missions
                     missions.append(mission)
             # add key value pairs to the context
@@ -114,8 +118,8 @@ class QuizDetail(DetailView):
             }
             print('went into elif')
             print(f'Missions: {missions}')
-        # return the response
-        return render(request, self.template_name, context)
+            # return the response
+            return render(request, self.template_name, context)
 
 
 class MissionDetail(DetailView):
@@ -136,7 +140,7 @@ class MissionDetail(DetailView):
         
         """
         # get the mission object 
-        mission = Mission.objects.get_object_or_404(id=pk)
+        mission = Mission.objects.get(id=pk)
         # set the context
         context = {'mission': mission}
         # return the response
