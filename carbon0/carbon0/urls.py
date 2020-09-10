@@ -21,9 +21,9 @@ urlpatterns = [
     # Admin URLs
     path('admin/', admin.site.urls),
     # Project-wide URLs
-    path('', views.get_landing, name="landing_page"),
+    # path('', views.get_landing, name="landing_page"),
     # Game-related URLs
-    path('carbon-quiz/', include('carbon_quiz.urls')),
+    path('', include('carbon_quiz.urls')),
     # Auth-related URLs
     path('accounts/', include('accounts.urls')),
 ]

@@ -17,22 +17,17 @@ from .models import (
 )
 
 
-def get_landing(request):
-    '''Returns the view for the landing page template.'''
-    return render(request, "index.html")
-
-
 class QuizCreate(CreateView):
     '''View to create new Quiz instance from randomly picked questions.'''
     model = Quiz
     fields = []
-    # template_name = 'carbon_quiz/quiz/create.html'
+    template_name = 'index.html'
     queryset = Question.objects.all()
 
     def generate_random_question(self, category):
         '''Gets a Question model in a specific category randomly.'''
         category_questions = Question.objects.filter(category=category)
-        return random.sample(category_questions, 1)
+        return random.sample(set(category_questions), 1)[0]
 
     def form_valid(self, form):
         '''Initializes the Questions the user will answer on the Quiz.'''
@@ -47,6 +42,9 @@ class QuizCreate(CreateView):
             quiz_questions.append(next_question.id)
         # set the questions list on the model
         form.instance.questions = quiz_questions
+        # make the title of the model
+        num_quizzes = len(Quiz.objects.all())
+        form.instance.title = f"New Quiz {num_quizzes + 1}"
         return super().form_valid(form)
 
 
