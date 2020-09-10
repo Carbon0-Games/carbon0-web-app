@@ -6,14 +6,16 @@
     <!-- TODO Henry: Hero -->
         <!-- Take the image from slide 1 of MakeSchool Presentation: https://tinyurl.com/yxoxdaje -->
         {% load static %}
-        <div class="container-fluid" style="background-image: url('{% static 'carbon0Home.png' %}'); height: 970px; background-size: cover; background-repeat: no-repeat;">
-            <div class="row align-items-center">
-                <div class="col-md-4 justify-content-center">
-                    <button href="#" type="button" class="btn btn-primary justify-content-end">New User?</button>
-                </div>
-                <div class="col-md-4 align-self-center"></div>
-                <div class="col-md-4 justify-content-center">
-                    <button href="#" type="button" class="btn btn-success justify-content-center">Login</button>
+        <div class="container-fluid" style="background-image: url('{% static 'carbon0Home.png' %}'); height: 980px; background-size: cover; background-repeat: no-repeat;">
+            <div class="container-fluid">
+                <div class="row align-items-center" style="height: 970px">
+                    <div class="col-md-4 my-auto">
+                        <button href="#" type="button" class="btn btn-primary float-right" style="width: 150px">New User?</button>
+                    </div>
+                    <div class="col-md-4 my-auto"></div>
+                    <div class="col-md-4 my-auto">
+                        <button href="#" type="button" class="btn btn-success float-left" style="width: 150px">Login</button>
+                    </div>
                 </div>
             </div>
         </div>
