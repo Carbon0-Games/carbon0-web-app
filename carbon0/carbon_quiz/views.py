@@ -151,12 +151,30 @@ class AchievementCreate(CreateView):
     '''Creates the award the user gets for completing a mission.'''
     model = Achievement
     fields = []
-    # template_name = 'carbon_quiz/achievement/create.html'
+    template_name = 'carbon_quiz/mission/detail.html'
     queryset = Achievement.objects.all()
     # TODO: for Feature 2, we will remove this line, and let 
     # AchievementCreate redirect to AchievementDetail after it's sucessful
     success_url = reverse_lazy('accounts:signup')
 
+    def get(self, request, mission_id):
+        """
+        Renders a page to show the question currently being asked.
+       
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(id): unique slug value of the Quiz instance
+        
+        Returns:
+        HttpResponse: the view of the detail template for the Mission
+        
+        """
+        # get the mission object 
+        mission = Mission.objects.get(id=mission_id)
+        # set the context
+        context = {'mission': mission}
+        # return the response
+        return render(request, self.template_name, context)
 
     def form_valid(self, form, mission_id):
         '''Instaniates a new Achievement model.'''

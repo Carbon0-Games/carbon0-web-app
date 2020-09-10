@@ -42,10 +42,23 @@
         <div class="row mt-5 ml-5">
             <ul class="list-group list-group-horizontal"></ul>
                 {% for link in mission.links %}
-                    <li class="list-group-item mr-5">
-                        LINK
+                    <li class="list-group-item mr-5 btn-btn-info">
+                        <a href="{{ link }}" target="_blank">
+                            <form method="post">
+                                {% csrf_token %}
+                                <input class="link" type="submit" value="LINK">
+                            </form>
+                        </a>
                     </li>
                 {% endfor %}
+                <!-- JS function to open the link in a new tab -->
+                <script>
+                    document.getElementById("link").addEventListener("click", openLink);
+
+                    function openLink(link) {
+                        window.open(link, "_blank");
+                    }
+                </script>
             </ul>
         </div>
 

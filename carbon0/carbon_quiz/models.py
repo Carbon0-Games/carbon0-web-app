@@ -128,7 +128,7 @@ class Mission(models.Model):
 
 class Achievement(models.Model):
     '''Represents what the user attains for completing a mission.'''
-    mission = models.OneToOneField(
+    mission = models.ForeignKey(
         Mission, on_delete=models.PROTECT,
         help_text='The mission that earns this achievement.',
         null=True
