@@ -200,7 +200,7 @@ class AchievementCreate(CreateView):
 
 
 class AchievementDetail(DetailView):
-    '''Displays the award the user receives for completing a Mission,'''
+    '''Displays the award the user receives for completing a Mission.'''
     model = Achievement
     template_name = 'carbon_quiz/achievement/detail.html'
 
