@@ -34,6 +34,9 @@ class Question(models.Model):
         "Hyperlink where the user can learn more about the question",
         null=True, blank=True
     )
+    learn_image = models.ImageField(upload_to='images/',
+                                    null=True, blank=True,
+                                    help_text="Symbolizes what user needs to work on.")
 
     def __str__(self):
         '''Returns the category of the Question, and it's id.'''

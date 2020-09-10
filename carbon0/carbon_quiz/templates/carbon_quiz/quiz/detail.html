@@ -7,50 +7,76 @@
         <div class="container">
             <!-- if User is viewing a Question -->
             {% if show_question %}
-            <!-- Header -->
-            <h1 class="row mb-4">
-                <p class="mt-2" style="color:brown;">Carbon Calculator</p>
-            </h1>
-            <!-- Ask the Question -->
-            <div class="row mt-3 ml-5 mb-4">
-                <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
-                    <h3 class="text-white mt-2 mb-2 ml-5 mr-5">
-                        {{ question.question_text }}
-                    </h3>
-                </div>
-            </div>
-            <br>
-            <br>
-            <!-- Show the buzzers, Capt Joy, and info box -->
-            <div class="row mt-5">
-                <!-- buzzers and info -->
-                <div class="col-md-8">
-                    <div class="row">
-                        <!-- Yes and No Buzzers-->
-                        <div class="col-md-6">
-                            <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug question.id %}">
-                                <img src="#" alt="Yes">Yes
-                            </a>
-                        </div>
-                        <div class="col-md-6">
-                            <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug 0 %}">
-                                <img src="#" alt="Yes">No
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Info Box-->
-                    <div class="row">
-
+                <!-- Header -->
+                <h1 class="row mb-4">
+                    <p class="mt-2" style="color:brown;">Carbon Calculator</p>
+                </h1>
+                <!-- Ask the Question -->
+                <div class="row mt-3 ml-5 mb-4">
+                    <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
+                        <h3 class="text-white mt-2 mb-2 ml-5 mr-5">
+                            {{ question.question_text }}
+                        </h3>
                     </div>
                 </div>
-                <!-- Captain Joy -->
-                <div class="col-md-4">
-                    <img src="#" alt="Captain Joy Goes Here">
-                </div>
-            </div>
-            
+                <br><br>
+                <!-- Show the buzzers, Capt Joy, and info box -->
+                <div class="row mt-5">
+                    <!-- buzzers and info -->
+                    <div class="col-md-8">
+                        <div class="row mb-5">
+                            <!-- Yes and No Buzzers-->
+                            <div class="col-md-6">
+                                <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug question.id %}">
+                                    <img src="#" alt="Yes">
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug 0 %}">
+                                    <img src="#" alt="No">
+                                </a>
+                            </div>
+                        </div>
+                        <br><br><br>
+                        <!-- Info Box-->
+                        <div class="row ml-5 mt-5">
+                            <div class="col-md-4">
+                                <!-- Symbol for Question -->
+                            </div>
+                            <div class="col-md-8">
+                                <p class="ml-5 text-success mt-2 mb-2 mr-5">
+                                    {{ question.question_info }}
+                                    (<a href="{{ question.learn_more_link }}" target="_blank">Learn More</a>)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Captain Joy -->
+                    <div class="col-md-4 justify-content-center">
+                        <img src="#" alt="Captain Joy Goes Here">
+                    </div>
+                </div>   
             <!-- if User is viewing their Missions -->
             {% else %}
+                <!-- Header -->
+                <h1 class="row mb-4">
+                    <p class="mt-2" style="color:brown;">We've Found Missions For You!</p>
+                </h1>
+                <!-- Instructions for the User -->
+                <div class="row mt-3 ml-5 mb-4">
+                    <p>
+                        Based on your responses to the quiz, we recommend the following as ways to reduce your carbon footprint!
+                    </p>
+                </div>
+                <br><br>
+                <!-- List links for Mission Details -->
+                <ul>
+                    {% for mission in missions %}
+                    <li>
+                        <a href="{% url 'carbon_quiz:mission_detail' mission.id %}">{{ mission.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
             {% endif %}
 
         </div>

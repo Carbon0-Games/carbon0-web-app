@@ -114,6 +114,7 @@ class QuizDetail(DetailView):
                 'missions': missions,  # possible missions for the user 
                 'show_question': False  # tells us to display Missions
             }
+            print('went into elif')
         # return the response
         return render(request, self.template_name, context)
 
