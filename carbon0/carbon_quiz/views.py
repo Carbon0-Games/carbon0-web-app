@@ -26,7 +26,7 @@ class QuizCreate(CreateView):
     '''View to create new Quiz instance from randomly picked questions.'''
     model = Quiz
     fields = []
-    template_name = 'carbon_quiz/quiz/create.html'
+    # template_name = 'carbon_quiz/quiz/create.html'
     queryset = Question.objects.all()
 
     def generate_random_question(self, category):
@@ -64,26 +64,30 @@ class QuizDetail(DetailView):
         request(HttpRequest): the GET request sent to the server
         slug(slug): unique slug value of the Quiz instance
         question_answered(int): the id field of the question,
-                                passed in if the user answers yes
+                                passed in if the user answers yes,
+                                and 0 otherwise
         
         Returns:
         HttpResponse: the view of the detail template for the Quiz
         
         """
         # get the Quiz instance 
-        quiz = Quiz.object.get(slug=slug)
-           # if the user just answered 'yes', then ignore the question
-        if question_answered > 0:
-            quiz.questions[quiz.active_question] = 0
+        quiz = Quiz.objects.get(slug=slug)
         # set the context
         context = dict()
         # if the next question needs to be shown
         if quiz.active_question < 5:
             # get the question to display
+            print(f'Question array index: {quiz.active_question}')
             question_id = quiz.questions[quiz.active_question]
+            print(f'Question id: {question_id}')
             question_obj = Question.objects.get(id=question_id)
+            # if the user just answered 'yes', then ignore the question later
+            if question_answered > 0:
+                quiz.questions[quiz.active_question] = 0
             # increment the active_question for the next call
             quiz.active_question += 1
+            quiz.save()
             # add key value pairs to the context
             context = {
                 'quiz': quiz,
@@ -91,7 +95,7 @@ class QuizDetail(DetailView):
                 'show_question': True  # tells us to display a Question
             }
         # otherwise show the mission start page
-        else:  # quiz.active_question = 5
+        elif quiz.active_question == 5:
             # find the missions the user can choose
             missions = list()
             for question_id in quiz.questions:
@@ -101,13 +105,12 @@ class QuizDetail(DetailView):
                     question_obj = Question.objects.get(id=question_id)
                     # get a random Mission related to the Question
                     related_missions = Mission.objects.filter(question=question_obj)
-                    mission = random.sample(related_missions, 1)
+                    mission = random.sample(set(related_missions), 1)
                     # add to the list of Missions
                     missions.append(mission)
             # add key value pairs to the context
             context = {
                 'quiz': quiz,
-                'question': question_obj,
                 'missions': missions,  # possible missions for the user 
                 'show_question': False  # tells us to display Missions
             }
@@ -144,7 +147,7 @@ class AchievementCreate(CreateView):
     '''Creates the award the user gets for completing a mission.'''
     model = Achievement
     fields = []
-    template_name = 'carbon_quiz/achievement/create.html'
+    # template_name = 'carbon_quiz/achievement/create.html'
     queryset = Achievement.objects.all()
     # TODO: for Feature 2, we will remove this line, and let 
     # AchievementCreate redirect to AchievementDetail after it's sucessful
