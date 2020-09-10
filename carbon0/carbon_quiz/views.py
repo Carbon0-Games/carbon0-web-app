@@ -146,6 +146,10 @@ class AchievementCreate(CreateView):
     fields = []
     template_name = 'carbon_quiz/achievement/create.html'
     queryset = Achievement.objects.all()
+    # TODO: for Feature 2, we will remove this line, and let 
+    # AchievementCreate redirect to AchievementDetail after it's sucessful
+    success_url = reverse_lazy('accounts:signup')
+
 
     def form_valid(self, form, mission_id):
         '''Instaniates a new Achievement model.'''

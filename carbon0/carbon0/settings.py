@@ -98,6 +98,8 @@ DATABASES = {
     }
 }
 
+# Redirect back to login page on logout
+LOGOUT_REDIRECT_URL = 'accounts:login'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
