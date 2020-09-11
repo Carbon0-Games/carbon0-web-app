@@ -1,5 +1,6 @@
 import random
 
+from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
@@ -17,22 +18,17 @@ from .models import (
 )
 
 
-def get_landing(request):
-    '''Returns the view for the landing page template.'''
-    return render(request, "index.html")
-
-
 class QuizCreate(CreateView):
     '''View to create new Quiz instance from randomly picked questions.'''
     model = Quiz
     fields = []
-    # template_name = 'carbon_quiz/quiz/create.html'
+    template_name = 'index.html'
     queryset = Question.objects.all()
 
     def generate_random_question(self, category):
         '''Gets a Question model in a specific category randomly.'''
         category_questions = Question.objects.filter(category=category)
-        return random.sample(category_questions, 1)
+        return random.sample(set(category_questions), 1)[0]
 
     def form_valid(self, form):
         '''Initializes the Questions the user will answer on the Quiz.'''
@@ -47,6 +43,9 @@ class QuizCreate(CreateView):
             quiz_questions.append(next_question.id)
         # set the questions list on the model
         form.instance.questions = quiz_questions
+        # make the title of the model
+        num_quizzes = len(Quiz.objects.all())
+        form.instance.title = f"New Quiz {num_quizzes + 1}"
         return super().form_valid(form)
 
 
@@ -55,7 +54,7 @@ class QuizDetail(DetailView):
     model = Question
     template_name = 'carbon_quiz/quiz/detail.html'
 
-    def get(self, request, slug, question_answered=0):
+    def get(self, request, slug, is_question_answered):
         """
         Renders a page to show the question currently being asked, or the
         missions relevant for the User to complete.
@@ -83,10 +82,10 @@ class QuizDetail(DetailView):
             print(f'Question id: {question_id}')
             question_obj = Question.objects.get(id=question_id)
             # if the user just answered 'yes', then ignore the question later
-            if question_answered > 0:
+            if is_question_answered == 1:
                 quiz.questions[quiz.active_question] = 0
             # increment the active_question for the next call
-            quiz.active_question += 1
+            quiz.active_question = F('active_question') + 1
             quiz.save()
             # add key value pairs to the context
             context = {
@@ -94,6 +93,8 @@ class QuizDetail(DetailView):
                 'question': question_obj,
                 'show_question': True  # tells us to display a Question
             }
+             # return the response
+            return render(request, self.template_name, context)
         # otherwise show the mission start page
         elif quiz.active_question == 5:
             # find the missions the user can choose
@@ -105,7 +106,8 @@ class QuizDetail(DetailView):
                     question_obj = Question.objects.get(id=question_id)
                     # get a random Mission related to the Question
                     related_missions = Mission.objects.filter(question=question_obj)
-                    mission = random.sample(set(related_missions), 1)
+                    mission_set = random.sample(set(related_missions), 1)
+                    mission = mission_set.pop()
                     # add to the list of Missions
                     missions.append(mission)
             # add key value pairs to the context
@@ -115,8 +117,9 @@ class QuizDetail(DetailView):
                 'show_question': False  # tells us to display Missions
             }
             print('went into elif')
-        # return the response
-        return render(request, self.template_name, context)
+            print(f'Missions: {missions}')
+            # return the response
+            return render(request, self.template_name, context)
 
 
 class MissionDetail(DetailView):
@@ -137,7 +140,7 @@ class MissionDetail(DetailView):
         
         """
         # get the mission object 
-        mission = Mission.objects.get_object_or_404(id=pk)
+        mission = Mission.objects.get(id=pk)
         # set the context
         context = {'mission': mission}
         # return the response
@@ -148,12 +151,30 @@ class AchievementCreate(CreateView):
     '''Creates the award the user gets for completing a mission.'''
     model = Achievement
     fields = []
-    # template_name = 'carbon_quiz/achievement/create.html'
+    template_name = 'carbon_quiz/mission/detail.html'
     queryset = Achievement.objects.all()
     # TODO: for Feature 2, we will remove this line, and let 
     # AchievementCreate redirect to AchievementDetail after it's sucessful
     success_url = reverse_lazy('accounts:signup')
 
+    def get(self, request, mission_id):
+        """
+        Renders a page to show the question currently being asked.
+       
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(id): unique slug value of the Quiz instance
+        
+        Returns:
+        HttpResponse: the view of the detail template for the Mission
+        
+        """
+        # get the mission object 
+        mission = Mission.objects.get(id=mission_id)
+        # set the context
+        context = {'mission': mission}
+        # return the response
+        return render(request, self.template_name, context)
 
     def form_valid(self, form, mission_id):
         '''Instaniates a new Achievement model.'''
@@ -179,7 +200,7 @@ class AchievementCreate(CreateView):
 
 
 class AchievementDetail(DetailView):
-    '''Displays the award the user receives for completing a Mission,'''
+    '''Displays the award the user receives for completing a Mission.'''
     model = Achievement
     template_name = 'carbon_quiz/achievement/detail.html'
 

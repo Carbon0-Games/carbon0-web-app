@@ -79,8 +79,9 @@ class Quiz(models.Model):
         """
         path_components = {
             'slug': self.slug,
-            'question_answered': 0  
+            'is_question_answered': 0  # a question hasn't been answered before 
         }
+        print("made a call to absolute url")
         return reverse('carbon_quiz:quiz_detail', kwargs=path_components)
 
     def save(self, *args, **kwargs):
@@ -127,7 +128,7 @@ class Mission(models.Model):
 
 class Achievement(models.Model):
     '''Represents what the user attains for completing a mission.'''
-    mission = models.OneToOneField(
+    mission = models.ForeignKey(
         Mission, on_delete=models.PROTECT,
         help_text='The mission that earns this achievement.',
         null=True
