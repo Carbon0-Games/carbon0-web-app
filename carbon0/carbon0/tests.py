@@ -2,7 +2,7 @@ from django.test import Client, TestCase
 from django.test.client import RequestFactory
 from django.urls import reverse
 
-from carbon0.views import get_landing
+from carbon_quiz.views import get_landing
 
 
 class LandingPageTests(TestCase):

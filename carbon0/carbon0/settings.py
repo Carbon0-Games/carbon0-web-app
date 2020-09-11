@@ -153,3 +153,4 @@ DATABASES['default'].update(db_from_env)
 
 # Additional support setting up env for Heroku
 django_heroku.settings(locals())
+
