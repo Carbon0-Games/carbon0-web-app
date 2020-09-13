@@ -32,9 +32,11 @@ class QuizCreate(CreateView):
 
     def form_valid(self, form):
         '''Initializes the Questions the user will answer on the Quiz.'''
-        # get random questions
+        # get random questions - 2 in each category, in two sets
         quiz_questions = list()
-        for category in Question.CATEGORIES:
+        for i in range(10):
+            category = Question.CATEGORIES[i % 5]
+            # for category in Question.CATEGORIES:
             # get the value stored for the category field on the model
             category_value, category_full_name = category
             # get a Question instance in that category
@@ -51,7 +53,7 @@ class QuizCreate(CreateView):
 
 class QuizDetail(DetailView):
     '''Displays questions on the quiz to answer, or the missions to complete.'''
-    model = Question
+    model = Quiz
     template_name = 'carbon_quiz/quiz/detail.html'
 
     def get(self, request, slug, is_question_answered):
@@ -75,7 +77,7 @@ class QuizDetail(DetailView):
         # set the context
         context = dict()
         # if the next question needs to be shown
-        if quiz.active_question < 5:
+        if quiz.active_question < 10:
             # get the question to display
             print(f'Question array index: {quiz.active_question}')
             question_id = quiz.questions[quiz.active_question]
@@ -85,21 +87,20 @@ class QuizDetail(DetailView):
             if is_question_answered == 1:
                 quiz.questions[quiz.active_question] = 0
             # increment the active_question for the next call
-            quiz.active_question = F('active_question') + 1
-            quiz.save()
+            quiz.increment_active_question()
             # add key value pairs to the context
             context = {
                 'quiz': quiz,
                 'question': question_obj,
                 'show_question': True  # tells us to display a Question
             }
-             # return the response
-            return render(request, self.template_name, context)
         # otherwise show the mission start page
-        elif quiz.active_question == 5:
+        else:  #  quiz.active_question == 10:
             # find the missions the user can choose
             missions = list()
-            for question_id in quiz.questions:
+            # get the question id that each user actually interacted with
+            for index in range(0, len(quiz.questions), 2):
+                question_id = quiz.questions[index]
                 # check if this question was answered no (needs a mission)
                 if question_id > 0:
                     # get the question
@@ -118,8 +119,8 @@ class QuizDetail(DetailView):
             }
             print('went into elif')
             print(f'Missions: {missions}')
-            # return the response
-            return render(request, self.template_name, context)
+        # return the response
+        return render(request, self.template_name, context)
 
 
 class MissionDetail(DetailView):
