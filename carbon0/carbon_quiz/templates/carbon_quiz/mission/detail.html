@@ -22,18 +22,43 @@
 
         <!-- Image of Mission, More info -->
         <div class="row">
-            <div class="col-md-3">
-                <img src="{{ mission.question.learn_image.url }}" 
-                     alt="Symbol goes here"
-                     height=275px width=300px>
-            </div>
-            <!-- More about the mission-->
-            <div class="col-md-4 mt-5">
-                    <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
-                        <p class="text-white mt-2 mb-2 ml-5 mr-5">
-                            {{ mission.learn_more }}
-                        </p>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-5">
+                        <img src="{{ mission.question.learn_image.url }}" alt="Symbol goes here" height=275px width=300px>
                     </div>
+                    <!-- More about the mission-->
+                    <div class="col-md-7 mt-5">
+                        <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
+                            <p class="text-white mt-2 mb-2 ml-5 mr-5">
+                                {{ mission.learn_more }}
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Link options -->
+                    <div class="row ml-5 mt-5">
+                        <ul class="list-group list-group-horizontal"></ul>
+                        {% for link in mission.links %}
+                        <li class="list-group-item mr-5 btn-btn-info">
+                            <a href="{{ link }}" target="_blank">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input class="link" type="submit" value="LINK">
+                                </form>
+                            </a>
+                        </li>
+                        {% endfor %}
+                        <!-- JS function to open the link in a new tab -->
+                        <script>
+                            document.getElementById("link").addEventListener("click", openLink);
+
+                            function openLink(link) {
+                                window.open(link, "_blank");
+                            }
+                        </script>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="col-md-5">
                 <!-- Captain joy -->
@@ -41,31 +66,6 @@
                      alt="Captain Joy Goes Here" width=500px height=600px>
             </div>
         </div>
-        <div class="row ml-5">
-            <ul class="list-group list-group-horizontal"></ul>
-                {% for link in mission.links %}
-                    <li class="list-group-item mr-5 btn-btn-info">
-                        <a href="{{ link }}" target="_blank">
-                            <form method="post">
-                                {% csrf_token %}
-                                <input class="link" type="submit" value="LINK">
-                            </form>
-                        </a>
-                    </li>
-                {% endfor %}
-                <!-- JS function to open the link in a new tab -->
-                <script>
-                    document.getElementById("link").addEventListener("click", openLink);
-
-                    function openLink(link) {
-                        window.open(link, "_blank");
-                    }
-                </script>
-            </ul>
-        </div>
-
-
-
     </div>
 
 </div>
