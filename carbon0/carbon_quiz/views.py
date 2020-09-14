@@ -33,10 +33,8 @@ class QuizCreate(CreateView):
     def form_valid(self, form):
         '''Initializes the Questions the user will answer on the Quiz.'''
         # get random questions - 2 in each category, in two sets
-        quiz_questions = list()
-        for i in range(10):
-            category = Question.CATEGORIES[i % 5]
-            # for category in Question.CATEGORIES:
+        quiz_questions = list() 
+        for category in Question.CATEGORIES:
             # get the value stored for the category field on the model
             category_value, category_full_name = category
             # get a Question instance in that category
@@ -77,7 +75,7 @@ class QuizDetail(DetailView):
         # set the context
         context = dict()
         # if the next question needs to be shown
-        if quiz.active_question < 10:
+        if quiz.active_question < 5:
             # get the question to display
             print(f'Question array index: {quiz.active_question}')
             question_id = quiz.questions[quiz.active_question]
@@ -99,8 +97,7 @@ class QuizDetail(DetailView):
             # find the missions the user can choose
             missions = list()
             # get the question id that each user actually interacted with
-            for index in range(0, len(quiz.questions), 2):
-                question_id = quiz.questions[index]
+            for question_id in quiz.questions:
                 # check if this question was answered no (needs a mission)
                 if question_id > 0:
                     # get the question
