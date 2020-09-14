@@ -36,26 +36,28 @@
                         </div>
                     </div>
                     <!-- Link options -->
-                    <div class="row ml-5 mt-5">
-                        <ul class="list-group list-group-horizontal"></ul>
-                        {% for link in mission.links %}
-                        <li class="list-group-item mr-5 btn-btn-info">
-                            <a href="{{ link }}" target="_blank">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input class="link" type="submit" value="LINK">
-                                </form>
-                            </a>
-                        </li>
-                        {% endfor %}
-                        <!-- JS function to open the link in a new tab -->
-                        <script>
-                            document.getElementById("link").addEventListener("click", openLink);
+                    <div class="row">
+                        <ul class="list-group list-group-horizontal" style="background-color:rgb(255, 220, 176)">
+                            {% for link in mission.links %}
+                                <!-- image for the link changes based on its position in the links array -->
+                                {% if loop.index == 1 %}
+                                    <li class="list-group-item mr-5 btn-btn-info">
+                                        <img src="{% static 'images/Present-_Link_1.png' %}" alt="Link 1" height=170px width=200px>
+                                        {% include 'partials/link_form.html' %}
+                                    </li>
+                                {% elif loop.index == 2 %}
+                                    <li class="list-group-item mr-5 btn-btn-info">
+                                        <img src="{% static 'images/Present-_Link_2.png' %}" alt="Link 2" height=170px width=200px>
+                                        {% include 'partials/link_form.html' %}
+                                    </li>
+                                {% else %}
+                                    <li class="list-group-item mr-5 btn-btn-info">
+                                        <img src="{% static 'images/Present-_Link_3.png ' %}" alt="Link 3" height=170px width=200px>
+                                        {% include 'partials/link_form.html' %}
+                                    </li>
+                                {% endif %}
 
-                            function openLink(link) {
-                                window.open(link, "_blank");
-                            }
-                        </script>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
