@@ -1,17 +1,17 @@
 <!-- MissionDetail template -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/mission/detail.html -->
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 <div style="background-color:rgb(255, 220, 176); height: 100vh;">
     <div class="container">
         <!-- Header -->
-        <h1 class="row mb-4">
+        <h1 class="row ">
             <p class="mt-2" style="color:brown;">{{ mission.title }}</p>
         </h1>
 
         <!-- Mission Description -->
-        <div class="row mb-5">
+        <div class="row">
             <h5 class="ml-5">
                 Click on <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.clicks_needed}}</a>
                 of these links to <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.action }}</a> now!
@@ -19,27 +19,29 @@
                 And take a photo to show us you completed your mission!
             </h5>
         </div>
-        <br>
-        <br>
 
         <!-- Image of Mission, More info -->
-        <div class="row mt-5 mb-5">
-            <div class="col-md-2">
-                <img src="#" alt="image goes here">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{{ mission.question.learn_image.url }}" 
+                     alt="Symbol goes here"
+                     height=275px width=300px>
             </div>
             <!-- More about the mission-->
-            <div class="col-md-4">
+            <div class="col-md-4 mt-5">
                     <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
                         <p class="text-white mt-2 mb-2 ml-5 mr-5">
                             {{ mission.learn_more }}
                         </p>
                     </div>
             </div>
-            <div class="col-md-6">
-                <!-- filler -->
+            <div class="col-md-5">
+                <!-- Captain joy -->
+                <img src="{% static 'images/Captain Joy_Solar Panel_Transparent background (1).png' %}" 
+                     alt="Captain Joy Goes Here" width=500px height=600px>
             </div>
         </div>
-        <div class="row mt-5 ml-5">
+        <div class="row ml-5">
             <ul class="list-group list-group-horizontal"></ul>
                 {% for link in mission.links %}
                     <li class="list-group-item mr-5 btn-btn-info">
