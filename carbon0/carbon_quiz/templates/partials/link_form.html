@@ -2,5 +2,10 @@
 <!-- partial template for MissionDetail, posts to AchievementCreate -->
 <form method="post">
     {% csrf_token %}
-    <input class="link" type="submit" value="LINK">
+    <!-- Show the link -->
+    <a id="link-overview" href="{{ link }}" target="_blank">Link Address</a>
+    <div class="box">
+        <iframe src="{{ link }}" width=500px height=500px></iframe>
+    </div>
+    <input class="link" type="submit" value="This matters to me!">
 </form>
