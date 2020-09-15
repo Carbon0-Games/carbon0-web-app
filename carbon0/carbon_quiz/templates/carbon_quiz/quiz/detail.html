@@ -1,50 +1,51 @@
 <!-- QuizDetail template -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/quiz/detail.html -->
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
     <div style="background-color:rgb(255, 220, 176); height: 100vh;">
         <div class="container">
             <!-- if User is viewing a Question -->
             {% if show_question %}
                 <!-- Header -->
-                <h1 class="row mb-4">
+                <h1 class="row">
                     <p class="mt-2" style="color:brown;">Carbon Calculator</p>
                 </h1>
                 <!-- Ask the Question -->
-                <div class="row mt-3 ml-5 mb-4">
+                <div class="row ml-5 mt-3">
                     <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
-                        <h3 class="text-white mt-2 mb-2 ml-5 mr-5">
+                        <h3 class="text-white ml-5 mr-5">
                             {{ question.question_text }}
                         </h3>
                     </div>
                 </div>
-                <br><br>
                 <!-- Show the buzzers, Capt Joy, and info box -->
-                <div class="row mt-5">
+                <div class="row">
                     <!-- buzzers and info -->
                     <div class="col-md-8">
-                        <div class="row mb-5">
+                        <div class="row">
                             <!-- Yes and No Buzzers-->
                             <div class="col-md-6">
                                 <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug 1 %}">
-                                    <img src="#" alt="Yes">
+                                    <img src="{% static 'images/Present-yes.png' %}" 
+                                        alt="Yes" width=400px height=400px>
                                 </a>
                             </div>
                             <div class="col-md-6">
                                 <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug 0 %}">
-                                    <img src="#" alt="No">
+                                    <img src="{% static 'images/Present-_No.png' %}" 
+                                        alt="No" width=400px height=400px>
                                 </a>
                             </div>
                         </div>
-                        <br><br><br>
                         <!-- Info Box-->
-                        <div class="row ml-5 mt-5">
-                            <div class="col-md-4">
+                        <div class="row justify-content-start mb-4">
+                            <div class="justify-content-start col-md-4">
                                 <!-- Symbol for Question -->
+                                <img src="{{ question.learn_image.url }}" alt="" height=250px width=300px>
                             </div>
                             <div class="col-md-8">
-                                <p class="ml-5 text-success mt-2 mb-2 mr-5">
+                                <p class="text-success">
                                     {{ question.question_info }}
                                     (<a href="{{ question.learn_more_link }}" target="_blank">Learn More</a>)
                                 </p>
@@ -53,7 +54,8 @@
                     </div>
                     <!-- Captain Joy -->
                     <div class="col-md-4 justify-content-center">
-                        <img src="#" alt="Captain Joy Goes Here">
+                        <img src="{% static 'images/Captain Joy_Solar Panel_Transparent background (1).png' %}" 
+                            alt="Captain Joy Goes Here" width=500px height=600px>
                     </div>
                 </div>   
             <!-- if User is viewing their Missions -->

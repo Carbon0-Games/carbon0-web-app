@@ -84,13 +84,18 @@ class Quiz(models.Model):
         print("made a call to absolute url")
         return reverse('carbon_quiz:quiz_detail', kwargs=path_components)
 
+    def increment_active_question(self):
+        '''Moves us to the next Question, in the questions array.'''
+        self.active_question += 1
+        self.save()
+
     def save(self, *args, **kwargs):
         '''Creates a URL safe slug automatically when a new note is saved.'''
         if not self.pk:
             self.slug = slugify(self.title, allow_unicode=True)
 
         # call save on the superclass
-        return super(Quiz, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     
 

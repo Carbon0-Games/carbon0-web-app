@@ -1,17 +1,17 @@
 <!-- MissionDetail template -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/mission/detail.html -->
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 <div style="background-color:rgb(255, 220, 176); height: 100vh;">
     <div class="container">
         <!-- Header -->
-        <h1 class="row mb-4">
+        <h1 class="row ">
             <p class="mt-2" style="color:brown;">{{ mission.title }}</p>
         </h1>
 
         <!-- Mission Description -->
-        <div class="row mb-5">
+        <div class="row">
             <h5 class="ml-5">
                 Click on <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.clicks_needed}}</a>
                 of these links to <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.action }}</a> now!
@@ -19,51 +19,53 @@
                 And take a photo to show us you completed your mission!
             </h5>
         </div>
-        <br>
-        <br>
 
         <!-- Image of Mission, More info -->
-        <div class="row mt-5 mb-5">
-            <div class="col-md-2">
-                <img src="#" alt="image goes here">
-            </div>
-            <!-- More about the mission-->
-            <div class="col-md-4">
-                    <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
-                        <p class="text-white mt-2 mb-2 ml-5 mr-5">
-                            {{ mission.learn_more }}
-                        </p>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-5">
+                        <img src="{{ mission.question.learn_image.url }}" alt="Symbol goes here" height=275px width=300px>
                     </div>
+                    <!-- More about the mission-->
+                    <div class="col-md-7 mt-5">
+                        <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
+                            <p class="text-white mt-2 mb-2 ml-5 mr-5">
+                                {{ mission.learn_more }}
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Link options -->
+                    <div class="row">
+                        <ul class="list-group list-group-horizontal" style="background-color:rgb(255, 220, 176)">
+                            {% for link in mission.links %}
+                                <!-- image for the link changes based on its position in the links array -->
+                                <li class="list-group-item mr-5 btn-btn-info" style="background-color:rgb(255, 220, 176)">
+                                    {% if forloop.counter == 1 %}
+                                        <img src="{% static 'images/Present-_Link_1.png' %}" alt="Link 1" height=170px width=200px>
+                                    {% elif forloop.counter == 2 %}
+                                        <img src="{% static 'images/Present-_Link_2.png' %}" alt="Link 2" height=170px width=200px>
+                                    {% else %}
+                                        <img src="{% static 'images/Present-_Link_3.png' %}" alt="Link 3" height=170px width=200px>
+                                    {% endif %}
+                                    <!-- Show the link -->
+                                    <a class="link-overview" href="{{ link }}" target="_blank">Link Address</a>
+                                    <div class="box">
+                                        <iframe src="{{ link }}" width=500px height=500px></iframe>
+                                    </div>
+                                    {% include 'partials/link_form.html' %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <!-- filler -->
+            <div class="col-md-5">
+                <!-- Captain joy -->
+                <img src="{% static 'images/Captain Joy_Solar Panel_Transparent background (1).png' %}" 
+                     alt="Captain Joy Goes Here" width=500px height=600px>
             </div>
         </div>
-        <div class="row mt-5 ml-5">
-            <ul class="list-group list-group-horizontal"></ul>
-                {% for link in mission.links %}
-                    <li class="list-group-item mr-5 btn-btn-info">
-                        <a href="{{ link }}" target="_blank">
-                            <form method="post">
-                                {% csrf_token %}
-                                <input class="link" type="submit" value="LINK">
-                            </form>
-                        </a>
-                    </li>
-                {% endfor %}
-                <!-- JS function to open the link in a new tab -->
-                <script>
-                    document.getElementById("link").addEventListener("click", openLink);
-
-                    function openLink(link) {
-                        window.open(link, "_blank");
-                    }
-                </script>
-            </ul>
-        </div>
-
-
-
     </div>
 
 </div>
