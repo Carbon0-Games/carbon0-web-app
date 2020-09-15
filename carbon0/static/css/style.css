@@ -1,4 +1,4 @@
-link-overview:hover + .box,.box:hover{
+.link-overview:hover + .box,.box:hover{
     display: block;
     position: relative;
     z-index: 100;

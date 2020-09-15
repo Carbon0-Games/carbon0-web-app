@@ -40,23 +40,18 @@
                         <ul class="list-group list-group-horizontal" style="background-color:rgb(255, 220, 176)">
                             {% for link in mission.links %}
                                 <!-- image for the link changes based on its position in the links array -->
-                                {% if loop.index == 1 %}
-                                    <li class="list-group-item mr-5 btn-btn-info" style="background-color:rgb(255, 220, 176)">
+                                <li class="list-group-item mr-5 btn-btn-info" style="background-color:rgb(255, 220, 176)">
+                                    {% if forloop.counter == 1 %}
                                         <img src="{% static 'images/Present-_Link_1.png' %}" alt="Link 1" height=170px width=200px>
                                         {% include 'partials/link_form.html' %}
-                                    </li>
-                                {% elif loop.index == 2 %}
-                                    <li class="list-group-item mr-5 btn-btn-info" style="background-color:rgb(255, 220, 176)">
+                                    {% elif forloop.counter == 2 %}
                                         <img src="{% static 'images/Present-_Link_2.png' %}" alt="Link 2" height=170px width=200px>
                                         {% include 'partials/link_form.html' %}
-                                    </li>
-                                {% else %}
-                                    <li class="list-group-item mr-5 btn-btn-info" style="background-color:rgb(255, 220, 176)">
-                                        <img src="{% static 'images/Present-_Link_3.png ' %}" alt="Link 3" height=170px width=200px>
+                                    {% else %}
+                                        <img src="{% static 'images/Present-_Link_3.png' %}" alt="Link 3" height=170px width=200px>
                                         {% include 'partials/link_form.html' %}
-                                    </li>
-                                {% endif %}
-
+                                    {% endif %}
+                                </li>
                             {% endfor %}
                         </ul>
                     </div>

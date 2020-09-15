@@ -3,7 +3,7 @@
 <form method="post">
     {% csrf_token %}
     <!-- Show the link -->
-    <a id="link-overview" href="{{ link }}" target="_blank">Link Address</a>
+    <a class="link-overview" href="{{ link }}" target="_blank">Link Address</a>
     <div class="box">
         <iframe src="{{ link }}" width=500px height=500px></iframe>
     </div>
