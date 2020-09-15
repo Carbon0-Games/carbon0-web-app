@@ -43,14 +43,17 @@
                                 <li class="list-group-item mr-5 btn-btn-info" style="background-color:rgb(255, 220, 176)">
                                     {% if forloop.counter == 1 %}
                                         <img src="{% static 'images/Present-_Link_1.png' %}" alt="Link 1" height=170px width=200px>
-                                        {% include 'partials/link_form.html' %}
                                     {% elif forloop.counter == 2 %}
                                         <img src="{% static 'images/Present-_Link_2.png' %}" alt="Link 2" height=170px width=200px>
-                                        {% include 'partials/link_form.html' %}
                                     {% else %}
                                         <img src="{% static 'images/Present-_Link_3.png' %}" alt="Link 3" height=170px width=200px>
-                                        {% include 'partials/link_form.html' %}
                                     {% endif %}
+                                    <!-- Show the link -->
+                                    <a class="link-overview" href="{{ link }}" target="_blank">Link Address</a>
+                                    <div class="box">
+                                        <iframe src="{{ link }}" width=500px height=500px></iframe>
+                                    </div>
+                                    {% include 'partials/link_form.html' %}
                                 </li>
                             {% endfor %}
                         </ul>
