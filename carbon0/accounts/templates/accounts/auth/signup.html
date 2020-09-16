@@ -4,7 +4,73 @@
 {% load static %}
 
 {% block content %}
+    <div class="container-fluid">
+        <h1>Sign up for more missions</h1>
+        <h1>Save your score and complete for REAL PRIZE!</h1>
+    </div>
     <div class="container">
-        <img class="justify-content-center" src="{% static 'images/Captain Joy_thank_you.gif' %}" alt="">
+        <div class="row">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                    </p>
+                {% endfor %}
+                <button type="submit">Sign up</button>
+            </form>
+        </div>
+        <!-- <img class="justify-content-center" src="{% static 'images/Captain Joy_thank_you.gif' %}" alt=""> -->
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <p>Sign In With</p>
+            </div>
+            <div class="col-sm">
+                <a href="https://facebook.com/">
+                    <img alt="Facebook" src="images/Captain Joy_thank_you.gif"
+                    width="150" height="70">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://www.instagram.com/">
+                    <img alt="Instagram" src="https://www.qries.com/images/banner_logo.png"
+                    width="150" height="70">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://www.snapchat.com/">
+                    <img alt="Snapchat" src="https://www.qries.com/images/banner_logo.png"
+                    width="150" height="70">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://twitter.com/">
+                    <img alt="Twitter" src="https://www.qries.com/images/banner_logo.png"
+                    width="150" height="70">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://web.whatsapp.com/">
+                    <img alt="WhatsApp" src="https://www.qries.com/images/banner_logo.png"
+                    width="150" height="70">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://www.linkedin.com/">
+                    <img alt="LinkdIn" src="https://www.qries.com/images/banner_logo.png"
+                    width="150" height="70">
+                </a>
+            </div>
+        </div>
     </div>
 {% endblock %}
