@@ -13,7 +13,7 @@ This is a step by step instruction created by our team member __, to allow other
 2. Setup the folder as you wish while following these instructions
     - Contact PM Zain for the .env file, and download it into the folder where manage.py is located in the project (please do not share this file)!
     - Create a new db called “carbon0” using this SQL command in your Terminal (and you can [install Postgres.app here](https://postgresapp.com/) if you don’t have it yet): CREATE DATABASE carbon0;
-    - Start a new virtual env, and install Django
+    - Start a new virtual env, and install Django - This [tutorial](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/) is a good way to start if you need help to install and setup a virtual env
     - From this point on, stay in the virtual env
     - Run `python3 -m pip install -r requirements.txt`
     - Followed by `Do any db migrations that might be needed, using python manage.py migrate`
