@@ -4,6 +4,9 @@
 {% load static %}
 
 {% block content %}
+    <style>
+        body { background-color:#f4d18f;}
+    </style>
     <div class="container-fluid">
         <h1>Sign up for more missions</h1>
         <h1>Save your score and complete for REAL PRIZE!</h1>
@@ -24,7 +27,7 @@
                     {% endfor %}
                     </p>
                 {% endfor %}
-                <button type="submit">Sign up</button>
+                <button type="submit" class="btn btn-primary">Sign up</button>
             </form>
         </div>
         <!-- <img class="justify-content-center" src="{% static 'images/Captain Joy_thank_you.gif' %}" alt=""> -->
