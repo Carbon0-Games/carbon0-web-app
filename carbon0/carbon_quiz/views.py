@@ -177,6 +177,10 @@ class AchievementCreate(CreateView):
         mission = Mission.objects.get(id=mission_id)
         # set it on the new Achievement
         form.instance.mission = mission
+        # set the url of the Zeron image field
+        form.instance.zeron_image_url = (
+            Achievement.set_zeron_image_url(mission)
+        )
         return super().form_valid(form)
 
     def post(self, request, mission_id):
