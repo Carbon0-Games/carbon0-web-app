@@ -151,9 +151,6 @@ class AchievementCreate(CreateView):
     fields = []
     template_name = 'carbon_quiz/mission/detail.html'
     queryset = Achievement.objects.all()
-    # TODO: for Feature 2, we will remove this line, and let 
-    # AchievementCreate redirect to AchievementDetail after it's sucessful
-    # success_url = reverse_lazy('accounts:signup')
 
     def get(self, request, mission_id):
         """
@@ -201,6 +198,8 @@ class AchievementDetail(DetailView):
     '''Displays the award the user receives for completing a Mission.'''
     model = Achievement
     template_name = 'carbon_quiz/achievement/detail.html'
+    # TODO: in Feature 3, we'll add a link somewhere to go from
+    # AchievementDetail, to an "AchievementShare" view
 
     def get(self, request, pk):
         """
