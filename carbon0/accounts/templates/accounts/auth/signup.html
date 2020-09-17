@@ -6,26 +6,29 @@
 {% block content %}
     <style>
         body { background-color:#f4d18f;}
+        h1 { color:#a34d2a; font-weight: 300}
     </style>
     <div class="container-fluid">
-        <h1>Sign up for more missions</h1>
-        <h1>Save your score and complete for REAL PRIZE!</h1>
+        <strong><h1 class="display-3">Sign up for more missions</h1></strong>
+        <strong><h1 class="display-3">Save your score and complete for REAL PRIZE!</h1></strong>
     </div>
     <div class="container">
         <div class="row">
             <form method="post">
                 {% csrf_token %}
                 {% for field in form %}
+                <div class="col">
                     <p>
-                    {{ field.label_tag }}<br>
-                    {{ field }}
-                    {% if field.help_text %}
-                        <small style="color: grey">{{ field.help_text }}</small>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <p style="color: red">{{ error }}</p>
-                    {% endfor %}
+                        {{ field.label_tag }}<br>
+                        {{ field }}
+                        <!-- {% if field.help_text %}
+                            <small style="color: grey">{{ field.help_text }}</small>
+                        {% endif %} -->
+                        {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                        {% endfor %}
                     </p>
+                </div>
                 {% endfor %}
                 <button type="submit" class="btn btn-primary">Sign up</button>
             </form>
@@ -33,45 +36,39 @@
         <!-- <img class="justify-content-center" src="{% static 'images/Captain Joy_thank_you.gif' %}" alt=""> -->
     </div>
 
-    <div class="container">
-        <div class="row">
+    <div class="container-fluid">
+        <div class="row align-items-center">
             <div class="col-md">
-                <p>Sign In With</p>
+                <img alt="SignInWith" src="{% static 'images/sign_in_with.png' %}">
             </div>
             <div class="col-sm">
                 <a href="https://facebook.com/">
-                    <img alt="Facebook" src="images/Captain Joy_thank_you.gif"
-                    width="150" height="70">
+                    <img alt="Facebook" src="{% static 'images/facebook_img.png' %}">
                 </a>
             </div>
             <div class="col-sm">
                 <a href="https://www.instagram.com/">
-                    <img alt="Instagram" src="https://www.qries.com/images/banner_logo.png"
-                    width="150" height="70">
+                    <img alt="Instagram" src="{% static 'images/insta_img.png' %}">
                 </a>
             </div>
             <div class="col-sm">
                 <a href="https://www.snapchat.com/">
-                    <img alt="Snapchat" src="https://www.qries.com/images/banner_logo.png"
-                    width="150" height="70">
+                    <img alt="Snapchat" src="{% static 'images/snapchat_img.png' %}">
                 </a>
             </div>
             <div class="col-sm">
                 <a href="https://twitter.com/">
-                    <img alt="Twitter" src="https://www.qries.com/images/banner_logo.png"
-                    width="150" height="70">
+                    <img alt="Twitter" src="{% static 'images/twitter_img.png' %}">
                 </a>
             </div>
             <div class="col-sm">
                 <a href="https://web.whatsapp.com/">
-                    <img alt="WhatsApp" src="https://www.qries.com/images/banner_logo.png"
-                    width="150" height="70">
+                    <img alt="WhatsApp" src="{% static 'images/whatsapp_img.png' %}">
                 </a>
             </div>
             <div class="col-sm">
                 <a href="https://www.linkedin.com/">
-                    <img alt="LinkdIn" src="https://www.qries.com/images/banner_logo.png"
-                    width="150" height="70">
+                    <img alt="LinkdIn" src="{% static 'images/linkedin_img.png' %}">
                 </a>
             </div>
         </div>
