@@ -147,8 +147,18 @@ class Achievement(models.Model):
         null=True, blank=True, auto_now=True                          
     )
     zeron_name = models.CharField(max_length=200, default="Zeron prize")
-    zeron_image = models.FileField(
-        null=True, blank=True, help_text='To be revisited in Feature 2.'
+    # Define the types of Zerons an Achievement can have
+    ZERONS = [
+        ('assets/cartoon_carrot.glb', 'Carrot Model'),  # goes with Diet
+        ('assets/Wheel.glb', 'Wheel Model'),  # goes with Transit 
+        ('assets/Bin.glb', 'Bin Model'),  # goes with Recycling 
+        ('assets/coin.glb', 'Coin Model'),  # goes with Airline-Travel 
+        ('assets/Light bulb 1.glb', 'Light Bulb Model'),  # # goes with Utilities
+    ]
+    zeron_image_url = models.CharField(
+        choices=ZERONS,
+        max_length=100, null=True, 
+        blank=True, help_text='Path to the 3D model in storage.'
     )
     badge_name = models.CharField(
         max_length=200, null=True, blank=True,
