@@ -7,31 +7,46 @@
     <style>
         body { background-color:#F6E6D4;}
         h1 { color:#7F2321; font-weight: 300}
+        /* p {margin-top: 100px} */
     </style>
     <div class="container-fluid">
-        <strong><h1 class="display-3">Sign up for more missions</h1></strong>
-        <strong><h1 class="display-3">Save your score and complete for REAL PRIZE!</h1></strong>
+        <!-- <b><p1 class="mt-5">help</p1></b> -->
+        <strong><h1 class="display-3 mt-5 font-weight-bold">Sign up for more missions</h1></strong>
+        <strong><h1 class="display-3 font-weight-bold">Save your score and complete for</h1></strong>
+        <strong><h1 class="display-3 font-weight-bold">REAL PRIZE!</h1></strong>
     </div>
-    <div class="container">
-        <div class="row">
-            <form method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class="col">
-                    <p>
-                        {{ field.label_tag }}<br>
-                        {{ field }}
-                        <!-- {% if field.help_text %}
-                            <small style="color: grey">{{ field.help_text }}</small>
-                        {% endif %} -->
-                        {% for error in field.errors %}
-                            <p style="color: red">{{ error }}</p>
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row align-items-center">
+                        {% for field in form %}
+                        <div class="col">
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                <!-- {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %} -->
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        </div>
                         {% endfor %}
-                    </p>
-                </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">Sign up</button>
-            </form>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Sign up</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col">
+                <img alt="Email" src="{% static 'images/email.png' %}">
+            </div>
+            <div class="col">
+                <img alt="Password" src="{% static 'images/password.png' %}">
+            </div>
         </div>
         <!-- <img class="justify-content-center" src="{% static 'images/Captain Joy_thank_you.gif' %}" alt=""> -->
     </div>
