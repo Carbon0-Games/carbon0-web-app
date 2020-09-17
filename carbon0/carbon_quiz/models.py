@@ -149,11 +149,11 @@ class Achievement(models.Model):
     # Define the types of Zerons an Achievement can have
     ZERONS = [
         # the tuples below follow the format: `(img_url_path, name_of_zeron)`
-        ('assets/cartoon_carrot.glb', 'Carrot Model'),  # goes with Diet
-        ('assets/Wheel.glb', 'Wheel Model'),  # goes with Transit 
-        ('assets/Bin.glb', 'Bin Model'),  # goes with Recycling 
-        ('assets/coin.glb', 'Coin Model'),  # goes with Airline-Travel 
-        ('assets/Light bulb 1.glb', 'Light Bulb Model'),  # # goes with Utilities
+        ('assets/cartoon_carrot.gltf', 'Carrot Model'),  # goes with Diet
+        ('assets/Wheel.gltf', 'Wheel Model'),  # goes with Transit 
+        ('assets/Bin.gltf', 'Bin Model'),  # goes with Recycling 
+        ('assets/coin.gltf', 'Coin Model'),  # goes with Airline-Travel 
+        ('assets/Light bulb 1.gltf', 'Light Bulb Model'),  # # goes with Utilities
     ]
     zeron_image_url = models.CharField(
         choices=ZERONS,
