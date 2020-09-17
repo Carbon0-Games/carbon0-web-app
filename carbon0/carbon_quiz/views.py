@@ -151,9 +151,6 @@ class AchievementCreate(CreateView):
     fields = []
     template_name = 'carbon_quiz/mission/detail.html'
     queryset = Achievement.objects.all()
-    # TODO: for Feature 2, we will remove this line, and let 
-    # AchievementCreate redirect to AchievementDetail after it's sucessful
-    success_url = reverse_lazy('accounts:signup')
 
     def get(self, request, mission_id):
         """
@@ -180,6 +177,10 @@ class AchievementCreate(CreateView):
         mission = Mission.objects.get(id=mission_id)
         # set it on the new Achievement
         form.instance.mission = mission
+        # set the url of the Zeron image field
+        form.instance.zeron_image_url = (
+            Achievement.set_zeron_image_url(mission)
+        )
         return super().form_valid(form)
 
     def post(self, request, mission_id):
@@ -201,6 +202,8 @@ class AchievementDetail(DetailView):
     '''Displays the award the user receives for completing a Mission.'''
     model = Achievement
     template_name = 'carbon_quiz/achievement/detail.html'
+    # TODO: in Feature 3, we'll add a link somewhere to go from
+    # AchievementDetail, to an "AchievementShare" view
 
     def get(self, request, pk):
         """
@@ -215,7 +218,7 @@ class AchievementDetail(DetailView):
         
         """
         # get the mission object 
-        achievement = Achievement.objects.get_object_or_404(id=pk)
+        achievement = Achievement.objects.get(id=pk)
         # set the context
         context = {'achievement': achievement}
         # return the response

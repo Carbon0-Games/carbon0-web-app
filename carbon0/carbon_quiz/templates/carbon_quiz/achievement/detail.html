@@ -1,3 +1,34 @@
 <!-- AchievementDetail template -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/achievement/detail.html -->
 {% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div style="background-color:rgb(255, 220, 176); height: 100vh;">
+        <div class="container">
+            <!-- Header -->
+            <h1 class="row ">
+                <p class="mt-2" style="color:brown;">AR Zeron</p>
+            </h1>
+            <!-- Image, Mission Complete Ribbon-->
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{% static 'images/Present-_Mission_Completed.png' %}" alt="" width=300px height=300px>
+                </div>
+                <div class="col-md-8">
+                    <div class="row justify-content-center">
+                        <!-- Short Blurb -->
+                        <p style="color:rgb(169, 102, 21); background-color: rgb(247, 247, 247);">"{{ achievement.zeron_say_hello }}"</p>
+                    </div>
+                    <!-- TODO: replace with model-viewer -->
+                    <img src="{% static 'images/3d tree.png' %}" alt="" height=550px width=860px>
+                </div>
+            </div>
+
+            <!-- Link to Sign Up -->
+            <div class="row justify-content-end">
+                <a class="btn btn-primary" href="{% url 'accounts:signup' %}">Sign Up for More</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

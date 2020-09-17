@@ -146,9 +146,19 @@ class Achievement(models.Model):
         help_text="Date mission was accomplished",
         null=True, blank=True, auto_now=True                          
     )
-    zeron_name = models.CharField(max_length=200, default="Zeron prize")
-    zeron_image = models.FileField(
-        null=True, blank=True, help_text='To be revisited in Feature 2.'
+    # Define the types of Zerons an Achievement can have
+    ZERONS = [
+        # the tuples below follow the format: `(img_url_path, name_of_zeron)`
+        ('assets/cartoon_carrot.glb', 'Carrot Model'),  # goes with Diet
+        ('assets/Wheel.glb', 'Wheel Model'),  # goes with Transit 
+        ('assets/Bin.glb', 'Bin Model'),  # goes with Recycling 
+        ('assets/coin.glb', 'Coin Model'),  # goes with Airline-Travel 
+        ('assets/Light bulb 1.glb', 'Light Bulb Model'),  # # goes with Utilities
+    ]
+    zeron_image_url = models.CharField(
+        choices=ZERONS,
+        max_length=100, null=True, 
+        blank=True, help_text='Path to the 3D model in storage.'
     )
     badge_name = models.CharField(
         max_length=200, null=True, blank=True,
@@ -164,3 +174,46 @@ class Achievement(models.Model):
         '''Returns a fully qualified path for a Achievement.'''
         path_components = {'pk': self.pk,}
         return reverse('carbon_quiz:achievement_detail', kwargs=path_components)
+
+    def zeron_say_hello(self):
+        '''Returns a greeting the Zeron says to the User.'''
+        # find the name of the zeron this model has
+        greeting = ''
+        for img_url, zeron_name in Achievement.ZERONS:
+            if self.zeron_image_url == img_url:
+                # set the greeting
+                greeting = (
+                    f"I'm {zeron_name}. " +
+                     "Thanks for helping to save the planet!"
+                )
+        # return the greeting
+        return greeting
+
+    @classmethod
+    def set_zeron_image_url(cls, mission):
+        """
+        Returns the appropiate Zeron, given a Mission model instance.
+
+        Parameters:
+        mission(Mission): the Mission model that has been completed
+
+        Returns:
+        Tuple(str, str): the value in Achievement.ZERONS that 
+                         corresponds to the category this Mission 
+                         falls under (must refer back to related Question)
+
+        """
+        # get the category of the question related to the mission
+        category = mission.question.category
+        # store a list of the categories Questions may be in
+        category_abbreviations = [
+            category_abbrev for category_abbrev, category in Question.CATEGORIES
+        ]
+        # map each category to a Zeron name 
+        category_to_zerons = dict(
+            zip(category_abbreviations, Achievement.ZERONS)
+        )
+        # find the right choice of zeron, given the category
+        zeron_img_path, zeron_model_name = category_to_zerons[category]
+        return zeron_img_path
+         
