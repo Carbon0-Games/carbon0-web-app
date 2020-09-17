@@ -1,5 +1,9 @@
 from django.test import TestCase, Client
 from django.urls import reverse_lazy, reverse, resolve
+from django.contrib.auth.models import User
+import datetime
+
+
 from .views import (
     QuizCreate,
     MissionDetail
@@ -16,36 +20,59 @@ from .models import (
 # Create your tests here.
 # TODO Cao: write tests for the views (to be implemented by Zain)
 
-class QuizDetailTest(TestCase):
+class QuestionModelTest(TestCase):
 
-    questions = [
-        Question(question_text="testing quesiton", question_info="nothing much", carbon_value=1.2, category="D", learn_more_link="www.com"),
-        Question(question_text="testing quesiton 2", question_info="nothing much", carbon_value=1.2, category="D", learn_more_link="www.com"),
-        Question(question_text="testing quesiton 3", question_info="nothing much", carbon_value=1.2, category="D", learn_more_link="www.com")
-
-
-    ]
-
-    def test_single_quiz(self):
-        self.assertEqual(self.questions[1].question_text, "testing quesiton 2")
+    def setUp(self):
+        self.questions = [
+        Question(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com"),
+        Question(question_text="How many miles do you drive a week?", question_info="Asks for the miles driven", carbon_value=2.2, category="T", learn_more_link="www.biking.com"),
+        Question(question_text="Do you have a composting bin?", question_info="Asks for if user has composting bin", carbon_value=1.2, category="R", learn_more_link="www.compostinginfo.com")
+        ]
 
 
+    def test_question_model(self):
+        self.assertEqual(self.questions[1].question_text, "How many miles do you drive a week?")
+        self.assertEqual(self.questions[0].carbon_value, 3.2)
+        self.assertEqual(self.questions[0].category, "R")
 
+
+
+class QuizModelTest(TestCase):
+
+    def test_quiz_model(self):
+        quiz = Quiz.objects.create(title="Quiz for new user", active_question=1, carbon_value_total=23.2)
+        absolute_url = quiz.get_absolute_url()
+        # print(absolute_url)
+        self.assertEqual(absolute_url, "/answer-question/quiz-for-new-user/0/")
+        self.assertEqual(quiz.title, "Quiz for new user")
+        self.assertEqual(quiz.carbon_value_total, 23.2)
+
+
+class MissionModelTest(TestCase):
+
+    def test_mission_model(self):
+        question = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com")
+        mission = Mission(title="Recyle More Often", action="This mission will encourage users to recyle more often", clicks_needed=2, learn_more="Recycling helps the planet become more sustainable", question=question, links=["www.recycle.com", "www.plasticwaste.com"])
+        self.assertEqual(mission.title, "Recyle More Often")
+        self.assertEqual(mission.clicks_needed, 2)
+        self.assertEqual(mission.question, question)
+
+class AchievementModelTest(TestCase):
+
+    def test_achievement_model(self):
+        user = User.objects.create()
+        question = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com")
+        mission = Mission.objects.create(title="Recyle More Often", action="This mission will encourage users to recyle more often", clicks_needed=2, learn_more="Recycling helps the planet become more sustainable", question=question, links=["www.recycle.com", "www.plasticwaste.com"])
+        achievement = Achievement.objects.create(mission=mission, user=user, completion_date=datetime.datetime.now(), zeron_name="Recycle Zeron", badge_name="Recyle Master")
+
+        self.assertEqual(achievement.zeron_name, "Recycle Zeron")
 
 class MissionDetailTest(TestCase):
 
-    # questions = [
-    #     Question(question_text="testing quesiton", question_info="nothing much", carbon_value=1.2, category="D", learn_more_link="www.com"),
-    #     Question(question_text="testing quesiton 2", question_info="nothing much", carbon_value=1.2, category="D", learn_more_link="www.com"),
-    #     Question(question_text="testing quesiton 3", question_info="nothing much", carbon_value=1.2, category="D", learn_more_link="www.com")
-
-
-    # ]
-
     def setUp(self):
         '''Initial work done for each test in this suite.'''
-        question1 = Question.objects.create(question_text="testing", question_info="info", carbon_value=1.2, category="D", learn_more_link="ww.ww")
-        self.mission = Mission.objects.create(id=1, title="testing", action="compost", clicks_needed=1, learn_more="testing", question=question1)
+        question = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com")
+        self.mission = Mission.objects.create(id=1, title="Recycle More", action="Try recycling everyday!", clicks_needed=1, learn_more="www.recycling.com", question=question)
         self.client = Client()
         # self.url = 'carbon-quiz/mission/<pk:id>/'
         self.url = 'carbon_quiz:mission_detail'
