@@ -153,7 +153,7 @@ class AchievementCreate(CreateView):
     queryset = Achievement.objects.all()
     # TODO: for Feature 2, we will remove this line, and let 
     # AchievementCreate redirect to AchievementDetail after it's sucessful
-    success_url = reverse_lazy('accounts:signup')
+    # success_url = reverse_lazy('accounts:signup')
 
     def get(self, request, mission_id):
         """
@@ -215,7 +215,7 @@ class AchievementDetail(DetailView):
         
         """
         # get the mission object 
-        achievement = Achievement.objects.get_object_or_404(id=pk)
+        achievement = Achievement.objects.get(id=pk)
         # set the context
         context = {'achievement': achievement}
         # return the response
