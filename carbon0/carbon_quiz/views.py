@@ -215,7 +215,7 @@ class AchievementDetail(DetailView):
         
         """
         # get the mission object 
-        achievement = Achievement.objects.get_object_or_404(id=pk)
+        achievement = Achievement.objects.get(id=pk)
         # set the context
         context = {'achievement': achievement}
         # return the response

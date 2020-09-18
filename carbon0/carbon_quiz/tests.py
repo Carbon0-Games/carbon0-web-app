@@ -92,40 +92,42 @@ class MissionDetailTest(TestCase):
 class QuizCreateViewTest(TestCase):
 
     def setUp(self):
-
         self.request_factory = RequestFactory()
+        Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com"),
+        Question.objects.create(question_text="How many miles do you drive a week?", question_info="Asks for the miles driven", carbon_value=2.2, category="T", learn_more_link="www.biking.com"),
+        Question.objects.create(question_text="Do you have a composting bin?", question_info="Asks for if user has composting bin", carbon_value=1.2, category="D", learn_more_link="www.compostinginfo.com"),
+        Question.objects.create(question_text="How many miles do you drive a week?", question_info="Asks for the miles driven", carbon_value=2.2, category="A", learn_more_link="www.biking.com"),
+        Question.objects.create(question_text="Do you have a composting bin?", question_info="Asks for if user has composting bin", carbon_value=1.2, category="U", learn_more_link="www.compostinginfo.com")
 
     def test_user_gets_template(self):
         get_request = self.request_factory.get('carbon_quiz:quiz_create')
         response = QuizCreate.as_view()(get_request)
         self.assertEqual(response.status_code, 200)
 
-    # def test_user_post_action(self):
-    #     post_request = self.request_factory.post('carbon_quiz:quiz_create')
-    #     QuizCreate.as_view()(post_request)
+    def test_user_post_action(self):
+        quiz_nums = len(Quiz.objects.all())
 
-    #     # user creates a quiz instance right after they sumbit the form
-    #     quiz = Quiz.objects.create(title="Quiz Your Carbon Footprint",
-    #                                 active_question=1, carbon_value_total=2.3)
-
-    #     get_request = self.request_factory.get('carbon_quiz:quiz_create', quiz.get_absolute_url())
-    #     response = QuizCreate.as_view()(get_request)
-
-    #     self.assertEqual(response.status_code, 200)
+        post_request = self.request_factory.post('carbon_quiz:quiz_create')
+        # when page is submitted
+        response = QuizCreate.as_view()(post_request)
+        quiz_nums_after = len(Quiz.objects.all())
+        self.assertNotEqual(quiz_nums, quiz_nums_after)
 
 class QuizDetailViewTest(TestCase):
 
     def setUp(self):
         self.request_factory = RequestFactory()
+        self.question1 = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com"),
+        self.question2 = Question.objects.create(question_text="How many miles do you drive a week?", question_info="Asks for the miles driven", carbon_value=2.2, category="T", learn_more_link="www.biking.com"),
+        self.question3 = Question.objects.create(question_text="Do you have a composting bin?", question_info="Asks for if user has composting bin", carbon_value=1.2, category="D", learn_more_link="www.compostinginfo.com"),
+        self.question4 = Question.objects.create(question_text="How many miles do you drive a week?", question_info="Asks for the miles driven", carbon_value=2.2, category="A", learn_more_link="www.biking.com"),
+        self.quesiton5 = Question.objects.create(question_text="Do you have a composting bin?", question_info="Asks for if user has composting bin", carbon_value=1.2, category="U", learn_more_link="www.compostinginfo.com")
 
     def test_get_template(self):
         q1 = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com", id=1, learn_image="carbon0Home.png")
         quiz = Quiz.objects.create(title="Quiz Your Carbon Footprint",
-                                    active_question=1, carbon_value_total=2.3, questions=[0,1,0,0,1])
-        path_components = {
-            'slug': quiz.slug,
-            'is_question_answered': 0  # a question hasn't been answered before 
-        }
+                                    active_question=1, carbon_value_total=2.3, 
+                                    questions=[0,1,1,1,1])
 
         get_request = self.request_factory.get('carbon_quiz/quiz/detail.html')
         response = QuizDetail.as_view()(get_request, slug=quiz.slug, is_question_answered=0)
