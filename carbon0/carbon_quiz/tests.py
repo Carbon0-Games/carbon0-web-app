@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse_lazy, reverse, resolve
 from django.contrib.auth.models import User
 import datetime
@@ -6,7 +6,10 @@ import datetime
 
 from .views import (
     QuizCreate,
-    MissionDetail
+    QuizDetail,
+    MissionDetail,
+    AchievementCreate,
+    AchievementDetail
 )
 
 from .models import (
@@ -71,8 +74,8 @@ class MissionDetailTest(TestCase):
 
     def setUp(self):
         '''Initial work done for each test in this suite.'''
-        question = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com")
-        self.mission = Mission.objects.create(id=1, title="Recycle More", action="Try recycling everyday!", clicks_needed=1, learn_more="www.recycling.com", question=question)
+        question = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com", learn_image="carbon0Home.png")
+        self.mission = Mission.objects.create(title="Recycle More", action="Try recycling everyday!", clicks_needed=1, learn_more="www.recycling.com", question=question)
         self.client = Client()
         # self.url = 'carbon-quiz/mission/<pk:id>/'
         self.url = 'carbon_quiz:mission_detail'
@@ -86,3 +89,122 @@ class MissionDetailTest(TestCase):
         # self.assertEqual(resolver.func.cls, MissionDetail)
 
  
+class QuizCreateViewTest(TestCase):
+
+    def setUp(self):
+
+        self.request_factory = RequestFactory()
+
+    def test_user_gets_template(self):
+        get_request = self.request_factory.get('carbon_quiz:quiz_create')
+        response = QuizCreate.as_view()(get_request)
+        self.assertEqual(response.status_code, 200)
+
+    # def test_user_post_action(self):
+    #     post_request = self.request_factory.post('carbon_quiz:quiz_create')
+    #     QuizCreate.as_view()(post_request)
+
+    #     # user creates a quiz instance right after they sumbit the form
+    #     quiz = Quiz.objects.create(title="Quiz Your Carbon Footprint",
+    #                                 active_question=1, carbon_value_total=2.3)
+
+    #     get_request = self.request_factory.get('carbon_quiz:quiz_create', quiz.get_absolute_url())
+    #     response = QuizCreate.as_view()(get_request)
+
+    #     self.assertEqual(response.status_code, 200)
+
+class QuizDetailViewTest(TestCase):
+
+    def setUp(self):
+        self.request_factory = RequestFactory()
+
+    def test_get_template(self):
+        q1 = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com", id=1, learn_image="carbon0Home.png")
+        quiz = Quiz.objects.create(title="Quiz Your Carbon Footprint",
+                                    active_question=1, carbon_value_total=2.3, questions=[0,1,0,0,1])
+        path_components = {
+            'slug': quiz.slug,
+            'is_question_answered': 0  # a question hasn't been answered before 
+        }
+
+        get_request = self.request_factory.get('carbon_quiz/quiz/detail.html')
+        response = QuizDetail.as_view()(get_request, slug=quiz.slug, is_question_answered=0)
+
+        self.assertEqual(response.status_code, 200)
+
+class AchievementCreateViewTest(TestCase):
+    
+    def setUp(self):
+        self.request_factory = RequestFactory()
+
+    def test_get_tempalte(self):
+        question = Question.objects.create(question_text="How many miles do you drive a week?", 
+                                           question_info="Asks for the miles driven", 
+                                           carbon_value=2.2, 
+                                           category="T", 
+                                           learn_more_link="www.biking.com",
+                                           learn_image="carbon0Home.png")
+
+        mission = Mission.objects.create(title="Bikecyle more", 
+                                         action="Find wasy to bike more",
+                                         clicks_needed=3,
+                                         learn_more="Biking helps reduce fossil fuel usage",
+                                         question=question, id=1)
+
+        template_name = 'carbon_quiz/mission/detail.html'
+        get_request = self.request_factory.get(template_name)
+        response = AchievementCreate.as_view()(get_request, mission_id=1)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_mission(self):
+        question = Question.objects.create(question_text="How many miles do you drive a week?", 
+                                           question_info="Asks for the miles driven", 
+                                           carbon_value=2.2, 
+                                           category="T", 
+                                           learn_more_link="www.biking.com",
+                                           learn_image="carbon0Home.png")
+
+        mission = Mission.objects.create(title="Bikecyle more", 
+                                         action="Find wasy to bike more",
+                                         clicks_needed=3,
+                                         learn_more="Biking helps reduce fossil fuel usage",
+                                         question=question, id=1)
+
+        template_name = 'carbon_quiz/mission/detail.html'
+        post_request = self.request_factory.post(template_name)
+        AchievementCreate.as_view()(post_request, mission_id=1)
+
+        success_url = 'accounts:signup'
+        response = Client().get(reverse_lazy(success_url))
+        self.assertEqual(response.status_code, 200)
+
+class AchievementDetailViewTest(TestCase):
+
+    def setUp(self):
+        self.request_factory = RequestFactory()
+
+    def test_get_tempate(self):
+        user = User.objects.create()
+        question = Question.objects.create(question_text="How many miles do you drive a week?", 
+                                           question_info="Asks for the miles driven", 
+                                           carbon_value=2.2, 
+                                           category="T", 
+                                           learn_more_link="www.biking.com",
+                                           learn_image="carbon0Home.png")
+
+        mission = Mission.objects.create(title="Bikecyle more", 
+                                         action="Find wasy to bike more",
+                                         clicks_needed=3,
+                                         learn_more="Biking helps reduce fossil fuel usage",
+                                         question=question, id=1)
+
+        achievement = Achievement.objects.create(mission=mission,
+                                                 zeron_name="Bike Master",
+                                                 user=user,
+                                                 id=1
+                                                 )
+
+        template_name = 'carbon_quiz/achievement/detail.html'
+        get_request = self.request_factory.get(template_name)
+        response = AchievementDetail.as_view()(get_request, pk=1)
+        self.assertEqual(response.status_code, 200)
