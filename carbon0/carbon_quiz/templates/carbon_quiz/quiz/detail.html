@@ -75,7 +75,7 @@
                 <ul>
                     {% for mission in missions %}
                     <li>
-                        <a href="{% url 'carbon_quiz:achievement_create' mission.pk %}">{{ mission.title }}</a> 
+                        <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}">{{ mission.title }}</a> 
                     </li>
                     {% endfor %}
                 </ul>
