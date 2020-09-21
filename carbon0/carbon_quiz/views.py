@@ -91,7 +91,7 @@ class QuizDetail(DetailView):
                 'show_question': True  # tells us to display a Question
             }
         # otherwise show the mission start page
-        else:  #  quiz.active_question == 10:
+        else:  #  quiz.active_question == 5:
             # find the missions the user can choose
             missions = list()
             # get the question id that each user actually interacted with

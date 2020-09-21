@@ -22,9 +22,12 @@ class Mission(models.Model):
         null=True, blank=True
     )
     links = ArrayField(
-        models.CharField(max_length=500), size=3,
-        help_text="Links that the user can click to complete the mission.",
-        null=True, blank=True
+        models.CharField(max_length=300, blank=True, null=True),
+        size=6, null=True, blank=True,
+        help_text=(
+            "Links the user can click to complete the mission." +
+            "Every alternating item is a website link, the other is its name."
+        ),
     )
     question = models.ForeignKey(
         Question, on_delete=models.PROTECT,
