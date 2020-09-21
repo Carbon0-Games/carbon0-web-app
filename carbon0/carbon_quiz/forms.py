@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from .models import Quiz
+from .models.quiz import Quiz
 
 
 class QuizForm(ModelForm):

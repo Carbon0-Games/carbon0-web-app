@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import (
-    Question,
-    Mission,
-    Quiz,
-    Achievement,
-)
 
+from .models.question import Question
+from .models.mission import Mission
+from .models.quiz import Quiz
+from .models.achievement import Achievement
 
 # Register your models here
 admin.site.register(Question)
