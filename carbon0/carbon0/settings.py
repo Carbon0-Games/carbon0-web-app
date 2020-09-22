@@ -46,6 +46,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Social Auth 
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+
     'accounts.apps.AccountsConfig',
     'carbon_quiz.apps.CarbonQuizConfig',
     'rest_framework',
@@ -163,3 +172,7 @@ DATABASES['default'].update(db_from_env)
 
 # Additional support setting up env for Heroku
 django_heroku.settings(locals())
+
+# Social Login Settings
+SITE_ID = 1
+LOGIN_REDIRECT_URL = "/"

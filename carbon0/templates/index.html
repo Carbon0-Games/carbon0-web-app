@@ -2,24 +2,35 @@
 <!-- Landing Page template -->
 {% extends "base.html" %}
 {% load static %}
+{% load socialaccount %}
+{% providers_media_js %} <!-- Required For Facebook-->
+
 {% block content %}
-    <!-- HERO -->
-    <div class="container-fluid" style="background-image: url('{% static 'images/carbon0Home.png' %}'); height: 100vh; background-size: cover; background-repeat: no-repeat;">
-        <div class="container-fluid">
-            <div class="row align-items-center" style="height: 100vh">
-                <div class="col-md-4 my-auto">
+<!-- HERO -->
+<div class="container-fluid"
+    style="background-image: url('{% static 'images/carbon0Home.png' %}'); height: 100vh; background-size: cover; background-repeat: no-repeat;">
+    <div class="container-fluid">
+        <div class="row align-items-center" style="height: 100vh">
+            <div class="col-md-4 my-auto">
                 <!-- Call to ACTION: Play the Game for the First Time -->
-                    <form class='float-right' method='post'>
-                        {% csrf_token %}
-                        <input type="submit" value="New Player?" class="btn btn-primary">
-                    </form>
-                </div>
-                <div class="col-md-4 my-auto"></div>
-                <div class="col-md-4 my-auto">
+                <form class='float-right' method='post'>
+                    {% csrf_token %}
+                    <input type="submit" value="New Player?" class="btn btn-primary">
+                </form>
+            </div>
+            <div class="col-md-4 my-auto"></div>
+            <div class="col-md-4 my-auto">
                 <!-- Call to ACTION: Login -->
-                    <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success float-left" style="width: 150px">Login</a>
-                </div>
+                <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success float-left"
+                    style="width: 150px">Login</a>
             </div>
         </div>
     </div>
+    <!-- Social Login -->
+    {{ user }}
+    <a href="{% provider_login_url "google" %}" type="button" class="btn btn-success float-left" style="width: 150px; background-color: blue">Google
+        Login</a>
+    <a href="{% provider_login_url "facebook" method="oauth2" %}" type="button" class="btn btn-success float-left" style="width: 150px; background-color: red">Facebook
+            Login</a>
+</div>
 {% endblock %}

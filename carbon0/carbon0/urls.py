@@ -25,4 +25,6 @@ urlpatterns = [
     path('', include('carbon_quiz.urls')),
     # Auth-related URLs
     path('accounts/', include('accounts.urls')),
+    # All Auth URLs
+    path('accounts/', include('allauth.urls'))
 ]
