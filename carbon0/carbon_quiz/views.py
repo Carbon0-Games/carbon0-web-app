@@ -139,7 +139,6 @@ class MissionDetail(DetailView):
         mission = Mission.objects.get(id=pk)
         # make separate lists for the hyperlinks, and website names
         links, site_names = mission.split_links()
-        print(site_names)
         # set the context
         context = {
             'mission': mission,
@@ -154,16 +153,20 @@ class AchievementCreate(CreateView):
     '''Creates the award the user gets for completing a mission.'''
     model = Achievement
     fields = []
-    template_name = 'carbon_quiz/mission/create.html'
+    template_name = 'carbon_quiz/achievement/create.html'
     queryset = Achievement.objects.all()
 
-    def get(self, request, mission_id):
+    def get(self, request, mission_id, chosen_link_index):
         """
         Renders a page to show the question currently being asked.
        
         Parameters:
         request(HttpRequest): the GET request sent to the server
-        pk(id): unique slug value of the Quiz instance
+        mission_id(int): unique slug value of the Quiz instance
+        chosen_link_index(int): the index of the link we will use to 
+                                complete the mission
+                                (that is to say, when all the hyperlinks
+                                related to a Mission are in an array)
         
         Returns:
         HttpResponse: the view of the detail template for the Mission
@@ -171,8 +174,16 @@ class AchievementCreate(CreateView):
         """
         # get the mission object 
         mission = Mission.objects.get(id=mission_id)
+        # get the link and it's corresponding site name
+        links, site_names = mission.split_links()
+        link = links[chosen_link_index]
+        site_name = links[chosen_link_index + 1]
         # set the context
-        context = {'mission': mission}
+        context = {
+            'mission': mission,
+            'link': link,
+            'site_name': site_name
+        }
         # return the response
         return render(request, self.template_name, context)
 

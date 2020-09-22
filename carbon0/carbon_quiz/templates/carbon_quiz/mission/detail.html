@@ -57,7 +57,8 @@
                                     </div>
                                     <br>
                                     <!-- Link to AchievementCreate -->
-                                    <a href="#">I choose this site!</a>
+                                        <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
+                                    <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 %}">I choose this site!</a>
                                 </li>
                             {% endfor %}
                         </ul>
