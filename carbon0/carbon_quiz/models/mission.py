@@ -37,3 +37,16 @@ class Mission(models.Model):
     def __str__(self):
         '''Returns human-readable name of the Mission.'''
         return f'{self.title}'
+
+    def split_links(self):
+        '''Return one list of just website links, and of the site names.'''
+        is_link = True
+        links, site_names = list(), list()
+        for element in self.links:
+            if is_link is True:
+                links.append(element)
+                is_link = False
+            else:  # is_link is False
+                site_names.append(element)
+                is_link = True
+        return links, site_names

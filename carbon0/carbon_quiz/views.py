@@ -137,8 +137,15 @@ class MissionDetail(DetailView):
         """
         # get the mission object 
         mission = Mission.objects.get(id=pk)
+        # make separate lists for the hyperlinks, and website names
+        links, site_names = mission.split_links()
+        print(site_names)
         # set the context
-        context = {'mission': mission}
+        context = {
+            'mission': mission,
+            'links': links,
+            'site_names': site_names
+        }
         # return the response
         return render(request, self.template_name, context)
 
