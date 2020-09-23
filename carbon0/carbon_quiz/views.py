@@ -245,10 +245,17 @@ class AchievementDetail(DetailView):
         HttpResponse: the view of the detail template for the Achievement
         
         """
-        # get the mission object 
+        # get the achievement object for the context
         achievement = Achievement.objects.get(id=pk)
-        # set the context
-        context = {'achievement': achievement}
+        # set the images needed for the context
+        browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
+        ios_zeron_model = achievement.zeron_image_url[1] # .usdz file path
+        # make context dict
+        context = {
+            'achievement': achievement,
+            'browser_model': browser_zeron_model,
+            'ios_model': ios_zeron_model
+        }
         # return the response
         return render(request, self.template_name, context)
     

@@ -8,8 +8,9 @@
         <div class="container">
             <!-- Header -->
             <h1 class="row ">
-                <p class="mt-2" style="color:brown;">AR Zeron</p>
+                <p class="mt-2" style="color:brown;">Congratulations!</p>
             </h1>
+            <p class="row">Say hello to your new Zeron! Be sure to share with friends - more of them are coming to Earth soon!</p>
             <!-- Image, Mission Complete Ribbon-->
             <div class="row">
                 <div class="col-md-4">
@@ -26,8 +27,8 @@
                             <div class="col-md-4"><!-- Placeholder column --></div>
                             <div class="col-md-4">
                                 <!-- Zeron model viewer -->
-                                <model-viewer src="GLB goes here"
-                                    ios-src="USDZ goes here"
+                                <model-viewer src="{% static browser_model %}"
+                                    ios-src="{% static ios_model %}"
                                     poster="PNG goes here"
                                     alt="3D model of a Zeron" shadow-intensity="1" height=550px width=860px camera-controls auto-rotate ar>
                                 </model-viewer>
