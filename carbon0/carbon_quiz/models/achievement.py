@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse, reverse_lazy
 
@@ -21,19 +22,36 @@ class Achievement(models.Model):
         help_text="Date mission was accomplished",
         null=True, blank=True, auto_now=True                          
     )
-    # Define the types of Zerons an Achievement can have
+    # Zerons for Achievements: (img_url_paths: List[str], name_of_zeron: str)
     ZERONS = [
-        # the tuples below follow the format: `(img_url_path, name_of_zeron)`
-        ('assets/cartoon_carrot.gltf', 'Carrot Model'),  # goes with Diet
-        ('assets/Wheel.gltf', 'Wheel Model'),  # goes with Transit 
-        ('assets/Bin.gltf', 'Bin Model'),  # goes with Recycling 
-        ('assets/coin.gltf', 'Coin Model'),  # goes with Airline-Travel 
-        ('assets/Light bulb 1.gltf', 'Light Bulb Model'),  # # goes with Utilities
+        # 1. Diet category Zeron
+        (['assets/glb-files/cartoon_carrot.glb', 
+          'assets/usdz-files/tree.usdz'], 
+            "Nature's Model"), 
+        # 2. Transit category Zeron
+        (['assets/glb-files/Wheel.glb'
+          'assets/usdz-files/wheel.usdz'],
+            'Wheel Model'), 
+        # 3. Recycling category Zeron 
+        (['assets/glb-files/Bin.glb',
+          'assets/usdz-files/bin.usdz'],
+            'Bin Model'), 
+        # 4. Airline-Travel category Zeron
+        (['assets/glb-files/coin.glb',
+          'assets/usdz-files/coin.usdz'],
+            'Coin Model'), 
+        # 5. Utilities category Zeron
+        (['assets/glb-files/Light bulb 1.glb',
+          'assets/usdz-files/Lightbulb.usdz'],
+            'Light Bulb Model'),  
     ]
-    zeron_image_url = models.CharField(
-        choices=ZERONS,
+    zeron_image_url = ArrayField(
+        models.CharField(
         max_length=100, null=True, 
-        blank=True, help_text='Path to the 3D model in storage.'
+        blank=True,
+        ),
+        null=True, blank=True, choices=ZERONS,
+        help_text='File paths to the 3D model in storage.'
     )
     badge_name = models.CharField(
         max_length=200, null=True, blank=True,
@@ -89,6 +107,6 @@ class Achievement(models.Model):
             zip(category_abbreviations, Achievement.ZERONS)
         )
         # find the right choice of zeron, given the category
-        zeron_img_path, zeron_model_name = category_to_zerons[category]
-        return zeron_img_path
+        zeron_img_paths, zeron_model_name = category_to_zerons[category]
+        return zeron_img_paths
          
