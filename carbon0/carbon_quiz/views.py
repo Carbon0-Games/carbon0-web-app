@@ -169,7 +169,8 @@ class AchievementCreate(CreateView):
                                 related to a Mission are in an array)
         
         Returns:
-        HttpResponse: the view of the detail template for the Mission
+        HttpResponse: the view of the detail template for the Achievement
+                      (to be created)
         
         """
         # get the mission object 
@@ -177,7 +178,7 @@ class AchievementCreate(CreateView):
         # get the link and it's corresponding site name
         links, site_names = mission.split_links()
         link = links[chosen_link_index]
-        site_name = links[chosen_link_index + 1]
+        site_name = site_names[chosen_link_index]
         # set the context
         context = {
             'mission': mission,
@@ -199,10 +200,21 @@ class AchievementCreate(CreateView):
         )
         return super().form_valid(form)
 
-    def post(self, request, mission_id):
+    def post(self, request, mission_id, chosen_link_index):
         """
         Passes the id of the Mission the Achievement is for,
         as part of the POST request.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        mission_id(int): unique slug value of the Quiz instance
+        chosen_link_index(int): the index of the link we will use to 
+                                complete the mission
+                                (that is to say, when all the hyperlinks
+                                related to a Mission are in an array)
+        
+        Returns:
+        HttpResponseRedirect: the view of the detail template for the Achievement
         """
         # get form needed for Achievement model instantiation
         form = self.get_form()
