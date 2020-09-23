@@ -8,9 +8,23 @@
     <div class="container">
         <!-- Header -->
         <h1 class="row ">
-            <p class="mt-2" style="color:brown;">Header Goes Here</p>
+            <p class="mt-2" style="color:brown;">Complete Your Mission</p>
         </h1>
-        <!-- -->
+        <!-- Title of the Mission -->
+        <h3 class="row ml-2">{{ mission.title }}</h3>
+        <!-- Web View of Mission Link -->
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Site Preview -->
+                <div class="row"></div>
+                <!-- Mission Complete Button -->
+                <div class="row"></div>
+            </div>
+            <!-- Capt. Joy Image -->
+            <div class="col-md-4">
+                {% include "partials/captain_joy_image.html" %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
