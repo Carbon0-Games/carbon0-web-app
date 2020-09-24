@@ -9,12 +9,10 @@ from .views import (
     MissionDetail
 )
 
-from .models import (
-    Achievement,
-    Mission,
-    Question,
-    Quiz,
-)
+from .models.question import Question
+from .models.mission import Mission
+from .models.quiz import Quiz
+from .models.achievement import Achievement
 
 
 # Create your tests here.

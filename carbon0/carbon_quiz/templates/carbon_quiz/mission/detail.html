@@ -38,22 +38,27 @@
                     <!-- Link options -->
                     <div class="row">
                         <ul class="list-group list-group-horizontal" style="background-color:rgb(255, 220, 176)">
-                            {% for link in mission.links %}
+                            {% for link in links %}
                                 <!-- image for the link changes based on its position in the links array -->
                                 <li class="list-group-item mr-5 btn-btn-info" style="background-color:rgb(255, 220, 176)">
                                     {% if forloop.counter == 1 %}
                                         <img src="{% static 'images/Present-_Link_1.png' %}" alt="Link 1" height=170px width=200px>
                                     {% elif forloop.counter == 2 %}
                                         <img src="{% static 'images/Present-_Link_2.png' %}" alt="Link 2" height=170px width=200px>
-                                    {% else %}
+                                    {% elif forloop.counter == 3 %}
                                         <img src="{% static 'images/Present-_Link_3.png' %}" alt="Link 3" height=170px width=200px>
                                     {% endif %}
-                                    <!-- Show the link -->
-                                    <a class="link-overview" href="{{ link }}" target="_blank">Link Address</a>
+                                     <!-- Show the website name for this link -->
+                                    <a class="link-overview" href="{{ link }}" target="_blank">
+                                        See My Preview!
+                                     </a>
                                     <div class="box">
                                         <iframe src="{{ link }}" width=500px height=500px></iframe>
                                     </div>
-                                    {% include 'partials/link_form.html' %}
+                                    <br>
+                                    <!-- Link to AchievementCreate -->
+                                        <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
+                                    <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 %}">I choose this site!</a>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -62,8 +67,7 @@
             </div>
             <div class="col-md-5">
                 <!-- Captain joy -->
-                <img src="{% static 'images/Captain Joy_Solar Panel_Transparent background (1).png' %}" 
-                     alt="Captain Joy Goes Here" width=500px height=600px>
+                {% include "partials/captain_joy_image.html" %}
             </div>
         </div>
     </div>

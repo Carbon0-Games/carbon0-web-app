@@ -1,6 +1,8 @@
 from rest_framework.serializers import ModelSerializer
 
-from carbon_quiz.models import Question, Mission
+from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
+
 
 class QuestionSerializer(ModelSerializer):
     class Meta:

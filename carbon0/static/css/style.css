@@ -8,3 +8,8 @@
     display: none;
     width: 100%;
 }
+
+model-viewer {
+    height: 500px;
+    width: 400px;
+}

@@ -8,8 +8,9 @@
         <div class="container">
             <!-- Header -->
             <h1 class="row ">
-                <p class="mt-2" style="color:brown;">AR Zeron</p>
+                <p class="mt-2" style="color:brown;">Congratulations!</p>
             </h1>
+            <p class="row">Say hello to your new Zeron! Be sure to share with friends - more of them are coming to Earth soon!</p>
             <!-- Image, Mission Complete Ribbon-->
             <div class="row">
                 <div class="col-md-4">
@@ -17,11 +18,23 @@
                 </div>
                 <div class="col-md-8">
                     <div class="row justify-content-center">
-                        <!-- Short Blurb -->
-                        <p style="color:rgb(169, 102, 21); background-color: rgb(247, 247, 247);">"{{ achievement.zeron_say_hello }}"</p>
+                        <div class="col-md-12">
+                            <!-- Short Blurb -->
+                            <p class="text-center" style="color:rgb(169, 102, 21); background-color: rgb(247, 247, 247);">"{{ achievement.zeron_say_hello }}"</p>
+                        </div>
                     </div>
-                    <!-- TODO: replace with model-viewer -->
-                    <img src="{% static 'images/3d tree.png' %}" alt="" height=550px width=860px>
+                        <div class="row">
+                            <div class="col-md-4"><!-- Placeholder column --></div>
+                            <div class="col-md-4">
+                                <!-- Zeron model viewer -->
+                                <model-viewer src="{% static browser_model %}"
+                                    ios-src="{% static ios_model %}"
+                                    poster="PNG goes here"
+                                    alt="3D model of a Zeron" shadow-intensity="1" camera-controls auto-rotate ar>
+                                </model-viewer>
+                            </div>
+                            <div class="col-md-4"><!-- Placeholder column --></div>
+                        </div>
                 </div>
             </div>
 
