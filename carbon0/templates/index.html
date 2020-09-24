@@ -2,24 +2,39 @@
 <!-- Landing Page template -->
 {% extends "base.html" %}
 {% load static %}
+
 {% block content %}
     <!-- HERO -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav1">
+        <a class="navbar-brand" href="#" src="{% static 'images/linkedin_img.png' %}">Carbon0</a>
+    </nav>
+
     <div class="container-fluid" style="background-image: url('{% static 'images/carbon0Home.png' %}'); height: 100vh; background-size: cover; background-repeat: no-repeat;">
+        <div class="container pt-4">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/jZ_YdamxG30" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
         <div class="container-fluid">
-            <div class="row align-items-center" style="height: 100vh">
-                <div class="col-md-4 my-auto">
+            <div class="row align-items-center" style="height: 10vh">
+                <div class="col my-auto align-items-center">
                 <!-- Call to ACTION: Play the Game for the First Time -->
                     <form class='float-right' method='post'>
                         {% csrf_token %}
-                        <input type="submit" value="New Player?" class="btn btn-primary">
+                        <input type="submit" value="PLAYER" class="btn btn-primary">
                     </form>
                 </div>
-                <div class="col-md-4 my-auto"></div>
-                <div class="col-md-4 my-auto">
+                <!-- <div class="col-md-4 my-auto"></div> -->
+                <div class="col my-auto align-items-center">
                 <!-- Call to ACTION: Login -->
-                    <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success float-left" style="width: 150px">Login</a>
+                    <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success float-left" style="width: 150px">LOGIN</a>
                 </div>
             </div>
         </div>
     </div>
+    <footer class="sticky-footer">
+        <div class="container">
+            <p>Be A Hero    Get to Zero</p>
+        </div>
+    </footer>
 {% endblock %}
