@@ -5,36 +5,42 @@
 
 {% block content %}
     <!-- HERO -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav1">
+    <style>
+        #foot { background-color:#F6E6D4;}
+        p { font-size: 10vh }
+    </style>
+    <nav class="navbar navbar-expand-md navbar-light bg-light" id="nav1">
         <a class="navbar-brand" href="#" src="{% static 'images/linkedin_img.png' %}">Carbon0</a>
     </nav>
 
-    <div class="container-fluid" style="background-image: url('{% static 'images/carbon0Home.png' %}'); height: 100vh; background-size: cover; background-repeat: no-repeat;">
+    <div class="container-fluid" style="background-image: url('{% static 'images/background_2.png' %}'); height: 90vh; background-size: cover; background-repeat: no-repeat;">
         <div class="container pt-4">
             <div class="embed-responsive embed-responsive-16by9">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/jZ_YdamxG30" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
         <div class="container-fluid">
-            <div class="row align-items-center" style="height: 10vh">
-                <div class="col my-auto align-items-center">
+            <div class="row align-items-center" style="height: 20vh">
+                <div class="col justify-content-center">
                 <!-- Call to ACTION: Play the Game for the First Time -->
-                    <form class='float-right' method='post'>
+                    <form class='float' method='post'>
                         {% csrf_token %}
-                        <input type="submit" value="PLAYER" class="btn btn-primary">
+                        <input type="submit" value="PLAYER" class="btn btn-primary rounded-pill" style="width: 150px">
                     </form>
                 </div>
                 <!-- <div class="col-md-4 my-auto"></div> -->
-                <div class="col my-auto align-items-center">
+                <div class="col justify-content-center">
                 <!-- Call to ACTION: Login -->
-                    <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success float-left" style="width: 150px">LOGIN</a>
+                    <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success rounded-pill" style="width: 150px">LOGIN</a>
                 </div>
             </div>
         </div>
     </div>
-    <footer class="sticky-footer">
+
+    <footer class="footer" id="foot">
+        <!-- Use fixed-bottom in the class to keep it fixed -->
         <div class="container">
-            <p>Be A Hero    Get to Zero</p>
+            <p class="text-primary">Be A Hero Get to Zero</p>
         </div>
     </footer>
 {% endblock %}
