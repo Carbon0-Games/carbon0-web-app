@@ -22,7 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Loads in environment variables from a .env file
 load_dotenv()
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -38,7 +37,6 @@ ALLOWED_HOSTS = [
     'carbon0.herokuapp.com',
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,6 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts.apps.AccountsConfig',
+    'carbon_quiz.apps.CarbonQuizConfig',
+    'rest_framework',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -65,7 +67,9 @@ ROOT_URLCONF = 'carbon0.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates') # path to the project tempates
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,6 +99,8 @@ DATABASES = {
     }
 }
 
+# Redirect back to login page on logout
+LOGOUT_REDIRECT_URL = 'accounts:login'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -119,7 +125,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = None
+# Since we use PostgreSQL for the db, the time zone can be changed at any time;
+# because the database takes care of converting datetimes to the desired time zone
+
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
@@ -133,8 +142,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # where to find static files in production
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+# AWS S3 Variables 
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Convert the DATABASE_URL environment variable into what Django understands
 db_from_env = dj_database_url.config()

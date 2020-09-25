@@ -1,0 +1,47 @@
+<!-- AchievementCreate template -->
+<!-- carbon0/carbon_quiz/templates/carbon_quiz/achievement/create.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div style="background-color:rgb(255, 220, 176); height: 100vh;">
+    <div class="container">
+        <!-- Header -->
+        <h1 class="row ">
+            <p class="mt-2" style="color:brown;">Complete Your Mission</p>
+        </h1>
+        <!-- Title of the Mission -->
+        <h3 class="row ml-2">{{ mission.title }}</h3>
+        <!-- Web View of Mission Link -->
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Site Preview -->
+                <div class="row ml-2">
+                    <p>
+                        Action: {{ mission.action }}.<br>
+                        When you are finished on the website linked below, come back and 
+                        select "Complete Mission" so we can give you your prize! <br>
+                        <a class="link-overview" href="{{ link }}" target="_blank">
+                            Preview Link: {{ site_name }}
+                        </a>
+                        <div class="box">
+                            <iframe src="{{ link }}" width=500px height=500px></iframe>
+                        </div>
+                    </p>
+                </div>
+                <!-- Mission Complete Button -->
+                <div class="row ml-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-success" value="Mission Completed!">
+                    </form>
+                </div>
+            </div>
+            <!-- Capt. Joy Image -->
+            <div class="col-md-4">
+                {% include "partials/captain_joy_image.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
