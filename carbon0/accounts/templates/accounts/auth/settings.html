@@ -2,6 +2,15 @@
 
 {% block content %}
   <h2>Settings</h2>
+  <h1>Django Social Login App</h1>
+        <hr/>
+        {% if user.is_authenticated %}
+        You are signed in as <strong>{{ user.username }}</strong> /
+        <a href="{% url 'accounts:logout' %}">logout</a>
+        {% else %}
+        <a href="{% url 'accounts:login' %}">login</a> /
+        {% endif %}
+        <hr>
 
   <h3>Facebook</h3>
   {% if facebook_login %}
