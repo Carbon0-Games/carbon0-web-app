@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # Admin URLs
@@ -25,4 +26,10 @@ urlpatterns = [
     path('', include('carbon_quiz.urls')),
     # Auth-related URLs
     path('accounts/', include('accounts.urls')),
+
+    path('oauth/', include('social_django.urls', namespace='social')),
+    
+    # Social 
+    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
+
 ]

@@ -57,12 +57,12 @@
                 <img alt="SignInWith" src="{% static 'images/sign_in_with.png' %}">
             </div>
             <div class="col-sm">
-                <a href="https://facebook.com/">
+                <a href="{% url 'social:begin' 'facebook' %}">
                     <img alt="Facebook" src="{% static 'images/facebook_img.png' %}">
                 </a>
             </div>
             <div class="col-sm">
-                <a href="https://www.instagram.com/">
+                <a href="{% url 'social:begin' 'google-oauth2' %}">
                     <img alt="Instagram" src="{% static 'images/insta_img.png' %}">
                 </a>
             </div>
