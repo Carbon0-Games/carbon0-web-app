@@ -10,12 +10,10 @@ from django.views.generic.edit import (
     UpdateView,
     DeleteView)
 
-from .models import (
-    Achievement,
-    Mission,
-    Question,
-    Quiz,
-)
+from .models.question import Question
+from .models.mission import Mission
+from .models.quiz import Quiz
+from .models.achievement import Achievement
 
 
 class QuizCreate(CreateView):
@@ -93,7 +91,7 @@ class QuizDetail(DetailView):
                 'show_question': True  # tells us to display a Question
             }
         # otherwise show the mission start page
-        else:  #  quiz.active_question == 10:
+        else:  #  quiz.active_question == 5:
             # find the missions the user can choose
             missions = list()
             # get the question id that each user actually interacted with
@@ -139,8 +137,14 @@ class MissionDetail(DetailView):
         """
         # get the mission object 
         mission = Mission.objects.get(id=pk)
+        # make separate lists for the hyperlinks, and website names
+        links, site_names = mission.split_links()
         # set the context
-        context = {'mission': mission}
+        context = {
+            'mission': mission,
+            'links': links,
+            'site_names': site_names
+        }
         # return the response
         return render(request, self.template_name, context)
 
@@ -149,28 +153,38 @@ class AchievementCreate(CreateView):
     '''Creates the award the user gets for completing a mission.'''
     model = Achievement
     fields = []
-    template_name = 'carbon_quiz/mission/detail.html'
+    template_name = 'carbon_quiz/achievement/create.html'
     queryset = Achievement.objects.all()
-    # TODO: for Feature 2, we will remove this line, and let 
-    # AchievementCreate redirect to AchievementDetail after it's sucessful
-    success_url = reverse_lazy('accounts:signup')
 
-    def get(self, request, mission_id):
+    def get(self, request, mission_id, chosen_link_index):
         """
         Renders a page to show the question currently being asked.
        
         Parameters:
         request(HttpRequest): the GET request sent to the server
-        pk(id): unique slug value of the Quiz instance
+        mission_id(int): unique slug value of the Quiz instance
+        chosen_link_index(int): the index of the link we will use to 
+                                complete the mission
+                                (that is to say, when all the hyperlinks
+                                related to a Mission are in an array)
         
         Returns:
-        HttpResponse: the view of the detail template for the Mission
+        HttpResponse: the view of the detail template for the Achievement
+                      (to be created)
         
         """
         # get the mission object 
         mission = Mission.objects.get(id=mission_id)
+        # get the link and it's corresponding site name
+        links, site_names = mission.split_links()
+        link = links[chosen_link_index]
+        site_name = site_names[chosen_link_index]
         # set the context
-        context = {'mission': mission}
+        context = {
+            'mission': mission,
+            'link': link,
+            'site_name': site_name
+        }
         # return the response
         return render(request, self.template_name, context)
 
@@ -180,12 +194,27 @@ class AchievementCreate(CreateView):
         mission = Mission.objects.get(id=mission_id)
         # set it on the new Achievement
         form.instance.mission = mission
+        # set the url of the Zeron image field
+        form.instance.zeron_image_url = (
+            Achievement.set_zeron_image_url(mission)
+        )
         return super().form_valid(form)
 
-    def post(self, request, mission_id):
+    def post(self, request, mission_id, chosen_link_index):
         """
         Passes the id of the Mission the Achievement is for,
         as part of the POST request.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        mission_id(int): unique slug value of the Quiz instance
+        chosen_link_index(int): the index of the link we will use to 
+                                complete the mission
+                                (that is to say, when all the hyperlinks
+                                related to a Mission are in an array)
+        
+        Returns:
+        HttpResponseRedirect: the view of the detail template for the Achievement
         """
         # get form needed for Achievement model instantiation
         form = self.get_form()
@@ -201,6 +230,8 @@ class AchievementDetail(DetailView):
     '''Displays the award the user receives for completing a Mission.'''
     model = Achievement
     template_name = 'carbon_quiz/achievement/detail.html'
+    # TODO: in Feature 3, we'll add a link somewhere to go from
+    # AchievementDetail, to an "AchievementShare" view
 
     def get(self, request, pk):
         """
@@ -214,10 +245,17 @@ class AchievementDetail(DetailView):
         HttpResponse: the view of the detail template for the Achievement
         
         """
-        # get the mission object 
+        # get the achievement object for the context
         achievement = Achievement.objects.get(id=pk)
-        # set the context
-        context = {'achievement': achievement}
+        # set the images needed for the context
+        browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
+        ios_zeron_model = achievement.zeron_image_url[1] # .usdz file path
+        # make context dict
+        context = {
+            'achievement': achievement,
+            'browser_model': browser_zeron_model,
+            'ios_model': ios_zeron_model
+        }
         # return the response
         return render(request, self.template_name, context)
     

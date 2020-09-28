@@ -1,3 +1,91 @@
 <!-- LoginView template -->
 <!-- carbon0/accounts/templates/accounts/auth/login.html -->
 {% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+        body { background-color:#F6E6D4;}
+        h1 { color:#7F2321; font-weight: 300}
+        #nav1
+        {  
+            background-color:##e3f2fd; /*whichever you want*/
+            opacity: 0.7; 
+            filter:(opacity=50);       
+        }
+    </style>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav1">
+        <a class="navbar-brand" href="{% url 'carbon_quiz:quiz_create' %}">Carbon0</a>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img alt="CaptainJoy" src="{% static 'images/Captain Joy_Solar Panel_Transparent background (1).png' %}" style="width: 50vh">
+            </div>
+            <div class="col">
+                    <strong><h1 class="display-3 mt-5 font-weight-bold">Sign In</h1></strong>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="col">
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                <!-- {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %} -->
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    {% endfor %}
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Sign In!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md">
+                <img alt="SignInWith" src="{% static 'images/sign_in_with.png' %}">
+            </div>
+            <div class="col-sm">
+                <a href="https://facebook.com/">
+                    <img alt="Facebook" src="{% static 'images/facebook_img.png' %}">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://www.instagram.com/">
+                    <img alt="Instagram" src="{% static 'images/insta_img.png' %}">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://www.snapchat.com/">
+                    <img alt="Snapchat" src="{% static 'images/snapchat_img.png' %}">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://twitter.com/">
+                    <img alt="Twitter" src="{% static 'images/twitter_img.png' %}">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://web.whatsapp.com/">
+                    <img alt="WhatsApp" src="{% static 'images/whatsapp_img.png' %}">
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="https://www.linkedin.com/">
+                    <img alt="LinkdIn" src="{% static 'images/linkedin_img.png' %}">
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
