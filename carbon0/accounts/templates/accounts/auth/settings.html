@@ -3,14 +3,14 @@
 {% block content %}
   <h2>Settings</h2>
   <h1>Django Social Login App</h1>
-        <hr/>
-        {% if user.is_authenticated %}
-        You are signed in as <strong>{{ user.username }}</strong> /
+    <hr/>
+      {% if user.is_authenticated %}
+      You are signed in as <strong>{{ user.username }}</strong> /
         <a href="{% url 'accounts:logout' %}">logout</a>
-        {% else %}
+      {% else %}
         <a href="{% url 'accounts:login' %}">login</a> /
-        {% endif %}
-        <hr>
+      {% endif %}
+    <hr>
 
   <h3>Facebook</h3>
   {% if facebook_login %}
@@ -29,7 +29,6 @@
     <a href="{% url 'social:begin' 'facebook' %}">Connect to Facebook</a>
   {% endif %}
 
-
   <h3>Google</h3>
   {% if google_login %}
   <p>{{ google_login.uid }}</p>
@@ -45,7 +44,7 @@
       <p style="color: red">You must <a href="{% url 'accounts:password' %}">define a password</a> for your account before disconnecting from Facebook.</p>
     {% endif %}
   {% else %}
-    <a href="{% url 'social:begin' 'facebook' %}">Connect to Facebook</a>
+    <a href="{% url 'social:begin' 'google-oauth2' %}">Connect to Google</a>
   {% endif %}
 
 {% endblock %}

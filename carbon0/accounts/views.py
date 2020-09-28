@@ -14,8 +14,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from social_django.models import UserSocialAuth
+
 
 
 class UserCreate(SuccessMessageMixin, CreateView):
@@ -35,10 +37,9 @@ class UserCreate(SuccessMessageMixin, CreateView):
 
 
 
-
-# Home View Social Auth
-class HomeView(LoginRequiredMixin, TemplateView):
-    template_name = "index.html"
+# Social Auth
+class UserCreateFromSocial(LoginView):
+    template_name = 'accounts/auth/signup.html'
 
 
 class SettingsView(LoginRequiredMixin, TemplateView):

@@ -16,7 +16,7 @@ urlpatterns = [
 
      # User settings page
      path('settings/', SettingsView.as_view(), name='settings'),
-
+     # User to unlink from social auth sign in, not sure if we want this feature
      path('settings/password/', password, name='password'),
 
 ]

@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'storages',
 
-    'social_django',
+    'social_django', # Social Auth
     
 ]
 
@@ -64,7 +64,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware', # Social Auth
 ]
 
 ROOT_URLCONF = 'carbon0.urls'

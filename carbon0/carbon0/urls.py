@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
+from accounts.views import UserCreateFromSocial
 
 urlpatterns = [
     # Admin URLs
@@ -30,6 +31,7 @@ urlpatterns = [
     path('oauth/', include('social_django.urls', namespace='social')),
     
     # Social 
-    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
+    path('accounts/login/', UserCreateFromSocial.as_view(), name='login'),
+
 
 ]
