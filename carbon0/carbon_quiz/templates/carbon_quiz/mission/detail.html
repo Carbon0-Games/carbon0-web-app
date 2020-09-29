@@ -36,14 +36,16 @@
                         </div>
                     </div>
                     <!-- Link options -->
-                    <div class="row">
+                    <div class="row ml-5">
+                        <h3 class="mt-2 mb-2">Tools to Complete Your Mission</h3>
                         <ul class="list-group list-group-horizontal" style="background-color:rgb(255, 220, 176)">
+                            <!-- Show the website name for this link -->
+                            <!-- Link to AchievementCreate -->
+                            <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
                             {% for description in link_descriptions %}
-                                <!-- Show the website name for this link -->
-                                <p>{{ description }}</p>
-                                <!-- Link to AchievementCreate -->
-                                <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
-                                <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 %}">I choose this site!</a>
+                                <li>
+                                    <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 %}">{{ description }}</a>
+                                </li>
                             {% endfor %}
                         </ul>
                     </div>
