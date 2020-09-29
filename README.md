@@ -7,8 +7,6 @@
 - [ ] Milestones
 - [ ] Tech Stack
 - [ ] Contributing
-- [ ]
-- [ ]
 <br /><br /> 
 
 ## About this Project
@@ -95,7 +93,7 @@ This is a step by step instruction created by our team member __, to allow other
 <br /><br />
 
 
-## Creating a Pull Request
+### __Creating a Pull Request__
 When wanting to contribute to the codebase, the following steps are key to ceeping the code clean and functional.
 
 1. On GitHub, navigate to the main page of the repository.
