@@ -1,13 +1,42 @@
 # Carbon0 Games
-The code for Carbon0, the game to save the planet!
+## ___The game to save the planet!___
+---
 
-##### Tech Stack
-- Django
-- Python
+- [ ] About This Project
+- [ ] Motivation
+- [ ] Milestones
+- [ ] Tech Stack
+- [ ] Contributing
+- [ ]
+- [ ]
+<br /><br /> 
 
-### Contributing
+## About this Project
+...
+<br /><br />
+
+## Motivation
+...
+<br /><br />
+
+## Milestones 
+- Create a Landing Page
+- Implement Inital User Quiz
+- Add Social Sharing Options
+- Add User Authentication
+<br /><br />
+
+## Tech Stack
+- [Django](https://www.djangoproject.com/) - Main framework for handling backend
+- [Python](https://www.python.org) - Primary coding language
+- [Github](https://www.github.com) - for Version Control
+<br /><br />
+
+## Contributing
 This is a step by step instruction created by our team member __, to allow other to be able to contribute to the project:
 > Note! Be sure that you have been added as a contributor to the project before hand, otherwise it will be hard to get past step 3
+
+### __Initial Setup__
 
 1. In the folder of your choice, type `git clone https://github.com/UPstartDeveloper/carbon0-web-app.git` into the terminal
 2. Setup the folder as you wish while following these instructions
@@ -23,7 +52,7 @@ This is a step by step instruction created by our team member __, to allow other
 5. `git push origin name_of_your_branch` (please do not git push origin MASTER) make sure to push to your branch.
 6. Occasionally check on other peoples branch as well in github by clicking the branch:master button under the commit count in the repo and you can switch branches and see others branches
 
-### Running Locally
+### __Running Locally__
 
 1. Make sure all settings are installed and migrations completed, especially after pulling the latest version from master
 2. Once you've navigated to the application folder, run the command:
@@ -50,8 +79,8 @@ This is a step by step instruction created by our team member __, to allow other
 5. (Extra - for faster access) Using `cntrl+click` on  `http://127.0.0.1:8000/` which will open up a menu, from there select the option to navigate to the url.
 
 
-### Create Superuser
-#### Creating superuser for localhost:
+### __Create Superuser__
+#### _Creating superuser for localhost:_
 
 1. Open your terminal and change directory to your project
 2. Start the program as you would in the above instructions for running the program locally
@@ -59,7 +88,7 @@ This is a step by step instruction created by our team member __, to allow other
 4. From here, you will be prompted for **username**, **email**, **password** (which will need to be entered twice)
 5. Once this has been finished, feel free to launch the application, and enter this `http://127.0.0.1:8000/admin/` url.
 
-#### Creating superuser for hosted site:
+#### _Creating superuser for hosted site:_
 
 1. Head to the [site]()
 2. (Work in Progress) Contact Zain for more details and permissions
