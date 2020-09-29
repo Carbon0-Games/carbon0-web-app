@@ -92,3 +92,17 @@ This is a step by step instruction created by our team member __, to allow other
 
 1. Head to the [site]()
 2. (Work in Progress) Contact Zain for more details and permissions
+<br /><br />
+
+
+## Creating a Pull Request
+When wanting to contribute to the codebase, the following steps are key to ceeping the code clean and functional.
+
+1. On GitHub, navigate to the main page of the repository.
+2. In the "Branch" menu, choose the branch that contains your commits.
+3. Above the list of files, click  __Pull request__.
+4. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
+5. Type a title and description for your pull request.
+6. To create a pull request that is ready for review, click Create Pull Request.
+
+*From [Creating a Pull Request via Github](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
