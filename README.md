@@ -1,6 +1,7 @@
 # Carbon0 Games
 ## ___The game to save the planet!___
----
+![image](readme_image.png)
+
 
 - [ ] About This Project
 - [ ] Motivation
@@ -10,11 +11,25 @@
 <br /><br /> 
 
 ## About this Project
-...
+800 million people played pokemon go. What if they were playing a different game, a game to reduce their carbon footprint?
+
+This game is called Carbon0!
+
+Carbon0 shows players their impacts using 
+AR filters.
+It creates connections, communities and economically empowers environmentally-
+friendly businesses 
+and charities.
+All while having fun!
 <br /><br />
 
 ## Motivation
-...
+Climate change is real, and human beings are playing an active role in deciding what the future of the planet will be. We need to bring as many people as possible to adopt sustainable lifestyle habits, in order to slow (and eventually reverse) the progression of climate change’s worst effects. 
+
+Climate change understandably makes a lot of people afraid, and some have become cynical of humanity changing its ways. However, we see climate change as a challenge that humanity can rise up to solve together. We know we can inspire large-scale change in people’s habits, by having them engage in something we all have experienced since childhood: joy. 
+
+The goal of Carbon0 is to help 10% of the world population (about 800 million people today) create a carbon-negative lifestyle for themselves and their communities by 2030. We will accomplish this by guiding users to easily accessible products or activities that can lower their carbon footprint, and by making it fun to take action for the climate through our web application.
+
 <br /><br />
 
 ## Milestones 
