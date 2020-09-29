@@ -38,28 +38,12 @@
                     <!-- Link options -->
                     <div class="row">
                         <ul class="list-group list-group-horizontal" style="background-color:rgb(255, 220, 176)">
-                            {% for link in links %}
-                                <!-- image for the link changes based on its position in the links array -->
-                                <li class="list-group-item mr-5 btn-btn-info" style="background-color:rgb(255, 220, 176)">
-                                    {% if forloop.counter == 1 %}
-                                        <img src="{% static 'images/Present-_Link_1.png' %}" alt="Link 1" height=170px width=200px>
-                                    {% elif forloop.counter == 2 %}
-                                        <img src="{% static 'images/Present-_Link_2.png' %}" alt="Link 2" height=170px width=200px>
-                                    {% elif forloop.counter == 3 %}
-                                        <img src="{% static 'images/Present-_Link_3.png' %}" alt="Link 3" height=170px width=200px>
-                                    {% endif %}
-                                     <!-- Show the website name for this link -->
-                                    <a class="link-overview" href="{{ link }}" target="_blank">
-                                        See My Preview!
-                                     </a>
-                                    <div class="box">
-                                        <iframe src="{{ link }}" width=500px height=500px></iframe>
-                                    </div>
-                                    <br>
-                                    <!-- Link to AchievementCreate -->
-                                        <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
-                                    <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 %}">I choose this site!</a>
-                                </li>
+                            {% for description in link_descriptions %}
+                                <!-- Show the website name for this link -->
+                                <p>{{ description }}</p>
+                                <!-- Link to AchievementCreate -->
+                                <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
+                                <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 %}">I choose this site!</a>
                             {% endfor %}
                         </ul>
                     </div>
