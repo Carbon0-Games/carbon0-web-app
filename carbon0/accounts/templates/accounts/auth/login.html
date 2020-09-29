@@ -8,18 +8,9 @@
     <style>
         body { background-color:#F6E6D4;}
         h1 { color:#7F2321; font-weight: 300}
-        #nav1
-        {  
-            background-color:##e3f2fd; /*whichever you want*/
-            opacity: 0.7; 
-            filter:(opacity=50);       
-        }
     </style>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav1">
-        <a class="navbar-brand" href="{% url 'carbon_quiz:quiz_create' %}">Carbon0</a>
-    </nav>
-
+    {% include 'partials/navbar.html' %}
     <div class="container">
         <div class="row">
             <div class="col">
