@@ -28,12 +28,6 @@
                 <div class="col-md-4">
                     <!-- Image, Mission Complete Ribbon-->
                     <img src="{% static 'images/Present-_Mission_Completed.png' %}" alt="" width=300px height=300px>
-                   
-                    <!-- Facebook Share Button -->
-                    <div class="fb-share-button" data-href="https://mycarbon0.com" data-layout="button_count" data-size="large"><a
-                            target="_blank"
-                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmycarbon0.com%2F&amp;src=sdkpreparse"
-                            class="fb-xfbml-parse-ignore">Share</a></div>
                 </div>
                 <div class="col-md-8">
                     <div class="row justify-content-center">
@@ -56,10 +50,21 @@
                         </div>
                 </div>
             </div>
-
-            <!-- Link to Sign Up -->
-            <div class="row justify-content-end">
-                <a class="btn btn-primary" href="{% url 'accounts:signup' %}">Sign Up for More</a>
+            <!-- Bottom Rows -->
+            <div class="row">
+                <p class="mr-auto">Like what you see?</p>
+            </div>
+            <div class="row">
+                <!-- Facebook Share Button -->
+                <div class="mr-auto">
+                    <div class="fb-share-button" data-href="https://mycarbon0.com" data-layout="button_count" data-size="large"><a
+                            target="_blank"
+                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmycarbon0.com%2F&amp;src=sdkpreparse"
+                            class="fb-xfbml-parse-ignore">Share</a>
+                    </div>
+                </div>
+                <!-- Link to Sign Up -->
+                <a class="ml-auto btn btn-primary" href="{% url 'accounts:signup' %}">Sign Up for More</a>
             </div>
         </div>
     </div>
