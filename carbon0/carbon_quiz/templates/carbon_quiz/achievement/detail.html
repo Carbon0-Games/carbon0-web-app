@@ -1,6 +1,8 @@
 <!-- AchievementDetail template -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/achievement/detail.html -->
 {% extends "base.html" %}
+<!-- Load static files, and page content below -->
+{% load static %}
 
 {% block metadata %}
     <!-- Facebook Open Graph Markup -->
@@ -10,11 +12,8 @@
     <meta property="fb:app_id" content="{{ app_id }}" />
     <meta property="og:title" content="Be a Hero, Get to Zero!" />
     <meta property="og:description" content="I'm committed to making a difference in the climate. Will you join me in the game to save the planet?" />
-    <meta property="og:image" content="{% static 'images/background_2.png' %}" />
+    <meta property="og:image" content="{% static 'images/background_2.png' %}" /> 
 {% endblock %}
-
-<!-- Load static files, and page content below -->
-{% load static %}
 
 {% block content %}
     <div style="background-color:rgb(255, 220, 176); height: 100vh;">
@@ -29,7 +28,12 @@
                 <div class="col-md-4">
                     <!-- Image, Mission Complete Ribbon-->
                     <img src="{% static 'images/Present-_Mission_Completed.png' %}" alt="" width=300px height=300px>
-                    <!-- Facebook Sharing -->
+                   
+                    <!-- Facebook Share Button -->
+                    <div class="fb-share-button" data-href="https://mycarbon0.com" data-layout="button_count" data-size="large"><a
+                            target="_blank"
+                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmycarbon0.com%2F&amp;src=sdkpreparse"
+                            class="fb-xfbml-parse-ignore">Share</a></div>
                 </div>
                 <div class="col-md-8">
                     <div class="row justify-content-center">
