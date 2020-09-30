@@ -14,6 +14,7 @@ from .models.question import Question
 from .models.mission import Mission
 from .models.quiz import Quiz
 from .models.achievement import Achievement
+from django.conf import settings
 
 
 class QuizCreate(CreateView):
@@ -254,7 +255,8 @@ class AchievementDetail(DetailView):
         context = {
             'achievement': achievement,
             'browser_model': browser_zeron_model,
-            'ios_model': ios_zeron_model
+            'ios_model': ios_zeron_model,
+            'app_id': settings.FACEBOOK_SHARING_APP_ID
         }
         # return the response
         return render(request, self.template_name, context)

@@ -1,6 +1,19 @@
 <!-- AchievementDetail template -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/achievement/detail.html -->
 {% extends "base.html" %}
+
+{% block metadata %}
+    <!-- Facebook Open Graph Markup -->
+    <meta property="og:url" content="https://www.mycarbon0.com" />
+    <meta property="og:type" content="threed.asset" />
+    <meta property="og:asset" content="{% static browser_model %}" />
+    <meta property="fb:app_id" content="{{ app_id }}" />
+    <meta property="og:title" content="Be a Hero, Get to Zero!" />
+    <meta property="og:description" content="I'm committed to making a difference in the climate. Will you join me in the game to save the planet?" />
+    <meta property="og:image" content="{% static 'images/background_2.png' %}" />
+{% endblock %}
+
+<!-- Load static files, and page content below -->
 {% load static %}
 
 {% block content %}
@@ -14,7 +27,9 @@
             <!-- Image, Mission Complete Ribbon-->
             <div class="row">
                 <div class="col-md-4">
+                    <!-- Image, Mission Complete Ribbon-->
                     <img src="{% static 'images/Present-_Mission_Completed.png' %}" alt="" width=300px height=300px>
+                    <!-- Facebook Sharing -->
                 </div>
                 <div class="col-md-8">
                     <div class="row justify-content-center">
