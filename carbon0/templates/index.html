@@ -9,8 +9,11 @@
         #foot { 
             background-color:#F6E6D4;
             /* position: absolute; */
+            overflow: hidden;
+
         }
-        p { font-size: 10vh }
+        @media (max-width: 300px) {p {  font-size: 2rem;  }}
+        p { font-size: 6vw }
     </style>
     {% include 'partials/navbar.html' %}
 
