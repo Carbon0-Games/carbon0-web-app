@@ -5,6 +5,7 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
+from accounts.models import Profile
 from .mission import Mission
 from .question import Question
 
@@ -14,6 +15,11 @@ class Achievement(models.Model):
     mission = models.ForeignKey(
         Mission, on_delete=models.PROTECT,
         help_text='The mission that earns this achievement.',
+        null=True
+    )
+    profile = models.ForeignKey(
+        Profile, on_delete=models.PROTECT,
+        help_text='The profile that owns this achievement.',
         null=True
     )
     user = models.ForeignKey(
