@@ -21,13 +21,19 @@ class Mission(models.Model):
         help_text="Explains why the mission matters.",
         null=True, blank=True
     )
-    links = ArrayField(
+    link_descriptions = ArrayField(
         models.CharField(max_length=300, blank=True, null=True),
-        size=6, null=True, blank=True,
+        null=True, blank=True,
         help_text=(
-            "Links the user can click to complete the mission." +
-            "Every alternating item is a website link, the other is its name."
+            "What websites the user can click to complete the mission."
         ),
+    )
+    link_addresses = ArrayField(
+        models.CharField(max_length=300, blank=True, null=True),
+        null=True, blank=True,
+        help_text=(
+            "Links that user can click to complete the mission." 
+        )
     )
     question = models.ForeignKey(
         Question, on_delete=models.PROTECT,
@@ -38,6 +44,7 @@ class Mission(models.Model):
         '''Returns human-readable name of the Mission.'''
         return f'{self.title}'
 
+    """
     def split_links(self):
         '''Return one list of just website links, and of the site names.'''
         is_link = True
@@ -50,3 +57,4 @@ class Mission(models.Model):
                 site_names.append(element)
                 is_link = True
         return links, site_names
+    """
