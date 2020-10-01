@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'carbon_quiz.apps.CarbonQuizConfig',
     'rest_framework',
     'storages',
+
+    'social_django', # Social Auth
+    
 ]
 
 MIDDLEWARE = [
@@ -60,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware', # Social Auth
 ]
 
 ROOT_URLCONF = 'carbon0.urls'
@@ -77,6 +82,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # Social Auth
+                'social_django.context_processors.backends',  
+                'social_django.context_processors.login_redirect', 
             ],
         },
     },
@@ -166,3 +175,28 @@ DATABASES['default'].update(db_from_env)
 
 # Additional support setting up env for Heroku
 django_heroku.settings(locals())
+
+
+# Social Auth settings
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+     'social_core.backends.google.GoogleOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'accounts:settings'
+
+# SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
+# SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET')
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
