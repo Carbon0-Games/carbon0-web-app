@@ -10,7 +10,7 @@ class Profile(models.Model):
     mugshot = models.ImageField(upload_to='images/',
                                 null=True, blank=True,
                                 help_text="User profile image")
-    phone = models.CharField(max_length=20, null=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         '''Return the related User's username.'''

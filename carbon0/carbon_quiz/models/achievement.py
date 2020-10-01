@@ -22,10 +22,6 @@ class Achievement(models.Model):
         help_text='The profile that owns this achievement.',
         null=True
     )
-    user = models.ForeignKey(
-        User, on_delete=models.PROTECT, null=True,
-        help_text='The user who completed the mission.'
-    )
     completion_date = models.DateTimeField(
         help_text="Date mission was accomplished",
         null=True, blank=True, auto_now=True                          
