@@ -1,7 +1,9 @@
+from django.core.management import utils
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse, reverse_lazy
+from django.utils.text import slugify
 
 from .mission import Mission
 from .question import Question
@@ -21,6 +23,10 @@ class Achievement(models.Model):
     completion_date = models.DateTimeField(
         help_text="Date mission was accomplished",
         null=True, blank=True, auto_now=True                          
+    )
+    secret_id = models.CharField(
+        max_length=50, unique=True, null=True,
+        help_text="Unique id that cannot be guessed easily."
     )
     # Zerons for Achievements: (img_url_paths: List[str], name_of_zeron: str)
     ZERONS = [
@@ -109,4 +115,21 @@ class Achievement(models.Model):
         # find the right choice of zeron, given the category
         zeron_img_paths, zeron_model_name = category_to_zerons[category]
         return zeron_img_paths
-         
+
+    def save(self, *args, **kwargs):
+        '''Init the secret_id field on the new instance.'''
+        def generate_unique_id():
+            '''Ensures that the id is unique.'''
+            # get a set of all existing ids
+            ids = set([a.id for a in Achievement.objects.all()])
+            # init a secret id
+            new_id = utils.get_random_secret_key()
+            # make sure it is unique
+            while new_id in ids:
+                new_id = utils.get_random_secret_key()
+            return new_id
+        # get the unique secret id, make it URL safe
+        secret_id = slugify(generate_unique_id())
+        # set it on the new model instance 
+        self.secret_id = secret_id
+        return super(Achievement, self).save(*args, **kwargs)   
