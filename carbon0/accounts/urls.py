@@ -6,8 +6,10 @@ from .views import UserCreate, SettingsView, password
 app_name = 'accounts'
 
 urlpatterns = [
-    # paths to signup, login, and logout
+    # paths to signup
+    path('signup/<slug:secret_id>/', UserCreate.as_view(), name='signup'),
     path('signup/', UserCreate.as_view(), name='signup'),
+    # paths to login and logout
     path('login/',
          auth_views.LoginView.as_view(template_name="accounts/auth/login.html"),
          name='login'),
