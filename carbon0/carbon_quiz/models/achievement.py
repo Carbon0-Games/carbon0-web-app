@@ -1,8 +1,11 @@
+from django.core.management import utils
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse, reverse_lazy
+from django.utils.text import slugify
 
+from accounts.models import Profile
 from .mission import Mission
 from .question import Question
 
@@ -14,13 +17,18 @@ class Achievement(models.Model):
         help_text='The mission that earns this achievement.',
         null=True
     )
-    user = models.ForeignKey(
-        User, on_delete=models.PROTECT, null=True,
-        help_text='The user who completed the mission.'
+    profile = models.ForeignKey(
+        Profile, on_delete=models.PROTECT,
+        help_text='The profile that owns this achievement.',
+        null=True
     )
     completion_date = models.DateTimeField(
         help_text="Date mission was accomplished",
         null=True, blank=True, auto_now=True                          
+    )
+    secret_id = models.CharField(
+        max_length=50, unique=True, null=True,
+        help_text="Unique id that cannot be guessed easily."
     )
     # Zerons for Achievements: (img_url_paths: List[str], name_of_zeron: str)
     ZERONS = [
@@ -29,7 +37,7 @@ class Achievement(models.Model):
           'assets/usdz-files/tree.usdz'], 
             "Nature's Model"), 
         # 2. Transit category Zeron
-        (['assets/glb-files/Wheel.glb'
+        (['assets/glb-files/Wheel.glb',
           'assets/usdz-files/wheel.usdz'],
             'Wheel Model'), 
         # 3. Recycling category Zeron 
@@ -109,4 +117,21 @@ class Achievement(models.Model):
         # find the right choice of zeron, given the category
         zeron_img_paths, zeron_model_name = category_to_zerons[category]
         return zeron_img_paths
-         
+
+    def save(self, *args, **kwargs):
+        '''Init the secret_id field on the new instance.'''
+        def generate_unique_id():
+            '''Ensures that the id is unique.'''
+            # get a set of all existing ids
+            ids = set([a.id for a in Achievement.objects.all()])
+            # init a secret id
+            new_id = utils.get_random_secret_key()
+            # make sure it is unique
+            while new_id in ids:
+                new_id = utils.get_random_secret_key()
+            return new_id
+        # get the unique secret id, make it URL safe
+        secret_id = slugify(generate_unique_id())
+        # set it on the new model instance 
+        self.secret_id = secret_id
+        return super(Achievement, self).save(*args, **kwargs)   
