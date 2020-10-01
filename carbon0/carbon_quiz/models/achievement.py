@@ -29,7 +29,7 @@ class Achievement(models.Model):
           'assets/usdz-files/tree.usdz'], 
             "Nature's Model"), 
         # 2. Transit category Zeron
-        (['assets/glb-files/Wheel.glb'
+        (['assets/glb-files/Wheel.glb',
           'assets/usdz-files/wheel.usdz'],
             'Wheel Model'), 
         # 3. Recycling category Zeron 
