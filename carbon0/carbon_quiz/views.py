@@ -21,7 +21,7 @@ class QuizCreate(CreateView):
     '''View to create new Quiz instance from randomly picked questions.'''
     model = Quiz
     fields = []
-    template_name = 'index.html'
+    template_name = 'carbon_quiz/quiz/create.html'
     queryset = Question.objects.all()
 
     def generate_random_question(self, category):
@@ -256,13 +256,4 @@ class AchievementDetail(DetailView):
         }
         # return the response
         return render(request, self.template_name, context)
-
-
-def intro_carbon_quiz(request):
-    ''' 
-    Directs to the introductio page of the quiz 
-    Gives user the instructions for the game
-    '''
-    template_name = 'carbon_quiz/quiz/intro.html'
-    return render(request, template_name)
     

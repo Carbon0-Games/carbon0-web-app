@@ -6,7 +6,6 @@ from .views import (
     MissionDetail,
     AchievementCreate,
     AchievementDetail,
-    intro_carbon_quiz
 )
 
 app_name = 'carbon_quiz'
@@ -20,6 +19,5 @@ urlpatterns = [
          name='achievement_create'),
      path('achievement/details/<int:pk>/', AchievementDetail.as_view(),
          name='achievement_detail'),
-     path('intro-page/',intro_carbon_quiz,name='intro_page')
 
 ]
