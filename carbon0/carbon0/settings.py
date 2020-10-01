@@ -166,6 +166,9 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+# Facebook variables 
+FACEBOOK_SHARING_APP_ID = os.getenv('FACEBOOK_SHARING_APP_ID')
+
 # Convert the DATABASE_URL environment variable into what Django understands
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)

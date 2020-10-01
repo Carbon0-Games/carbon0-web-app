@@ -1,7 +1,19 @@
 <!-- AchievementDetail template -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/achievement/detail.html -->
 {% extends "base.html" %}
+<!-- Load static files, and page content below -->
 {% load static %}
+
+{% block metadata %}
+    <!-- Facebook Open Graph Markup -->
+    <meta property="og:url" content="https://www.mycarbon0.com" />
+    <meta property="og:type" content="threed.asset" />
+    <meta property="og:asset" content="{% static browser_model %}" />
+    <meta property="fb:app_id" content="{{ app_id }}" />
+    <meta property="og:title" content="Be a Hero, Get to Zero!" />
+    <meta property="og:description" content="I'm committed to making a difference in the climate. Will you join me in the game to save the planet?" />
+    <meta property="og:image" content="{% static 'images/background_2.png' %}" /> 
+{% endblock %}
 
 {% block content %}
     <div style="background-color:rgb(255, 220, 176); height: 100vh;">
@@ -14,6 +26,7 @@
             <!-- Image, Mission Complete Ribbon-->
             <div class="row">
                 <div class="col-md-4">
+                    <!-- Image, Mission Complete Ribbon-->
                     <img src="{% static 'images/Present-_Mission_Completed.png' %}" alt="" width=300px height=300px>
                 </div>
                 <div class="col-md-8">
@@ -37,10 +50,22 @@
                         </div>
                 </div>
             </div>
-
-            <!-- Link to Sign Up -->
-            <div class="row justify-content-end">
-                <a class="btn btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
+          
+            <!-- Bottom Rows -->
+            <div class="row">
+                <p class="mr-auto">Like what you see?</p>
+            </div>
+            <div class="row">
+                <!-- Facebook Share Button -->
+                <div class="mr-auto">
+                    <div class="fb-share-button" data-href="https://mycarbon0.com" data-layout="button_count" data-size="large"><a
+                            target="_blank"
+                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmycarbon0.com%2F&amp;src=sdkpreparse"
+                            class="fb-xfbml-parse-ignore">Share</a>
+                    </div>
+                </div>
+                <!-- Link to Sign Up -->
+                <a class="ml-auto btn btn-primary" href="{% url 'accounts:signup' %}">Sign Up for More</a>
             </div>
         </div>
     </div>

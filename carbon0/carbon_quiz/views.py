@@ -14,6 +14,7 @@ from .models.question import Question
 from .models.mission import Mission
 from .models.quiz import Quiz
 from .models.achievement import Achievement
+from django.conf import settings
 
 
 class QuizCreate(CreateView):
@@ -137,13 +138,10 @@ class MissionDetail(DetailView):
         """
         # get the mission object 
         mission = Mission.objects.get(id=pk)
-        # make separate lists for the hyperlinks, and website names
-        links, site_names = mission.split_links()
         # set the context
         context = {
             'mission': mission,
-            'links': links,
-            'site_names': site_names
+            'link_descriptions': mission.link_descriptions
         }
         # return the response
         return render(request, self.template_name, context)
@@ -176,14 +174,13 @@ class AchievementCreate(CreateView):
         # get the mission object 
         mission = Mission.objects.get(id=mission_id)
         # get the link and it's corresponding site name
-        links, site_names = mission.split_links()
-        link = links[chosen_link_index]
-        site_name = site_names[chosen_link_index]
+        link_address = mission.link_addresses[chosen_link_index]
+        link_description = mission.link_descriptions[chosen_link_index]
         # set the context
         context = {
             'mission': mission,
-            'link': link,
-            'site_name': site_name
+            'link_address': link_address,
+            'link_description' : link_description,
         }
         # return the response
         return render(request, self.template_name, context)
@@ -254,7 +251,8 @@ class AchievementDetail(DetailView):
         context = {
             'achievement': achievement,
             'browser_model': browser_zeron_model,
-            'ios_model': ios_zeron_model
+            'ios_model': ios_zeron_model,
+            'app_id': settings.FACEBOOK_SHARING_APP_ID
         }
         # return the response
         return render(request, self.template_name, context)
