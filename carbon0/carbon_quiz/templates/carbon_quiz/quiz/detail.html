@@ -38,17 +38,27 @@
                                 </a>
                             </div>
                         </div>
-                        <!-- Info Box-->
+                        
                         <div class="row justify-content-start mb-4">
                             <div class="justify-content-start col-md-4">
-                                <!-- Symbol for Question -->
-                                <img src="{{ question.learn_image.url }}" alt="" height=250px width=300px>
+                                <!-- Carbon Value Card -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Your Carbon Footprint</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Based on Questions Answered "No" So Far</h6>
+                                        <p class="card-text">{{ quiz.carbon_value_total }} tons CO2</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-8">
-                                <p class="text-success">
-                                    {{ question.question_info }}
-                                    (<a href="{{ question.learn_more_link }}" target="_blank">Learn More</a>)
-                                </p>
+                                <!-- Info Card -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">About This Question</h5>
+                                        <p class="card-text">{{ question.question_info }}</p>
+                                        <a href="{{ question.learn_more_link }}" class="card-link" target="_blank">Learn More</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
