@@ -39,22 +39,16 @@
                             </div>
                         </div>
                         
-                        <div class="row justify-content-start mb-4">
+                        <div class="row mb-4">
                             <div class="justify-content-start col-md-4">
                                 <!-- Carbon Value Card -->
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Your Carbon Footprint</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">Based on Questions Answered "No" So Far</h6>
-                                        <p class="card-text">{{ quiz.carbon_value_total }} tons CO2</p>
-                                    </div>
-                                </div>
+                                {% include "partials/carbon_value_card.html" %}
                             </div>
                             <div class="col-md-8">
                                 <!-- Info Card -->
-                                <div class="card">
+                                <div class="card" style="background-color:rgb(245, 186, 114)">
                                     <div class="card-body">
-                                        <h5 class="card-title">About This Question</h5>
+                                        <h5 class="card-title" style="color:brown;">About This Question</h5>
                                         <p class="card-text">{{ question.question_info }}</p>
                                         <a href="{{ question.learn_more_link }}" class="card-link" target="_blank">Learn More</a>
                                     </div>
@@ -62,15 +56,15 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Captain Joy -->
                     <div class="col-md-4 justify-content-center">
-                        {% include "partials/captain_joy_image.html" %}>
+                        <!-- Captain Joy -->
+                        {% include "partials/captain_joy_image.html" %}
                     </div>
                 </div>   
             <!-- if User is viewing their Missions -->
             {% else %}
                 <!-- Header -->
-                <h1 class="row mb-4">
+                <h1 class="row mb-4 justify-content-center">
                     <p class="mt-2" style="color:brown;">We've Found Missions For You!</p>
                 </h1>
                 <!-- Instructions for the User -->
@@ -79,15 +73,22 @@
                         Based on your responses to the quiz, we recommend the following as ways to reduce your carbon footprint!
                     </p>
                 </div>
-                <br><br>
-                <!-- List links for Mission Details -->
-                <ul>
-                    {% for mission in missions %}
-                    <li>
-                        <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}">{{ mission.title }}</a> 
-                    </li>
-                    {% endfor %}
-                </ul>
+                <div class="row">
+                    <div class="col-md-7">
+                        <!-- List links for Mission Details -->
+                        <ul>
+                            {% for mission in missions %}
+                            <li>
+                                <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}">{{ mission.title }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-5" style="width: 20rem;">
+                        <!-- Carbon Value Card -->
+                        {% include "partials/carbon_value_card.html" %}
+                    </div>
+                </div>
             {% endif %}
 
         </div>
