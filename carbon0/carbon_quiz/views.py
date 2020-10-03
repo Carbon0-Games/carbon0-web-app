@@ -61,8 +61,7 @@ class QuizDetail(DetailView):
         Parameters:
         request(HttpRequest): the GET request sent to the server
         slug(slug): unique slug value of the Quiz instance
-        question_answered(int): the id field of the question,
-                                passed in if the user answers yes,
+        question_answered(int): 1 if the user answers yes,
                                 and 0 otherwise
         
         Returns:
@@ -80,8 +79,11 @@ class QuizDetail(DetailView):
             question_id = quiz.questions[quiz.active_question]
             print(f'Question id: {question_id}')
             question_obj = Question.objects.get(id=question_id)
-            # if the user just answered 'yes', then ignore the question later
+            # if the user just answered 'yes', 
             if is_question_answered == 1:
+                # increment the total carbon value so far
+                quiz.increment_carbon_value(question_obj)
+                # ignore the question later, when finding missions
                 quiz.questions[quiz.active_question] = 0
             # increment the active_question for the next call
             quiz.increment_active_question()

@@ -45,6 +45,21 @@ class Quiz(models.Model):
         print("made a call to absolute url")
         return reverse('carbon_quiz:quiz_detail', kwargs=path_components)
 
+    def increment_carbon_value(self, question):
+        """
+        Increase the total carbon value of this Quiz model, by the individual
+        carbon_value field of one of the Question model instances.
+
+        Parameter:
+        question(Question): a Question instance
+
+        Returns: None
+
+        """
+        self.carbon_value_total += question.carbon_value
+        self.save()
+        return None
+
     def increment_active_question(self):
         '''Moves us to the next Question, in the questions array.'''
         self.active_question += 1
