@@ -3,6 +3,8 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
+from carbon_quiz.models.question import Question
+
 
 class Quiz(models.Model):
     '''Represents a collection of 5 questions given to the user.'''
@@ -72,3 +74,9 @@ class Quiz(models.Model):
 
         # call save on the superclass
         return super().save(*args, **kwargs)
+
+    def get_current_quiz(self):
+        '''Return the Question which is current active in this Quiz.'''
+        question_id = self.questions[self.active_question]
+        question_obj = Question.objects.get(id=question_id)
+        return question_obj

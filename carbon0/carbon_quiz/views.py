@@ -76,9 +76,8 @@ class QuizDetail(DetailView):
         additional_key_value_pairs = list()
         # if the next question needs to be shown
         if quiz.active_question < 5:
-            # get the question to display
-            question_id = quiz.questions[quiz.active_question]
-            question_obj = Question.objects.get(id=question_id)
+            # get the current Question 
+            question_obj = quiz.get_current_quiz()
             # set the addtional key value pairs to the context
             additional_key_value_pairs = [
                 ('question', question_obj),
