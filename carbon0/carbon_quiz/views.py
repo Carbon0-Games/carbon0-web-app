@@ -54,7 +54,7 @@ class QuizDetail(DetailView):
     template_name = 'carbon_quiz/quiz/detail.html'
 
     # def get(self, request, slug, is_question_answered=None):
-    def get(self, request):
+    def get(self, request, slug):
         """
         Renders a page to show the question currently being asked, or the
         missions relevant for the User to complete.
@@ -72,30 +72,19 @@ class QuizDetail(DetailView):
         # get the Quiz instance 
         quiz = Quiz.objects.get(slug=slug)
         # set the context
-        context = dict()
+        context = {'quiz': quiz}
+        # init the other key value pairs, which we will set later
+        additional_key_value_pairs = list()
         # if the next question needs to be shown
         if quiz.active_question < 5:
             # get the question to display
             question_id = quiz.questions[quiz.active_question]
             question_obj = Question.objects.get(id=question_id)
-            '''
-            # if the user just answered 'yes', 
-            if is_question_answered == 1:
-                # ignore the question later, when finding missions
-                quiz.questions[quiz.active_question] = 0
-            # if question was answered no
-            elif is_question_answered == 0 and quiz.active_question > 0:
-                # increment the total carbon value so far
-                quiz.increment_carbon_value(question_obj)
-            # increment the active_question for the next call
-            quiz.increment_active_question()
-            '''
-            # add key value pairs to the context
-            context = {
-                'quiz': quiz,
-                'question': question_obj,
-                'show_question': True  # tells us to display a Question
-            }
+            # set the addtional key value pairs to the context
+            additional_key_value_pairs = [
+                ('question', question_obj),
+                ('show_question', True),  # tells us to display a Question
+            ]
         # otherwise show the mission start page
         else:  #  quiz.active_question == 5:
             # find the missions the user can choose
@@ -112,12 +101,13 @@ class QuizDetail(DetailView):
                     mission = mission_set.pop()
                     # add to the list of Missions
                     missions.append(mission)
-            # add key value pairs to the context
-            context = {
-                'quiz': quiz,
-                'missions': missions,  # possible missions for the user 
-                'show_question': False  # tells us to display Missions
-            }
+            # set the additional key value pairs
+            additional_key_value_pairs = [
+                ('missions', missions),  # possible missions for the user 
+                ('show_question', False)  # tells us to display Missions
+            ]
+        # add additional key value pairs to the context
+        context.update(additional_key_value_pairs)
         # return the response
         return render(request, self.template_name, context)
 

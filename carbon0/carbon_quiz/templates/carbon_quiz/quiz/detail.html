@@ -26,13 +26,13 @@
                         <div class="row">
                             <!-- Yes and No Buzzers-->
                             <div class="col-md-6">
-                                <a href="#" onclick="nextQuestion(1)">
+                                <a href="#" onclick="nextQuestion('1')">
                                     <img src="{% static 'images/Present-yes.png' %}" 
                                         alt="Yes" width=400px height=400px>
                                 </a>
                             </div>
                             <div class="col-md-6">
-                                <a href="#" onclick="nextQuestion(0)">
+                                <a href="#" onclick="nextQuestion('0')">
                                     <img src="{% static 'images/Present-_No.png' %}" 
                                         alt="No" width=400px height=400px>
                                 </a>
@@ -40,24 +40,28 @@
                             <!-- JS function to go to the next quiz question -->
                             <script>
                                 let nextQuestion = (answer) => {
+                                    // format the answer as the right data type
+                                    // let answerInt = parseInt(answer);
+                                    // console.log(answer,answerInt);
                                     // form the URL for the request
-                                    let endpoint = "/api/next-question/{{ quiz.slug }}/ " + answer + "/";
-                                    // make the request using jQuery
+                                    let endpoint = "/api/next-question/";
+                                    endpoint = endpoint.concat("{{ quiz.slug }}/", answer, "/");
+                                    // make the request to the API using jQuery
                                     $.ajax({
                                         method: "GET",
                                         url: endpoint,
-                                        success: () => {
+                                        success: data => {
                                             console.log('jQuery worked!');
                                         },
                                         error: error_data => {
                                             console.log(error_data)
                                         }
-                                    })
+                                    });
                                 }
                             </script>
                         </div>
                         
-                        <div class="rowmb-4">
+                        <div class="row mb-4">
                             <div class="justify-content-start col-md-4">
                                 <!-- Carbon Value Card -->
                                 {% include "partials/carbon_value_card.html" %}

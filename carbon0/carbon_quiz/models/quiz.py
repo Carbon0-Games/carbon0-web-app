@@ -38,15 +38,11 @@ class Quiz(models.Model):
         The arg for question_answered on first GET after QuizCreate, is 0
         because we want to make sure it can't refer to a real Question model.
         """
-        return reverse('carbon_quiz:quiz_detail')
-        """
-        DEPRECATED: 
         path_components = {
             'slug': self.slug,
-            'is_question_answered': 0  # question hasn't been answered yes/no 
+            # 'is_question_answered': 0  # question hasn't been answered yes/no 
         }
         return reverse('carbon_quiz:quiz_detail', kwargs=path_components)
-        """
 
     def increment_carbon_value(self, question):
         """
