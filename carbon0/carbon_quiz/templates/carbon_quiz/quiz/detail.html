@@ -37,9 +37,6 @@
                             <!-- JS function to go to the next quiz question -->
                             <script>
                                 let nextQuestion = (answer) => {
-                                    // format the answer as the right data type
-                                    // let answerInt = parseInt(answer);
-                                    // console.log(answer,answerInt);
                                     // form the URL for the request
                                     let endpoint = "/api/next-question/";
                                     endpoint = endpoint.concat("{{ quiz.slug }}/", answer, "/");
@@ -52,6 +49,14 @@
                                         },
                                         success: data => {
                                             console.log('jQuery worked!');
+                                            // calculate the next question number to show
+                                            let currentQuestionNum = parseInt("{{ quiz.active_question }}");
+                                            let nextQuestionNum = 1 + currentQuestionNum;
+                                            // update the url the user is requesting, top show the next Question
+                                            let startURL = "/carbon-quiz/{{ quiz.slug }}/answer-question/";
+                                            let completedURL = startURL.concat(nextQuestionNum, "/");
+                                            window.location.href = completedURL;
+
                                         },
                                         error: error_data => {
                                             console.log(error_data)

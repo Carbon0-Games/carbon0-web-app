@@ -52,5 +52,5 @@ class QuizUpdate(APIView):
             'question_number': quiz.active_question + 1 
         }
         return HttpResponseRedirect(
-            reverse('carbon_quiz:quiz_detail', kwargs=path_components)
+            reverse_lazy('carbon_quiz:quiz_detail', kwargs=path_components)
         )
