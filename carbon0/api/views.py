@@ -4,5 +4,8 @@ from rest_framework.response import Response
 
 
 # Create your views here.
-class MissionDetail(APIView):
-    pass
+class QuizUpdate(APIView):
+    """
+    Updates the questions that have been answered yes/no in the Quiz,
+    and then moves to the next template.
+    """
