@@ -40,7 +40,8 @@ class Quiz(models.Model):
         """
         path_components = {
             'slug': self.slug,
-            # 'is_question_answered': 0  # question hasn't been answered yes/no 
+             # for the question number, increment zero-indexed number
+            'question_number': self.active_question + 1 
         }
         return reverse('carbon_quiz:quiz_detail', kwargs=path_components)
 

@@ -54,7 +54,7 @@ class QuizDetail(DetailView):
     template_name = 'carbon_quiz/quiz/detail.html'
 
     # def get(self, request, slug, is_question_answered=None):
-    def get(self, request, slug):
+    def get(self, request, slug, question_number):
         """
         Renders a page to show the question currently being asked, or the
         missions relevant for the User to complete.
@@ -62,8 +62,7 @@ class QuizDetail(DetailView):
         Parameters:
         request(HttpRequest): the GET request sent to the server
         slug(slug): unique slug value of the Quiz instance
-        question_answered(int): 1 if the user answers yes,
-                                and 0 otherwise.
+        question_number(int): the number of the question in the quiz
         
         Returns:
         HttpResponse: the view of the detail template for the Quiz

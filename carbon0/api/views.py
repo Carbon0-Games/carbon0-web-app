@@ -14,7 +14,7 @@ class QuizUpdate(APIView):
     Updates the questions that have been answered yes/no in the Quiz,
     and then moves to the next template.
     """
-    def get(self, request, quiz_slug, question_response):
+    def post(self, request, quiz_slug, question_response):
         """
         Uses the answer to the Question the user has just responded to,
         to update the array of questions related to a Quiz.
@@ -45,9 +45,11 @@ class QuizUpdate(APIView):
             quiz.increment_carbon_value(question_obj)
         # increment the active_question for the next call
         quiz.increment_active_question()
-        # return a redirect view the next Question on the Quiz 
+        # return a redirect view the next Question on the Quiz, so it updates
         path_components = {
             'slug': quiz_slug,
+            # for the question number, increment zero-indexed number
+            'question_number': quiz.active_question + 1 
         }
         return HttpResponseRedirect(
             reverse('carbon_quiz:quiz_detail', kwargs=path_components)

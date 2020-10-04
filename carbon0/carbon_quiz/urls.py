@@ -12,7 +12,8 @@ app_name = 'carbon_quiz'
 
 urlpatterns = [
      path('', QuizCreate.as_view(), name='quiz_create'),
-     path('answer-question/<slug:slug>/', QuizDetail.as_view(), name='quiz_detail'),
+     path('<slug:slug>/answer-question/<int:question_number>/',
+          QuizDetail.as_view(), name='quiz_detail'),
      path('mission/<int:pk>/', MissionDetail.as_view(), name='mission_detail'),
      path('achievement/create/<int:mission_id>/<int:chosen_link_index>/',
           AchievementCreate.as_view(), name='achievement_create'),

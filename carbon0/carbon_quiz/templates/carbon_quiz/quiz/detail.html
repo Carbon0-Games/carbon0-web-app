@@ -26,16 +26,13 @@
                         <div class="row">
                             <!-- Yes and No Buzzers-->
                             <div class="col-md-6">
-                                <a href="#" onclick="nextQuestion('1')">
-                                    <img src="{% static 'images/Present-yes.png' %}" 
-                                        alt="Yes" width=400px height=400px>
-                                </a>
+                                <img src="{% static 'images/Present-yes.png' %}" 
+                                    alt="Yes" width=400px height=400px onclick="nextQuestion('1')">
                             </div>
                             <div class="col-md-6">
-                                <a href="#" onclick="nextQuestion('0')">
-                                    <img src="{% static 'images/Present-_No.png' %}" 
-                                        alt="No" width=400px height=400px>
-                                </a>
+                                <img src="{% static 'images/Present-_No.png' %}" 
+                                    alt="No" width=400px height=400px onclick="nextQuestion('0')">
+
                             </div>
                             <!-- JS function to go to the next quiz question -->
                             <script>
@@ -48,8 +45,11 @@
                                     endpoint = endpoint.concat("{{ quiz.slug }}/", answer, "/");
                                     // make the request to the API using jQuery
                                     $.ajax({
-                                        method: "GET",
+                                        method: "POST",
                                         url: endpoint,
+                                        data: {
+                                            csrfmiddlewaretoken: "{{ csrf_token }}",
+                                        },
                                         success: data => {
                                             console.log('jQuery worked!');
                                         },
