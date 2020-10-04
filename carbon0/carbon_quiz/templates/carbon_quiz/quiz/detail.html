@@ -26,20 +26,38 @@
                         <div class="row">
                             <!-- Yes and No Buzzers-->
                             <div class="col-md-6">
-                                <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug 1 %}">
+                                <a href="#" onclick="nextQuestion(1)">
                                     <img src="{% static 'images/Present-yes.png' %}" 
                                         alt="Yes" width=400px height=400px>
                                 </a>
                             </div>
                             <div class="col-md-6">
-                                <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug 0 %}">
+                                <a href="#" onclick="nextQuestion(0)">
                                     <img src="{% static 'images/Present-_No.png' %}" 
                                         alt="No" width=400px height=400px>
                                 </a>
                             </div>
+                            <!-- JS function to go to the next quiz question -->
+                            <script>
+                                let nextQuestion = (answer) => {
+                                    // form the URL for the request
+                                    let endpoint = "/api/next-question/{{ quiz.slug }}/ " + answer + "/";
+                                    // make the request using jQuery
+                                    $.ajax({
+                                        method: "GET",
+                                        url: endpoint,
+                                        success: () => {
+                                            console.log('jQuery worked!');
+                                        },
+                                        error: error_data => {
+                                            console.log(error_data)
+                                        }
+                                    })
+                                }
+                            </script>
                         </div>
                         
-                        <div class="row mb-4">
+                        <div class="rowmb-4">
                             <div class="justify-content-start col-md-4">
                                 <!-- Carbon Value Card -->
                                 {% include "partials/carbon_value_card.html" %}
