@@ -4,7 +4,6 @@ from django.urls import reverse, reverse_lazy
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from carbon_quiz.models.question import Question
 from carbon_quiz.models.quiz import Quiz
 
 

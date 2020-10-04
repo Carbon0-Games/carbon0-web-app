@@ -48,7 +48,6 @@
                                             csrfmiddlewaretoken: "{{ csrf_token }}",
                                         },
                                         success: data => {
-                                            console.log('jQuery worked!');
                                             // calculate the next question number to show
                                             let currentQuestionNum = parseInt("{{ quiz.active_question }}");
                                             let nextQuestionNum = 1 + currentQuestionNum;
@@ -56,7 +55,6 @@
                                             let startURL = "/carbon-quiz/{{ quiz.slug }}/answer-question/";
                                             let completedURL = startURL.concat(nextQuestionNum, "/");
                                             window.location.href = completedURL;
-
                                         },
                                         error: error_data => {
                                             console.log(error_data)
@@ -117,8 +115,6 @@
                     </div>
                 </div>
             {% endif %}
-
         </div>
-        
     </div>
 {% endblock %}
