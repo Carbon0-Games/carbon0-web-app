@@ -261,26 +261,13 @@ class AchievementDetail(DetailView):
         return render(request, self.template_name, context)
     
 
-def create_social_user_with_achievement(request, backend, user, response, *args, **kwargs):
-    print("request", request)
-    print("backend", backend)
-    print("user", user)
-    print("response", response)
-    print("*args", *args)
-   
+def create_social_user_with_achievement(request, user, response, *args, **kwargs):
     if kwargs['is_new']:
         profile = Profile.objects.create(user=user)
         profile.save()
 
         if 'achievement_pk' in request.session:
             pk = request.session['achievement_pk']
-            acieve = Achievement.objects.get(id=pk)
-            acieve.profile = profile
-            acieve.save()
-
-        # user_achievement = achievement
-        # user_achievement.profile = profile
-        # user_achievement.save()
-
-    # for key, value in kwargs.items():
-    #     print("kwargs: {0} = {1}".format(key, value))
+            achievement = Achievement.objects.get(id=pk)
+            achievement.profile = profile
+            achievement.save()
