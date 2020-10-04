@@ -79,10 +79,9 @@ class QuizDetail(DetailView):
         # if the next question needs to be shown
         if quiz.active_question < 5:
             # get the question to display
-            print(f'Question array index: {quiz.active_question}')
             question_id = quiz.questions[quiz.active_question]
-            print(f'Question id: {question_id}')
             question_obj = Question.objects.get(id=question_id)
+            '''
             # if the user just answered 'yes', 
             if is_question_answered == 1:
                 # ignore the question later, when finding missions
@@ -93,6 +92,7 @@ class QuizDetail(DetailView):
                 quiz.increment_carbon_value(question_obj)
             # increment the active_question for the next call
             quiz.increment_active_question()
+            '''
             # add key value pairs to the context
             context = {
                 'quiz': quiz,
@@ -121,14 +121,12 @@ class QuizDetail(DetailView):
                 'missions': missions,  # possible missions for the user 
                 'show_question': False  # tells us to display Missions
             }
-            print('went into elif')
-            print(f'Missions: {missions}')
         # return the response
         return render(request, self.template_name, context)
 
 
 class MissionDetail(DetailView):
-    '''Represents the view the user gets to complete their Mission.'''
+    '''Represent s the view the user gets to complete their Mission.'''
     model = Mission
     template_name = 'carbon_quiz/mission/detail.html'
 
