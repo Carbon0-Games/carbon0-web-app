@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
-from .views import UserCreate, SettingsView
+from .views import UserCreate, SettingsView, logout_view
 
 app_name = 'accounts'
 
@@ -18,6 +18,7 @@ urlpatterns = [
 
      # User settings page
      path('settings/', SettingsView.as_view(), name='settings'),
+     path('logout_social/', logout_view, name='logout-social'),
 
 
 ]

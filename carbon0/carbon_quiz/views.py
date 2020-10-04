@@ -15,6 +15,7 @@ from .models.mission import Mission
 from .models.quiz import Quiz
 from .models.achievement import Achievement
 from django.conf import settings
+from accounts.models import Profile
 
 
 class QuizCreate(CreateView):
@@ -242,8 +243,10 @@ class AchievementDetail(DetailView):
         HttpResponse: the view of the detail template for the Achievement
         
         """
+        # global achievement
         # get the achievement object for the context
         achievement = Achievement.objects.get(id=pk)
+        request.session['achievement_pk'] = pk
         # set the images needed for the context
         browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
         ios_zeron_model = achievement.zeron_image_url[1] # .usdz file path
@@ -257,3 +260,27 @@ class AchievementDetail(DetailView):
         # return the response
         return render(request, self.template_name, context)
     
+
+def create_social_user_with_achievement(request, backend, user, response, *args, **kwargs):
+    print("request", request)
+    print("backend", backend)
+    print("user", user)
+    print("response", response)
+    print("*args", *args)
+   
+    if kwargs['is_new']:
+        profile = Profile.objects.create(user=user)
+        profile.save()
+
+        if 'achievement_pk' in request.session:
+            pk = request.session['achievement_pk']
+            acieve = Achievement.objects.get(id=pk)
+            acieve.profile = profile
+            acieve.save()
+
+        # user_achievement = achievement
+        # user_achievement.profile = profile
+        # user_achievement.save()
+
+    # for key, value in kwargs.items():
+    #     print("kwargs: {0} = {1}".format(key, value))

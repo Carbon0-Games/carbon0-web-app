@@ -12,6 +12,15 @@
 
     </div> -->
     <a class="navbar-brand" href="{% url 'carbon_quiz:quiz_create' %}">Carbon0</a>
+    <div >Hello, 
+        <strong>
+        {% if user.get_username %}
+          {{ user.get_username }}
+        {% else %}
+          Guest
+        {% endif %}
+        </strong>!
+      </div>
     <!-- <div class="collapse navbar-collapse" id="navbarC">
 
     </div> -->

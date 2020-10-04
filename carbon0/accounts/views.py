@@ -15,6 +15,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from social_django.models import UserSocialAuth
 
+from django.contrib.auth import logout
+
 
 class UserCreate(SuccessMessageMixin, CreateView):
     '''Display form where user can create a new account.'''
@@ -90,8 +92,23 @@ class SettingsView(LoginRequiredMixin, TemplateView):
             'google_login': google_login,
         })
 
+def logout_view(request):
+    logout(request)
+    template_name = 'index.html'
+    return render(request, template_name)
 
 
-def testing(user, **kwargs):
-    profile = Profile.objects.create(user=user)
-    profile.save()
+# def testing(backend, user, response, *args, **kwargs):
+#     print("\n\n")
+#     print("backend", backend)
+#     print("user", user)
+#     print("response", response)
+#     print("*args", *args)
+   
+#     for key, value in kwargs.items():
+#         print("kwargs: {0} = {1}".format(key, value))
+#     # print("**kwaygs", **kwargs)
+#     # profile = Profile.objects.create(user=user)
+#     # profile.save()
+#     print("testing out saveing pipeline")
+#     # print("achievenmetn secrete", test)
