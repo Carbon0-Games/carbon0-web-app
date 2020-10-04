@@ -6,7 +6,7 @@
     <div style="background-color:rgb(255, 220, 176); height: 100vh;">
         <div class="container">
             <!-- if User is viewing a Question -->
-            {% if show_question %}
+            {% if question %}
                 <!-- Header -->
                 <h1 class="row">
                     <p class="mt-2" style="color:brown;">Carbon Calculator</p>
@@ -89,7 +89,7 @@
                     </div>
                 </div>   
             <!-- if User is viewing their Missions -->
-            {% else %}
+            {% elif missions %}
                 <!-- Header -->
                 <h1 class="row mb-4 justify-content-center">
                     <p class="mt-2" style="color:brown;">We've Found Missions For You!</p>

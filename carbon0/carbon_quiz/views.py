@@ -81,7 +81,6 @@ class QuizDetail(DetailView):
             # set the addtional key value pairs to the context
             additional_key_value_pairs = [
                 ('question', question_obj),
-                ('show_question', True),  # tells us to display a Question
             ]
         # otherwise show the mission start page
         else:  #  quiz.active_question == 5:
@@ -102,7 +101,6 @@ class QuizDetail(DetailView):
             # set the additional key value pairs
             additional_key_value_pairs = [
                 ('missions', missions),  # possible missions for the user 
-                ('show_question', False)  # tells us to display Missions
             ]
         # add additional key value pairs to the context
         context.update(additional_key_value_pairs)
