@@ -60,24 +60,18 @@ class UserCreate(SuccessMessageMixin, CreateView):
 
 # Social Auth
 class UserCreateFromSocial(LoginView):
+    """
+    Either creates a  new user or logs a user in via social media
+    """
     template_name = 'accounts/auth/signup.html'
 
-    def form_valid(self, form, secret_id):
-        '''Save the new User, and a new Profile for them, in the database.'''
-        self.object = form.save()
-        # save a new profile for the user
-        profile = Profile.objects.create(user=self.object)
-        profile.save()
-        # connect this profile to the achievement, if applicable
-        if secret_id is not None:
-            achievement = Achievement.objects.get(secret_id=secret_id)
-            achievement.profile = profile
-            achievement.save()
-            print('Achievement saved!')
-        return super().form_valid(form)
+    
 
 
 class SettingsView(LoginRequiredMixin, TemplateView):
+    """
+    Currently shows the user info from social signup or login
+    """
     def get(self, request, *args, **kwargs):
         user = request.user
 

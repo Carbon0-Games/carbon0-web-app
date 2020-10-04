@@ -21,12 +21,11 @@
                         Action: {{ mission.action }}.<br>
                         When you are finished on the website linked below, come back and 
                         select "Complete Mission" so we can give you your prize! <br>
-                        <a class="link-overview" href="{{ link }}" target="_blank">
-                            Preview Link: {{ site_name }}
+                        <a class="link-overview" href="{{ link_address }}" target="_blank">
+                            Preview Link: {{ link_description }}
                         </a>
-                        <div class="box">
-                            <iframe src="{{ link }}" width=500px height=500px></iframe>
-                        </div>
+                        <!-- Link Preview -->
+                        <iframe src="{{ link_address }}" width=500px height=500px></iframe>
                     </p>
                 </div>
                 <!-- Mission Complete Button -->
