@@ -1,3 +1,34 @@
 <!-- QuizCreate template -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/quiz/create.html -->
 {% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #F6E6D4;
+        }
+
+        h1 {
+            color: #7F2321;
+            font-weight: 300
+        }
+    </style>
+    {% include 'partials/navbar.html' %}
+
+    <div class="container">
+        <h1>Welcome to the Carbon Quiz!</h1>
+        <h3>Let's get to know you. <br> 
+            I'll ask 5 questions that show how much carbon you create per year. <br> 
+            This is called your carbon footprint.
+        </h3>
+        <div class="d-flex justify-content-center">
+            <!-- Call to ACTION: Go to the First Questions -->
+            <form class='float' method='post'>
+                {% csrf_token %}
+                <input type="submit" value="Go to the First Question" class="btn btn-success rounded-pill">
+            </form>
+        </div>
+    </div>
+{% endblock %}

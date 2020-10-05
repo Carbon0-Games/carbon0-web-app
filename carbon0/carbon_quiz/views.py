@@ -22,7 +22,7 @@ class QuizCreate(CreateView):
     '''View to create new Quiz instance from randomly picked questions.'''
     model = Quiz
     fields = []
-    template_name = 'index.html'
+    template_name = 'carbon_quiz/quiz/create.html'
     queryset = Question.objects.all()
 
     def generate_random_question(self, category):
