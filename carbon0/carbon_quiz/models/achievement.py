@@ -33,7 +33,7 @@ class Achievement(models.Model):
     # Zerons for Achievements: (img_url_paths: List[str], name_of_zeron: str)
     ZERONS = [
         # 1. Diet category Zeron
-        (['assets/glb-files/cartoon_carrot.glb', 
+        (['assets/glb-files/CarrotBlend.glb', 
           'assets/usdz-files/tree.usdz'], 
             "Nature's Model"), 
         # 2. Transit category Zeron
