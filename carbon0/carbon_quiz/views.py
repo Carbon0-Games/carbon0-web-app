@@ -246,6 +246,7 @@ class AchievementDetail(DetailView):
         # global achievement
         # get the achievement object for the context
         achievement = Achievement.objects.get(id=pk)
+        # add achievment pk to request session
         request.session['achievement_pk'] = pk
         # set the images needed for the context
         browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
@@ -261,11 +262,22 @@ class AchievementDetail(DetailView):
         return render(request, self.template_name, context)
     
 
-def create_social_user_with_achievement(request, user, response, *args, **kwargs):
+def create_social_user_with_achievement(request, user, response, **kwargs):
+    """
+    Attach achievement to user if they sign up with their social media account
+
+    Parameters:
+        request(HttpRequest): passes the request into this function
+        user: the social auth user
+        response: the response from authenticating on social media
+        **kwargs: returned dictionary of content when user completes social auth
+
+    """
     if kwargs['is_new']:
         profile = Profile.objects.create(user=user)
         profile.save()
 
+        # checking to make sure there's a achievement_pk in request.session
         if 'achievement_pk' in request.session:
             pk = request.session['achievement_pk']
             achievement = Achievement.objects.get(id=pk)
