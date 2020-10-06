@@ -17,14 +17,15 @@ from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from accounts.views import UserCreateFromSocial
+from carbon0 import views
 
 urlpatterns = [
     # Admin URLs
     path('admin/', admin.site.urls),
     # Project-wide URLs
-    # path('', views.get_landing, name="landing_page"),
+    path('', views.get_landing, name="landing_page"),
     # Game-related URLs
-    path('', include('carbon_quiz.urls')),
+    path('carbon-quiz/', include('carbon_quiz.urls')),
     # Auth-related URLs
     path('accounts/', include('accounts.urls')),
 
