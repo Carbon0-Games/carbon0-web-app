@@ -6,7 +6,7 @@
     <div style="background-color:rgb(255, 220, 176); height: 100vh;">
         <div class="container">
             <!-- if User is viewing a Question -->
-            {% if show_question %}
+            {% if question %}
                 <!-- Header -->
                 <h1 class="row">
                     <p class="mt-2" style="color:brown;">Carbon Calculator</p>
@@ -26,41 +26,45 @@
                         <div class="row">
                             <!-- Yes and No Buzzers-->
                             <div class="col-md-6">
-                                <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug 1 %}">
-                                    <img src="{% static 'images/Present-yes.png' %}" 
-                                        alt="Yes" width=400px height=400px>
-                                </a>
+                                <img src="{% static 'images/Present-yes.png' %}" 
+                                    alt="Yes" width=400px height=400px onclick="nextQuestion('1')">
                             </div>
                             <div class="col-md-6">
-                                <a href="{% url 'carbon_quiz:quiz_detail' quiz.slug 0 %}">
-                                    <img src="{% static 'images/Present-_No.png' %}" 
-                                        alt="No" width=400px height=400px>
-                                </a>
+                                <img src="{% static 'images/Present-_No.png' %}" 
+                                    alt="No" width=400px height=400px onclick="nextQuestion('0')">
+
                             </div>
+                            <!-- JS function to go to the next quiz question -->
+                            {% include 'partials/next_question_script.html' %}
                         </div>
-                        <!-- Info Box-->
-                        <div class="row justify-content-start mb-4">
-                            <div class="justify-content-start col-md-4">
-                                <!-- Symbol for Question -->
-                                <img src="{{ question.learn_image.url }}" alt="" height=250px width=300px>
-                            </div>
+                        
+                        <div class="row justify-content-center">
+                            <!-- <div class="justify-content-start col-md-4">
+                                Carbon Value Card -->
+                                {% include "partials/carbon_value_card.html" %}
+                            <!-- </div> 
                             <div class="col-md-8">
-                                <p class="text-success">
-                                    {{ question.question_info }}
-                                    (<a href="{{ question.learn_more_link }}" target="_blank">Learn More</a>)
-                                </p>
-                            </div>
+                                Info Card
+                                <div class="card" style="background-color:rgb(245, 186, 114)">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="color:brown;">About This Question</h5>
+                                        <p class="card-text">{#{{ question.question_info }}#}</p>
+                                        <a href="{#{{ question.learn_more_link }}#}" class="card-link" target="_blank">Learn More</a>
+                                    </div>
+                                </div>
+                            </div> -->
+                        
                         </div>
                     </div>
-                    <!-- Captain Joy -->
                     <div class="col-md-4 justify-content-center">
-                        {% include "partials/captain_joy_image.html" %}>
+                        <!-- Captain Joy -->
+                        {% include "partials/captain_joy_image.html" %}
                     </div>
                 </div>   
             <!-- if User is viewing their Missions -->
-            {% else %}
+            {% elif missions %}
                 <!-- Header -->
-                <h1 class="row mb-4">
+                <h1 class="row mb-4 justify-content-center">
                     <p class="mt-2" style="color:brown;">We've Found Missions For You!</p>
                 </h1>
                 <!-- Instructions for the User -->
@@ -69,18 +73,23 @@
                         Based on your responses to the quiz, we recommend the following as ways to reduce your carbon footprint!
                     </p>
                 </div>
-                <br><br>
-                <!-- List links for Mission Details -->
-                <ul>
-                    {% for mission in missions %}
-                    <li>
-                        <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}">{{ mission.title }}</a> 
-                    </li>
-                    {% endfor %}
-                </ul>
+                <div class="row">
+                    <div class="col-md-7">
+                        <!-- List links for Mission Details -->
+                        <ul>
+                            {% for mission in missions %}
+                            <li>
+                                <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}">{{ mission.title }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-5" style="width: 20rem;">
+                        <!-- Carbon Value Card -->
+                        {% include "partials/carbon_value_card.html" %}
+                    </div>
+                </div>
             {% endif %}
-
         </div>
-        
     </div>
 {% endblock %}
