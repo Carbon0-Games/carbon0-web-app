@@ -85,7 +85,7 @@ class SettingsView(LoginRequiredMixin, TemplateView):
             'google_login': google_login,
         })
 
-def create_social_user_with_achievement(request, user, response, **kwargs):
+def create_social_user_with_achievement(request, user, response, *args, **kwargs):
     """
     Attach achievement to user if they sign up with their social media account
 
@@ -96,6 +96,8 @@ def create_social_user_with_achievement(request, user, response, **kwargs):
         **kwargs: returned dictionary of content when user completes social auth
 
     """
+
+    # checks to see if the user is new then create a profile else just log them in
     if kwargs['is_new']:
         profile = Profile.objects.create(user=user)
         profile.save()
