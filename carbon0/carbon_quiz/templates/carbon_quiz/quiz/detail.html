@@ -35,33 +35,7 @@
 
                             </div>
                             <!-- JS function to go to the next quiz question -->
-                            <script>
-                                let nextQuestion = (answer) => {
-                                    // form the URL for the request
-                                    let endpoint = "/api/next-question/";
-                                    endpoint = endpoint.concat("{{ quiz.slug }}/", answer, "/");
-                                    // make the request to the API using jQuery
-                                    $.ajax({
-                                        method: "POST",
-                                        url: endpoint,
-                                        data: {
-                                            csrfmiddlewaretoken: "{{ csrf_token }}",
-                                        },
-                                        success: data => {
-                                            // calculate the next question number to show
-                                            let currentQuestionNum = parseInt("{{ quiz.active_question }}");
-                                            let nextQuestionNum = 1 + currentQuestionNum;
-                                            // update the url the user is requesting, top show the next Question
-                                            let startURL = "/carbon-quiz/{{ quiz.slug }}/answer-question/";
-                                            let completedURL = startURL.concat(nextQuestionNum, "/");
-                                            window.location.href = completedURL;
-                                        },
-                                        error: error_data => {
-                                            console.log(error_data)
-                                        }
-                                    });
-                                }
-                            </script>
+                            {% include 'partials/next_question_script.html' %}
                         </div>
                         
                         <div class="row mb-4">
