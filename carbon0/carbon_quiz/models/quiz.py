@@ -3,6 +3,8 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
+from carbon_quiz.models.question import Question
+
 
 class Quiz(models.Model):
     '''Represents a collection of 5 questions given to the user.'''
@@ -40,10 +42,25 @@ class Quiz(models.Model):
         """
         path_components = {
             'slug': self.slug,
-            'is_question_answered': 0  # a question hasn't been answered before 
+             # for the question number, increment zero-indexed number
+            'question_number': self.active_question + 1 
         }
-        print("made a call to absolute url")
         return reverse('carbon_quiz:quiz_detail', kwargs=path_components)
+
+    def increment_carbon_value(self, question):
+        """
+        Increase the total carbon value of this Quiz model, by the individual
+        carbon_value field of one of the Question model instances.
+
+        Parameter:
+        question(Question): a Question instance
+
+        Returns: None
+
+        """
+        self.carbon_value_total += question.carbon_value
+        self.save()
+        return None
 
     def increment_active_question(self):
         '''Moves us to the next Question, in the questions array.'''
@@ -57,3 +74,9 @@ class Quiz(models.Model):
 
         # call save on the superclass
         return super().save(*args, **kwargs)
+
+    def get_current_quiz(self):
+        '''Return the Question which is current active in this Quiz.'''
+        question_id = self.questions[self.active_question]
+        question_obj = Question.objects.get(id=question_id)
+        return question_obj
