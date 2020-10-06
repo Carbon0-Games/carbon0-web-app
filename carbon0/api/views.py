@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from carbon_quiz.models.quiz import Quiz
 
 
-# Create your views here.
 class QuizUpdate(APIView):
     """
     Updates the questions that have been answered yes/no in the Quiz,
@@ -52,3 +51,18 @@ class QuizUpdate(APIView):
         return HttpResponseRedirect(
             reverse_lazy('carbon_quiz:quiz_detail', kwargs=path_components)
         )
+
+
+class QuizDetailData(APIView):
+    '''Data needed to make the bar chart on the QuizDetail view.'''
+    def get(self, request, pk):
+        '''Returns the total carbon value of a Quiz instance, given its id.'''
+        # get the Quiz instance
+        quiz = Quiz.objects.get(id=pk)
+        # structure the data
+        data = {
+            "labels": ["Your Carbon Footprint"],
+            "footprint": [quiz.carbon_value_total]
+        }
+        # return the data
+        return Response(data)
