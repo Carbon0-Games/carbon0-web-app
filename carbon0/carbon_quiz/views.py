@@ -15,6 +15,7 @@ from .models.mission import Mission
 from .models.quiz import Quiz
 from .models.achievement import Achievement
 from django.conf import settings
+from accounts.models import Profile
 
 
 class QuizCreate(CreateView):
@@ -231,8 +232,11 @@ class AchievementDetail(DetailView):
         HttpResponse: the view of the detail template for the Achievement
         
         """
+        # global achievement
         # get the achievement object for the context
         achievement = Achievement.objects.get(id=pk)
+        # add achievment pk to request session
+        request.session['achievement_pk'] = pk
         # set the images needed for the context
         browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
         ios_zeron_model = achievement.zeron_image_url[1] # .usdz file path

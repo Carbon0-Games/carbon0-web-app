@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
-from .views import UserCreate, SettingsView, password
+from .views import UserCreate, SettingsView
 
 app_name = 'accounts'
 
@@ -18,7 +18,6 @@ urlpatterns = [
 
      # User settings page
      path('settings/', SettingsView.as_view(), name='settings'),
-     # User to unlink from social auth sign in, not sure if we want this feature
-     path('settings/password/', password, name='password'),
+     # path('logout_social/', logout_view, name='logout-social'),
 
 ]

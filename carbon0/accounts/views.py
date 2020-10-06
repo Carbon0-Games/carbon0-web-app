@@ -12,14 +12,8 @@ from .models import Profile
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.views import LoginView
-from django.contrib import messages
 from social_django.models import UserSocialAuth
-
-
 
 class UserCreate(SuccessMessageMixin, CreateView):
     '''Display form where user can create a new account.'''
@@ -62,13 +56,17 @@ class UserCreate(SuccessMessageMixin, CreateView):
         else:
             return self.form_invalid(form)
 
-
 # Social Auth
 class UserCreateFromSocial(LoginView):
+    """
+    Either creates a  new user or logs a user in via social media
+    """
     template_name = 'accounts/auth/signup.html'
 
-
 class SettingsView(LoginRequiredMixin, TemplateView):
+    """
+    Currently shows the user info from social signup or login
+    """
     def get(self, request, *args, **kwargs):
         user = request.user
 
@@ -82,31 +80,29 @@ class SettingsView(LoginRequiredMixin, TemplateView):
         except UserSocialAuth.DoesNotExist:
             google_login = None
 
-        can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
-
         return render(request, 'accounts/auth/settings.html', {
             'facebook_login': facebook_login,
             'google_login': google_login,
-            'can_disconnect': can_disconnect
         })
 
+def create_social_user_with_achievement(request, user, response, **kwargs):
+    """
+    Attach achievement to user if they sign up with their social media account
 
-@login_required
-def password(request):
-    if request.user.has_usable_password():
-        PasswordForm = PasswordChangeForm
-    else:
-        PasswordForm = AdminPasswordChangeForm
+    Parameters:
+        request(HttpRequest): passes the request into this function
+        user: the social auth user
+        response: the response from authenticating on social media
+        **kwargs: returned dictionary of content when user completes social auth
 
-    if request.method == 'POST':
-        form = PasswordForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.user)
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('accounts:settings')
-        else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordForm(request.user)
-    return render(request, 'accounts/auth/password.html', {'form': form})
+    """
+    if kwargs['is_new']:
+        profile = Profile.objects.create(user=user)
+        profile.save()
+
+        # checking to make sure there's a achievement_pk in request.session
+        if 'achievement_pk' in request.session:
+            pk = request.session['achievement_pk']
+            achievement = Achievement.objects.get(id=pk)
+            achievement.profile = profile
+            achievement.save()
