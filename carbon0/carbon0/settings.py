@@ -210,7 +210,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
     'social_core.pipeline.user.create_user',
-    'carbon_quiz.views.create_social_user_with_achievement',  # set the path to the function
+    'accounts.views.create_social_user_with_achievement',  # set the path to the function
 
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',

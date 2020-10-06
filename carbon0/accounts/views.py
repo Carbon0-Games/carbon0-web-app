@@ -84,3 +84,25 @@ class SettingsView(LoginRequiredMixin, TemplateView):
             'facebook_login': facebook_login,
             'google_login': google_login,
         })
+
+def create_social_user_with_achievement(request, user, response, **kwargs):
+    """
+    Attach achievement to user if they sign up with their social media account
+
+    Parameters:
+        request(HttpRequest): passes the request into this function
+        user: the social auth user
+        response: the response from authenticating on social media
+        **kwargs: returned dictionary of content when user completes social auth
+
+    """
+    if kwargs['is_new']:
+        profile = Profile.objects.create(user=user)
+        profile.save()
+
+        # checking to make sure there's a achievement_pk in request.session
+        if 'achievement_pk' in request.session:
+            pk = request.session['achievement_pk']
+            achievement = Achievement.objects.get(id=pk)
+            achievement.profile = profile
+            achievement.save()
