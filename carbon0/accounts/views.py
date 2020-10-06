@@ -33,7 +33,6 @@ class UserCreate(SuccessMessageMixin, CreateView):
             achievement = Achievement.objects.get(secret_id=secret_id)
             achievement.profile = profile
             achievement.save()
-            print('Achievement saved!')
         return super().form_valid(form)
 
     def post(self, request, secret_id=None):

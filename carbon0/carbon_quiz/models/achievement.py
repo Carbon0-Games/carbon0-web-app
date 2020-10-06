@@ -127,8 +127,28 @@ class Achievement(models.Model):
             while new_id in ids:
                 new_id = utils.get_random_secret_key()
             return new_id
+        def update_profile_footprint(self):
+            """
+            Whenever an Achievement with a relationship to a Profile is
+            saved, we update the total carbon footprint of that user.
+            """
+            # get the Question related to this Achievement
+            related_question = self.mission.question
+            # calculate the new footprint for the user
+            current_footprint = self.profile.users_footprint
+            new_footprint = (current_footprint - (
+                self.mission.percent_carbon_sequestration * 
+                related_question.carbon_value
+            ))
+            # update the profile's footprint
+            self.profile.users_footprint += new_footprint
+            self.profile.save()
+            return None
         # get the unique secret id, make it URL safe
         secret_id = slugify(generate_unique_id())
         # set it on the new model instance 
         self.secret_id = secret_id
+        # update the impacted user's carbon footprint
+        if self.profile is not None:
+            self.update_profile_footprint()
         return super(Achievement, self).save(*args, **kwargs)   
