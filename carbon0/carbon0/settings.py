@@ -169,14 +169,6 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # Facebook variables 
 FACEBOOK_SHARING_APP_ID = os.getenv('FACEBOOK_SHARING_APP_ID')
 
-# Convert the DATABASE_URL environment variable into what Django understands
-db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
-
-# Additional support setting up env for Heroku
-django_heroku.settings(locals())
-
-
 # Social Auth settings
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
@@ -200,3 +192,32 @@ SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET')
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+
+# File paths for the Zeron model files
+DIET_ZERON_PATHS = [
+    str(os.getenv('DIET_GLB')),
+    str(os.getenv('DIET_USDZ'))
+]
+TRANSIT_ZERON_PATHS = [
+    str(os.getenv('TRANSIT_GLB')),
+    str(os.getenv('TRANSIT_USDZ'))
+]
+RECYCLING_ZERON_PATHS = [
+    str(os.getenv('RECYCLING_GLB')),
+    str(os.getenv('RECYCLING_USDZ'))
+]
+AT_ZERON_PATHS = [
+    str(os.getenv('AT_GLB')),
+    str(os.getenv('AT_USDZ'))
+]
+UTIL_ZERON_PATHS = [
+    str(os.getenv('UTIL_GLB')),
+    str(os.getenv('UTIL_USDZ'))
+]
+
+# Convert the DATABASE_URL environment variable into what Django understands
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+
+# Additional support setting up env for Heroku
+django_heroku.settings(locals())

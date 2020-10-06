@@ -6,6 +6,13 @@ from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
 from accounts.models import Profile
+from carbon0.settings import (
+    DIET_ZERON_PATHS,
+    TRANSIT_ZERON_PATHS,
+    RECYCLING_ZERON_PATHS,
+    AT_ZERON_PATHS,
+    UTIL_ZERON_PATHS,
+)
 from .mission import Mission
 from .question import Question
 
@@ -33,25 +40,15 @@ class Achievement(models.Model):
     # Zerons for Achievements: (img_url_paths: List[str], name_of_zeron: str)
     ZERONS = [
         # 1. Diet category Zeron
-        (['assets/glb-files/cartoon_carrot.glb', 
-          'assets/usdz-files/tree.usdz'], 
-            "Nature's Model"), 
+        (DIET_ZERON_PATHS, "Nature's Model"), 
         # 2. Transit category Zeron
-        (['assets/glb-files/Wheel.glb',
-          'assets/usdz-files/wheel.usdz'],
-            'Wheel Model'), 
+        (TRANSIT_ZERON_PATHS, 'Wheel Model'), 
         # 3. Recycling category Zeron 
-        (['assets/glb-files/Bin.glb',
-          'assets/usdz-files/bin.usdz'],
-            'Bin Model'), 
+        (RECYCLING_ZERON_PATHS, 'Bin Model'), 
         # 4. Airline-Travel category Zeron
-        (['assets/glb-files/coin.glb',
-          'assets/usdz-files/coin.usdz'],
-            'Coin Model'), 
+        (AT_ZERON_PATHS, 'Coin Model'), 
         # 5. Utilities category Zeron
-        (['assets/glb-files/Light bulb 1.glb',
-          'assets/usdz-files/Lightbulb.usdz'],
-            'Light Bulb Model'),  
+        (UTIL_ZERON_PATHS, 'Light Bulb Model'),  
     ]
     zeron_image_url = ArrayField(
         models.CharField(
