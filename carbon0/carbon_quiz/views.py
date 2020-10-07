@@ -232,8 +232,6 @@ class AchievementDetail(DetailView):
     '''Displays the award the user receives for completing a Mission.'''
     model = Achievement
     template_name = 'carbon_quiz/achievement/detail.html'
-    # TODO: in Feature 3, we'll add a link somewhere to go from
-    # AchievementDetail, to an "AchievementShare" view
 
     def get(self, request, pk):
         """
@@ -247,7 +245,6 @@ class AchievementDetail(DetailView):
         HttpResponse: the view of the detail template for the Achievement
         
         """
-        # global achievement
         # get the achievement object for the context
         achievement = Achievement.objects.get(id=pk)
         # add achievment pk to request session
