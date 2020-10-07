@@ -3,9 +3,7 @@ from carbon0 import settings
 from django.urls import reverse
 from django.conf import settings
 
-from carbon_quiz.models.achievement import Achievement
-from carbon_quiz.models.mission import Mission
-from carbon_quiz.models.question import Question
+# from carbon_quiz.models.achievement import Achievement
 
 
 class Profile(models.Model):
@@ -50,4 +48,5 @@ class Profile(models.Model):
 
         """
         self.users_footprint += quiz.carbon_value_total
-        pass
+        self.save()
+        return None

@@ -10,8 +10,9 @@ from django.views.generic.edit import (
     UpdateView,
     DeleteView)
 
-from .models.question import Question
 from .models.mission import Mission
+from accounts.models import Profile
+from .models.question import Question
 from .models.quiz import Quiz
 from .models.achievement import Achievement
 from django.conf import settings
@@ -84,6 +85,12 @@ class QuizDetail(DetailView):
             ]
         # otherwise show the mission start page
         else:  #  quiz.active_question == 5:
+            # if the user is logged in, acculmulate their total footprint
+            if request.user.is_authenticated is True:
+                # get the User profile
+                profile = Profile.objects.get(user=request.user)
+                # update their profile's footprint
+                profile.increase_user_footprint(quiz)
             # find the missions the user can choose
             missions = list()
             # get the question id that each user actually interacted with
