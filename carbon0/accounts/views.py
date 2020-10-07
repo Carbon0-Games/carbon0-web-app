@@ -22,7 +22,7 @@ class UserCreate(SuccessMessageMixin, CreateView):
     template_name = 'accounts/auth/signup.html'
     success_message = 'Welcome to Carbon0! You may now log in.'
 
-    def form_valid(self, form, secret_id):
+    def form_valid(self, form, secret_id, request):
         '''Save the new User, and a new Profile for them, in the database.'''
         self.object = form.save()
         # save a new profile for the user
@@ -32,7 +32,7 @@ class UserCreate(SuccessMessageMixin, CreateView):
         if secret_id is not None:
             achievement = Achievement.objects.get(secret_id=secret_id)
             achievement.profile = profile
-            achievement.save()
+            achievement.save(user=request.user)
         return super().form_valid(form)
 
     def post(self, request, secret_id=None):
@@ -50,7 +50,7 @@ class UserCreate(SuccessMessageMixin, CreateView):
         form = self.get_form()
         # validate, then create
         if form.is_valid():
-            return self.form_valid(form, secret_id)
+            return self.form_valid(form, secret_id, request)
         # or redirect back to the form
         else:
             return self.form_invalid(form)
@@ -106,4 +106,4 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
             pk = request.session['achievement_pk']
             achievement = Achievement.objects.get(id=pk)
             achievement.profile = profile
-            achievement.save()
+            achievement.save(user=request.user)

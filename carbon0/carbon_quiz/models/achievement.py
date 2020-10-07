@@ -15,6 +15,7 @@ from carbon0.settings import (
 )
 from .mission import Mission
 from .question import Question
+from .quiz import Quiz
 
 
 class Achievement(models.Model):
@@ -25,8 +26,13 @@ class Achievement(models.Model):
         null=True
     )
     profile = models.ForeignKey(
-        Profile, on_delete=models.PROTECT,
+        Profile, on_delete=models.CASCADE,
         help_text='The profile that owns this achievement.',
+        null=True
+    )
+    quiz = models.ForeignKey(
+        Quiz, on_delete=models.PROTECT,
+        help_text='The Quiz that led the user to this achievement.',
         null=True
     )
     completion_date = models.DateTimeField(
@@ -115,10 +121,20 @@ class Achievement(models.Model):
         zeron_img_paths, zeron_model_name = category_to_zerons[category]
         return zeron_img_paths
 
-    def save(self, *args, **kwargs):
-        '''Init the secret_id field on the new instance.'''
+    def save(self, *args, user=None, **kwargs):
+        """Saves a new instance of the Achievement model.
+
+           Parameters:
+           user(User): if this function is called on signup, then 
+                       we pass this is in order to let the method
+                       know that the User's profile has no previous
+                       footprint
+
+           Returns: None
+
+        """
         def generate_unique_id():
-            '''Ensures that the id is unique.'''
+            '''Ensures that a the new secret id is unique.'''
             # get a set of all existing ids
             ids = set([a.id for a in Achievement.objects.all()])
             # init a secret id
@@ -127,11 +143,16 @@ class Achievement(models.Model):
             while new_id in ids:
                 new_id = utils.get_random_secret_key()
             return new_id
-        def update_profile_footprint(self):
+        def update_profile_footprint():
             """
             Whenever an Achievement with a relationship to a Profile is
             saved, we update the total carbon footprint of that user.
             """
+            # if this method called on a signup
+            if user is not None and self.profile.users_footprint == 0:
+                # increase the profile's footprint
+                print(f'Increasing the footprint by {self.quiz.carbon_value_total}')
+                self.profile.users_footprint += self.quiz.carbon_value_total
             # get the Question related to this Achievement
             related_question = self.mission.question
             # calculate the new footprint for the user
@@ -140,7 +161,7 @@ class Achievement(models.Model):
                 self.mission.percent_carbon_sequestration * 
                 related_question.carbon_value
             ))
-            # update the profile's footprint
+            # decrease the profile's footprint
             self.profile.users_footprint = new_footprint
             self.profile.save()
             return None
@@ -150,5 +171,5 @@ class Achievement(models.Model):
         self.secret_id = secret_id
         # update the impacted user's carbon footprint
         if self.profile is not None:
-            self.update_profile_footprint()
+            update_profile_footprint()
         return super(Achievement, self).save(*args, **kwargs)   

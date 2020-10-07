@@ -120,7 +120,7 @@ class MissionDetail(DetailView):
     model = Mission
     template_name = 'carbon_quiz/mission/detail.html'
 
-    def get(self, request, pk):
+    def get(self, request, pk, quiz_slug=None):
         """
         Renders a page to show the Mission currently being completed.
        
@@ -139,6 +139,9 @@ class MissionDetail(DetailView):
             'mission': mission,
             'link_descriptions': mission.link_descriptions
         }
+        # add the quiz_slug if appropiate
+        if quiz_slug is not None:
+            context['quiz_slug'] = quiz_slug
         # return the response
         return render(request, self.template_name, context)
 
@@ -150,7 +153,7 @@ class AchievementCreate(CreateView):
     template_name = 'carbon_quiz/achievement/create.html'
     queryset = Achievement.objects.all()
 
-    def get(self, request, mission_id, chosen_link_index):
+    def get(self, request, mission_id, chosen_link_index, quiz_slug=None):
         """
         Renders a page to show the question currently being asked.
        
@@ -181,7 +184,7 @@ class AchievementCreate(CreateView):
         # return the response
         return render(request, self.template_name, context)
 
-    def form_valid(self, form, mission_id):
+    def form_valid(self, form, mission_id, quiz_slug):
         '''Instaniates a new Achievement model.'''
         # get the related Mission model
         mission = Mission.objects.get(id=mission_id)
@@ -191,9 +194,15 @@ class AchievementCreate(CreateView):
         form.instance.zeron_image_url = (
             Achievement.set_zeron_image_url(mission)
         )
+        # if it's available, set the quiz relationship on the new instance
+        if quiz_slug is not None:
+            # get the Quiz
+            quiz = Quiz.objects.get(slug=quiz_slug)
+            # connect the new Achievement to the Quiz
+            form.instance.quiz = quiz
         return super().form_valid(form)
 
-    def post(self, request, mission_id, chosen_link_index):
+    def post(self, request, mission_id, chosen_link_index, quiz_slug=None):
         """
         Passes the id of the Mission the Achievement is for,
         as part of the POST request.
@@ -213,7 +222,7 @@ class AchievementCreate(CreateView):
         form = self.get_form()
         # validate, then create
         if form.is_valid():
-            return self.form_valid(form, mission_id)
+            return self.form_valid(form, mission_id, quiz_slug)
         # or redirect back to the form
         else:
             return self.form_invalid(form)

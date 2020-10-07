@@ -39,21 +39,8 @@
                         </div>
                         
                         <div class="row justify-content-center">
-                            <!-- <div class="justify-content-start col-md-4">
                                 Carbon Value Card -->
                                 {% include "partials/carbon_value_card.html" %}
-                            <!-- </div> 
-                            <div class="col-md-8">
-                                Info Card
-                                <div class="card" style="background-color:rgb(245, 186, 114)">
-                                    <div class="card-body">
-                                        <h5 class="card-title" style="color:brown;">About This Question</h5>
-                                        <p class="card-text">{#{{ question.question_info }}#}</p>
-                                        <a href="{#{{ question.learn_more_link }}#}" class="card-link" target="_blank">Learn More</a>
-                                    </div>
-                                </div>
-                            </div> -->
-                        
                         </div>
                     </div>
                     <div class="col-md-4 justify-content-center">
@@ -79,7 +66,7 @@
                         <ul>
                             {% for mission in missions %}
                             <li>
-                                <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}">{{ mission.title }}</a>
+                                <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}">{{ mission.title }}</a>
                             </li>
                             {% endfor %}
                         </ul>
