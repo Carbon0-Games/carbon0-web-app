@@ -3,6 +3,10 @@ from carbon0 import settings
 from django.urls import reverse
 from django.conf import settings
 
+from carbon_quiz.models.achievement import Achievement
+from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
+
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
@@ -22,4 +26,28 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         '''Returns a fully qualified path for user profile.'''
+        pass
+
+    def get_related_missions_and_questions(self):
+        '''Return all Missions and Question instances related to this user.'''
+        # get all the related achievements
+        achievements = Achievement.objects.filter(profile=self)
+        # make a list of all the related Missions
+        missions = [a.mission for a in achievements]
+        # make a list of related Questions
+        questions = [m.question for m in missions]
+        # return missions and questions
+        return missions, questions
+
+    def increase_user_footprint(self, quiz):
+        """When a Quiz is completed, add the total carbon value
+           to the User's profile.
+
+           Parameters:
+           quiz(Quiz): the Quiz which the user has just finished
+
+           Returns: None
+
+        """
+        self.users_footprint += quiz.carbon_value_total
         pass

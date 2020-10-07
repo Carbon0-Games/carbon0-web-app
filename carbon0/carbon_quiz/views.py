@@ -109,17 +109,17 @@ class QuizDetail(DetailView):
 
 
 class MissionDetail(DetailView):
-    '''Represent s the view the user gets to complete their Mission.'''
+    '''Represents the view the user gets to complete their Mission.'''
     model = Mission
     template_name = 'carbon_quiz/mission/detail.html'
 
     def get(self, request, pk):
         """
-        Renders a page to show the question currently being asked.
+        Renders a page to show the Mission currently being completed.
        
         Parameters:
         request(HttpRequest): the GET request sent to the server
-        pk(id): unique slug value of the Quiz instance
+        pk(id): unique slug value of the Mission instance
         
         Returns:
         HttpResponse: the view of the detail template for the Mission

@@ -141,7 +141,7 @@ class Achievement(models.Model):
                 related_question.carbon_value
             ))
             # update the profile's footprint
-            self.profile.users_footprint += new_footprint
+            self.profile.users_footprint = new_footprint
             self.profile.save()
             return None
         # get the unique secret id, make it URL safe
