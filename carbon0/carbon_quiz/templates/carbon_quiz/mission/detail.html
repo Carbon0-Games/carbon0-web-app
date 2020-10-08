@@ -45,7 +45,13 @@
                                 <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
                                 {% for description in link_descriptions %}
                                 <li>
-                                    <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 %}">{{ description }}</a>
+                                    <!-- form a different URL depending on the context variables -->
+                                    {% if quiz_slug %}
+                                        <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 quiz_slug %}">
+                                    {% else %}
+                                        <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 %}"></a>
+                                    {% endif %}
+                                        {{ description }}</a>
                                 </li>
                                 {% endfor %}
                             </ul>

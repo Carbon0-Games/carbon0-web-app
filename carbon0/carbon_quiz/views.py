@@ -10,8 +10,9 @@ from django.views.generic.edit import (
     UpdateView,
     DeleteView)
 
-from .models.question import Question
 from .models.mission import Mission
+from accounts.models import Profile
+from .models.question import Question
 from .models.quiz import Quiz
 from .models.achievement import Achievement
 from django.conf import settings
@@ -84,6 +85,12 @@ class QuizDetail(DetailView):
             ]
         # otherwise show the mission start page
         else:  #  quiz.active_question == 5:
+            # if the user is logged in, acculmulate their total footprint
+            if request.user.is_authenticated is True:
+                # get the User profile
+                profile = Profile.objects.get(user=request.user)
+                # update their profile's footprint
+                profile.increase_user_footprint(quiz)
             # find the missions the user can choose
             missions = list()
             # get the question id that each user actually interacted with
@@ -109,17 +116,17 @@ class QuizDetail(DetailView):
 
 
 class MissionDetail(DetailView):
-    '''Represent s the view the user gets to complete their Mission.'''
+    '''Represents the view the user gets to complete their Mission.'''
     model = Mission
     template_name = 'carbon_quiz/mission/detail.html'
 
-    def get(self, request, pk):
+    def get(self, request, pk, quiz_slug=None):
         """
-        Renders a page to show the question currently being asked.
+        Renders a page to show the Mission currently being completed.
        
         Parameters:
         request(HttpRequest): the GET request sent to the server
-        pk(id): unique slug value of the Quiz instance
+        pk(id): unique slug value of the Mission instance
         
         Returns:
         HttpResponse: the view of the detail template for the Mission
@@ -132,6 +139,9 @@ class MissionDetail(DetailView):
             'mission': mission,
             'link_descriptions': mission.link_descriptions
         }
+        # add the quiz_slug if appropiate
+        if quiz_slug is not None:
+            context['quiz_slug'] = quiz_slug
         # return the response
         return render(request, self.template_name, context)
 
@@ -143,7 +153,7 @@ class AchievementCreate(CreateView):
     template_name = 'carbon_quiz/achievement/create.html'
     queryset = Achievement.objects.all()
 
-    def get(self, request, mission_id, chosen_link_index):
+    def get(self, request, mission_id, chosen_link_index, quiz_slug=None):
         """
         Renders a page to show the question currently being asked.
        
@@ -174,7 +184,7 @@ class AchievementCreate(CreateView):
         # return the response
         return render(request, self.template_name, context)
 
-    def form_valid(self, form, mission_id):
+    def form_valid(self, form, mission_id, quiz_slug):
         '''Instaniates a new Achievement model.'''
         # get the related Mission model
         mission = Mission.objects.get(id=mission_id)
@@ -184,9 +194,15 @@ class AchievementCreate(CreateView):
         form.instance.zeron_image_url = (
             Achievement.set_zeron_image_url(mission)
         )
+        # if it's available, set the quiz relationship on the new instance
+        if quiz_slug is not None:
+            # get the Quiz
+            quiz = Quiz.objects.get(slug=quiz_slug)
+            # connect the new Achievement to the Quiz
+            form.instance.quiz = quiz
         return super().form_valid(form)
 
-    def post(self, request, mission_id, chosen_link_index):
+    def post(self, request, mission_id, chosen_link_index, quiz_slug=None):
         """
         Passes the id of the Mission the Achievement is for,
         as part of the POST request.
@@ -206,7 +222,7 @@ class AchievementCreate(CreateView):
         form = self.get_form()
         # validate, then create
         if form.is_valid():
-            return self.form_valid(form, mission_id)
+            return self.form_valid(form, mission_id, quiz_slug)
         # or redirect back to the form
         else:
             return self.form_invalid(form)
@@ -216,8 +232,6 @@ class AchievementDetail(DetailView):
     '''Displays the award the user receives for completing a Mission.'''
     model = Achievement
     template_name = 'carbon_quiz/achievement/detail.html'
-    # TODO: in Feature 3, we'll add a link somewhere to go from
-    # AchievementDetail, to an "AchievementShare" view
 
     def get(self, request, pk):
         """
@@ -231,7 +245,6 @@ class AchievementDetail(DetailView):
         HttpResponse: the view of the detail template for the Achievement
         
         """
-        # global achievement
         # get the achievement object for the context
         achievement = Achievement.objects.get(id=pk)
         # add achievment pk to request session
