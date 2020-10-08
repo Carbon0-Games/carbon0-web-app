@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from django.views.generic.edit import (
     CreateView,
     UpdateView,
@@ -262,3 +263,14 @@ class AchievementDetail(DetailView):
         # return the response
         return render(request, self.template_name, context)
     
+class LeaderboardView(ListView):
+    """
+    Lists all the highest scoring players, 
+    both by most Achievements and lowest footprints.
+    """
+    model = Profile
+    template_name = ''
+
+    def get(self, request):
+        '''Render a context containing the top players.'''
+        pass
