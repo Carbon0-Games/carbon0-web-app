@@ -120,6 +120,32 @@ class Achievement(models.Model):
         # find the right choice of zeron, given the category
         zeron_img_paths, zeron_model_name = category_to_zerons[category]
         return zeron_img_paths
+    
+    def calculate_new_footprint(self, has_user=True):
+        """
+        Return the new carbon footprint, with the Achievement now won.
+
+        Parameter:
+        has_user(bool): tells the method if it's being called for an
+                        authenticated user, or not
+
+        Returns: float: new footprint value
+        
+        """
+        # get the Question related to this Achievement
+        related_question = self.mission.question
+        # calculate the new footprint for the user
+        if has_user is True:
+            current_footprint = self.profile.users_footprint
+        # calculate the overall footprint for a quiz (unauthenticated user)
+        else:  # has_user is False
+            current_footprint = self.quiz.carbon_value_total
+        # compute the new footprint value
+        new_footprint = (current_footprint - (
+            self.mission.percent_carbon_sequestration * 
+            related_question.carbon_value
+        ))
+        return new_footprint
 
     def save(self, *args, user=None, **kwargs):
         """Saves a new instance of the Achievement model.
@@ -153,14 +179,8 @@ class Achievement(models.Model):
                 # increase the profile's footprint
                 print(f'Increasing the footprint by {self.quiz.carbon_value_total}')
                 self.profile.users_footprint += self.quiz.carbon_value_total
-            # get the Question related to this Achievement
-            related_question = self.mission.question
-            # calculate the new footprint for the user
-            current_footprint = self.profile.users_footprint
-            new_footprint = (current_footprint - (
-                self.mission.percent_carbon_sequestration * 
-                related_question.carbon_value
-            ))
+            # calculate the new footprint
+            new_footprint = self.calculate_new_footprint()
             # decrease the profile's footprint
             self.profile.users_footprint = new_footprint
             self.profile.save()
