@@ -4,6 +4,8 @@ from django.urls import reverse, reverse_lazy
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from accounts.models import Profile
+from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.quiz import Quiz
 
 
@@ -54,6 +56,36 @@ class QuizUpdate(APIView):
 
 
 class QuizDetailData(APIView):
+    '''Data needed to make the bar chart on the QuizDetail view.'''
+    def get(self, request, pk):
+        '''Returns the total carbon value of a Quiz instance, given its id.'''
+        # get the Quiz instance
+        quiz = Quiz.objects.get(id=pk)
+        # structure the data
+        data = {
+            "labels": ["Your Carbon Footprint"],
+            "footprint": [quiz.carbon_value_total]
+        }
+        # return the data
+        return Response(data)
+
+
+class ProfileData(APIView):
+    '''Data needed to make the bar chart on the QuizDetail view.'''
+    def get(self, request, pk):
+        '''Returns the total carbon value of a Quiz instance, given its id.'''
+        # get the Quiz instance
+        quiz = Quiz.objects.get(id=pk)
+        # structure the data
+        data = {
+            "labels": ["Your Carbon Footprint"],
+            "footprint": [quiz.carbon_value_total]
+        }
+        # return the data
+        return Response(data)
+
+
+class AchievementData(APIView):
     '''Data needed to make the bar chart on the QuizDetail view.'''
     def get(self, request, pk):
         '''Returns the total carbon value of a Quiz instance, given its id.'''

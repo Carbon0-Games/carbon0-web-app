@@ -259,6 +259,13 @@ class AchievementDetail(DetailView):
             'ios_model': ios_zeron_model,
             'app_id': settings.FACEBOOK_SHARING_APP_ID
         }
+        # if the user is authenticated
+        if request.user.is_authenticated:
+            # show their profile's footprint (already be authenicated)
+            context['profile'] = achievement.profile
+        # otherwise get the quiz related to the achievement
+        else:  # user requesting the view is not logged in
+            context['quiz'] = achievement.quiz 
         # return the response
         return render(request, self.template_name, context)
     
