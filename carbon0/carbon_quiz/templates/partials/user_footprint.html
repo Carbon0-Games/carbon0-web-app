@@ -7,7 +7,8 @@
         <!-- Display of Bar Chart -->
         <canvas id="barChart" width="700" height="160rem"></canvas>
         <!-- JS to make the bar chart -->
-        <script>
+        <script type="module">
+            import { barChart } from '../../../../static/js/barChartFunction.js';
             $(document).ready(function () {
                 // get the data on the carbon footprint from the API
                 let endpoint = '/api/profile-data/{{ profile.id }}/'
@@ -19,7 +20,7 @@
                     success: function (data) {
                         plotLabels = data.labels
                         plotData = data.footprint
-                        barChart()
+                        barChart(plotLabels, plotData)
                     },
                     error: function (error_data) {
                         console.log(error_data)
