@@ -26,8 +26,19 @@
             <!-- Image, Mission Complete Ribbon-->
             <div class="row">
                 <div class="col-md-4">
-                    <!-- Image, Mission Complete Ribbon-->
-                    <img src="{% static 'images/Present-_Mission_Completed.png' %}" alt="" width=300px height=300px>
+                    <div class="row">
+                        <!-- Image, Mission Complete Ribbon-->
+                        <img src="{% static 'images/Present-_Mission_Completed.png' %}" alt="" width=300px height=300px>
+                    </div>
+                    <div class="row">
+                        <!-- Authenticated users: Show the new carbon footprint -->
+                        {% if profile %}
+                            <!-- template goes here -->
+                        <!-- Un-authenticated users: Show the new carbon footprint -->
+                        {% else %}
+                            <!-- template goes here -->
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="col-md-8">
                     <div class="row justify-content-center">
