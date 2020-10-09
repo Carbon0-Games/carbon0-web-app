@@ -220,8 +220,13 @@ class AchievementCreate(CreateView):
         """
         # get form needed for Achievement model instantiation
         form = self.get_form()
-        # validate, then create
+        # validate
         if form.is_valid():
+            # if the user is logged in
+            if request.user.is_authenticated:
+                # set the profile on the new instance
+                form.instance.profile = request.user.profile
+            # then initialize the rest of the new Achievement
             return self.form_valid(form, mission_id, quiz_slug)
         # or redirect back to the form
         else:
@@ -263,6 +268,7 @@ class AchievementDetail(DetailView):
         if request.user.is_authenticated:
             # show their profile's footprint (already be authenicated)
             context['profile'] = achievement.profile
+            print(f'Profile found: {achievement.profile}')
         # otherwise get the quiz related to the achievement
         else:  # user requesting the view is not logged in
             context['quiz'] = achievement.quiz 

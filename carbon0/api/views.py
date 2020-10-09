@@ -93,9 +93,9 @@ class AchievementData(APIView):
         achievement = Achievement.objects.get(id=pk)
         # structure the data
         data = {
-            "labels": ["Your Carbon Footprint"],
+            "labels": ["Carbon Footprint"],
             "footprint": [
-                achievement.calculate_new_footrprint(has_user=False)
+                achievement.calculate_new_footprint(has_user=False)
             ]
         }
         # return the data

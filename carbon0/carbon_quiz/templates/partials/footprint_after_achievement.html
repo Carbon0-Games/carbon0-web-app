@@ -1,0 +1,62 @@
+<!-- carbon0/carbon_quiz/templates/partials/footprint_after_achievement.html -->
+<div class="card" style="background-color:rgb(255, 220, 176)">
+    <div class="card-body">
+        <h4 class="card-title" style="color:brown;">NEW Carbon Footprint</h4>
+        <!-- <h6 class="card-subtitle mb-2">Based on Questions Answered "No"</h6> -->
+        <h5 class="card-text"><strong>{{ achievement.quiz.carbon_value_total }} metric tons CO2</strong></h5>
+        <!-- Display of Bar Chart -->
+        <canvas id="barChart" width="700" height="160rem"></canvas>
+        <!-- JS to make the bar chart -->
+        <script>
+            $(document).ready(function () {
+                // get the data on the carbon footprint from the API
+                let endpoint = '/api/achievement-data/{{ achievement.id }}/'
+                let plotData = []
+                let plotLabels = [];
+                $.ajax({
+                    method: "GET",
+                    url: endpoint,
+                    success: function (data) {
+                        plotLabels = data.labels
+                        plotData = data.footprint
+                        barChart()
+                    },
+                    error: function (error_data) {
+                        console.log(error_data)
+                    }
+                })
+                // make bar chart
+                function barChart() {
+                    let ctx = document.getElementById('barChart').getContext('2d');
+                    let barChart = new Chart(ctx, {
+                        type: "horizontalBar",
+                        data: {
+                            datasets: [{
+                                label: 'metric tons CO2',
+                                data: plotData,
+                                // set options for the chart
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                ],
+                                borderWidth: 1
+                            }],
+                            labels: plotLabels
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+            })
+        </script>
+    </div>
+</div>

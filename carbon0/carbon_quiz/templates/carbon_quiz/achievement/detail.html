@@ -33,10 +33,10 @@
                     <div class="row">
                         <!-- Authenticated users: Show the new carbon footprint -->
                         {% if profile %}
-                            <!-- template goes here -->
+                            {% include "partials/user_footprint.html" %}
                         <!-- Un-authenticated users: Show the new carbon footprint -->
                         {% else %}
-                            <!-- template goes here -->
+                            {% include "partials/footprint_after_achievement.html" %}
                         {% endif %}
                     </div>
                 </div>
