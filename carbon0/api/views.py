@@ -55,7 +55,7 @@ class QuizUpdate(APIView):
         )
 
 
-class QuizDetailData(APIView):
+class QuizData(APIView):
     '''Data needed to make the bar chart on the QuizDetail view.'''
     def get(self, request, pk):
         '''Returns the total carbon value of a Quiz instance, given its id.'''
@@ -71,30 +71,32 @@ class QuizDetailData(APIView):
 
 
 class ProfileData(APIView):
-    '''Data needed to make the bar chart on the QuizDetail view.'''
+    '''Data needed to make the bar chart on the AchievementDetail view.'''
     def get(self, request, pk):
-        '''Returns the total carbon value of a Quiz instance, given its id.'''
-        # get the Quiz instance
-        quiz = Quiz.objects.get(id=pk)
+        '''Return the carbon foortprint of a Profile, given its id.'''
+        # get the profile instance
+        profile = Profile.objects.get(id=pk)
         # structure the data
         data = {
             "labels": ["Your Carbon Footprint"],
-            "footprint": [quiz.carbon_value_total]
+            "footprint": [profile.users_footprint]
         }
         # return the data
         return Response(data)
 
 
 class AchievementData(APIView):
-    '''Data needed to make the bar chart on the QuizDetail view.'''
+    '''Data needed to make the bar chart on the AchievementDetail view.'''
     def get(self, request, pk):
-        '''Returns the total carbon value of a Quiz instance, given its id.'''
-        # get the Quiz instance
-        quiz = Quiz.objects.get(id=pk)
+        '''Return the carbon foortprint of an Achievement, given its id.'''
+        # get the Achievement instance
+        achievement = Achievement.objects.get(id=pk)
         # structure the data
         data = {
             "labels": ["Your Carbon Footprint"],
-            "footprint": [quiz.carbon_value_total]
+            "footprint": [
+                achievement.calculate_new_footrprint(has_user=False)
+            ]
         }
         # return the data
         return Response(data)
