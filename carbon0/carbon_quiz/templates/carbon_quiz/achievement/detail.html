@@ -76,7 +76,13 @@
                     </div>
                 </div>
                 <!-- Link to Sign Up -->
-                <a class="ml-auto btn btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
+                {% if user.is_authenticated is False %}
+                    <a class="ml-auto btn btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
+                {% endif %}
+            </div>
+            <div class="row">
+                <!-- Link to Other Missions Related to this Quiz -->
+                <a class="ml-auto btn btn-secondary mt-3" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">Want More Missions?</a>
             </div>
         </div>
     </div>
