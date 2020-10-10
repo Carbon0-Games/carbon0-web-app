@@ -18,17 +18,25 @@
     {% include 'partials/navbar.html' %}
 
     <div class="container">
-        <h1>Welcome to the Carbon Quiz!</h1>
-        <h3>Let's get to know you. <br> 
-            I'll ask 5 questions that show how much carbon you create per year. <br> 
-            This is called your carbon footprint.
-        </h3>
-        <div class="d-flex justify-content-center">
+        <div class="row">
+            <h1 class="mt-2 mb-4">Welcome to the Carbon Quiz!</h1>
+            <h3 class="mb-5">Let's get to know you. <br>
+                I'll ask 5 questions that show how much carbon you create per year. <br>
+                This is called your <i>carbon footprint</i>.
+            </h3>
+        </div>
+        <div class="row d-flex justify-content-center mb-5">
             <!-- Call to ACTION: Go to the First Questions -->
             <form class='float' method='post'>
                 {% csrf_token %}
-                <input type="submit" value="Go to the First Question" class="btn btn-success rounded-pill">
+                <input type="submit" value="Go to the First Question" class="btn-lg btn-success rounded-pill">
             </form>
+        </div>
+        <!-- Greeting Image -->
+        <h5 class="row">You'll also get a chance to see some of your new Zeron friends!</h5>
+        <div class="row justify-content-center">
+            <img src="{% static 'images/3D_tree.png' %}" alt="Diet Zeron" width=690rem height=400rem>
+            <img src="{% static 'images/3D_Carrot.png' %}" alt="Diet Zeron" width=450rem height=400rem>
         </div>
     </div>
 {% endblock %}
