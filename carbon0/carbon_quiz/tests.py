@@ -18,23 +18,24 @@ class QuestionTests(TestCase):
         '''Create new instances of the Question model.'''
         # store the Questions in an array
         self.questions = [
-        Question.objects.create(question_text="How often do you recycle?",
-                 question_info="Asks the frequency of recycling", 
-                 carbon_value=3.2, 
-                 category="R", 
-                 learn_more_link="www.recycling.com"),
-        Question.objects.create(
+            Question.objects.create(question_text="How often do you recycle?",
+                question_info="Asks the frequency of recycling", 
+                carbon_value=3.2, 
+                category="R", 
+                learn_more_link="www.recycling.com"),
+            Question.objects.create(
                 question_text="How many miles do you drive a week?",
-                 question_info="Asks for the miles driven", 
-                 carbon_value=2.2, 
-                 category="T", 
-                 learn_more_link="www.biking.com"),
-        Question.objects.create(question_text="Do you have a composting bin?", 
-                 question_info="Asks for if user has composting bin", 
-                 carbon_value=1.2, 
-                 category="R", 
-                 learn_more_link="www.compostinginfo.com")
-            ]
+                question_info="Asks for the miles driven", 
+                carbon_value=2.2, 
+                category="T", 
+                learn_more_link="www.biking.com"),
+            Question.objects.create(
+                question_text="Do you have a composting bin?", 
+                question_info="Asks for if user has composting bin", 
+                carbon_value=1.2, 
+                category="R", 
+                learn_more_link="www.compostinginfo.com")
+        ]
         # save the Questions 
         for q in self.questions:
             q.save()
@@ -55,20 +56,68 @@ class QuestionTests(TestCase):
         )
         self.assertEqual(question.category, self.questions[0].category)
 
+
+class QuizTests(TestCase):
+    '''Tests for the Quiz model.'''
+    def setUp(self):
+        '''Create the necessary db instances before the tests run.'''
+        # store 5 Questions in an array
+        self.questions = [
+            Question.objects.create(
+                question_text="Do you recycle at least daily?",
+                question_info="Reycling is important", 
+                carbon_value=3.2, 
+                category="R", 
+                learn_more_link="www.recycling.com"),
+            Question.objects.create(
+                question_text="Do you carpool at least once a week?",
+                question_info="Driving less helps the environment", 
+                carbon_value=2.2, 
+                category="T", 
+                learn_more_link="www.biking.com"),
+            Question.objects.create(question_text="Do you have LEDs?", 
+                question_info="LEDs are more energy efficient!", 
+                carbon_value=4.2, 
+                category="U", 
+                learn_more_link="www.LEDsFTW.com"),
+            Question.objects.create(
+                question_text="Do you fly on places more than annually?",
+                question_info="Flying contributes a lot of emissions", 
+                carbon_value=1.2, 
+                category="A", 
+                learn_more_link="www.flyinggreen.com"),
+            Question.objects.create(question_text="Do you eat vegan?", 
+                question_info="Research shows it can be more sustainable", 
+                carbon_value=5.2, 
+                category="D", 
+                learn_more_link="www.vegan-diet.com")
+        ]
+        # save the Questions 
+        for q in self.questions:
+            q.save()
+        # save a new Quiz
+        quiz = Quiz.objects.create()
+        quiz.save()
+        self.quiz = quiz
+        return None
+
+    def test_quiz_attributes(self):
+        '''A Quiz instance is saved in the database with the correct fields.'''
+        # retrieve the Quiz
+        quiz = Quiz.objects.first()
+        # test that it has the correct identifiers
+        self.assertEqual(quiz.id, self.quiz.id)
+        self.assertEqual(quiz.title, self.quiz.title)
+        self.assertEqual(quiz.slug, self.quiz.slug)
+        # test that it has the correct default values
+        self.assertEqual(quiz.active_question, 0)
+        self.assertEqual(quiz.carbon_value_total, 0)
+        # test that is has the right questions array
+        self.assertEqual(quiz.questions, self.quiz.questions)
+        return None
+
+
 """
-
-
-class QuizModelTest(TestCase):
-
-    def test_quiz_model(self):
-        quiz = Quiz.objects.create(title="Quiz for new user", active_question=1, carbon_value_total=23.2)
-        absolute_url = quiz.get_absolute_url()
-        # print(absolute_url)
-        self.assertEqual(absolute_url, "/answer-question/quiz-for-new-user/0/")
-        self.assertEqual(quiz.title, "Quiz for new user")
-        self.assertEqual(quiz.carbon_value_total, 23.2)
-
-
 class MissionModelTest(TestCase):
 
     def test_mission_model(self):
