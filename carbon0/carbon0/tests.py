@@ -11,6 +11,7 @@ class LandingPageTests(TestCase):
         '''Initial work done for each test in this suite.'''
         self.client = Client()
         self.url = 'landing_page'
+        return None
     
     def test_get_landing(self):
         '''User views the landing page and gets a HTTP 200 response.'''
@@ -19,3 +20,4 @@ class LandingPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         # test the content on the landing page
         self.assertContains(response, "Be A Hero Get to Zero")
+        return None

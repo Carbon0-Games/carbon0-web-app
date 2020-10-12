@@ -48,6 +48,7 @@ class QuestionTests(TestCase):
             question_text=self.questions[1].question_text
         )
         self.assertIsNot(question, None)
+        return None
 
     def test_question_db_property(self):
         '''Question objects in the database have the correct field values.'''
@@ -55,6 +56,7 @@ class QuestionTests(TestCase):
             question_text=self.questions[0].question_text
         )
         self.assertEqual(question.category, self.questions[0].category)
+        return None
 
 
 class QuizTests(TestCase):
@@ -124,6 +126,70 @@ class MissionModelTest(TestCase):
 class AchievementModelTest(TestCase):
     '''Test suite for the Achievement model.'''
     pass
+
+
+class QuizCreateTests(TestCase):
+    '''Test suite for the QuizCreate view controller.'''
+    def setUp(self):
+        '''Create the necessary db instances before the tests run.'''
+        # store the URL pattern of the view
+        self.url = reverse("carbon_quiz:quiz_create")
+        # store 5 Questions in an array
+        self.questions = [
+            Question.objects.create(
+                question_text="Do you recycle at least daily?",
+                question_info="Reycling is important", 
+                carbon_value=3.2, 
+                category="R", 
+                learn_more_link="www.recycling.com"),
+            Question.objects.create(
+                question_text="Do you carpool at least once a week?",
+                question_info="Driving less helps the environment", 
+                carbon_value=2.2, 
+                category="T", 
+                learn_more_link="www.biking.com"),
+            Question.objects.create(question_text="Do you have LEDs?", 
+                question_info="LEDs are more energy efficient!", 
+                carbon_value=4.2, 
+                category="U", 
+                learn_more_link="www.LEDsFTW.com"),
+            Question.objects.create(
+                question_text="Do you fly on places more than annually?",
+                question_info="Flying contributes a lot of emissions", 
+                carbon_value=1.2, 
+                category="A", 
+                learn_more_link="www.flyinggreen.com"),
+            Question.objects.create(question_text="Do you eat vegan?", 
+                question_info="Research shows it can be more sustainable", 
+                carbon_value=5.2, 
+                category="D", 
+                learn_more_link="www.vegan-diet.com")
+        ]
+        # save the Questions 
+        for q in self.questions:
+            q.save()
+        return None
+    
+    def test_get_quiz_create(self):
+        '''User is able to get a page with instructions of the quiz.'''
+        # client makes a request to GET the view
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        # test the content on the instructions page
+        self.assertContains(response, "Welcome to the Carbon Quiz!")
+        return None
+
+    def test_user_starts_new_quiz(self):
+        '''User starts the quiz and a new Quiz instance is created.'''
+        # store the number of quiz objects before the request
+        num_quizzes_before = len(Quiz.objects.all())
+        # user makes a request to POST a new Quiz, and is redirected
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 302)
+        # the number of quizzes has increased by one
+        num_quizzes_after = len(Quiz.objects.all())
+        self.assertEqual(num_quizzes_after, num_quizzes_before + 1)
+        return None
 
 """
 class MissionDetailTest(TestCase):
