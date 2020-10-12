@@ -13,7 +13,7 @@ from .views import (
 
 
 class QuestionTests(TestCase):
-    '''Tests for the Question model in the database.'''
+    '''Test suite for the Question model in the database.'''
     def setUp(self):
         '''Create new instances of the Question model.'''
         # store the Questions in an array
@@ -58,7 +58,7 @@ class QuestionTests(TestCase):
 
 
 class QuizTests(TestCase):
-    '''Tests for the Quiz model.'''
+    '''Test suite for the Quiz model.'''
     def setUp(self):
         '''Create the necessary db instances before the tests run.'''
         # store 5 Questions in an array
@@ -117,25 +117,13 @@ class QuizTests(TestCase):
         return None
 
 
-"""
 class MissionModelTest(TestCase):
-
-    def test_mission_model(self):
-        question = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com")
-        mission = Mission(title="Recyle More Often", action="This mission will encourage users to recyle more often", clicks_needed=2, learn_more="Recycling helps the planet become more sustainable", question=question, links=["www.recycle.com", "www.plasticwaste.com"])
-        self.assertEqual(mission.title, "Recyle More Often")
-        self.assertEqual(mission.clicks_needed, 2)
-        self.assertEqual(mission.question, question)
+    '''Test suite for the Mission model.'''
+    pass
 
 class AchievementModelTest(TestCase):
-
-    def test_achievement_model(self):
-        user = User.objects.create()
-        question = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com")
-        mission = Mission.objects.create(title="Recyle More Often", action="This mission will encourage users to recyle more often", clicks_needed=2, learn_more="Recycling helps the planet become more sustainable", question=question, links=["www.recycle.com", "www.plasticwaste.com"])
-        achievement = Achievement.objects.create(mission=mission, user=user, completion_date=datetime.datetime.now(), zeron_name="Recycle Zeron", badge_name="Recyle Master")
-
-        self.assertEqual(achievement.zeron_name, "Recycle Zeron")
+    '''Test suite for the Achievement model.'''
+    pass
 
 class MissionDetailTest(TestCase):
 
