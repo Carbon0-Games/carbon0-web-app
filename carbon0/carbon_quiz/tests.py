@@ -1,38 +1,61 @@
+from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse_lazy, reverse, resolve
-from django.contrib.auth.models import User
-import datetime
-
-
-from .views import (
-    QuizCreate,
-    MissionDetail
-)
 
 from .models.question import Question
 from .models.mission import Mission
 from .models.quiz import Quiz
 from .models.achievement import Achievement
+from .views import (
+    QuizCreate,
+    MissionDetail
+)
 
 
-# Create your tests here.
-# TODO Cao: write tests for the views (to be implemented by Zain)
-
-class QuestionModelTest(TestCase):
-
+class QuestionTests(TestCase):
+    '''Tests for the Question model in the database.'''
     def setUp(self):
+        '''Create new instances of the Question model.'''
+        # store the Questions in an array
         self.questions = [
-        Question(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com"),
-        Question(question_text="How many miles do you drive a week?", question_info="Asks for the miles driven", carbon_value=2.2, category="T", learn_more_link="www.biking.com"),
-        Question(question_text="Do you have a composting bin?", question_info="Asks for if user has composting bin", carbon_value=1.2, category="R", learn_more_link="www.compostinginfo.com")
-        ]
+        Question.objects.create(question_text="How often do you recycle?",
+                 question_info="Asks the frequency of recycling", 
+                 carbon_value=3.2, 
+                 category="R", 
+                 learn_more_link="www.recycling.com"),
+        Question.objects.create(
+                question_text="How many miles do you drive a week?",
+                 question_info="Asks for the miles driven", 
+                 carbon_value=2.2, 
+                 category="T", 
+                 learn_more_link="www.biking.com"),
+        Question.objects.create(question_text="Do you have a composting bin?", 
+                 question_info="Asks for if user has composting bin", 
+                 carbon_value=1.2, 
+                 category="R", 
+                 learn_more_link="www.compostinginfo.com")
+            ]
+        # save the Questions 
+        for q in self.questions:
+            q.save()
+        return None
 
+    def test_question_db_query(self):
+        '''Question objects can be looked up in the databse correctly.'''
+        # test the Question object being retrieved
+        question = Question.objects.get(
+            question_text=self.questions[1].question_text
+        )
+        self.assertIsNot(question, None)
 
-    def test_question_model(self):
-        self.assertEqual(self.questions[1].question_text, "How many miles do you drive a week?")
-        self.assertEqual(self.questions[0].carbon_value, 3.2)
-        self.assertEqual(self.questions[0].category, "R")
+    def test_question_db_property(self):
+        '''Question objects in the database have the correct field values.'''
+        question = Question.objects.get(
+            question_text=self.questions[0].question_text
+        )
+        self.assertEqual(question.category, self.questions[0].category)
 
+"""
 
 
 class QuizModelTest(TestCase):
@@ -83,4 +106,4 @@ class MissionDetailTest(TestCase):
         # resolver = resolve(self.url)
         # self.assertEqual(resolver.func.cls, MissionDetail)
 
- 
+"""
