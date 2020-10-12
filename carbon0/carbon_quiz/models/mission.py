@@ -39,22 +39,15 @@ class Mission(models.Model):
         Question, on_delete=models.PROTECT,
         help_text="The question to which this mission relates.",
     )
+    percent_carbon_sequestration = models.FloatField(
+        default=0.00, 
+        help_text=(
+            "The percent of the user's carbon footprint that " +
+            "completing this mission will offset. Entered in as a float " +
+            "e.g. if the value entered here is 0.97, that means 97%."
+        )
+    )
 
     def __str__(self):
         '''Returns human-readable name of the Mission.'''
         return f'{self.title}'
-
-    """
-    def split_links(self):
-        '''Return one list of just website links, and of the site names.'''
-        is_link = True
-        links, site_names = list(), list()
-        for element in self.links:
-            if is_link is True:
-                links.append(element)
-                is_link = False
-            else:  # is_link is False
-                site_names.append(element)
-                is_link = True
-        return links, site_names
-    """

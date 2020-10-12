@@ -48,42 +48,6 @@
             </div>
         </div>
     </div>
-
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col-md">
-                <img alt="SignInWith" src="{% static 'images/sign_in_with.png' %}">
-            </div>
-            <div class="col-sm">
-                <a href="{% url 'social:begin' 'facebook' %}">
-                    <img alt="Facebook" src="{% static 'images/facebook_img.png' %}">
-                </a>
-            </div>
-            <div class="col-sm">
-                <a href="{% url 'social:begin' 'google-oauth2' %}">
-                    <img alt="Instagram" src="{% static 'images/insta_img.png' %}">
-                </a>
-            </div>
-            <div class="col-sm">
-                <a href="https://www.snapchat.com/">
-                    <img alt="Snapchat" src="{% static 'images/snapchat_img.png' %}">
-                </a>
-            </div>
-            <div class="col-sm">
-                <a href="https://twitter.com/">
-                    <img alt="Twitter" src="{% static 'images/twitter_img.png' %}">
-                </a>
-            </div>
-            <div class="col-sm">
-                <a href="https://web.whatsapp.com/">
-                    <img alt="WhatsApp" src="{% static 'images/whatsapp_img.png' %}">
-                </a>
-            </div>
-            <div class="col-sm">
-                <a href="https://www.linkedin.com/">
-                    <img alt="LinkdIn" src="{% static 'images/linkedin_img.png' %}">
-                </a>
-            </div>
-        </div>
-    </div>
+    <!-- Social Login with Facebook and Google -->
+    {% include 'partials/social_login.html' %}
 {% endblock %}
