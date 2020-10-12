@@ -125,6 +125,7 @@ class AchievementModelTest(TestCase):
     '''Test suite for the Achievement model.'''
     pass
 
+"""
 class MissionDetailTest(TestCase):
 
     def setUp(self):
@@ -142,5 +143,4 @@ class MissionDetailTest(TestCase):
 
         # resolver = resolve(self.url)
         # self.assertEqual(resolver.func.cls, MissionDetail)
-
 """
