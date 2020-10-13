@@ -26,8 +26,19 @@
             <!-- Image, Mission Complete Ribbon-->
             <div class="row">
                 <div class="col-md-4">
-                    <!-- Image, Mission Complete Ribbon-->
-                    <img src="{% static 'images/Present-_Mission_Completed.png' %}" alt="" width=300px height=300px>
+                    <div class="row">
+                        <!-- Image, Mission Complete Ribbon-->
+                        <img src="{% static 'images/Present-_Mission_Completed.png' %}" alt="" width=300px height=300px>
+                    </div>
+                    <div class="row">
+                        <!-- Authenticated users: Show the new carbon footprint -->
+                        {% if profile %}
+                            {% include "partials/user_footprint.html" %}
+                        <!-- Un-authenticated users: Show the new carbon footprint -->
+                        {% else %}
+                            {% include "partials/footprint_after_achievement.html" %}
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="col-md-8">
                     <div class="row justify-content-center">
@@ -65,7 +76,13 @@
                     </div>
                 </div>
                 <!-- Link to Sign Up -->
-                <a class="ml-auto btn btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
+                {% if user.is_authenticated is False %}
+                    <a class="ml-auto btn btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
+                {% endif %}
+            </div>
+            <div class="row">
+                <!-- Link to Other Missions Related to this Quiz -->
+                <a class="ml-auto btn btn-secondary mt-3" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">Want More Missions?</a>
             </div>
         </div>
     </div>
