@@ -75,7 +75,7 @@ class Quiz(models.Model):
         # call save on the superclass
         return super().save(*args, **kwargs)
 
-    def get_current_quiz(self):
+    def get_current_question(self):
         '''Return the Question which is current active in this Quiz.'''
         question_id = self.questions[self.active_question]
         question_obj = Question.objects.get(id=question_id)

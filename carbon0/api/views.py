@@ -33,7 +33,7 @@ class QuizUpdate(APIView):
         # get the Quiz instance 
         quiz = Quiz.objects.get(slug=quiz_slug)
         # get the current Question 
-        question_obj = quiz.get_current_quiz()
+        question_obj = quiz.get_current_question()
         # if the user just answered 'yes', 
         if question_response == 1:
             # ignore the question later, when finding missions
