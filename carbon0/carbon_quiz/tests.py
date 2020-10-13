@@ -7,6 +7,8 @@ from .models.mission import Mission
 from .models.quiz import Quiz
 from .models.achievement import Achievement
 from .views import (
+    AchievementCreate,
+    AchievementDetail,
     MissionDetail,
     QuizCreate,
     QuizDetail,
@@ -392,3 +394,47 @@ class MissionDetailTest(TestCase):
         mission = Mission.objects.get(id=self.mission.id)
         self.assertContains(response, mission.title)
         return None
+
+
+class AchievementCreateTests(TestCase):
+    '''Test suite for the AchievementCreate view.'''
+    def setUp(self):
+        '''Create the models needed before each test int this suite.'''
+        # add 5 questions to the db
+        # add a quiz to the db
+        # add a mission to the db
+        # add a User and their Profile to the db
+        pass
+
+    def test_user_gets_achievement_create(self):
+        '''User visits the view and is returned a valid response.'''
+        pass
+
+    def test_user_posts_achievement_unauthenticated(self):
+        '''A site visitor completes a Mission and gets a new Zeron.'''
+        pass
+
+    def test_user_posts_achievement_authenticated(self):
+        """
+        A site visitor completes a Mission and their Zeron is saved on]
+        their profile.
+        """
+        pass
+
+
+class AchievementDetailTests(TestCase):
+    '''Test suite for the AcheivementDetail view.'''
+    def setUp(self):
+        '''Create the models needed before each test int this suite.'''
+        # add 5 questions to the db
+        # add a quiz to the db
+        # add a mission to the db
+        # add an achievement to the db
+        # add a User and their Profile to the db
+        pass
+
+    def test_user_gets_achievement_details_unauthenticated(self):
+        pass
+
+    def test_user_gets_achievement_details_authenticated(self):
+        pass
