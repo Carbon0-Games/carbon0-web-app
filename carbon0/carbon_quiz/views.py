@@ -268,7 +268,6 @@ class AchievementDetail(DetailView):
         if request.user and request.user.is_authenticated:
             # show their profile's footprint (already be authenicated)
             context['profile'] = achievement.profile
-            print(f'Profile found: {achievement.profile}')
         # otherwise get the quiz related to the achievement
         else:  # user requesting the view is not logged in
             context['quiz'] = achievement.quiz 
