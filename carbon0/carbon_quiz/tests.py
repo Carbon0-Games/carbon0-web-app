@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth import get_user_model
 from django.test.client import RequestFactory
 from django.test import Client, TestCase
 from django.urls import reverse_lazy, reverse, resolve
@@ -341,7 +342,7 @@ class AchievementCreateTests(QuizDetailTests):
         # add a mission to the db
         super().setUp()        
         # add a User and their Profile to the db
-        self.user = User.objects.create_user(
+        self.user = get_user_model().objects.create_user(
             'test_user',  # username
             'test@email.com',  # email 
             'test_password123'  # password
