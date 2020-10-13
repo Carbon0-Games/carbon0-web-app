@@ -55,12 +55,6 @@ class UserCreate(SuccessMessageMixin, CreateView):
         else:
             return self.form_invalid(form)
 
-# Social Auth
-class UserCreateFromSocial(LoginView):
-    """
-    Either creates a  new user or logs a user in via social media
-    """
-    template_name = 'accounts/auth/signup.html'
 
 class SettingsView(LoginRequiredMixin, TemplateView):
     """

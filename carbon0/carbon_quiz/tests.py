@@ -343,9 +343,9 @@ class AchievementCreateTests(QuizDetailTests):
         super().setUp()        
         # add a User and their Profile to the db
         self.user = get_user_model().objects.create_user(
-            'test_user',  # username
+            'testing_user456',  # username
             'test@email.com',  # email 
-            'test_password123'  # password
+            'carbon0_ftw123'  # password
         )
         # instantiate a RequestFactory to mock authenticated requests
         self.factory = RequestFactory()
