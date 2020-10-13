@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, Client
+from django.test.client import RequestFactory
+from django.test import Client, TestCase
 from django.urls import reverse_lazy, reverse, resolve
 
 from accounts.models import Profile
@@ -337,24 +338,122 @@ class AchievementCreateTests(QuizDetailTests):
         # add 5 questions to the db
         # add a quiz to the db
         # add a mission to the db
-        super().setUp()
+        super().setUp()        
         # add a User and their Profile to the db
-        pass
+        self.user = User.objects.create_user(
+            'test_user',  # username
+            'test@email.com',  # email 
+            'test_password123'  # password
+        )
+        # instantiate a RequestFactory to mock authenticated requests
+        self.factory = RequestFactory()
+        self.profile = Profile.objects.create(user=self.user)
+        self.profile.save()
+        return None
 
-    def test_user_gets_achievement_create(self):
-        '''User visits the view and is returned a valid response.'''
-        pass
-
-    def test_user_posts_achievement_unauthenticated(self):
-        '''A site visitor completes a Mission and gets a new Zeron.'''
-        pass
-
-    def test_user_posts_achievement_authenticated(self):
+    def test_user_gets_achievement_create_with_quiz_unauthenticated(self):
         """
-        A site visitor completes a Mission and their Zeron is saved on]
+        After a quiz, user visits the view and is 
+        returned a valid response.
+        """
+        # user makes the request
+        request_url = reverse(
+            "carbon_quiz:achievement_create",
+            kwargs={
+                'mission_id': self.missions[0].id,
+                'chosen_link_index': 0,  # right now the Mission only has 1
+                'quiz_slug': self.quiz.slug
+            }
+        )
+        # user gets a response
+        response = self.client.get(request_url)
+        # response is returned ok
+        self.assertEquals(response.status_code, 200)
+        # response has appropiate content
+        self.assertContains(response, self.missions[0].title)
+        return None
+
+    def test_user_gets_achievement_create_without_quiz_unauthenticated(self):
+        """
+        After a quiz, user visits the view and is returned 
+        a valid response.
+        """
+        # user makes a request
+        request_url = reverse(
+            "carbon_quiz:achievement_create",
+            kwargs={
+                'mission_id': self.missions[0].id,
+                'chosen_link_index': 0,  # right now the Mission only has 1
+            }
+        )
+        # user gets a response
+        response = self.client.get(request_url)
+        # response is returned ok
+        self.assertEquals(response.status_code, 200)
+        # response has appropiate content
+        self.assertContains(response, self.missions[0].title)
+        return None
+
+    def test_user_posts_achievement_with_quiz_authenticated(self):
+        """
+        A site visitor completes a Mission and their Zeron is saved on
         their profile.
         """
-        pass
+        # record the current number of Achievements before the request
+        num_achievements_before = len(Achievement.objects.all())
+        # user makes a request
+        request = self.factory.post(
+            reverse(
+            "carbon_quiz:achievement_create",
+            kwargs={
+                'mission_id': self.missions[0].id,
+                'chosen_link_index': 0,  # right now the Mission only has 1
+                'quiz_slug': self.quiz.slug
+            }
+        ))
+        request.user = self.user
+        # user gets a response
+        response = AchievementCreate.as_view()(request, 
+            self.missions[0].id, 0, self.quiz.slug)
+        # user is redirected
+        self.assertEquals(response.status_code, 302)
+        # test that Achievement is made after the request
+        num_achievements_after = len(Achievement.objects.all())
+        self.assertEquals(num_achievements_after, num_achievements_before + 1)
+        # test that the Achievement has the right Profile recorded
+        achievement = Achievement.objects.get(mission=self.missions[0])
+        self.assertEquals(achievement.profile, self.user.profile)
+        return None
+
+    def test_user_posts_achievement_without_quiz_authenticated(self):
+        """
+        A site visitor completes a Mission and their Zeron is saved on
+        their profile.
+        """
+        # record the current number of Achievements before the request
+        num_achievements_before = len(Achievement.objects.all())
+        # user makes a request
+        request = self.factory.post(
+            reverse(
+            "carbon_quiz:achievement_create",
+            kwargs={
+                'mission_id': self.missions[0].id,
+                'chosen_link_index': 0,  # right now the Mission only has 1
+            }
+        ))
+        request.user = self.user
+        # user gets a response
+        response = AchievementCreate.as_view()(request, 
+            self.missions[0].id, 0)
+        # user is redirected
+        self.assertEquals(response.status_code, 302)
+        # test that Achievement is made after the request
+        num_achievements_after = len(Achievement.objects.all())
+        self.assertEquals(num_achievements_after, num_achievements_before + 1)
+        # test that the Achievement has the right Profile recorded
+        achievement = Achievement.objects.get(mission=self.missions[0])
+        self.assertEquals(achievement.profile, self.user.profile)
+        return None
 
 
 class AchievementDetailTests(AchievementCreateTests):
@@ -364,9 +463,9 @@ class AchievementDetailTests(AchievementCreateTests):
         # add 5 questions to the db
         # add a quiz to the db
         # add a mission to the db
+        # add a User and their Profile to the db
         super().setUp()
         # add an achievement to the db
-        # add a User and their Profile to the db
         pass
 
     def test_user_gets_achievement_details_unauthenticated(self):
