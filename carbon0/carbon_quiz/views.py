@@ -265,7 +265,7 @@ class AchievementDetail(DetailView):
             'app_id': settings.FACEBOOK_SHARING_APP_ID
         }
         # if the user is authenticated
-        if request.user.is_authenticated:
+        if request.user and request.user.is_authenticated:
             # show their profile's footprint (already be authenicated)
             context['profile'] = achievement.profile
             print(f'Profile found: {achievement.profile}')

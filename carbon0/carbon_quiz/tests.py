@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.test.client import RequestFactory
 from django.test import Client, TestCase
@@ -465,11 +466,52 @@ class AchievementDetailTests(AchievementCreateTests):
         # add a mission to the db
         # add a User and their Profile to the db
         super().setUp()
-        # add an achievement to the db
-        pass
+        # add an achievement to the db, that has a User relationship
+        self.achievement_user = Achievement.objects.create(
+            mission=self.missions[1],
+            profile=self.profile,
+            quiz=self.quiz,
+            zeron_image_url=settings.RECYCLING_ZERON_PATHS
+        )
+        self.achievement_user.save()
+        # add an achievement to the db, that has no User relationship
+        self.achievement_no_user = Achievement.objects.create(
+            mission=self.missions[2],
+            quiz=self.quiz,
+            zeron_image_url=settings.TRANSIT_ZERON_PATHS
+        )
+        self.achievement_no_user.save()
+        return None
 
     def test_user_gets_achievement_details_unauthenticated(self):
-        pass
+        """
+        A site vistor requests the AchievementDetail view
+        and is informed about the Achievement they have earned.
+        """
+        # user makes a request to GET the view
+        request = self.factory.get(
+            reverse(
+            "carbon_quiz:achievement_detail", args=[self.achievement_no_user.id]
+            )
+        )
+        # attach session and user to request
+        request.session = dict()
+        request.session['achievement_pk'] = self.achievement_no_user.id
+        request.user = self.user
+        # user gets a response
+        response = AchievementDetail.as_view()(request, 
+            self.achievement_no_user.id
+        )
+        # response is returned OK
+        self.assertEqual(response.status_code, 200)
+        # response has the appropiate content
+        self.assertContains(response, "NEW Carbon Footprint")
+        return None 
+        
 
     def test_user_gets_achievement_details_authenticated(self):
-        pass
+        """
+        An authenticated requests the AchievementDetail view
+        and is informed about the Achievement they have earned.
+        """
+        return None
