@@ -353,22 +353,42 @@ class QuizDetail(TestCase):
         return None
 
 
-"""
 class MissionDetailTest(TestCase):
-    '''Test
+    '''Test suite for the MissionDetail view.'''
     def setUp(self):
-        '''Initial work done for each test in this suite.'''
-        question = Question.objects.create(question_text="How often do you recycle?", question_info="Asks the frequency of recycling", carbon_value=3.2, category="R", learn_more_link="www.recycling.com")
-        self.mission = Mission.objects.create(id=1, title="Recycle More", action="Try recycling everyday!", clicks_needed=1, learn_more="www.recycling.com", question=question)
+        '''Initial work executed before each test in this suite.'''
+        # save a Question
+        self.question = Question.objects.create(
+            question_text="How often do you recycle?",
+            question_info="Recycling = Tried and Trusted Way to Live Green",
+            carbon_value=3.2,
+            category="R",
+            learn_more_link="www.recycling.com",
+            learn_image=None
+        )
+        self.question.save()
+        # save a mission
+        self.mission = Mission.objects.create(
+            title="Recycle More", 
+            action="Try recycling everyday!",
+            learn_more="www.recycling.com",
+            question=self.question
+        )
+        self.mission.save()
+        # set up the testing client
         self.client = Client()
-        # self.url = 'carbon-quiz/mission/<pk:id>/'
+        # store a property - the URL related to the view function
         self.url = 'carbon_quiz:mission_detail'
+        return None
 
     def test_mission_page(self):
+        '''User makes a request to see a Mission, and views its details.'''
+        # user makes the request to GET the view
         mission_url = reverse(self.url, kwargs={'pk': self.mission.pk})
         response = self.client.get((mission_url))
+        # the response is returned OK
         self.assertEqual(response.status_code, 200)
-
-        # resolver = resolve(self.url)
-        # self.assertEqual(resolver.func.cls, MissionDetail)
-"""
+        # the response HTML has the appropiate content
+        mission = Mission.objects.get(id=self.mission.id)
+        self.assertContains(response, mission.title)
+        return None
