@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse_lazy, reverse, resolve
 
+from accounts.models import Profile
 from .models.question import Question
 from .models.mission import Mission
 from .models.quiz import Quiz
@@ -14,6 +15,50 @@ from .views import (
     QuizDetail,
 )
 
+
+class DatabaseSetup(TestCase):
+    '''Parent class to handle the instantiation of models for testing.'''
+    def setUp(self):
+        '''Create 5 Questions and 1 Quiz.'''
+        # store 5 Questions in an array
+        self.questions = [
+            Question.objects.create(
+                question_text="Do you recycle at least daily?",
+                question_info="Reycling is important", 
+                carbon_value=3.2, 
+                category="R", 
+                learn_more_link="www.recycling.com"),
+            Question.objects.create(
+                question_text="Do you carpool at least once a week?",
+                question_info="Driving less helps the environment", 
+                carbon_value=2.2, 
+                category="T", 
+                learn_more_link="www.biking.com"),
+            Question.objects.create(question_text="Do you have LEDs?", 
+                question_info="LEDs are more energy efficient!", 
+                carbon_value=4.2, 
+                category="U", 
+                learn_more_link="www.LEDsFTW.com"),
+            Question.objects.create(
+                question_text="Do you fly on places more than annually?",
+                question_info="Flying contributes a lot of emissions", 
+                carbon_value=1.2, 
+                category="A", 
+                learn_more_link="www.flyinggreen.com"),
+            Question.objects.create(question_text="Do you eat vegan?", 
+                question_info="Research shows it can be more sustainable", 
+                carbon_value=5.2, 
+                category="D", 
+                learn_more_link="www.vegan-diet.com")
+        ]
+        # save the Questions 
+        for q in self.questions:
+            q.save()
+        # save a new Quiz
+        quiz = Quiz.objects.create()
+        quiz.save()
+        self.quiz = quiz
+        return None
 
 class QuestionTests(TestCase):
     '''Test suite for the Question model in the database.'''
@@ -62,49 +107,11 @@ class QuestionTests(TestCase):
         return None
 
 
-class QuizTests(TestCase):
+class QuizTests(DatabaseSetup):
     '''Test suite for the Quiz model.'''
     def setUp(self):
         '''Create the necessary db instances before the tests run.'''
-        # store 5 Questions in an array
-        self.questions = [
-            Question.objects.create(
-                question_text="Do you recycle at least daily?",
-                question_info="Reycling is important", 
-                carbon_value=3.2, 
-                category="R", 
-                learn_more_link="www.recycling.com"),
-            Question.objects.create(
-                question_text="Do you carpool at least once a week?",
-                question_info="Driving less helps the environment", 
-                carbon_value=2.2, 
-                category="T", 
-                learn_more_link="www.biking.com"),
-            Question.objects.create(question_text="Do you have LEDs?", 
-                question_info="LEDs are more energy efficient!", 
-                carbon_value=4.2, 
-                category="U", 
-                learn_more_link="www.LEDsFTW.com"),
-            Question.objects.create(
-                question_text="Do you fly on places more than annually?",
-                question_info="Flying contributes a lot of emissions", 
-                carbon_value=1.2, 
-                category="A", 
-                learn_more_link="www.flyinggreen.com"),
-            Question.objects.create(question_text="Do you eat vegan?", 
-                question_info="Research shows it can be more sustainable", 
-                carbon_value=5.2, 
-                category="D", 
-                learn_more_link="www.vegan-diet.com")
-        ]
-        # save the Questions 
-        for q in self.questions:
-            q.save()
-        # save a new Quiz
-        quiz = Quiz.objects.create()
-        quiz.save()
-        self.quiz = quiz
-        return None
+        super().setUp()
 
     def test_quiz_attributes(self):
         '''A Quiz instance is saved in the database with the correct fields.'''
@@ -131,46 +138,14 @@ class AchievementModelTest(TestCase):
     pass
 
 
-class QuizCreateTests(TestCase):
+class QuizCreateTests(DatabaseSetup):
     '''Test suite for the QuizCreate view controller.'''
     def setUp(self):
         '''Create the necessary db instances before the tests run.'''
+        # add Quiz and Question instances to the db
+        super().setUp()
         # store the URL pattern of the view
         self.url = reverse("carbon_quiz:quiz_create")
-        # store 5 Questions in an array
-        self.questions = [
-            Question.objects.create(
-                question_text="Do you recycle at least daily?",
-                question_info="Reycling is important", 
-                carbon_value=3.2, 
-                category="R", 
-                learn_more_link="www.recycling.com"),
-            Question.objects.create(
-                question_text="Do you carpool at least once a week?",
-                question_info="Driving less helps the environment", 
-                carbon_value=2.2, 
-                category="T", 
-                learn_more_link="www.biking.com"),
-            Question.objects.create(question_text="Do you have LEDs?", 
-                question_info="LEDs are more energy efficient!", 
-                carbon_value=4.2, 
-                category="U", 
-                learn_more_link="www.LEDsFTW.com"),
-            Question.objects.create(
-                question_text="Do you fly on places more than annually?",
-                question_info="Flying contributes a lot of emissions", 
-                carbon_value=1.2, 
-                category="A", 
-                learn_more_link="www.flyinggreen.com"),
-            Question.objects.create(question_text="Do you eat vegan?", 
-                question_info="Research shows it can be more sustainable", 
-                carbon_value=5.2, 
-                category="D", 
-                learn_more_link="www.vegan-diet.com")
-        ]
-        # save the Questions 
-        for q in self.questions:
-            q.save()
         return None
     
     def test_get_quiz_create(self):
@@ -207,57 +182,17 @@ class QuizCreateTests(TestCase):
         return None
 
 
-class QuizDetail(TestCase):
+class QuizDetailTests(DatabaseSetup):
     '''Test suite for the QuizDetail view.'''
     def setUp(self):
         '''Create the necessary db instances before the tests run.'''
         # instantiate the testing client
         self.client = Client()
-        # store 5 Questions in an array
-        self.questions = [
-            # Recycling question
-            Question.objects.create(
-                question_text="Do you recycle at least daily?",
-                question_info="Reycling is important", 
-                carbon_value=3.2, 
-                category="R", 
-                learn_more_link="www.recycling.com"),
-            # Transit question
-            Question.objects.create(
-                question_text="Do you carpool at least once a week?",
-                question_info="Driving less helps the environment", 
-                carbon_value=2.2, 
-                category="T", 
-                learn_more_link="www.biking.com"),
-            # Utilities question
-            Question.objects.create(question_text="Do you have LEDs?", 
-                question_info="LEDs are more energy efficient!", 
-                carbon_value=4.2, 
-                category="U", 
-                learn_more_link="www.LEDsFTW.com"),
-            # Airline-Transit question
-            Question.objects.create(
-                question_text="Do you fly on places more than annually?",
-                question_info="Flying contributes a lot of emissions", 
-                carbon_value=1.2, 
-                category="A", 
-                learn_more_link="www.flyinggreen.com"),
-            # Diet question
-            Question.objects.create(question_text="Do you eat vegan?", 
-                question_info="Research shows it can be more sustainable", 
-                carbon_value=5.2, 
-                category="D", 
-                learn_more_link="www.vegan-diet.com")
-        ]
-        # save the Questions 
-        for q in self.questions:
-            q.save()
-        # save a new Quiz
-        quiz = Quiz.objects.create(
-            questions=[q.id for q in self.questions]
-        )
-        quiz.save()
-        self.quiz = quiz
+        # add Question and Quiz instances to the db
+        super().setUp()
+        # populate the Questions array
+        self.quiz.questions=[q.id for q in self.questions]
+        self.quiz.save()
         # create Missions related to the Questions
         self.missions = [
             # Diet mission
@@ -366,7 +301,6 @@ class MissionDetailTest(TestCase):
             carbon_value=3.2,
             category="R",
             learn_more_link="www.recycling.com",
-            learn_image=None
         )
         self.question.save()
         # save a mission
@@ -374,7 +308,7 @@ class MissionDetailTest(TestCase):
             title="Recycle More", 
             action="Try recycling everyday!",
             learn_more="www.recycling.com",
-            question=self.question
+            question=self.question,
         )
         self.mission.save()
         # set up the testing client
@@ -396,13 +330,14 @@ class MissionDetailTest(TestCase):
         return None
 
 
-class AchievementCreateTests(TestCase):
+class AchievementCreateTests(QuizDetailTests):
     '''Test suite for the AchievementCreate view.'''
     def setUp(self):
         '''Create the models needed before each test int this suite.'''
         # add 5 questions to the db
         # add a quiz to the db
         # add a mission to the db
+        super().setUp()
         # add a User and their Profile to the db
         pass
 
@@ -422,13 +357,14 @@ class AchievementCreateTests(TestCase):
         pass
 
 
-class AchievementDetailTests(TestCase):
+class AchievementDetailTests(AchievementCreateTests):
     '''Test suite for the AcheivementDetail view.'''
     def setUp(self):
         '''Create the models needed before each test int this suite.'''
         # add 5 questions to the db
         # add a quiz to the db
         # add a mission to the db
+        super().setUp()
         # add an achievement to the db
         # add a User and their Profile to the db
         pass
