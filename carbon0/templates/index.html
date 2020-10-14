@@ -18,13 +18,19 @@
             font-family: "American Typewriter";
             color: white
         }
+        #main-land{
+            background-image: url('{% static 'images/background_2.png' %}');
+            height: 80vh; 
+            background-size: cover; 
+            background-repeat: no-repeat
+        }
     </style>
     {% include 'partials/navbar.html' %}
 
-    <div class="container-fluid" style="background-image: url('{% static 'images/background_2.png' %}'); height: 80vh; background-size: cover; background-repeat: no-repeat;">
+    <div class="container-fluid" id="main-land">
         <div class="row">
             <div class="col-2">
-
+                <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" alt="Logo" style="max-width: 100%">
             </div>
             <div class="col-8">
                 <div class="container pt-4">
@@ -34,33 +40,40 @@
                 </div>
             </div>
             <div class="col-2">
-                    <img src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" alt="CaptainJoy" width=270rem height=550rem>
             </div>
         </div>
         <div class="row">
-            <div class="container">
-                <div class="row align-items-center" style="height: 20vh">
-                    <div class="col justify-content-center">
-                        <div class="d-flex justify-content-center">
-                         <!-- Call to ACTION: Play the Game for the First Time -->
+            <div class="col-2">
+
+            </div>
+            <div class="col-8">
+                <div class="container">
+                    <div class="row align-items-center" style="height: 20vh">
+                        <div class="col justify-content-center">
+                            <div class="d-flex justify-content-center">
+                                <!-- Call to ACTION: Play the Game for the First Time -->
+                                <div class="d-flex justify-content-center">
+                                <!-- Call to ACTION: Login -->
+                                    <a href="{% url 'carbon_quiz:quiz_create' %}" type="button" class="btn btn-primary rounded-pill" style="width: 150px">NEW PLAYER</a>
+                                </div>
+                                <!-- <form class='float' method='post'>
+                                    {% csrf_token %}
+                                    <input type="submit" value="PLAYER" class="btn btn-primary rounded-pill" style="width: 150px">
+                                </form> -->
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4 my-auto"></div> -->
+                        <div class="col justify-content-center">
                             <div class="d-flex justify-content-center">
                             <!-- Call to ACTION: Login -->
-                                <a href="{% url 'carbon_quiz:quiz_create' %}" type="button" class="btn btn-primary rounded-pill" style="width: 150px">NEW PLAYER</a>
+                                <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success rounded-pill" style="width: 150px">LOGIN</a>
                             </div>
-                            <!-- <form class='float' method='post'>
-                                {% csrf_token %}
-                                <input type="submit" value="PLAYER" class="btn btn-primary rounded-pill" style="width: 150px">
-                            </form> -->
-                        </div>
-                    </div>
-                    <!-- <div class="col-md-4 my-auto"></div> -->
-                    <div class="col justify-content-center">
-                        <div class="d-flex justify-content-center">
-                        <!-- Call to ACTION: Login -->
-                            <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success rounded-pill" style="width: 150px">LOGIN</a>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-2">
+                <img src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" alt="CaptainJoy" style="max-width: 100%; position: absolute; bottom: 0">
             </div>
         </div>
     </div>
