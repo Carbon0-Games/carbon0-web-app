@@ -25,11 +25,29 @@ class AchievementDataTests(AchievementDetailTests):
 
 
 class ProfileDataTests(AchievementDetailTests):
-    pass
+    '''Test suite for the ProfileData view.'''
+    def setUp(self):
+        '''Adds models to the db needed for testing environment.'''
+        super().setUp()
+        self.url = reverse('api:profile_data', args=[self.user.profile.id])
+
+    def test_get_profile_data(self):
+        '''A request is made to the endpoint and a response is returned.'''
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 200)
 
 
 class QuizDataTests(AchievementDetailTests):
-    pass
+    '''Test suite for the QuizData view.'''
+    def setUp(self):
+        '''Adds models to the db needed for testing environment.'''
+        super().setUp()
+        self.url = reverse('api:quiz_data', args=[self.quiz.id])
+
+    def test_get_quiz_data(self):
+        '''A request is made to the endpoint and a response is returned.'''
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 200)
 
 
 class QuizUpdateTests(AchievementDetailTests):
