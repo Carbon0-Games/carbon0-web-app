@@ -1,3 +1,5 @@
+import datetime as dt
+
 from django.conf import settings
 import django.contrib.auth.views as auth_views
 from django.contrib.messages.views import SuccessMessageMixin
@@ -50,31 +52,31 @@ def track_successful_signup(user, secret_id):
     )
     return None
 
+
+def track_login_event(user):
+    """Appends the time of the user's login, to their
+       Mixpanel profile.
+
+       Parameter: user(User) - person who's logging in
+
+       Returns: None
+
+    """
+    # instaniate the Mixpanel tracker
+    mp = Mixpanel(settings.MP_PROJECT_TOKEN)
+    # add the date of the login, in the User's Mixpanel profile
+    mp.people_append(user.username, {
+        'logins' : dt.datetime.now()
+    })
+    return None
+
+
 class UserCreate(SuccessMessageMixin, CreateView):
     '''Display form where user can create a new account.'''
     form_class = UserSignUpForm
     success_url = reverse_lazy('accounts:login')
     template_name = 'accounts/auth/signup.html'
     success_message = 'Welcome to Carbon0! You may now log in.'
-
-    def get(self, request, secret_id=None):
-        """
-        Renders a page to show the sign up options.
-
-        Parameters:
-        request(HttpRequest): the GET request sent to the server
-        secret_id(str): unique value on one of the Achievement instances
-        
-        Returns:
-        HttpResponse: the view of the sign-up template
-
-        """
-        # set the context
-        context = {
-            'MP_PROJECT_TOKEN': settings.MP_PROJECT_TOKEN
-        }
-        # return the response
-        return render(request, self.template_name, context)
 
     def form_valid(self, form, secret_id, request):
         '''Save the new User, and a new Profile for them, in the database.'''
@@ -123,7 +125,14 @@ class UserCreateFromSocial(LoginView):
 
 
 class LoginView(auth_views.LoginView):
-    pass
+    '''Subclass of LoginView.'''
+    def form_valid(self, form):
+        '''Tracks login events in Mixpanel, after security checks.'''
+        # get the user
+        user = form.get_user()
+        # track the login in Mixpanel
+        track_login_event(user)
+        return super().form_valid(form)
 
 class SettingsView(LoginRequiredMixin, TemplateView):
     """
@@ -142,6 +151,9 @@ class SettingsView(LoginRequiredMixin, TemplateView):
         except UserSocialAuth.DoesNotExist:
             google_login = None
 
+        # track the login in Mixpanel
+        track_login_event(user)
+        
         return render(request, 'accounts/auth/settings.html', {
             'facebook_login': facebook_login,
             'google_login': google_login,
