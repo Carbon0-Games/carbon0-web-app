@@ -54,7 +54,6 @@ class QuizDetail(DetailView):
     model = Quiz
     template_name = 'carbon_quiz/quiz/detail.html'
 
-    # def get(self, request, slug, is_question_answered=None):
     def get(self, request, slug, question_number):
         """
         Renders a page to show the question currently being asked, or the

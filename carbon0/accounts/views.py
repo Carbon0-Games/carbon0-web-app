@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth import get_user_model
+import django.contrib.auth.views as auth_views
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
@@ -38,7 +38,16 @@ def track_successful_signup(user, secret_id):
     mp.track(user.username, 'signUp', {
         'achievementEarned': earned_achievement,
     })
-    print(f'Signup of {user.username} tracked!')
+    # make a User profile for this person on Mixpanel
+    mp.people_set(
+        user.username, {
+        '$email': user.email,
+        '$phone': '',
+        'logins': []
+        }, 
+        # ignore geolocation data
+        meta = {'$ignore_time' : 'true', '$ip' : 0}
+    )
     return None
 
 class UserCreate(SuccessMessageMixin, CreateView):
@@ -47,6 +56,25 @@ class UserCreate(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('accounts:login')
     template_name = 'accounts/auth/signup.html'
     success_message = 'Welcome to Carbon0! You may now log in.'
+
+    def get(self, request, secret_id=None):
+        """
+        Renders a page to show the sign up options.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        secret_id(str): unique value on one of the Achievement instances
+        
+        Returns:
+        HttpResponse: the view of the sign-up template
+
+        """
+        # set the context
+        context = {
+            'MP_PROJECT_TOKEN': settings.MP_PROJECT_TOKEN
+        }
+        # return the response
+        return render(request, self.template_name, context)
 
     def form_valid(self, form, secret_id, request):
         '''Save the new User, and a new Profile for them, in the database.'''
@@ -69,7 +97,7 @@ class UserCreate(SuccessMessageMixin, CreateView):
         Passes the id of the Achievement the profile should include, if any.  
 
         Parameters:
-        request(HttpRequest): the GET request sent to the server
+        request(HttpRequest): the POST request sent to the server
         secret_id(str): unique value on one of the Achievement instances
         
         Returns:
@@ -92,6 +120,10 @@ class UserCreateFromSocial(LoginView):
     Either creates a  new user or logs a user in via social media
     """
     template_name = 'accounts/auth/signup.html'
+
+
+class LoginView(auth_views.LoginView):
+    pass
 
 class SettingsView(LoginRequiredMixin, TemplateView):
     """
@@ -138,3 +170,9 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
             achievement = Achievement.objects.get(id=pk)
             achievement.profile = profile
             achievement.save(user=request.user)
+            # track the signup in Mixpanel
+            track_successful_signup(user, 'achievement earned!')
+        else:  # user signed up with social, but not after earning Achievement
+            # track the signup in Mixpanel
+            track_successful_signup(user, None)
+
