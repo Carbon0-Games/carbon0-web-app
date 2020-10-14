@@ -230,6 +230,9 @@ UTIL_ZERON_PATHS = [
     str(os.getenv('UTIL_USDZ'))
 ]
 
+# Mixpanel Project Token
+MIXPANEL_TOKEN = os.getenv("MIXPANEL_TOKEN")
+
 # Convert the DATABASE_URL environment variable into what Django understands
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
