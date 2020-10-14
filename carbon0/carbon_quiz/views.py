@@ -299,7 +299,8 @@ class AchievementDetail(DetailView):
             'achievement': achievement,
             'browser_model': browser_zeron_model,
             'ios_model': ios_zeron_model,
-            'app_id': settings.FACEBOOK_SHARING_APP_ID
+            'app_id': settings.FACEBOOK_SHARING_APP_ID,
+            'MP_PROJECT_TOKEN': settings.MP_PROJECT_TOKEN
         }
         # if the user is authenticated
         if request.user.is_authenticated:
