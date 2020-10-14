@@ -231,7 +231,7 @@ UTIL_ZERON_PATHS = [
 ]
 
 # Mixpanel Project Token
-MIXPANEL_TOKEN = os.getenv("MIXPANEL_TOKEN")
+MP_PROJECT_TOKEN = str(os.getenv("MP_PROJECT_TOKEN"))
 
 # Convert the DATABASE_URL environment variable into what Django understands
 db_from_env = dj_database_url.config()

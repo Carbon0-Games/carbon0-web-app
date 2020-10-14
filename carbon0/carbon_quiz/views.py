@@ -111,7 +111,7 @@ class QuizDetail(DetailView):
             ]
         # add the Mixpanel token
         additional_key_value_pairs.append(
-            ('MIXPANEL_TOKEN', settings.MIXPANEL_TOKEN)
+            ('MP_PROJECT_TOKEN', settings.MP_PROJECT_TOKEN)
         )
         # add additional key value pairs to the context
         context.update(additional_key_value_pairs)

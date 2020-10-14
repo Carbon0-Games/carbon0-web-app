@@ -20,7 +20,7 @@
         }
     })(document, window.mixpanel || []);
     // initialize the Mixpanel tracker
-    mixpanel.init("{{ MIXPANEL_TOKEN }}", { batch_requests: true })
+    mixpanel.init("{{ MP_PROJECT_TOKEN }}", { batch_requests: true })
 </script>
 {% endblock %}
 

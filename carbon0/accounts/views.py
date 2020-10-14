@@ -1,7 +1,10 @@
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView
+from mixpanel import Mixpanel
 
 from carbon_quiz.models.achievement import Achievement
 from .forms import UserSignUpForm
@@ -15,6 +18,29 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from social_django.models import UserSocialAuth
 
+
+def track_successful_signup(user, secret_id):
+    """Logs whenever a User successfully signs up on Mixpanel.
+
+       Parameter:
+       user(User): a newly saved User model
+       secret_id(str): used to determine if user
+                       earned an Achievement first
+
+       Returns: None
+
+    """
+    # instaniate the Mixpanel tracker
+    mp = Mixpanel(settings.MP_PROJECT_TOKEN)
+    # determine if user completed a quiz first
+    earned_achievement = (secret_id is not None)
+    # Tracks the event and its properties
+    mp.track(user.username, 'signUp', {
+        'achievementEarned': earned_achievement,
+    })
+    print(f'Signup of {user.username} tracked!')
+    return None
+
 class UserCreate(SuccessMessageMixin, CreateView):
     '''Display form where user can create a new account.'''
     form_class = UserSignUpForm
@@ -24,7 +50,10 @@ class UserCreate(SuccessMessageMixin, CreateView):
 
     def form_valid(self, form, secret_id, request):
         '''Save the new User, and a new Profile for them, in the database.'''
+        # save a new user from the form data
         self.object = form.save()
+        # track the signup in Mixpanel
+        track_successful_signup(self.object, secret_id)
         # save a new profile for the user
         profile = Profile.objects.create(user=self.object)
         profile.save()
@@ -46,6 +75,8 @@ class UserCreate(SuccessMessageMixin, CreateView):
         Returns:
         HttpResponseRedirect: the view of the Login template
         """
+        # init the object property
+        self.object = None
         # get form needed for Achievement model instantiation
         form = self.get_form()
         # validate, then create
@@ -53,7 +84,7 @@ class UserCreate(SuccessMessageMixin, CreateView):
             return self.form_valid(form, secret_id, request)
         # or redirect back to the form
         else:
-            return self.form_invalid(form)
+            return super().form_invalid(form)
 
 # Social Auth
 class UserCreateFromSocial(LoginView):
