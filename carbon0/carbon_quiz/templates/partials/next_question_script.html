@@ -13,7 +13,7 @@
             },
             success: data => {
                 // calculate the next question number to show
-                let currentQuestionNum = parseInt("{{ quiz.active_question }}");
+                let currentQuestionNum = parseInt("{{ quiz.active_question }}") + 1;
                 let nextQuestionNum = 1 + currentQuestionNum;
                 // update the url the user is requesting, top show the next Question
                 let startURL = "/carbon-quiz/{{ quiz.slug }}/answer-question/";
