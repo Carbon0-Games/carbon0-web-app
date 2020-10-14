@@ -1,5 +1,6 @@
 import random
 
+from django.conf import settings
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
@@ -9,6 +10,7 @@ from django.views.generic.edit import (
     CreateView,
     UpdateView,
     DeleteView)
+from mixpanel import Mixpanel
 
 from .models.mission import Mission
 from accounts.models import Profile
@@ -16,6 +18,36 @@ from .models.question import Question
 from .models.quiz import Quiz
 from .models.achievement import Achievement
 from django.conf import settings
+
+
+def track_achievement_creation(achievement, user):
+    """Logs the creation of a new Achievement,
+       and its player if they're logged in.
+
+       Parameter: 
+       achievement(Achievement): the Achievement being created
+       user(User): the user earning the Achievement
+
+       Returns: None
+    
+    """
+    # instantiate the Mixpanel tracker
+    mp = Mixpanel(settings.MP_PROJECT_TOKEN)
+    # Set the properties
+    properties = dict()
+    properties['achievementType'] = achievement.mission.question.category
+    # set the user property
+    if user.is_authenticated:
+        properties['user'] = user.username
+    else:  # user is not authenticated
+        properties['user'] = 'visitor'
+    # track the event
+    mp.track(
+        properties['user'],
+        event_name='createAchievement',
+        properties=properties
+    )
+    return None
 
 
 class QuizCreate(CreateView):
@@ -187,7 +219,7 @@ class AchievementCreate(CreateView):
         # return the response
         return render(request, self.template_name, context)
 
-    def form_valid(self, form, mission_id, quiz_slug):
+    def form_valid(self, form, mission_id, quiz_slug, user):
         '''Instaniates a new Achievement model.'''
         # get the related Mission model
         mission = Mission.objects.get(id=mission_id)
@@ -197,6 +229,8 @@ class AchievementCreate(CreateView):
         form.instance.zeron_image_url = (
             Achievement.set_zeron_image_url(mission)
         )
+        # track the event in Mixpanel
+        track_achievement_creation(form.instance, user)
         # if it's available, set the quiz relationship on the new instance
         if quiz_slug is not None:
             # get the Quiz
@@ -230,10 +264,10 @@ class AchievementCreate(CreateView):
                 # set the profile on the new instance
                 form.instance.profile = request.user.profile
             # then initialize the rest of the new Achievement
-            return self.form_valid(form, mission_id, quiz_slug)
+            return self.form_valid(form, mission_id, quiz_slug, request.user)
         # or redirect back to the form
         else:
-            return self.form_invalid(form)
+            return super().form_invalid(form)
 
 
 class AchievementDetail(DetailView):
