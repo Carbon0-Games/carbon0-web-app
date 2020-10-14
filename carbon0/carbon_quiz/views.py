@@ -109,6 +109,10 @@ class QuizDetail(DetailView):
             additional_key_value_pairs = [
                 ('missions', missions),  # possible missions for the user 
             ]
+        # add the Mixpanel token
+        additional_key_value_pairs.append(
+            ('MIXPANEL_TOKEN', settings.MIXPANEL_TOKEN)
+        )
         # add additional key value pairs to the context
         context.update(additional_key_value_pairs)
         # return the response
