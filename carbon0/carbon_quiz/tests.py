@@ -172,18 +172,6 @@ class QuizCreateTests(DatabaseSetup):
         self.assertEqual(num_quizzes_after, num_quizzes_before + 1)
         return None
 
-    def test_user_starts_new_quiz(self):
-        '''User starts the quiz and a new Quiz instance is created.'''
-        # store the number of quiz objects before the request
-        num_quizzes_before = len(Quiz.objects.all())
-        # user makes a request to POST a new Quiz, and is redirected
-        response = self.client.post(self.url)
-        self.assertEqual(response.status_code, 302)
-        # the number of quizzes has increased by one
-        num_quizzes_after = len(Quiz.objects.all())
-        self.assertEqual(num_quizzes_after, num_quizzes_before + 1)
-        return None
-
 
 class QuizDetailTests(DatabaseSetup):
     '''Test suite for the QuizDetail view.'''
