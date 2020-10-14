@@ -29,16 +29,17 @@
                     <div class="d-flex justify-content-center">
                      <!-- Call to ACTION: Play the Game for the First Time -->
                         <div class="d-flex justify-content-center">
-                        <!-- Call to ACTION: Login -->
-                            <a href="{% url 'carbon_quiz:quiz_create' %}" type="button" class="btn btn-primary rounded-pill" style="width: 150px">PLAYER</a>
+                        <script>
+                            // function to track each time a goes to the instructions page
+                            let beginQuiz = () => {
+                                // log the action of starting the quiz
+                                mixpanel.track("beginQuiz", {});
+                            }
+                        </script>
+                            <a href="{% url 'carbon_quiz:quiz_create' %}" onclick="beginQuiz()" type="button" class="btn btn-primary rounded-pill" style="width: 150px">PLAYER</a>
                         </div>
-                        <!-- <form class='float' method='post'>
-                            {% csrf_token %}
-                            <input type="submit" value="PLAYER" class="btn btn-primary rounded-pill" style="width: 150px">
-                        </form> -->
                     </div>
                 </div>
-                <!-- <div class="col-md-4 my-auto"></div> -->
                 <div class="col justify-content-center">
                     <div class="d-flex justify-content-center">
                     <!-- Call to ACTION: Login -->
