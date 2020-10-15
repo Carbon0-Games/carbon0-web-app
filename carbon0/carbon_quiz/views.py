@@ -260,10 +260,11 @@ class AchievementDetail(DetailView):
         browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
         ios_zeron_model = achievement.zeron_image_url[1]  # .usdz file path
         # add to context, if we have an environment that has env variables
-        context.update([
-            ("browser_model", browser_zeron_model),
-            ("ios_model", ios_zeron_model),
-        ])
+        if not (browser_zeron_model is None or ios_zeron_model is None):
+            context.update([
+                ("browser_model", browser_zeron_model),
+                ("ios_model", ios_zeron_model),
+            ])
         # if the user is authenticated
         if request.user and request.user.is_authenticated:
             # show their profile's footprint (already be authenicated)
