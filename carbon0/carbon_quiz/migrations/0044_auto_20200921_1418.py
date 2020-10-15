@@ -7,13 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0043_auto_20200921_1410'),
+        ("carbon_quiz", "0043_auto_20200921_1410"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mission',
-            name='links',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.CharField(blank=True, max_length=300, null=True), help_text='Links the user can click to complete the mission.Every alternating item is a website link, the other is its name.', null=True, size=6),
+            model_name="mission",
+            name="links",
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.CharField(blank=True, max_length=300, null=True),
+                help_text="Links the user can click to complete the mission.Every alternating item is a website link, the other is its name.",
+                null=True,
+                size=6,
+            ),
         ),
     ]

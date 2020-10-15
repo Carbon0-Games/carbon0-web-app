@@ -7,13 +7,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0054_auto_20201006_1808'),
+        ("carbon_quiz", "0054_auto_20201006_1808"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='achievement',
-            name='quiz',
-            field=models.ForeignKey(help_text='The Quiz that led the user to this achievement.', null=True, on_delete=django.db.models.deletion.PROTECT, to='carbon_quiz.quiz'),
+            model_name="achievement",
+            name="quiz",
+            field=models.ForeignKey(
+                help_text="The Quiz that led the user to this achievement.",
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="carbon_quiz.quiz",
+            ),
         ),
     ]

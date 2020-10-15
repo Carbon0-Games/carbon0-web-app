@@ -7,13 +7,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0020_remove_quiz_current_question_answered_yes'),
+        ("carbon_quiz", "0020_remove_quiz_current_question_answered_yes"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='quiz',
-            name='questions',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(), blank=True, help_text='Array of ids for the quiz questions.', null=True, size=10),
+            model_name="quiz",
+            name="questions",
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.IntegerField(),
+                blank=True,
+                help_text="Array of ids for the quiz questions.",
+                null=True,
+                size=10,
+            ),
         ),
     ]

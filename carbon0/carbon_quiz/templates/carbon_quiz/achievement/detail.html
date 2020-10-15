@@ -70,11 +70,13 @@
                             <div class="col-md-4"><!-- Placeholder column --></div>
                             <div class="col-md-4">
                                 <!-- Zeron model viewer -->
-                                <model-viewer src="{% static browser_model %}"
-                                    ios-src="{% static ios_model %}"
-                                    poster="PNG goes here"
-                                    alt="3D model of a Zeron" shadow-intensity="1" camera-controls auto-rotate ar>
-                                </model-viewer>
+                                {% if browser_model %}
+                                    <model-viewer src="{% static browser_model %}"
+                                        ios-src="{% static ios_model %}"
+                                        poster="PNG goes here"
+                                        alt="3D model of a Zeron" shadow-intensity="1" camera-controls auto-rotate ar>
+                                    </model-viewer>
+                                {% endif %}
                             </div>
                             <div class="col-md-4"><!-- Placeholder column --></div>
                         </div>
