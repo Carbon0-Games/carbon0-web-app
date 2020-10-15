@@ -1,5 +1,6 @@
 <!-- carbon0/carbon_quiz/templates/partials/next_question_script.html -->
 <script>
+    // Redirect user to the next Question page 
     let nextQuestion = (answer) => {
         // form the URL for the request
         let endpoint = "/api/next-question/";
@@ -13,8 +14,13 @@
             },
             success: data => {
                 // calculate the next question number to show
-                let currentQuestionNum = parseInt("{{ quiz.active_question }}");
+                let currentQuestionNum = parseInt("{{ quiz.active_question }}") + 1;
                 let nextQuestionNum = 1 + currentQuestionNum;
+                // Mixpanel Integration: Track when user has completed a Quiz
+                if (nextQuestionNum === 6) {
+                    // Track when user has completed a Quiz
+                    mixpanel.track("completeQuiz", {});
+                }
                 // update the url the user is requesting, top show the next Question
                 let startURL = "/carbon-quiz/{{ quiz.slug }}/answer-question/";
                 let completedURL = startURL.concat(nextQuestionNum, "/");
