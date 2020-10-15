@@ -232,7 +232,7 @@ class AchievementCreate(CreateView):
             Achievement.set_zeron_image_url(mission)
         )
         # track the event in Mixpanel
-        track_achievement_creation(form.instance, user)
+        # track_achievement_creation(form.instance, user)
         # if it's available, set the quiz relationship on the new instance
         if quiz_slug is not None:
             # get the Quiz

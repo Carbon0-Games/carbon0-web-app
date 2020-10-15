@@ -84,7 +84,7 @@ class UserCreate(SuccessMessageMixin, CreateView):
         # save a new user from the form data
         self.object = form.save()
         # track the signup in Mixpanel
-        track_successful_signup(self.object, secret_id)
+        # track_successful_signup(self.object, secret_id)
         # save a new profile for the user
         profile = Profile.objects.create(user=self.object)
         profile.save()
@@ -126,7 +126,7 @@ class LoginView(auth_views.LoginView):
         # get the user
         user = form.get_user()
         # track the login in Mixpanel
-        track_login_event(user)
+        # track_login_event(user)
         return super().form_valid(form)
 
 class SettingsView(LoginRequiredMixin, TemplateView):
@@ -148,7 +148,7 @@ class SettingsView(LoginRequiredMixin, TemplateView):
             google_login = None
 
         # track the login in Mixpanel
-        track_login_event(user)
+        # track_login_event(user)
         
         return render(request, 'accounts/auth/settings.html', {
             'facebook_login': facebook_login,
@@ -180,8 +180,8 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
             achievement.profile = profile
             achievement.save(user=request.user)
             # track the signup in Mixpanel
-            track_successful_signup(user, 'achievement earned!')
+            # track_successful_signup(user, 'achievement earned!')
         else:  # user signed up with social, but not after earning Achievement
             # track the signup in Mixpanel
-            track_successful_signup(user, None)
-
+            # track_successful_signup(user, None)
+            print("woops")
