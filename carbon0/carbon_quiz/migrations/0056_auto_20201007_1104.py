@@ -7,14 +7,19 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0003_profile_users_footprint'),
-        ('carbon_quiz', '0055_achievement_quiz'),
+        ("accounts", "0003_profile_users_footprint"),
+        ("carbon_quiz", "0055_achievement_quiz"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='achievement',
-            name='profile',
-            field=models.ForeignKey(help_text='The profile that owns this achievement.', null=True, on_delete=django.db.models.deletion.CASCADE, to='accounts.profile'),
+            model_name="achievement",
+            name="profile",
+            field=models.ForeignKey(
+                help_text="The profile that owns this achievement.",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="accounts.profile",
+            ),
         ),
     ]

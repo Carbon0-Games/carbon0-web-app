@@ -19,76 +19,87 @@ from .quiz import Quiz
 
 
 class Achievement(models.Model):
-    '''Represents what the user attains for completing a mission.'''
+    """Represents what the user attains for completing a mission."""
+
     mission = models.ForeignKey(
-        Mission, on_delete=models.PROTECT,
-        help_text='The mission that earns this achievement.',
-        null=True
+        Mission,
+        on_delete=models.PROTECT,
+        help_text="The mission that earns this achievement.",
+        null=True,
     )
     profile = models.ForeignKey(
-        Profile, on_delete=models.CASCADE,
-        help_text='The profile that owns this achievement.',
-        null=True
+        Profile,
+        on_delete=models.CASCADE,
+        help_text="The profile that owns this achievement.",
+        null=True,
     )
     quiz = models.ForeignKey(
-        Quiz, on_delete=models.PROTECT,
-        help_text='The Quiz that led the user to this achievement.',
-        null=True
+        Quiz,
+        on_delete=models.PROTECT,
+        help_text="The Quiz that led the user to this achievement.",
+        null=True,
     )
     completion_date = models.DateTimeField(
-        help_text="Date mission was accomplished",
-        null=True, blank=True, auto_now=True                          
+        help_text="Date mission was accomplished", null=True, blank=True, auto_now=True
     )
     secret_id = models.CharField(
-        max_length=50, unique=True, null=True,
-        help_text="Unique id that cannot be guessed easily."
+        max_length=50,
+        unique=True,
+        null=True,
+        help_text="Unique id that cannot be guessed easily.",
     )
     # Zerons for Achievements: (img_url_paths: List[str], name_of_zeron: str)
     ZERONS = [
         # 1. Diet category Zeron
-        (DIET_ZERON_PATHS, "Nature's Model"), 
+        (DIET_ZERON_PATHS, "Nature's Model"),
         # 2. Transit category Zeron
-        (TRANSIT_ZERON_PATHS, 'Wheel Model'), 
-        # 3. Recycling category Zeron 
-        (RECYCLING_ZERON_PATHS, 'Bin Model'), 
+        (TRANSIT_ZERON_PATHS, "Wheel Model"),
+        # 3. Recycling category Zeron
+        (RECYCLING_ZERON_PATHS, "Bin Model"),
         # 4. Airline-Travel category Zeron
-        (AT_ZERON_PATHS, 'Coin Model'), 
+        (AT_ZERON_PATHS, "Coin Model"),
         # 5. Utilities category Zeron
-        (UTIL_ZERON_PATHS, 'Light Bulb Model'),  
+        (UTIL_ZERON_PATHS, "Light Bulb Model"),
     ]
     zeron_image_url = ArrayField(
         models.CharField(
-        max_length=100, null=True, 
-        blank=True,
+            max_length=100,
+            null=True,
+            blank=True,
         ),
-        null=True, blank=True, choices=ZERONS,
-        help_text='File paths to the 3D model in storage.'
+        null=True,
+        blank=True,
+        choices=ZERONS,
+        help_text="File paths to the 3D model in storage.",
     )
     badge_name = models.CharField(
-        max_length=200, null=True, blank=True,
-        help_text='The badge that the user earns in this achievement.'
+        max_length=200,
+        null=True,
+        blank=True,
+        help_text="The badge that the user earns in this achievement.",
     )
 
     def __str__(self):
-        '''Returns a human-readable name for the Achievement.'''
+        """Returns a human-readable name for the Achievement."""
         mission = Mission.objects.get(id=self.mission.id)
         return f"Achievement for Mission: '{mission.title}'"
 
     def get_absolute_url(self):
-        '''Returns a fully qualified path for a Achievement.'''
-        path_components = {'pk': self.pk,}
-        return reverse('carbon_quiz:achievement_detail', kwargs=path_components)
+        """Returns a fully qualified path for a Achievement."""
+        path_components = {
+            "pk": self.pk,
+        }
+        return reverse("carbon_quiz:achievement_detail", kwargs=path_components)
 
     def zeron_say_hello(self):
-        '''Returns a greeting the Zeron says to the User.'''
+        """Returns a greeting the Zeron says to the User."""
         # find the name of the zeron this model has
-        greeting = ''
+        greeting = ""
         for img_url, zeron_name in Achievement.ZERONS:
             if self.zeron_image_url == img_url:
                 # set the greeting
                 greeting = (
-                    f"I'm {zeron_name}. " +
-                     "Thanks for helping to save the planet!"
+                    f"I'm {zeron_name}. " + "Thanks for helping to save the planet!"
                 )
         # return the greeting
         return greeting
@@ -102,8 +113,8 @@ class Achievement(models.Model):
         mission(Mission): the Mission model that has been completed
 
         Returns:
-        Tuple(str, str): the value in Achievement.ZERONS that 
-                         corresponds to the category this Mission 
+        Tuple(str, str): the value in Achievement.ZERONS that
+                         corresponds to the category this Mission
                          falls under (must refer back to related Question)
 
         """
@@ -113,14 +124,12 @@ class Achievement(models.Model):
         category_abbreviations = [
             category_abbrev for category_abbrev, category in Question.CATEGORIES
         ]
-        # map each category to a Zeron name 
-        category_to_zerons = dict(
-            zip(category_abbreviations, Achievement.ZERONS)
-        )
+        # map each category to a Zeron name
+        category_to_zerons = dict(zip(category_abbreviations, Achievement.ZERONS))
         # find the right choice of zeron, given the category
         zeron_img_paths, zeron_model_name = category_to_zerons[category]
         return zeron_img_paths
-    
+
     def calculate_new_footprint(self, has_user=True):
         """
         Return the new carbon footprint, with the Achievement now won.
@@ -130,7 +139,7 @@ class Achievement(models.Model):
                         authenticated user, or not
 
         Returns: float: new footprint value
-        
+
         """
         # get the Question related to this Achievement
         related_question = self.mission.question
@@ -141,26 +150,26 @@ class Achievement(models.Model):
         else:  # has_user is False
             current_footprint = self.quiz.carbon_value_total
         # compute the new footprint value
-        new_footprint = (current_footprint - (
-            self.mission.percent_carbon_sequestration * 
-            related_question.carbon_value
-        ))
+        new_footprint = current_footprint - (
+            self.mission.percent_carbon_sequestration * related_question.carbon_value
+        )
         return new_footprint
 
     def save(self, *args, user=None, **kwargs):
         """Saves a new instance of the Achievement model.
 
-           Parameters:
-           user(User): if this function is called on signup, then 
-                       we pass this is in order to let the method
-                       know that the User's profile has no previous
-                       footprint
+        Parameters:
+        user(User): if this function is called on signup, then
+                    we pass this is in order to let the method
+                    know that the User's profile has no previous
+                    footprint
 
-           Returns: None
+        Returns: None
 
         """
+
         def generate_unique_id():
-            '''Ensures that a the new secret id is unique.'''
+            """Ensures that a the new secret id is unique."""
             # get a set of all existing ids
             ids = set([a.id for a in Achievement.objects.all()])
             # init a secret id
@@ -169,6 +178,7 @@ class Achievement(models.Model):
             while new_id in ids:
                 new_id = utils.get_random_secret_key()
             return new_id
+
         def update_profile_footprint():
             """
             Whenever an Achievement with a relationship to a Profile is
@@ -177,7 +187,7 @@ class Achievement(models.Model):
             # if this method called on a signup
             if user is not None and self.profile.users_footprint == 0:
                 # increase the profile's footprint
-                print(f'Increasing the footprint by {self.quiz.carbon_value_total}')
+                print(f"Increasing the footprint by {self.quiz.carbon_value_total}")
                 self.profile.users_footprint += self.quiz.carbon_value_total
             # calculate the new footprint
             new_footprint = self.calculate_new_footprint()
@@ -185,11 +195,12 @@ class Achievement(models.Model):
             self.profile.users_footprint = new_footprint
             self.profile.save()
             return None
+
         # get the unique secret id, make it URL safe
         secret_id = slugify(generate_unique_id())
-        # set it on the new model instance 
+        # set it on the new model instance
         self.secret_id = secret_id
         # update the impacted user's carbon footprint
         if self.profile is not None:
             update_profile_footprint()
-        return super(Achievement, self).save(*args, **kwargs)   
+        return super(Achievement, self).save(*args, **kwargs)

@@ -14,7 +14,7 @@ from django.urls import reverse
 
 #     def test_get_landing(self):
 #         '''User views the landing page and gets a HTTP 200 response.'''
-#         # the response is returned successfully 
+#         # the response is returned successfully
 #         response = self.client.get(reverse(self.url))
 #         self.assertEqual(response.status_code, 200)
 

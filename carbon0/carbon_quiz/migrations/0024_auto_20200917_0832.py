@@ -6,17 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0023_remove_mission_symbol'),
+        ("carbon_quiz", "0023_remove_mission_symbol"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='achievement',
-            name='zeron_image',
+            model_name="achievement",
+            name="zeron_image",
         ),
         migrations.AddField(
-            model_name='achievement',
-            name='zeron_image_url',
-            field=models.CharField(blank=True, help_text='Path to the 3D model in storage.', max_length=200, null=True),
+            model_name="achievement",
+            name="zeron_image_url",
+            field=models.CharField(
+                blank=True,
+                help_text="Path to the 3D model in storage.",
+                max_length=200,
+                null=True,
+            ),
         ),
     ]

@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0047_auto_20201001_1034'),
+        ("carbon_quiz", "0047_auto_20201001_1034"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='achievement',
-            name='secret_id',
-            field=models.CharField(help_text='Unique id that cannot be guessed easily.', max_length=50, null=True, unique=True),
+            model_name="achievement",
+            name="secret_id",
+            field=models.CharField(
+                help_text="Unique id that cannot be guessed easily.",
+                max_length=50,
+                null=True,
+                unique=True,
+            ),
         ),
     ]

@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0002_auto_20200908_1829'),
+        ("carbon_quiz", "0002_auto_20200908_1829"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='question',
-            name='learn_more_link',
-            field=models.CharField(blank=True, help_text='Hyperlink where the user can learn more about the question', max_length=1000, null=True),
+            model_name="question",
+            name="learn_more_link",
+            field=models.CharField(
+                blank=True,
+                help_text="Hyperlink where the user can learn more about the question",
+                max_length=1000,
+                null=True,
+            ),
         ),
     ]
