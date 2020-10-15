@@ -251,16 +251,19 @@ class AchievementDetail(DetailView):
         achievement = Achievement.objects.get(id=pk)
         # add achievment pk to request session
         request.session["achievement_pk"] = pk
+        # set the context 
+        context = {
+            "achievement": achievement,
+            "app_id": settings.FACEBOOK_SHARING_APP_ID,
+        }
         # set the images needed for the context
         browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
         ios_zeron_model = achievement.zeron_image_url[1]  # .usdz file path
-        # make context dict
-        context = {
-            "achievement": achievement,
-            "browser_model": browser_zeron_model,
-            "ios_model": ios_zeron_model,
-            "app_id": settings.FACEBOOK_SHARING_APP_ID,
-        }
+        # add to context, if we have an environment that has env variables
+        context.update([
+            ("browser_model", browser_zeron_model),
+            ("ios_model", ios_zeron_model),
+        ])
         # if the user is authenticated
         if request.user and request.user.is_authenticated:
             # show their profile's footprint (already be authenicated)
