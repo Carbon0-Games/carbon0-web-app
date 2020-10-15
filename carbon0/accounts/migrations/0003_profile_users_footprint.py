@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0002_auto_20201001_1120'),
+        ("accounts", "0002_auto_20201001_1120"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='users_footprint',
-            field=models.FloatField(default=0, help_text='The total carbon footprint of the User across all quizzes.'),
+            model_name="profile",
+            name="users_footprint",
+            field=models.FloatField(
+                default=0,
+                help_text="The total carbon footprint of the User across all quizzes.",
+            ),
         ),
     ]

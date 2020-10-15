@@ -20,16 +20,15 @@ from carbon0 import views
 
 urlpatterns = [
     # Admin URLs
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     # Project-wide URLs
-    path('', views.get_landing, name="landing_page"),
+    path("", views.get_landing, name="landing_page"),
     # Game-related URLs
-    path('carbon-quiz/', include('carbon_quiz.urls')),
+    path("carbon-quiz/", include("carbon_quiz.urls")),
     # User-Accounts-related URLs
-    path('accounts/', include('accounts.urls')),
+    path("accounts/", include("accounts.urls")),
     # OAuth Lib-related URLs
-    path('oauth/', include('social_django.urls', namespace='social')),
+    path("oauth/", include("social_django.urls", namespace="social")),
     # API-related URLs
-    path('api/', include('api.urls')),
-
+    path("api/", include("api.urls")),
 ]

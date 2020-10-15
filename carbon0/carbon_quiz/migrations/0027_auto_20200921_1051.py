@@ -6,13 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0026_remove_achievement_zeron_name'),
+        ("carbon_quiz", "0026_remove_achievement_zeron_name"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='achievement',
-            name='zeron_image_url',
-            field=models.CharField(blank=True, choices=[('assets/cartoon_carrot.gltf', 'Carrot Model'), ('assets/Wheel.gltf', 'Wheel Model'), ('assets/Bin.gltf', 'Bin Model'), ('assets/coin.gltf', 'Coin Model'), ('assets/Light bulb 1.gltf', 'Light Bulb Model')], help_text='Path to the 3D model in storage.', max_length=100, null=True),
+            model_name="achievement",
+            name="zeron_image_url",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("assets/cartoon_carrot.gltf", "Carrot Model"),
+                    ("assets/Wheel.gltf", "Wheel Model"),
+                    ("assets/Bin.gltf", "Bin Model"),
+                    ("assets/coin.gltf", "Coin Model"),
+                    ("assets/Light bulb 1.gltf", "Light Bulb Model"),
+                ],
+                help_text="Path to the 3D model in storage.",
+                max_length=100,
+                null=True,
+            ),
         ),
     ]

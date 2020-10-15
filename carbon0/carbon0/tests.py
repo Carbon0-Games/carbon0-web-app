@@ -6,16 +6,17 @@ from carbon0.views import get_landing
 
 
 class LandingPageTests(TestCase):
-    '''Tests for the landing page view.'''
+    """Tests for the landing page view."""
+
     def setUp(self):
-        '''Initial work done for each test in this suite.'''
+        """Initial work done for each test in this suite."""
         self.client = Client()
-        self.url = 'landing_page'
+        self.url = "landing_page"
         return None
-    
+
     def test_get_landing(self):
-        '''User views the landing page and gets a HTTP 200 response.'''
-        # the response is returned successfully 
+        """User views the landing page and gets a HTTP 200 response."""
+        # the response is returned successfully
         response = self.client.get(reverse(self.url))
         self.assertEqual(response.status_code, 200)
         # test the content on the landing page

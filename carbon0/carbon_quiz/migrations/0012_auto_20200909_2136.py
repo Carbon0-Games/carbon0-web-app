@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0011_auto_20200909_1404'),
+        ("carbon_quiz", "0011_auto_20200909_1404"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='achievement',
-            name='completion_date',
-            field=models.DateTimeField(auto_now=True, help_text='Date mission was accomplished', null=True),
+            model_name="achievement",
+            name="completion_date",
+            field=models.DateTimeField(
+                auto_now=True, help_text="Date mission was accomplished", null=True
+            ),
         ),
     ]
