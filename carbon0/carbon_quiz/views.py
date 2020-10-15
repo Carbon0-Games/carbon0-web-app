@@ -297,10 +297,7 @@ class AchievementDetail(DetailView):
         # set the context 
         context = {
             'achievement': achievement,
-            'browser_model': browser_zeron_model,
-            'ios_model': ios_zeron_model,
             'app_id': settings.FACEBOOK_SHARING_APP_ID,
-            'MP_PROJECT_TOKEN': settings.MP_PROJECT_TOKEN
         }
         # set the images needed for the context
         browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
