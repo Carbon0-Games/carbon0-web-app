@@ -7,18 +7,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0021_auto_20200912_2156'),
+        ("carbon_quiz", "0021_auto_20200912_2156"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='mission',
-            name='symbol',
-            field=models.ImageField(blank=True, help_text='Visual associated to action user takes.', null=True, upload_to='images/'),
+            model_name="mission",
+            name="symbol",
+            field=models.ImageField(
+                blank=True,
+                help_text="Visual associated to action user takes.",
+                null=True,
+                upload_to="images/",
+            ),
         ),
         migrations.AlterField(
-            model_name='quiz',
-            name='questions',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(), blank=True, help_text='Array of ids for the quiz questions.', null=True, size=5),
+            model_name="quiz",
+            name="questions",
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.IntegerField(),
+                blank=True,
+                help_text="Array of ids for the quiz questions.",
+                null=True,
+                size=5,
+            ),
         ),
     ]

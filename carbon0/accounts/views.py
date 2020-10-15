@@ -15,15 +15,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from social_django.models import UserSocialAuth
 
+
 class UserCreate(SuccessMessageMixin, CreateView):
-    '''Display form where user can create a new account.'''
+    """Display form where user can create a new account."""
+
     form_class = UserSignUpForm
-    success_url = reverse_lazy('accounts:login')
-    template_name = 'accounts/auth/signup.html'
-    success_message = 'Welcome to Carbon0! You may now log in.'
+    success_url = reverse_lazy("accounts:login")
+    template_name = "accounts/auth/signup.html"
+    success_message = "Welcome to Carbon0! You may now log in."
 
     def form_valid(self, form, secret_id, request):
-        '''Save the new User, and a new Profile for them, in the database.'''
+        """Save the new User, and a new Profile for them, in the database."""
         self.object = form.save()
         # save a new profile for the user
         profile = Profile.objects.create(user=self.object)
@@ -37,12 +39,12 @@ class UserCreate(SuccessMessageMixin, CreateView):
 
     def post(self, request, secret_id=None):
         """
-        Passes the id of the Achievement the profile should include, if any.  
+        Passes the id of the Achievement the profile should include, if any.
 
         Parameters:
         request(HttpRequest): the GET request sent to the server
         secret_id(str): unique value on one of the Achievement instances
-        
+
         Returns:
         HttpResponseRedirect: the view of the Login template
         """
@@ -55,34 +57,34 @@ class UserCreate(SuccessMessageMixin, CreateView):
         else:
             return self.form_invalid(form)
 
-# Social Auth
-class UserCreateFromSocial(LoginView):
-    """
-    Either creates a  new user or logs a user in via social media
-    """
-    template_name = 'accounts/auth/signup.html'
 
 class SettingsView(LoginRequiredMixin, TemplateView):
     """
     Currently shows the user info from social signup or login
     """
+
     def get(self, request, *args, **kwargs):
         user = request.user
 
         try:
-            facebook_login = user.social_auth.get(provider='facebook')
+            facebook_login = user.social_auth.get(provider="facebook")
         except UserSocialAuth.DoesNotExist:
             facebook_login = None
-        
+
         try:
-            google_login = user.social_auth.get(provider='google-oauth2')
+            google_login = user.social_auth.get(provider="google-oauth2")
         except UserSocialAuth.DoesNotExist:
             google_login = None
 
-        return render(request, 'accounts/auth/settings.html', {
-            'facebook_login': facebook_login,
-            'google_login': google_login,
-        })
+        return render(
+            request,
+            "accounts/auth/settings.html",
+            {
+                "facebook_login": facebook_login,
+                "google_login": google_login,
+            },
+        )
+
 
 def create_social_user_with_achievement(request, user, response, *args, **kwargs):
     """
@@ -97,13 +99,13 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
     """
 
     # checks to see if the user is new then create a profile else just log them in
-    if kwargs['is_new']:
+    if kwargs["is_new"]:
         profile = Profile.objects.create(user=user)
         profile.save()
 
         # checking to make sure there's a achievement_pk in request.session
-        if 'achievement_pk' in request.session:
-            pk = request.session['achievement_pk']
+        if "achievement_pk" in request.session:
+            pk = request.session["achievement_pk"]
             achievement = Achievement.objects.get(id=pk)
             achievement.profile = profile
             achievement.save(user=request.user)

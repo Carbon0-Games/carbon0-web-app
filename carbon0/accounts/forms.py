@@ -8,20 +8,21 @@ from accounts.models import Profile
 
 
 class UserSignUpForm(UserCreationForm):
-    '''A form that handles registering new users.'''
+    """A form that handles registering new users."""
+
     class Meta:
         model = User
         # fields = ['email', 'username',
         #           'first_name', 'last_name',
         #           'password1', 'password2']
-        fields = ['username', 'email']
+        fields = ["username", "email"]
 
         def save(self, commit=True):
-            '''Initializes fields of the new User instance.'''
+            """Initializes fields of the new User instance."""
             user = super(User, self).save(commit=False)
             # user.first_name = self.cleaned_data['first_name']
             # user.last_name = self.cleaned_data['last_name']
-            user.email = self.cleaned_data['email']
+            user.email = self.cleaned_data["email"]
 
             if commit is True:
                 user.save()
@@ -30,10 +31,11 @@ class UserSignUpForm(UserCreationForm):
 
 
 class ProfileForm(forms.ModelForm):
-    '''A form for editing accout information.'''
+    """A form for editing accout information."""
+
     class Meta:
         model = Profile
         fields = [
-            'mugshot',
-            'phone',
+            "mugshot",
+            "phone",
         ]

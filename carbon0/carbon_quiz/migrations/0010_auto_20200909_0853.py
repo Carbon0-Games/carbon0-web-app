@@ -6,26 +6,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0009_auto_20200908_2201'),
+        ("carbon_quiz", "0009_auto_20200908_2201"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='mission',
-            name='description',
+            model_name="mission",
+            name="description",
         ),
         migrations.RemoveField(
-            model_name='mission',
-            name='status',
+            model_name="mission",
+            name="status",
         ),
         migrations.AddField(
-            model_name='mission',
-            name='action',
-            field=models.CharField(help_text='Describes what the user needs to do.', max_length=500, null=True),
+            model_name="mission",
+            name="action",
+            field=models.CharField(
+                help_text="Describes what the user needs to do.",
+                max_length=500,
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='mission',
-            name='clicks_needed',
-            field=models.IntegerField(default=1, help_text='Number of the links user needs to click.'),
+            model_name="mission",
+            name="clicks_needed",
+            field=models.IntegerField(
+                default=1, help_text="Number of the links user needs to click."
+            ),
         ),
     ]

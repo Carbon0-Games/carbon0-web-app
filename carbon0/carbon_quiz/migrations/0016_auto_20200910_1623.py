@@ -7,13 +7,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0015_auto_20200910_1618'),
+        ("carbon_quiz", "0015_auto_20200910_1618"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='quiz',
-            name='questions',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(), blank=True, help_text='Array of ids for the quiz questions.', null=True, size=8),
+            model_name="quiz",
+            name="questions",
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.IntegerField(),
+                blank=True,
+                help_text="Array of ids for the quiz questions.",
+                null=True,
+                size=8,
+            ),
         ),
     ]
