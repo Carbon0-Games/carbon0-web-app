@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0001_initial'),
+        ("carbon_quiz", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='question',
-            name='question_info',
-            field=models.TextField(help_text='Explains any vocabulary relevant to the question.'),
+            model_name="question",
+            name="question_info",
+            field=models.TextField(
+                help_text="Explains any vocabulary relevant to the question."
+            ),
         ),
         migrations.AlterField(
-            model_name='question',
-            name='question_text',
-            field=models.CharField(help_text='Question for the user', max_length=500),
+            model_name="question",
+            name="question_text",
+            field=models.CharField(help_text="Question for the user", max_length=500),
         ),
     ]

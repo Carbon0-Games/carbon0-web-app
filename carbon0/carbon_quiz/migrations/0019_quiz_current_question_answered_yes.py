@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0018_auto_20200910_1835'),
+        ("carbon_quiz", "0018_auto_20200910_1835"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='quiz',
-            name='current_question_answered_yes',
-            field=models.BooleanField(default=False, help_text='If the question being asked has been asked affirmatively.'),
+            model_name="quiz",
+            name="current_question_answered_yes",
+            field=models.BooleanField(
+                default=False,
+                help_text="If the question being asked has been asked affirmatively.",
+            ),
         ),
     ]
