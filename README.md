@@ -16,6 +16,7 @@ This repository contains the source code for Carbon0, a gamified solution to sav
 - [Contributing to Carbon0](#contributing-to-carbon0) 
 - [Release Schedule](#release-schedule)
 - [Adding Environment Variables](#adding-environment-variables)
+- [License](#license)
 <br /><br /> 
 
 ## About this Project
@@ -109,4 +110,4 @@ On this file, we would love for you to list your name, and perhaps share some de
 ## Release Schedule
 This can be found on [Releases.md](Releases.md).
 
-## Adding Environment Variables
+## License
