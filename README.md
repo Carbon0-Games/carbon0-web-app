@@ -1,13 +1,16 @@
+![Brand image](https://i.postimg.cc/pTycYvPJ/Screen-Shot-2020-10-16-at-10-37-00-AM.png)
+
 # Carbon0 Games
-## ___The game to save the planet!___
-![image](readme_image.png)
+Carbon0 Games helps people create carbon negative lifestyles for themselves and their communities, through our web application.
+
+This repository contains the source code for Carbon0, a gamified solution to save the planet!
 
 
-- [ ] About This Project
-- [ ] Motivation
-- [ ] Milestones
-- [ ] Tech Stack
-- [ ] Contributing
+- [About This Project](#about-this-project)
+- [Motivation](#motivation)
+- [Milestones](#milestones)
+- [Tech Stack](#tech-stack) 
+- [Contributing](#contributing) 
 <br /><br /> 
 
 ## About this Project
@@ -42,7 +45,7 @@ The goal of Carbon0 is to help 10% of the world population (about 800 million pe
 ## Tech Stack
 - [Django](https://www.djangoproject.com/) - Main framework for handling backend
 - [Python](https://www.python.org) - Primary coding language
-- [Github](https://www.github.com) - for Version Control
+- [Git](https://git-scm.com/doc) [Github](https://www.github.com) - for Version Control and Team Collaboration
 <br /><br />
 
 ## Contributing
