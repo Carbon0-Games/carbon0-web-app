@@ -14,16 +14,17 @@ This repository contains the source code for Carbon0, a gamified solution to sav
 <br /><br /> 
 
 ## About this Project
-800 million people played pokemon go. What if they were playing a different game, a game to reduce their carbon footprint?
 
-This game is called Carbon0!
+800 million people played Pokemon Go. What if they were playing a different game, a game to reduce their carbon footprint?
 
-Carbon0 shows players their impacts using 
-AR filters.
-It creates connections, communities and economically empowers environmentally-
-friendly businesses 
-and charities.
+This game is called *[Carbon0](https://playcarbon0.com)*!
+
+Carbon0 shows players their impacts using a gamified carbon calculator, and rewards those who take steps to reduce their footprint by awarding them "Zeron" characters.
+It creates connections, communities and economically empowers environmentally-friendly businesses and charities.
 All while having fun!
+ 
+Here's a product demo: 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4A8aPppLu6M" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <br /><br />
 
 ## Motivation
@@ -45,7 +46,7 @@ The goal of Carbon0 is to help 10% of the world population (about 800 million pe
 ## Tech Stack
 - [Django](https://www.djangoproject.com/) - Main framework for handling backend
 - [Python](https://www.python.org) - Primary coding language
-- [Git](https://git-scm.com/doc) [Github](https://www.github.com) - for Version Control and Team Collaboration
+- [Git](https://git-scm.com/doc) and [Github](https://www.github.com) - for Version Control and Team Collaboration
 <br /><br />
 
 ## Contributing
