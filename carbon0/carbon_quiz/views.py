@@ -10,7 +10,7 @@ from django.views.generic.edit import (
     CreateView,
     UpdateView,
     DeleteView)
-from mixpanel import Mixpanel
+from mixpanel import Mixpanel, MixpanelException
 
 
 from .models.mission import Mission
@@ -43,11 +43,16 @@ def track_achievement_creation(achievement, user):
     else:  # user is not authenticated
         properties['user'] = 'visitor'
     # track the event
-    mp.track(
-        properties['user'],
-        event_name='createAchievement',
-        properties=properties
-    )
+    try:
+        mp.track(
+            properties['user'],
+            event_name='createAchievement',
+            properties=properties
+        )
+    # TODO: figure out why Mixpanel throws an exception on some environments
+    except MixpanelException:
+        # log the error happened on the Terminal
+        print('MixpanelException occurred!')
     return None
 
 
@@ -232,7 +237,7 @@ class AchievementCreate(CreateView):
             Achievement.set_zeron_image_url(mission)
         )
         # track the event in Mixpanel
-        # track_achievement_creation(form.instance, user)
+        track_achievement_creation(form.instance, user)
         # if it's available, set the quiz relationship on the new instance
         if quiz_slug is not None:
             # get the Quiz
