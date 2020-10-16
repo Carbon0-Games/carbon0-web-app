@@ -23,5 +23,5 @@ urlpatterns = [
     path("quiz-data/<int:pk>/", QuizData.as_view(), name="quiz_data"),
     path("profile-data/<int:pk>/", ProfileData.as_view(), name="profile_data"),
 
-    path("user-footprint/", UserFootPrintData.as_view(), name="user_footprint_data"),
+    path("footprint-leaderboard/", UserFootPrintData.as_view(), name="footprint_leaderboard"),
 ]

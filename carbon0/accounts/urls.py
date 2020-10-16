@@ -1,5 +1,6 @@
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
+from django.views.generic import TemplateView
 
 from .views import (
      UserCreate,
@@ -23,5 +24,7 @@ urlpatterns = [
      # User settings page
      path('settings/', SettingsView.as_view(), name='settings'),
      # path('logout_social/', logout_view, name='logout-social'),
+
+     path('leaderboard/', TemplateView.as_view(template_name="leaderboard/leaderboard.html"), name='leaderboard')
 
 ]
