@@ -14,6 +14,8 @@ This repository contains the source code for Carbon0, a gamified solution to sav
 - [How to Run Locally](#how-to-run-locally)
 - [Creating a Pull Request](#creating-a-pull-request)
 - [Contributing to Carbon0](#contributing-to-carbon0) 
+- [Release Schedule](#release-schedule)
+- [Adding Environment Variables](#adding-environment-variables)
 <br /><br /> 
 
 ## About this Project
@@ -33,7 +35,7 @@ All while having fun!
 - [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) - for building a mobile-friendly UI for web browsers
 - [Postgres.app](https://postgresapp.com/) - for installing PostgreSQL on your local machine, to use as a database for the project
 - [Git](https://git-scm.com/doc) and [Github](https://www.github.com) - for Version Control and Team Collaboration
-- [WebXR]()
+- [WebXR](https://developers.google.com/web/updates/2018/05/welcome-to-immersive) - for displaying AR characters in the browser, with no external hardware required 
 <br /><br />
 
 ## How to Run Locally
@@ -95,3 +97,15 @@ On GitHub, navigate to the main page of the repository.
 
 ## Contributing to Carbon0
 We look forward to seeing your work! Once your PR has been merged, we invite you to add yourself to the [CONTRIBUTORS](CONTRIBUTORS.md) file.
+
+On this file, we would love for you to list your name, and perhaps share some details with the community such as:
+```
+- Name: who you are
+- About Me: where you're from, what your goals are, how you found out about Carbon0, etc.
+- Technologies you work with
+- and a Fun Fact doesn't hurt!
+```
+
+## Release Schedule
+
+## Adding Environment Variables
