@@ -105,21 +105,22 @@ class AchievementData(APIView):
 
 
 class UserFootPrintData(APIView):
+    """Returns usernames and foot print values in ascending order"""
 
-        def get(self, request):
-            all_profiles = Profile.objects.order_by('users_footprint').asc()
-            # for loop to get all user names
-            players = list()
-            for p in all_profiles:
-                # create the player object
-                player = {
-                    'username': p.user.username,
-                    'score': p.users_footprint
-                }
-                # add to the list
-                players.append(player)
-            data = {
-                "players": players
+    def get(self, request):
+        all_profiles = Profile.objects.order_by('-users_footprint')
+        # for loop to get all user names
+        players = list()
+        for p in all_profiles:
+            # create the player object
+            player = {
+                'username': p.user.username,
+                'score': p.users_footprint
             }
+            # add to the list
+            players.append(player)
+        data = {
+            "players": players
+        }
 
-            return Response(data)
+        return Response(data)
