@@ -36,7 +36,9 @@ All while having fun!
 - [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) - for building a mobile-friendly UI for web browsers
 - [Postgres.app](https://postgresapp.com/) - for installing PostgreSQL on your local machine, to use as a database for the project
 - [Git](https://git-scm.com/doc) and [Github](https://www.github.com) - for Version Control and Team Collaboration
-- [WebXR](https://developers.google.com/web/updates/2018/05/welcome-to-immersive) - for displaying AR characters in the browser, with no external hardware required 
+- [WebXR](https://developers.google.com/web/updates/2018/05/welcome-to-immersive) - for displaying AR characters in the browser, with no external hardware required
+- [Chart.js](https://www.chartjs.org/) - for making bar charts to visualize the carbon footprints of the players
+
 <br /><br />
 
 ## How to Run Locally
@@ -111,3 +113,4 @@ On this file, we would love for you to list your name, and perhaps share some de
 This can be found on [Releases.md](Releases.md).
 
 ## License
+We are currently using the MIT License. More details on [LICENSE](LICENSE).
