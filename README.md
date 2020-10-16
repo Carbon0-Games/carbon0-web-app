@@ -107,5 +107,6 @@ On this file, we would love for you to list your name, and perhaps share some de
 ```
 
 ## Release Schedule
+This can be found on [Releases.md](Releases.md).
 
 ## Adding Environment Variables
