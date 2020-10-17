@@ -1,11 +1,11 @@
 <!-- carbon0/carbon_quiz/templates/partials/quiz_footprint.html -->
 <div class="card" style="background-color:rgb(255, 220, 176)">
     <div class="card-body">
-        <h4 class="card-title" style="color:brown;">Carbon Footprint</h4>
+        <h4 class="card-title" style="color:brown;">Your Carbon Footprint</h4>
         <!-- <h6 class="card-subtitle mb-2">Based on Questions Answered "No"</h6> -->
         <h5 class="card-text"><strong>{{ quiz.carbon_value_total }} metric tons CO2</strong></h5>
         <!-- Display of Bar Chart -->
-        <canvas id="barChart" width="700" height="160rem"></canvas>
+        <canvas id="barChart" width="700rem" height="160rem"></canvas>
         <!-- JS to make the bar chart -->
         <script type="module">
             import {barChart} from '../../../../static/js/barChartFunction.js';
