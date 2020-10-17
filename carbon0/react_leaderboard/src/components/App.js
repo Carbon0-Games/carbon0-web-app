@@ -4,11 +4,10 @@ import ReactDOM from "react-dom";
 import Dashboard from "./leads/Dashboard";
 
 import image from "./imgs/react.png";
+import "./imgs/style.css";
 
 
 class App extends Component {
-
-
 
   render() {
     return (

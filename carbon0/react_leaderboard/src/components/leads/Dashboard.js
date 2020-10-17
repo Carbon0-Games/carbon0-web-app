@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
-import Form from "./Form";
-import Leads from "./Leads";
+import Leaderboard from "./Leaderboard";
+import EveryoneElse from "./EveryoneElse";
 
 export default function Dashboard() {
   return (
     <Fragment>
-      <Form />
-      <Leads />
+      <Leaderboard />
+      <EveryoneElse />
     </Fragment>
   );
 }

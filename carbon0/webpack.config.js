@@ -3,8 +3,8 @@ module.exports = {
         frontend: './react_leaderboard/src/index.js',
     },
     output: {
-        filename: 'main.js',
-        path: __dirname + '/static/js/'
+        path: __dirname + '/static/js/',
+        filename: 'leaderboard.js'
     },
     module: {
       rules: [
@@ -14,6 +14,10 @@ module.exports = {
           use: {
             loader: "babel-loader"
           }
+        },
+        {
+          test: /\.css$/,
+          use: ["style-loader", "css-loader"],
         },
         {
           test: /\.(png|svg|jpg|gif)$/,

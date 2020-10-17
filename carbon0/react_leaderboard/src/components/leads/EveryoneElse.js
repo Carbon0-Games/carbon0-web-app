@@ -5,10 +5,12 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: `http://localhost:8000`
+  // baseURL: `http://127.0.0.1:8000`
+
 })
 
 
-export class Leads extends Component {
+export class EveryoneElse extends Component {
 
   state = {
   players: []
@@ -40,7 +42,7 @@ export class Leads extends Component {
 
     return (
       <>
-        <h3>API Calls</h3>
+        <h3>API Call This Component will show everyone else</h3>
 
         { topThreeList.map(player => 
         
@@ -57,4 +59,4 @@ export class Leads extends Component {
   }
 }
 
-export default Leads
+export default EveryoneElse
