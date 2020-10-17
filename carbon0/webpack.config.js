@@ -4,7 +4,7 @@ module.exports = {
     },
     output: {
         filename: 'main.js',
-        path: __dirname + '/react_leaderboard/static/'
+        path: __dirname + '/static/js/'
     },
     module: {
       rules: [

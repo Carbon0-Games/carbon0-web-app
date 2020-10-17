@@ -13,8 +13,6 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <Header />
-
         <div className="container">
           <Dashboard />
         <img src={image} alt="React Image test" />
