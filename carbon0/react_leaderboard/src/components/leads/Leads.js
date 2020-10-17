@@ -11,44 +11,48 @@ const api = axios.create({
 export class Leads extends Component {
 
   state = {
-  courses: []
+  players: []
   }
 
   constructor() {
     super();
     api.get('api/footprint-leaderboard').then(res => {
-      console.log(res.data)
-      console.log("test loging out")
-      this.setState({ courses:res.data})
+      console.log(res.data.players)
+      this.setState({ players:res.data.players})
+      // players = Array.from(res.data.players);
+      // const test = Object.keys(res).forEach((property) => {
+      //   res[property]
+      // })
+
     })
+
+    // data = Array.from(props.data);
+
   }
 
-
-  componentDidMount() {
-    console.log(courses)
-  }
-  
   render() {
 
-  
+    let topThreeList = [];
+    for (var i = 0; i < this.state.players.length; i++) {
+      topThreeList.push(this.state.players[i])
+      // console.log("yes")
+    }
 
     return (
-      <div>
-        <h1>Leads List LEAD PAGE MODIFied</h1>
+      <>
+        <h3>API Calls</h3>
 
-        {/* { this.state.courses.map(course => 
+        { topThreeList.map(player => 
         
-        <div key={course.id}>
-        
-        <h2>{course.username} </h2>
-        <p>{course.score} </p>
-        
+        <div key={player.id}>
+          <h2  key={player.id} >{player.username} </h2>
+          <p  key={player.id}>{player.score} </p>
         </div>
         )
         
-        } */}
+        }   
 
-      </div>
+      </>
     )
   }
 }
