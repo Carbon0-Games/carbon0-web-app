@@ -2,8 +2,6 @@ import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 
 import Dashboard from "./leads/Dashboard";
-
-import image from "./imgs/react.png";
 import "./imgs/style.css";
 
 
@@ -14,7 +12,6 @@ class App extends Component {
       <Fragment>
         <div className="container">
           <Dashboard />
-        <img src={image} alt="React Image test" />
         </div>
 
       </Fragment>

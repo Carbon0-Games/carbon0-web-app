@@ -19,7 +19,7 @@ export class EveryoneElse extends Component {
   constructor() {
     super();
     api.get('api/footprint-leaderboard').then(res => {
-      console.log(res.data.players)
+      // console.log(res.data.players)
       this.setState({ players: res.data.players })
     })
   }
@@ -34,11 +34,11 @@ export class EveryoneElse extends Component {
 
     return (
       <>
-        <h3>API Call This Component will show everyone else</h3>
+        <h3>Everyone Else</h3>
 
         { everyoneElseList.map(player =>
           <div key={player.id}>
-            <h2 key={player.id} >{player.username} </h2>
+            <h4 key={player.id} >{player.username} </h4>
             <p key={player.id}>{player.score} </p>
           </div>
         )

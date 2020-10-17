@@ -1,3 +1,24 @@
 .leaderboard {
     color: blue;
+    text-align: center;
+}
+
+.card {
+    width: 18rem;
+    margin: 1em;
+}
+
+.card-leader {
+    width: 22rem;
+}
+
+.card-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    /* justify-content: space-evenly; */
+    align-items: center;
+    /* align-content: stretch; */
+
+
 }
