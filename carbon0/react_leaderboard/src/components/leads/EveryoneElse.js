@@ -13,46 +13,37 @@ const api = axios.create({
 export class EveryoneElse extends Component {
 
   state = {
-  players: []
+    players: []
   }
 
   constructor() {
     super();
     api.get('api/footprint-leaderboard').then(res => {
       console.log(res.data.players)
-      this.setState({ players:res.data.players})
-      // players = Array.from(res.data.players);
-      // const test = Object.keys(res).forEach((property) => {
-      //   res[property]
-      // })
-
+      this.setState({ players: res.data.players })
     })
-
-    // data = Array.from(props.data);
-
   }
 
   render() {
+    let everyoneElseList = [];
 
-    let topThreeList = [];
-    for (var i = 0; i < this.state.players.length; i++) {
-      topThreeList.push(this.state.players[i])
-      // console.log("yes")
-    }
+    if (this.state.players.length > 3)
+      for (var i = 3; i < this.state.players.length; i++) {
+        everyoneElseList.push(this.state.players[i])
+      }
 
     return (
       <>
         <h3>API Call This Component will show everyone else</h3>
 
-        { topThreeList.map(player => 
-        
-        <div key={player.id}>
-          <h2  key={player.id} >{player.username} </h2>
-          <p  key={player.id}>{player.score} </p>
-        </div>
+        { everyoneElseList.map(player =>
+          <div key={player.id}>
+            <h2 key={player.id} >{player.username} </h2>
+            <p key={player.id}>{player.score} </p>
+          </div>
         )
-        
-        }   
+
+        }
 
       </>
     )
