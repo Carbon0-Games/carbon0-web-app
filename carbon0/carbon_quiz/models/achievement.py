@@ -187,7 +187,6 @@ class Achievement(models.Model):
             # if this method called on a signup
             if user is not None and self.profile.users_footprint == 0:
                 # increase the profile's footprint
-                print(f"Increasing the footprint by {self.quiz.carbon_value_total}")
                 self.profile.users_footprint += self.quiz.carbon_value_total
             # calculate the new footprint
             new_footprint = self.calculate_new_footprint()

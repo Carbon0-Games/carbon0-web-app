@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.8"
+# adding PostgreSQL
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database test_carbon0;' -U postgres
+# command to install dependencies
+install:
+  - cd carbon0/
+  - pip install -r requirements.txt
+# command to run tests
+script:
+  - python manage.py collectstatic --noinput
+  - python manage.py test

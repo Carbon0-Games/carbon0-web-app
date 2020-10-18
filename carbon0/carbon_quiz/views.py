@@ -1,11 +1,16 @@
 import random
 
+from django.conf import settings
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import (
+    CreateView,
+    UpdateView,
+    DeleteView)
+from mixpanel import Mixpanel
 
 from .models.mission import Mission
 from accounts.models import Profile
@@ -13,6 +18,36 @@ from .models.question import Question
 from .models.quiz import Quiz
 from .models.achievement import Achievement
 from django.conf import settings
+
+
+def track_achievement_creation(achievement, user):
+    """Logs the creation of a new Achievement,
+       and its player if they're logged in.
+
+       Parameter: 
+       achievement(Achievement): the Achievement being created
+       user(User): the user earning the Achievement
+
+       Returns: None
+    
+    """
+    # instantiate the Mixpanel tracker
+    mp = Mixpanel(settings.MP_PROJECT_TOKEN)
+    # Set the properties
+    properties = dict()
+    properties['achievementType'] = achievement.mission.question.category
+    # set the user property
+    if user.is_authenticated:
+        properties['user'] = user.username
+    else:  # user is not authenticated
+        properties['user'] = 'visitor'
+    # track the event
+    mp.track(
+        properties['user'],
+        event_name='createAchievement',
+        properties=properties
+    )
+    return None
 
 
 class QuizCreate(CreateView):
@@ -53,7 +88,6 @@ class QuizDetail(DetailView):
     model = Quiz
     template_name = "carbon_quiz/quiz/detail.html"
 
-    # def get(self, request, slug, is_question_answered=None):
     def get(self, request, slug, question_number):
         """
         Renders a page to show the question currently being asked, or the
@@ -77,7 +111,7 @@ class QuizDetail(DetailView):
         # if the next question needs to be shown
         if quiz.active_question < 5:
             # get the current Question
-            question_obj = quiz.get_current_quiz()
+            question_obj = quiz.get_current_question()
             # set the addtional key value pairs to the context
             additional_key_value_pairs = [
                 ("question", question_obj),
@@ -108,6 +142,10 @@ class QuizDetail(DetailView):
             additional_key_value_pairs = [
                 ("missions", missions),  # possible missions for the user
             ]
+        # add the Mixpanel token
+        additional_key_value_pairs.append(
+            ('MP_PROJECT_TOKEN', settings.MP_PROJECT_TOKEN)
+        )
         # add additional key value pairs to the context
         context.update(additional_key_value_pairs)
         # return the response
@@ -182,14 +220,18 @@ class AchievementCreate(CreateView):
         # return the response
         return render(request, self.template_name, context)
 
-    def form_valid(self, form, mission_id, quiz_slug):
-        """Instaniates a new Achievement model."""
+    def form_valid(self, form, mission_id, quiz_slug, user):
+        '''Instaniates a new Achievement model.'''
         # get the related Mission model
         mission = Mission.objects.get(id=mission_id)
         # set it on the new Achievement
         form.instance.mission = mission
         # set the url of the Zeron image field
-        form.instance.zeron_image_url = Achievement.set_zeron_image_url(mission)
+        form.instance.zeron_image_url = (
+            Achievement.set_zeron_image_url(mission)
+        )
+        # track the event in Mixpanel
+        track_achievement_creation(form.instance, user)
         # if it's available, set the quiz relationship on the new instance
         if quiz_slug is not None:
             # get the Quiz
@@ -223,10 +265,10 @@ class AchievementCreate(CreateView):
                 # set the profile on the new instance
                 form.instance.profile = request.user.profile
             # then initialize the rest of the new Achievement
-            return self.form_valid(form, mission_id, quiz_slug)
+            return self.form_valid(form, mission_id, quiz_slug, request.user)
         # or redirect back to the form
         else:
-            return self.form_invalid(form)
+            return super().form_invalid(form)
 
 
 class AchievementDetail(DetailView):
@@ -251,21 +293,24 @@ class AchievementDetail(DetailView):
         achievement = Achievement.objects.get(id=pk)
         # add achievment pk to request session
         request.session["achievement_pk"] = pk
+        # set the context 
+        context = {
+            'achievement': achievement,
+            'app_id': settings.FACEBOOK_SHARING_APP_ID,
+        }
         # set the images needed for the context
         browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
         ios_zeron_model = achievement.zeron_image_url[1]  # .usdz file path
-        # make context dict
-        context = {
-            "achievement": achievement,
-            "browser_model": browser_zeron_model,
-            "ios_model": ios_zeron_model,
-            "app_id": settings.FACEBOOK_SHARING_APP_ID,
-        }
+        # add to context, if we have an environment that has env variables
+        if not (browser_zeron_model is None or ios_zeron_model is None):
+            context.update([
+                ("browser_model", browser_zeron_model),
+                ("ios_model", ios_zeron_model),
+            ])
         # if the user is authenticated
-        if request.user.is_authenticated:
+        if request.user and request.user.is_authenticated:
             # show their profile's footprint (already be authenicated)
             context["profile"] = achievement.profile
-            print(f"Profile found: {achievement.profile}")
         # otherwise get the quiz related to the achievement
         else:  # user requesting the view is not logged in
             context["quiz"] = achievement.quiz

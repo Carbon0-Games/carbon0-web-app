@@ -48,9 +48,9 @@ class Quiz(models.Model):
         because we want to make sure it can't refer to a real Question model.
         """
         path_components = {
-            "slug": self.slug,
-            # for the question number, increment zero-indexed number
-            "question_number": self.active_question + 1,
+            'slug': self.slug,
+             # for the question number, increment zero-indexed number
+            'question_number': self.active_question + 1
         }
         return reverse("carbon_quiz:quiz_detail", kwargs=path_components)
 
@@ -82,7 +82,7 @@ class Quiz(models.Model):
         # call save on the superclass
         return super().save(*args, **kwargs)
 
-    def get_current_quiz(self):
+    def get_current_question(self):
         """Return the Question which is current active in this Quiz."""
         question_id = self.questions[self.active_question]
         question_obj = Question.objects.get(id=question_id)

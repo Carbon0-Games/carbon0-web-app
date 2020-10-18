@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
-from accounts.views import UserCreateFromSocial
 from carbon0 import views
 
 urlpatterns = [
@@ -28,9 +27,8 @@ urlpatterns = [
     path("carbon-quiz/", include("carbon_quiz.urls")),
     # User-Accounts-related URLs
     path("accounts/", include("accounts.urls")),
+    # OAuth Lib-related URLs
     path("oauth/", include("social_django.urls", namespace="social")),
-    # Social
-    path("accounts/login/", UserCreateFromSocial.as_view(), name="login"),
-    # API URLs
+    # API-related URLss
     path("api/", include("api.urls")),
 ]
