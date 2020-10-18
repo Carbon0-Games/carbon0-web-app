@@ -35,13 +35,13 @@ class QuizUpdate(APIView):
         quiz = Quiz.objects.get(slug=quiz_slug)
         # get the current Question
         question_obj = quiz.get_current_quiz()
-        # if the user just answered 'yes',
-        if question_response == 1:
+        # if the user answered in a way that's good
+        if question_response != question_obj.improvement_response:
             # ignore the question later, when finding missions
             quiz.questions[quiz.active_question] = 0
-        # if question was answered no
-        elif question_response == 0 and quiz.active_question > 0:
-            # increment the total carbon value so far
+        # otherwise:
+        elif quiz.active_question > 0:
+            # increment the total carbon value of this quiz so far
             quiz.increment_carbon_value(question_obj)
         # increment the active_question for the next call
         quiz.increment_active_question()
