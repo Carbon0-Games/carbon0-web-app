@@ -69,7 +69,7 @@ export class TopThreeUser extends Component {
 
         <div>
           <h2 className="leaderboard">1</h2>
-          <div className="card" className="card-leader">
+          <div className="card" className="card card-leader">
             <img className="card-img-top" src={image} alt="Card image cap" />
             <div className="card-body">
               <h5 className="card-title text-center">{this._nameFirst}</h5>

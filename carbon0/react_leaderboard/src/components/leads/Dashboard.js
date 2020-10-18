@@ -6,7 +6,7 @@ export default function Dashboard() {
   return (
     <Fragment>
       <h1 className="leaderboard">Leaderboard</h1>
-      {/* <TopThreeUser /> */}
+      <TopThreeUser />
       <EveryoneElse />
     </Fragment>
   );

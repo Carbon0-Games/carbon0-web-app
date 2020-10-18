@@ -111,9 +111,10 @@ class UserFootPrintData(APIView):
         all_profiles = Profile.objects.order_by('-users_footprint')
         # for loop to get all user names
         players = list()
-        for p in all_profiles:
+        for (i,p) in enumerate(all_profiles):
             # create the player object
             player = {
+                'position': i,
                 'username': p.user.username,
                 'score': p.users_footprint
             }

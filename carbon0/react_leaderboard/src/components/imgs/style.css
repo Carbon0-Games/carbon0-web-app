@@ -5,7 +5,7 @@
 
 .card {
     width: 18rem;
-    margin: 1em;
+    margin: .5em;
 }
 
 .card-leader {
@@ -16,9 +16,29 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    /* justify-content: space-evenly; */
     align-items: center;
-    /* align-content: stretch; */
 
+}
 
+body {
+    background-color:#F6E6D4;
+}
+
+table.table-bordered{
+    border:  0px solid black; /* to clear bootstrap bordering */
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+  }
+table.table-bordered > thead > tr > th{
+    border:  0px solid black;
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+table.table-bordered > tbody > tr > td{
+    border:  0px solid black;
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }

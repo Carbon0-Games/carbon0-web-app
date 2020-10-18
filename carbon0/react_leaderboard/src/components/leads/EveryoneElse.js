@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
+
 const api = axios.create({
   baseURL: `http://localhost:8000`
   // baseURL: `http://127.0.0.1:8000`
@@ -26,34 +27,19 @@ export class EveryoneElse extends Component {
 
   render() {
     let everyoneElseList = [];
-    let ids = []
 
     if (this.state.players.length > 3)
       for (var i = 3; i < this.state.players.length; i++) {
         everyoneElseList.push(this.state.players[i])
       }
 
-    for (var i = 3; i < everyoneElseList.length + 3; i++) {
-      ids.push(i)
-    }
-
-    console.log(ids)
-
     return (
       <>
-        <h3>Everyone Else</h3>
+        <h3>Others</h3>
 
-        { everyoneElseList.map(player =>
-          <div key={player.id}>
-            <h4 key={player.id} >{player.username} </h4>
-            <p key={player.id}>{player.score} </p>
-          </div>
-        )
-        }
-
-        <table className="table">
+        <table className="table table-bordered">
           <thead>
-            <tr>
+            <tr class="table-info" >
               <th scope="col">Position</th>
               <th scope="col">Username</th>
               <th scope="col">Score</th>
@@ -63,15 +49,12 @@ export class EveryoneElse extends Component {
 
             {everyoneElseList.map(player =>
               <tr>
-                {/* {ids.map(id => <th scope="row">{id}</th>
-                )} */}
-                <th scope="row">{player.id}</th>
+                <td scope="row">{player.position}</td>
                 <td>{player.username}</td>
                 <td>{player.score}</td>
-
               </tr>
-
             )}
+
           </tbody>
         </table>
 
