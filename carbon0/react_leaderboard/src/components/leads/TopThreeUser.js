@@ -56,38 +56,38 @@ export class TopThreeUser extends Component {
           </div>
         )
         } */}
-        <card >
+        <div>
           <h2 className="leaderboard">2</h2>
-          <div class="card" className="card">
-            <img class="card-img-top" src={image} alt="Card image cap" />
-            <div class="card-body">
-              <h5 class="card-title text-center">{this._nameSecond}</h5>
-              <p class="card-text text-center">{this._scoreSecond}</p>
+          <div className="card" className="card">
+            <img className="card-img-top" src={image} alt="Card image cap" />
+            <div className="card-body">
+              <h5 className="card-title text-center">{this._nameSecond}</h5>
+              <p className="card-text text-center">{this._scoreSecond}</p>
             </div>
           </div>
-        </card>
+        </div>
 
-        <card>
+        <div>
           <h2 className="leaderboard">1</h2>
-          <div class="card" className="card-leader">
-            <img class="card-img-top" src={image} alt="Card image cap" />
-            <div class="card-body">
-              <h5 class="card-title text-center">{this._nameFirst}</h5>
-              <p class="card-text text-center">{this._scoreFirst}</p>
+          <div className="card" className="card-leader">
+            <img className="card-img-top" src={image} alt="Card image cap" />
+            <div className="card-body">
+              <h5 className="card-title text-center">{this._nameFirst}</h5>
+              <p className="card-text text-center">{this._scoreFirst}</p>
             </div>
           </div>
-        </card>
+        </div>
 
-        <card>
+        <div>
           <h2 className="leaderboard">3</h2>
-          <div class="card" className="card">
-            <img class="card-img-top" src={image} alt="Card image cap" />
-            <div class="card-body">
-            <h5 class="card-title text-center">{this._nameThird}</h5>
-              <p class="card-text text-center">{this._scoreThird}</p>
+          <div className="card" className="card">
+            <img className="card-img-top" src={image} alt="Card image cap" />
+            <div className="card-body">
+            <h5 className="card-title text-center">{this._nameThird}</h5>
+              <p className="card-text text-center">{this._scoreThird}</p>
             </div>
           </div>
-        </card>
+        </div>
 
       </section>
     )

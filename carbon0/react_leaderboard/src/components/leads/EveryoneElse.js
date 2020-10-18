@@ -26,11 +26,18 @@ export class EveryoneElse extends Component {
 
   render() {
     let everyoneElseList = [];
+    let ids = []
 
     if (this.state.players.length > 3)
       for (var i = 3; i < this.state.players.length; i++) {
         everyoneElseList.push(this.state.players[i])
       }
+
+    for (var i = 3; i < everyoneElseList.length + 3; i++) {
+      ids.push(i)
+    }
+
+    console.log(ids)
 
     return (
       <>
@@ -42,8 +49,31 @@ export class EveryoneElse extends Component {
             <p key={player.id}>{player.score} </p>
           </div>
         )
-
         }
+
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Position</th>
+              <th scope="col">Username</th>
+              <th scope="col">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {everyoneElseList.map(player =>
+              <tr>
+                {/* {ids.map(id => <th scope="row">{id}</th>
+                )} */}
+                <th scope="row">{player.id}</th>
+                <td>{player.username}</td>
+                <td>{player.score}</td>
+
+              </tr>
+
+            )}
+          </tbody>
+        </table>
 
       </>
     )
