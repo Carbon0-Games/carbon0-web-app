@@ -34,7 +34,7 @@ class QuizUpdate(APIView):
         # get the Quiz instance
         quiz = Quiz.objects.get(slug=quiz_slug)
         # get the current Question
-        question_obj = quiz.get_current_quiz()
+        question_obj = quiz.get_current_question()
         # if the user answered in a way that's good
         if question_response != question_obj.improvement_response:
             # ignore the question later, when finding missions

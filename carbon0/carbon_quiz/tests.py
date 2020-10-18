@@ -142,7 +142,7 @@ class QuizTests(DatabaseSetup):
         self.assertEqual(quiz.slug, self.quiz.slug)
         # test that it has the correct default values
         self.assertEqual(quiz.active_question, 0)
-        self.assertEqual(quiz.carbon_value_total, 0)
+        self.assertEqual(quiz.carbon_value_total, 1000.0)
         # test that is has the right questions array
         self.assertEqual(quiz.questions, self.quiz.questions)
         return None
