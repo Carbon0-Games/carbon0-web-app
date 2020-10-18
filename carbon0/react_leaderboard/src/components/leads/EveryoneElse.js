@@ -49,7 +49,7 @@ export class EveryoneElse extends Component {
 
             {everyoneElseList.map(player =>
               <tr>
-                <td scope="row">{player.position}</td>
+                <td scope="row"> <strong>{player.position + 1}</strong></td>
                 <td>{player.username}</td>
                 <td>{player.score}</td>
               </tr>
