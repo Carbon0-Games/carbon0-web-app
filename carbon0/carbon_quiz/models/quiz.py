@@ -33,7 +33,7 @@ class Quiz(models.Model):
     )
     carbon_value_total = models.FloatField(
         blank=True,
-        default=0,
+        default=1000,
         help_text="Total metric tons of carbon that the user can eliminate.",
     )
 
