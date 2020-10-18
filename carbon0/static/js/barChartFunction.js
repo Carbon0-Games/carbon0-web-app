@@ -25,8 +25,6 @@ export function barChart(plotLabels, plotData) {
                     display: true,
                     ticks: {
                         beginAtZero: true,
-                        min: 0,
-                        max: 1000000000000000,
                     }
                 }]
             }
