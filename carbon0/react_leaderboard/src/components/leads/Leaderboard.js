@@ -1,12 +1,13 @@
 import React, { Fragment } from "react";
-import TopThreeUser from "./TopThreeUser";
+import TopThreeUsers from "./TopThreeUsers";
 import EveryoneElse from "./EveryoneElse";
+
 
 export default function Leaderboard() {
   return (
     <Fragment>
       <h1 className="leaderboard">Leaderboard</h1>
-      <TopThreeUser />
+      <TopThreeUsers />
       <EveryoneElse />
     </Fragment>
   );

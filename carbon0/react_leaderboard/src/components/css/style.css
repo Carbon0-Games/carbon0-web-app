@@ -47,7 +47,7 @@ section {
 }
 
 table.table-bordered{
-    border:  0px solid black; /* to clear bootstrap bordering */
+    border:  0px solid black; /* to clear bootstrap's bordering */
 
     border-top: 1px solid black;
     border-bottom: 1px solid black;

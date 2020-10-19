@@ -1,6 +1,6 @@
-
 import React, { Component } from 'react';
 import axios from 'axios';
+
 
 const api = axios.create({
   baseURL: `http://localhost:8000`
@@ -9,13 +9,13 @@ const api = axios.create({
 })
 
 export class EveryoneElse extends Component {
-
   state = {
     players: []
   }
 
   constructor() {
     super();
+    // making API GET call 
     api.get('api/footprint-leaderboard').then(res => {
       console.log(res.data.players)
       this.setState({ players: res.data.players })
@@ -43,7 +43,6 @@ export class EveryoneElse extends Component {
             </tr>
           </thead>
           <tbody>
-
             {everyoneElseList.map(player =>
               <tr>
                 <td scope="row"> <strong>{player.position + 1}</strong></td>
@@ -51,7 +50,6 @@ export class EveryoneElse extends Component {
                 <td>{player.score}</td>
               </tr>
             )}
-
           </tbody>
         </table>
 

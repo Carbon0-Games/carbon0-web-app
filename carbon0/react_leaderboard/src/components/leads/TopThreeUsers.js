@@ -6,13 +6,12 @@ import second from "../imgs/second.png";
 import thrid from "../imgs/third.png";
 
 
-
 const api = axios.create({
   baseURL: `http://localhost:8000`
   // baseURL: `http://127.0.0.1:8000`
 })
 
-export class TopThreeUser extends Component {
+export class TopThreeUsers extends Component {
   state = {
     players: []
   }
@@ -35,7 +34,6 @@ export class TopThreeUser extends Component {
       topThreeList.push(this.state.players[i])
     }
 
-
   if (topThreeList.length > 0) {
     this._nameFirst = topThreeList[0].username
     this._scoreFirst = topThreeList[0].score
@@ -47,22 +45,9 @@ export class TopThreeUser extends Component {
     this._scoreThird = topThreeList[2].score
   }
 
-  // console.log(Object.keys(testt))
-
-
     return (
       <section className="card-section" >
 
-{/* <section class="d-flex flex-row flex-wrap" > */}
-
-
-         {/* { topThreeList.map(player =>
-          <div key={player.id}>
-            <h4 key={player.id} >{player.username} </h4>
-            <p key={player.id}>{player.score} </p>
-          </div>
-        )
-        } */}
         <div class="p-2">
           <h2 className="leaderboard">2</h2>
           <div className="card">
@@ -101,4 +86,4 @@ export class TopThreeUser extends Component {
   }
 }
 
-export default TopThreeUser
+export default TopThreeUsers

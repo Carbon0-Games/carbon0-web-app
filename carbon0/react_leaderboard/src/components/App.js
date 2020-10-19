@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 
 import Leaderboard from "./leads/Leaderboard";
-import "../css/style.css";
+import "./css/style.css";
 
 
 class App extends Component {
