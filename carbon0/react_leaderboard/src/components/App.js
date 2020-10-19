@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 
 import Dashboard from "./leads/Dashboard";
-import "./imgs/style.css";
+import "../css/style.css";
 
 
 class App extends Component {

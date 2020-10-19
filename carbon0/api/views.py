@@ -109,6 +109,7 @@ class UserFootPrintData(APIView):
     
     def get(self, request):
         all_profiles = Profile.objects.order_by('-users_footprint')
+        print(all_profiles)
         # for loop to get all user names
         players = list()
         for (i,p) in enumerate(all_profiles):

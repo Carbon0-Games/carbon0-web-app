@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import 'bootstrap';
-import image from "../imgs/react.png";
 import first from "../imgs/first.png";
 import second from "../imgs/second.png";
 import thrid from "../imgs/third.png";
@@ -20,7 +19,7 @@ export class TopThreeUser extends Component {
   constructor() {
     super();
     api.get('api/footprint-leaderboard').then(res => {
-      // console.log(res.data.players)
+      console.log(res.data.players)
       this.setState({ players: res.data.players })
     })
 

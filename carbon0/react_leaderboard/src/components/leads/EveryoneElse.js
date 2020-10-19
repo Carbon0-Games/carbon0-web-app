@@ -1,15 +1,12 @@
 
 import React, { Component } from 'react';
-
 import axios from 'axios';
-
 
 const api = axios.create({
   baseURL: `http://localhost:8000`
   // baseURL: `http://127.0.0.1:8000`
 
 })
-
 
 export class EveryoneElse extends Component {
 
@@ -20,7 +17,7 @@ export class EveryoneElse extends Component {
   constructor() {
     super();
     api.get('api/footprint-leaderboard').then(res => {
-      // console.log(res.data.players)
+      console.log(res.data.players)
       this.setState({ players: res.data.players })
     })
   }
