@@ -7,6 +7,6 @@ These releases are tenatively scheduled. **Thank you for your patience** if some
 | Version       | Description   | Date  |
 | ------------- |:-------------:| :-----|
 | 0.0.1         | Basic MVP |  Thursday October 22, 2020 |
-| 0.0.2         | MVP |  Monday October 26, 2020 |
+| 1.0.0         | MVP |  Monday October 26, 2020 |
 
 
