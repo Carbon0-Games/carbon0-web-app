@@ -7,7 +7,8 @@ import thrid from "../imgs/third.png";
 
 
 const api = axios.create({
-  baseURL: `http://localhost:8000`
+  baseURL: `https://carbon0.herokuapp.com`
+  // baseURL: `http://localhost:8000/`
   // baseURL: `http://127.0.0.1:8000`
 })
 
@@ -17,6 +18,7 @@ export class TopThreeUsers extends Component {
   }
   constructor() {
     super();
+    // making API GET call 
     api.get('api/footprint-leaderboard').then(res => {
       console.log(res.data.players)
       this.setState({ players: res.data.players })
@@ -30,6 +32,7 @@ export class TopThreeUsers extends Component {
     if (this.state.players.length < 3) {
       loopLength = this.state.players.length
     }
+
     for (var i = 0; i < loopLength; i++) {
       topThreeList.push(this.state.players[i])
     }
