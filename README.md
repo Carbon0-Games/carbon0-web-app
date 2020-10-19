@@ -53,6 +53,7 @@ Please follow these steps to be able to run the project:
     - Start a new virtual env, and install Django - this [tutorial](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/) is a good way to start if you need help to install and setup a virtual env
     - From this point on, stay in the virtual env
     - Within the outer `carbon0/` directory, enter the following to install all the dependencies through your command line: `python -m pip install -r requirements.txt` 
+    - Also run the command `npm install` in this directory, to install all the dependencies for Node.js.
     - Do any db migrations that might be needed, using `python manage.py migrate`
 
 ### __Running Locally__
