@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 
-import Dashboard from "./leads/Dashboard";
+import Leaderboard from "./leads/Leaderboard";
 import "../css/style.css";
 
 
@@ -11,9 +11,8 @@ class App extends Component {
     return (
       <Fragment>
         <div className="container">
-          <Dashboard />
+          <Leaderboard />
         </div>
-
       </Fragment>
     );
   }
