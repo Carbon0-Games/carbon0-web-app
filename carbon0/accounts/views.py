@@ -173,7 +173,7 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
         profile = Profile.objects.create(user=user)
         profile.save()
 
-        # checking to make sure there's a achievement_pk in request.session
+        # checks to make sure there's an achievement_pk in request.session
         if "achievement_pk" in request.session:
             pk = request.session["achievement_pk"]
             achievement = Achievement.objects.get(id=pk)

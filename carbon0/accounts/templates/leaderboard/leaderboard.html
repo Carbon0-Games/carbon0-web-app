@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% include 'partials/navbar.html' %}
+<div id="app" style="display: flex; justify-content: center; align-items: center;"></div>
+<script src="{% static 'js/leaderboard.js' %}"> </script>
+
+{% endblock %}
