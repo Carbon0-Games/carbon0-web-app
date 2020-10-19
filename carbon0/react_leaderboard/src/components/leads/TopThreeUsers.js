@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import 'bootstrap';
 import first from "../imgs/first.png";
 import second from "../imgs/second.png";
 import thrid from "../imgs/third.png";

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
-
+import 'bootstrap';
 import Leaderboard from "./leads/Leaderboard";
 import "./css/style.css";
 
