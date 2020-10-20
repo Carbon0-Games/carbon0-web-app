@@ -6,7 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView
-from mixpanel import Mixpanel
+from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
 from .forms import UserSignUpForm
@@ -32,25 +32,28 @@ def track_successful_signup(user, secret_id):
     Returns: None
 
     """
-    # instaniate the Mixpanel tracker
-    mp = Mixpanel(settings.MP_PROJECT_TOKEN)
-    # determine if user completed a quiz first
-    earned_achievement = secret_id is not None
-    # Tracks the event and its properties
-    mp.track(
-        user.username,
-        "signUp",
-        {
-            "achievementEarned": earned_achievement,
-        },
-    )
-    # make a User profile for this person on Mixpanel
-    mp.people_set(
-        user.username,
-        {"$email": user.email, "$phone": "", "logins": []},
-        # ignore geolocation data
-        meta={"$ignore_time": "true", "$ip": 0},
-    )
+    try:
+        # instaniate the Mixpanel tracker
+        mp = Mixpanel(settings.MP_PROJECT_TOKEN)
+        # determine if user completed a quiz first
+        earned_achievement = secret_id is not None
+        # Tracks the event and its properties
+        mp.track(
+            user.username,
+            "signUp",
+            {
+                "achievementEarned": earned_achievement,
+            },
+        )
+        # make a User profile for this person on Mixpanel
+        mp.people_set(
+            user.username,
+            {"$email": user.email, "$phone": "", "logins": []},
+            # ignore geolocation data
+            meta={"$ignore_time": "true", "$ip": 0},
+        )
+    except MixpanelException:
+        pass
     return None
 
 
@@ -63,10 +66,13 @@ def track_login_event(user):
     Returns: None
 
     """
-    # instaniate the Mixpanel tracker
-    mp = Mixpanel(settings.MP_PROJECT_TOKEN)
-    # add the date of the login, in the User's Mixpanel profile
-    mp.people_append(user.username, {"logins": dt.datetime.now()})
+    try:
+        # instaniate the Mixpanel tracker
+        mp = Mixpanel(settings.MP_PROJECT_TOKEN)
+        # add the date of the login, in the User's Mixpanel profile
+        mp.people_append(user.username, {"logins": dt.datetime.now()})
+    except MixpanelException:
+        pass
     return None
 
 
