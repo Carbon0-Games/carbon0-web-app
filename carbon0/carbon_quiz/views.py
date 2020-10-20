@@ -175,7 +175,6 @@ class MissionDetail(DetailView):
         mission = Mission.objects.get(id=pk)
         # get the links related to the mission
         links = Link.objects.filter(mission=mission)
-        print(f'Links: {links}')
         # set the context
         context = {"mission": mission, "links": links}
         # add the quiz_slug if appropiate
