@@ -60,62 +60,56 @@
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <div class="row justify-content-center">
-                        <div class="col-md-12">
-                            <!-- Short Blurb -->
-                            <p class="text-center" style="color:rgb(169, 102, 21); background-color: rgb(247, 247, 247);">"{{ achievement.zeron_say_hello }}"</p>
-                        </div>
+                    <div class="speech-bubble">{{ achievement.zeron_say_hello }}</div>
+                    <div class="d-flex justify-content-center">
+                        <model-viewer src="{% static browser_model %}"
+                            ios-src="{% static ios_model %}"
+                            poster="PNG goes here"
+                            alt="3D model of a Zeron" shadow-intensity="1" camera-controls auto-rotate ar>
+                        </model-viewer>
                     </div>
-                        <div class="row">
-                            <div class="col-md-4"><!-- Placeholder column --></div>
-                            <div class="col-md-4">
-                                <!-- Zeron model viewer -->
-                                {% if browser_model %}
-                                    <model-viewer src="{% static browser_model %}"
-                                        ios-src="{% static ios_model %}"
-                                        poster="PNG goes here"
-                                        alt="3D model of a Zeron" shadow-intensity="1" camera-controls auto-rotate ar>
-                                    </model-viewer>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-4"><!-- Placeholder column --></div>
-                        </div>
                 </div>
             </div>
           
             <!-- Bottom Rows -->
             <div class="row">
-                <p class="mr-auto">Like what you see?</p>
-            </div>
-            <div class="row">
-                <!-- Facebook Share Button -->
-                <div class="mr-auto">
-                    <div class="fb-share-button" data-href="https://mycarbon0.com" data-layout="button_count" data-size="large">
-                        <a id="share-on-facebook" target="_blank"
-                           href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmycarbon0.com%2F&amp;src=sdkpreparse"
-                           class="fb-xfbml-parse-ignore">Share</a>
+                <div class="col-md-4">
+                    <div class="row">
+                        <p class="mr-auto">Like what you see?</p>
+                    </div>
+                    <div class="row">
+                        <!-- Facebook Share Button -->
+                        <div class="mr-auto">
+                            <div class="fb-share-button" data-href="https://mycarbon0.com" data-layout="button_count" data-size="large"><a
+                                 id="share-on-facebook"                                                                                                         
+                                 target="_blank"
+                                 href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmycarbon0.com%2F&amp;src=sdkpreparse"
+                                 class="fb-xfbml-parse-ignore">Share</a>
+                            </div>
+                        </div>
+                        <script>
+                             // function logs whenever someone shares the website
+                            let shareAttempt = (platform) => {
+                                // log the action of starting the quiz
+                                mixpanel.track("shareAttempted", {
+                                    "platform": platform
+                                });
+                            }
+                            // listen for when a user clicks the Facebook share button
+                            document.getElementById("share-on-facebook").addEventListener("click", shareAttempt("Facebook"));
+                        </script>
+                        <!-- Link to Sign Up -->
+                        {% if user.is_authenticated is False %}
+                        <a class="ml-auto btn btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
+                        {% endif %}
                     </div>
                 </div>
-                <script>
-                    // function logs whenever someone shares the website
-                    let shareAttempt = (platform) => {
-                        // log the action of starting the quiz
-                        mixpanel.track("shareAttempted", {
-                            "platform": platform
-                        });
-                    }
-                    // listen for when a user clicks the Facebook share button
-                    document.getElementById("share-on-facebook").addEventListener("click", shareAttempt("Facebook"));
-
-                </script>
-                <!-- Link to Sign Up -->
-                {% if user.is_authenticated is False %}
-                    <a class="ml-auto btn btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
-                {% endif %}
-            </div>
-            <div class="row">
-                <!-- Link to Other Missions Related to this Quiz -->
-                <a class="ml-auto btn btn-secondary mt-3" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">Want More Missions?</a>
+                <div class="col-md-8 justify-content-center align-self-center" style="text-align: center">
+                    
+                        <!-- Link to Other Missions Related to this Quiz -->
+                        <a class="ml-auto btn btn-secondary mt-3" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">Want More Missions?</a>
+                    
+                </div>
             </div>
         </div>
     </div>
