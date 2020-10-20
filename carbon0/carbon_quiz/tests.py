@@ -375,7 +375,7 @@ class AchievementCreateTests(QuizDetailTests):
             "carbon_quiz:achievement_create",
             kwargs={
                 "mission_id": self.missions[0].id,
-                "chosen_link_index": 0,  # right now the Mission only has 1
+                "chosen_link_id": 0,  # right now the Mission only has 1
                 "quiz_slug": self.quiz.slug,
             },
         )
@@ -397,7 +397,7 @@ class AchievementCreateTests(QuizDetailTests):
             "carbon_quiz:achievement_create",
             kwargs={
                 "mission_id": self.missions[0].id,
-                "chosen_link_index": 0,  # right now the Mission only has 1
+                "chosen_link_id": 0,  # right now the Mission only has 1
             },
         )
         # user gets a response
@@ -421,7 +421,7 @@ class AchievementCreateTests(QuizDetailTests):
                 "carbon_quiz:achievement_create",
                 kwargs={
                     "mission_id": self.missions[0].id,
-                    "chosen_link_index": 0,  # right now the Mission only has 1
+                    "chosen_link_id": 0,  # right now the Mission only has 1
                     "quiz_slug": self.quiz.slug,
                 },
             )
@@ -454,7 +454,7 @@ class AchievementCreateTests(QuizDetailTests):
                 "carbon_quiz:achievement_create",
                 kwargs={
                     "mission_id": self.missions[0].id,
-                    "chosen_link_index": 0,  # right now the Mission only has 1
+                    "chosen_link_id": 0,  # right now the Mission only has 1
                 },
             )
         )

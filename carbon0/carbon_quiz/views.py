@@ -13,6 +13,7 @@ from django.views.generic.edit import (
 )
 from mixpanel import Mixpanel, MixpanelException
 
+from .models.link import Link
 from .models.mission import Mission
 from accounts.models import Profile
 from .models.question import Question
@@ -172,8 +173,11 @@ class MissionDetail(DetailView):
         """
         # get the mission object
         mission = Mission.objects.get(id=pk)
+        # get the links related to the mission
+        links = Link.objects.filter(mission=mission)
+        print(f'Links: {links}')
         # set the context
-        context = {"mission": mission, "link_descriptions": mission.link_descriptions}
+        context = {"mission": mission, "links": links}
         # add the quiz_slug if appropiate
         if quiz_slug is not None:
             context["quiz_slug"] = quiz_slug
@@ -189,17 +193,15 @@ class AchievementCreate(CreateView):
     template_name = "carbon_quiz/achievement/create.html"
     queryset = Achievement.objects.all()
 
-    def get(self, request, mission_id, chosen_link_index, quiz_slug=None):
+    def get(self, request, mission_id, chosen_link_id, quiz_slug=None):
         """
         Renders a page to show the question currently being asked.
 
         Parameters:
         request(HttpRequest): the GET request sent to the server
         mission_id(int): unique slug value of the Quiz instance
-        chosen_link_index(int): the index of the link we will use to
-                                complete the mission
-                                (that is to say, when all the hyperlinks
-                                related to a Mission are in an array)
+        chosen_link_id(int): the id of the Link model we will use
+                             to complete the mission
 
         Returns:
         HttpResponse: the view of the detail template for the Achievement
@@ -208,14 +210,12 @@ class AchievementCreate(CreateView):
         """
         # get the mission object
         mission = Mission.objects.get(id=mission_id)
-        # get the link and it's corresponding site name
-        link_address = mission.link_addresses[chosen_link_index]
-        link_description = mission.link_descriptions[chosen_link_index]
+        # get the links related to the mission
+        link = Link.objects.get(id=chosen_link_id)
         # set the context
         context = {
             "mission": mission,
-            "link_address": link_address,
-            "link_description": link_description,
+            "link": link
         }
         # return the response
         return render(request, self.template_name, context)
@@ -238,7 +238,7 @@ class AchievementCreate(CreateView):
             form.instance.quiz = quiz
         return super().form_valid(form)
 
-    def post(self, request, mission_id, chosen_link_index, quiz_slug=None):
+    def post(self, request, mission_id, chosen_link_id, quiz_slug=None):
         """
         Passes the id of the Mission the Achievement is for,
         as part of the POST request.
@@ -246,10 +246,8 @@ class AchievementCreate(CreateView):
         Parameters:
         request(HttpRequest): the GET request sent to the server
         mission_id(int): unique slug value of the Quiz instance
-        chosen_link_index(int): the index of the link we will use to
-                                complete the mission
-                                (that is to say, when all the hyperlinks
-                                related to a Mission are in an array)
+        chosen_link_id(int): the id of the Link model we will use
+                             to complete the mission
 
         Returns:
         HttpResponseRedirect: the view of the detail template for the Achievement
