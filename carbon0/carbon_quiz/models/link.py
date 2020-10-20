@@ -1,6 +1,6 @@
 from django.db import models
 
-from .models.missions import Mission
+from .mission import Mission
 
 
 class Link(models.Model):
