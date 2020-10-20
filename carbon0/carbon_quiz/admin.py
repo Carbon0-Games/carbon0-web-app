@@ -5,9 +5,16 @@ from .models.mission import Mission
 from .models.quiz import Quiz
 from .models.achievement import Achievement
 
+
+# Make ModelAdmins
+class MissionAdmin(admin.ModelAdmin):
+    pass
+
+
+
 # Register your models here
 admin.site.register(Question)
-admin.site.register(Mission)
+admin.site.register(Mission, MissionAdmin)
 admin.site.register(Quiz)
 admin.site.register(Achievement)
 
