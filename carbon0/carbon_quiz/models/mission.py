@@ -19,18 +19,6 @@ class Mission(models.Model):
     learn_more = models.TextField(
         help_text="Explains why the mission matters.", null=True, blank=True
     )
-    link_descriptions = ArrayField(
-        models.CharField(max_length=300, blank=True, null=True),
-        null=True,
-        blank=True,
-        help_text=("What websites the user can click to complete the mission."),
-    )
-    link_addresses = ArrayField(
-        models.CharField(max_length=300, blank=True, null=True),
-        null=True,
-        blank=True,
-        help_text=("Links that user can click to complete the mission."),
-    )
     question = models.ForeignKey(
         Question,
         on_delete=models.PROTECT,
