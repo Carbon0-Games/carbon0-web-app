@@ -48,9 +48,9 @@ class Quiz(models.Model):
         because we want to make sure it can't refer to a real Question model.
         """
         path_components = {
-            'slug': self.slug,
-             # for the question number, increment zero-indexed number
-            'question_number': self.active_question + 1
+            "slug": self.slug,
+            # for the question number, increment zero-indexed number
+            "question_number": self.active_question + 1,
         }
         return reverse("carbon_quiz:quiz_detail", kwargs=path_components)
 

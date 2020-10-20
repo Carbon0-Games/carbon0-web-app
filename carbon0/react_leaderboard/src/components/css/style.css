@@ -1,0 +1,66 @@
+.leaderboard {
+    color: blue;
+    text-align: center;
+}
+
+.card {
+    width: 18rem;
+    /* margin: .5em; */
+}
+
+.card-leader {
+    width: 22rem;
+}
+
+.card-section {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.leader-text {
+    font-size: xx-large;
+}
+
+p {
+    font-size: large;
+}
+
+body {
+    background-color:#073985;
+    
+}
+
+section {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+}
+
+.container {
+    /* position: absolute; */
+    margin: 5rem 0rem 6rem;
+    background-color: #F6E6D4;
+    padding: 4rem;
+    
+}
+
+table.table-bordered{
+    border:  0px solid black; /* to clear bootstrap's bordering */
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+  }
+table.table-bordered > thead > tr > th{
+    border:  0px solid black;
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+table.table-bordered > tbody > tr > td{
+    border:  0px solid black;
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
