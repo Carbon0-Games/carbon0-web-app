@@ -12,7 +12,6 @@ from django.views.generic.edit import (
     DeleteView)
 from mixpanel import Mixpanel, MixpanelException
 
-
 from .models.mission import Mission
 from accounts.models import Profile
 from .models.question import Question
@@ -23,25 +22,25 @@ from django.conf import settings
 
 def track_achievement_creation(achievement, user):
     """Logs the creation of a new Achievement,
-       and its player if they're logged in.
+    and its player if they're logged in.
 
-       Parameter: 
-       achievement(Achievement): the Achievement being created
-       user(User): the user earning the Achievement
+    Parameter:
+    achievement(Achievement): the Achievement being created
+    user(User): the user earning the Achievement
 
-       Returns: None
-    
+    Returns: None
+
     """
     # instantiate the Mixpanel tracker
     mp = Mixpanel(settings.MP_PROJECT_TOKEN)
     # Set the properties
     properties = dict()
-    properties['achievementType'] = achievement.mission.question.category
+    properties["achievementType"] = achievement.mission.question.category
     # set the user property
     if user.is_authenticated:
-        properties['user'] = user.username
+        properties["user"] = user.username
     else:  # user is not authenticated
-        properties['user'] = 'visitor'
+        properties["user"] = "visitor"
     # track the event
     try:
         mp.track(
@@ -150,7 +149,7 @@ class QuizDetail(DetailView):
             ]
         # add the Mixpanel token
         additional_key_value_pairs.append(
-            ('MP_PROJECT_TOKEN', settings.MP_PROJECT_TOKEN)
+            ("MP_PROJECT_TOKEN", settings.MP_PROJECT_TOKEN)
         )
         # add additional key value pairs to the context
         context.update(additional_key_value_pairs)
@@ -227,15 +226,13 @@ class AchievementCreate(CreateView):
         return render(request, self.template_name, context)
 
     def form_valid(self, form, mission_id, quiz_slug, user):
-        '''Instaniates a new Achievement model.'''
+        """Instaniates a new Achievement model."""
         # get the related Mission model
         mission = Mission.objects.get(id=mission_id)
         # set it on the new Achievement
         form.instance.mission = mission
         # set the url of the Zeron image field
-        form.instance.zeron_image_url = (
-            Achievement.set_zeron_image_url(mission)
-        )
+        form.instance.zeron_image_url = Achievement.set_zeron_image_url(mission)
         # track the event in Mixpanel
         track_achievement_creation(form.instance, user)
         # if it's available, set the quiz relationship on the new instance
@@ -299,20 +296,22 @@ class AchievementDetail(DetailView):
         achievement = Achievement.objects.get(id=pk)
         # add achievment pk to request session
         request.session["achievement_pk"] = pk
-        # set the context 
+        # set the context
         context = {
-            'achievement': achievement,
-            'app_id': settings.FACEBOOK_SHARING_APP_ID,
+            "achievement": achievement,
+            "app_id": settings.FACEBOOK_SHARING_APP_ID,
         }
         # set the images needed for the context
         browser_zeron_model = achievement.zeron_image_url[0]  # .glb file path
         ios_zeron_model = achievement.zeron_image_url[1]  # .usdz file path
         # add to context, if we have an environment that has env variables
         if not (browser_zeron_model is None or ios_zeron_model is None):
-            context.update([
-                ("browser_model", browser_zeron_model),
-                ("ios_model", ios_zeron_model),
-            ])
+            context.update(
+                [
+                    ("browser_model", browser_zeron_model),
+                    ("ios_model", ios_zeron_model),
+                ]
+            )
         # if the user is authenticated
         if request.user and request.user.is_authenticated:
             # show their profile's footprint (already be authenicated)

@@ -24,18 +24,18 @@ from social_django.models import UserSocialAuth
 def track_successful_signup(user, secret_id):
     """Logs whenever a User successfully signs up on Mixpanel.
 
-       Parameter:
-       user(User): a newly saved User model
-       secret_id(str): used to determine if user
-                       earned an Achievement first
+    Parameter:
+    user(User): a newly saved User model
+    secret_id(str): used to determine if user
+                    earned an Achievement first
 
-       Returns: None
+    Returns: None
 
     """
     # instaniate the Mixpanel tracker
     mp = Mixpanel(settings.MP_PROJECT_TOKEN)
     # determine if user completed a quiz first
-    earned_achievement = (secret_id is not None)
+    earned_achievement = secret_id is not None
     # Tracks the event and its properties
     try:
         mp.track(user.username, 'signUp', {
@@ -60,11 +60,11 @@ def track_successful_signup(user, secret_id):
 
 def track_login_event(user):
     """Appends the time of the user's login, to their
-       Mixpanel profile.
+    Mixpanel profile.
 
-       Parameter: user(User) - person who's logging in
+    Parameter: user(User) - person who's logging in
 
-       Returns: None
+    Returns: None
 
     """
     # instaniate the Mixpanel tracker
@@ -90,7 +90,7 @@ class UserCreate(SuccessMessageMixin, CreateView):
     success_message = "Welcome to Carbon0! You may now log in."
 
     def form_valid(self, form, secret_id, request):
-        '''Save the new User, and a new Profile for them, in the database.'''
+        """Save the new User, and a new Profile for them, in the database."""
         # save a new user from the form data
         self.object = form.save()
         # track the signup in Mixpanel
@@ -128,16 +128,17 @@ class UserCreate(SuccessMessageMixin, CreateView):
             return super().form_invalid(form)
 
 
-
 class LoginView(auth_views.LoginView):
-    '''Subclass of LoginView.'''
+    """Subclass of LoginView."""
+
     def form_valid(self, form):
-        '''Tracks login events in Mixpanel, after security checks.'''
+        """Tracks login events in Mixpanel, after security checks."""
         # get the user
         user = form.get_user()
         # track the login in Mixpanel
         track_login_event(user)
         return super().form_valid(form)
+
 
 class SettingsView(LoginRequiredMixin, TemplateView):
     """
@@ -159,12 +160,16 @@ class SettingsView(LoginRequiredMixin, TemplateView):
 
         # track the login in Mixpanel
         track_login_event(user)
-        
-        return render(request, 'accounts/auth/settings.html', {
-            'facebook_login': facebook_login,
-            'google_login': google_login,
-        })
-      
+
+        return render(
+            request,
+            "accounts/auth/settings.html",
+            {
+                "facebook_login": facebook_login,
+                "google_login": google_login,
+            },
+        )
+
 
 def create_social_user_with_achievement(request, user, response, *args, **kwargs):
     """
@@ -183,15 +188,14 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
         profile = Profile.objects.create(user=user)
         profile.save()
 
-        # checking to make sure there's a achievement_pk in request.session
+        # checks to make sure there's an achievement_pk in request.session
         if "achievement_pk" in request.session:
             pk = request.session["achievement_pk"]
             achievement = Achievement.objects.get(id=pk)
             achievement.profile = profile
             achievement.save(user=request.user)
             # track the signup in Mixpanel
-            track_successful_signup(user, 'achievement earned!')
+            track_successful_signup(user, "achievement earned!")
         else:  # user signed up with social, but not after earning Achievement
             # track the signup in Mixpanel
             track_successful_signup(user, None)
-            print("woops")

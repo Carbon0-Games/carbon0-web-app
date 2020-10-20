@@ -102,3 +102,24 @@ class AchievementData(APIView):
         }
         # return the data
         return Response(data)
+
+
+class UserFootPrintData(APIView):
+    """Returns usernames and foot print values in ascending order"""
+
+    def get(self, request):
+        all_profiles = Profile.objects.order_by("-users_footprint")
+        # for loop to get all user names
+        players = list()
+        for (i, p) in enumerate(all_profiles):
+            # create the player object
+            player = {
+                "position": i,
+                "username": p.user.username,
+                "score": p.users_footprint,
+            }
+            # add to the list
+            players.append(player)
+        data = {"players": players}
+
+        return Response(data)
