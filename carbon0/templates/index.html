@@ -28,53 +28,84 @@
     <!-- HERO -->
     <style>
         #foot { 
-            background-color:#F6E6D4;
+            background-color:#445C3C;
             /* position: absolute; */
             overflow: hidden;
 
         }
         @media (max-width: 300px) {p {  font-size: 2rem;  }}
-        p { font-size: 6vw }
+        p { 
+            font-size: 6vw;
+            font-family: "American Typewriter";
+            color: white
+        }
+        #main-land{
+            background-image: url('{% static 'images/Carbon0_Website_back true.png' %}');
+            height: 80vh; 
+            background-size: cover; 
+            background-repeat: no-repeat
+        }
     </style>
     {% include 'partials/navbar.html' %}
 
-    <div class="container-fluid" style="background-image: url('{% static 'images/background_2.png' %}'); height: 90vh; background-size: cover; background-repeat: no-repeat;">
-        <div class="container pt-4">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/jZ_YdamxG30" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div class="container-fluid" id="main-land">
+        <div class="row">
+            <div class="col-2">
+                <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" alt="Logo" style="max-width: 100%">
+            </div>
+            <div class="col-8">
+                <div class="container pt-4">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/jZ_YdamxG30" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
             </div>
         </div>
-        <div class="container">
-            <div class="row align-items-center" style="height: 20vh">
-                <div class="col justify-content-center">
-                    <div class="d-flex justify-content-center">
-                     <!-- Call to ACTION: Play the Game for the First Time -->
-                        <div class="d-flex justify-content-center">
-                        <script>
-                            // function to track each time a goes to the instructions page
-                            let beginQuiz = () => {
-                                // log the action of starting the quiz
-                                mixpanel.track("beginQuiz", {});
-                            }
-                        </script>
-                            <a href="{% url 'carbon_quiz:quiz_create' %}" onclick="beginQuiz()" type="button" class="btn btn-primary rounded-pill" style="width: 150px">PLAYER</a>
+        <div class="row">
+            <div class="col-2">
+
+            </div>
+            <div class="col-8">
+                <div class="container">
+                    <div class="row align-items-center" style="height: 20vh">
+                        <div class="col justify-content-center">
+                            <div class="d-flex justify-content-center">
+                                <!-- Call to ACTION: Play the Game for the First Time -->
+                                <div class="d-flex justify-content-center">
+                                    <script>
+                                        // function to track each time a goes to the instructions page
+                                        let beginQuiz = () => {
+                                            // log the action of starting the quiz
+                                            mixpanel.track("beginQuiz", {});
+                                        }
+                                    </script>
+                                    <a href="{% url 'carbon_quiz:quiz_create' %}" onclick="beginQuiz()" type="button" class="btn btn-primary rounded-pill" style="width: 150px">NEW PLAYER</a>
+                                </div>
+                            </div>
                         </div>
+                        <!-- <div class="col-md-4 my-auto"></div> -->
+                        <div class="col justify-content-center">
+                            <div class="d-flex justify-content-center">
+                            <!-- Call to ACTION: Login -->
+                                <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success rounded-pill" style="width: 150px">LOGIN</a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="col justify-content-center">
-                    <div class="d-flex justify-content-center">
-                    <!-- Call to ACTION: Login -->
-                        <a href="{% url 'accounts:login' %}" class="btn btn-success rounded-pill" style="width: 150px">LOGIN</a>
-                    </div>
-                </div>
+            </div>
+            <div class="col-2">
+                <img src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" alt="CaptainJoy" style="max-width: 100%; position: absolute; bottom: 0">
             </div>
         </div>
     </div>
 
-    <footer class="footer" id="foot">
+    <footer class="footer-bottom" id="foot">
         <!-- Use fixed-bottom in the class to keep it fixed -->
         <div class="container">
-            <p class="text-primary">Be A Hero Get to Zero</p>
+            <p style="display:inline; color: white">Be A </p><p style="display:inline; color: #49beb7">Hero </p><p style="display:inline; color: white">Get to</p><p style="display:inline; color: #49beb7"> Zero</p>
         </div>
     </footer>
 {% endblock %}

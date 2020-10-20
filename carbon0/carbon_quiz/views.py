@@ -6,9 +6,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from mixpanel import Mixpanel
-
+from django.views.generic.edit import (
+    CreateView,
+    UpdateView,
+    DeleteView)
+from mixpanel import Mixpanel, MixpanelException
 
 from .models.mission import Mission
 from accounts.models import Profile
@@ -40,7 +42,16 @@ def track_achievement_creation(achievement, user):
     else:  # user is not authenticated
         properties["user"] = "visitor"
     # track the event
-    mp.track(properties["user"], event_name="createAchievement", properties=properties)
+    try:
+        mp.track(
+            properties['user'],
+            event_name='createAchievement',
+            properties=properties
+        )
+    # TODO: figure out why Mixpanel throws an exception on some environments
+    except MixpanelException:
+        # log the error happened on the Terminal
+        print('MixpanelException occurred!')
     return None
 
 
