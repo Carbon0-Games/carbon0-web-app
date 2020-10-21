@@ -25,7 +25,7 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176); height: 100vh;">
+    <div style="background-color:rgb(255, 220, 176); max-height: 100%">
         <div class="container">
             <!-- if User is viewing a Question -->
             {% if question %}
@@ -77,26 +77,31 @@
                     <p class="mt-2" style="color:brown;">We've Found Missions For You!</p>
                 </h1>
                 <!-- Instructions for the User -->
-                <div class="row mt-3 ml-5 mb-4">
-                    <p>
-                        Based on your responses to the quiz, we recommend the following as ways to reduce your carbon footprint!
+                <div class="row mt-3 ml-5 mb-4 justify-content-center">
+                    <p style="font-weight: bold; font-size: 15px;">
+                        Based on your responses to the quiz, we recommend the following as ways to reduce your carbon footprint! Choose a mission:
                     </p>
                 </div>
                 <div class="row">
-                    <div class="col-md-7">
                         <!-- List links for Mission Details -->
-                        <ul>
-                            {% for mission in missions %}
-                            <li>
-                                <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}">{{ mission.title }}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="col-md-5" style="width: 20rem;">
-                        <!-- Carbon Value Card -->
-                        {% include "partials/quiz_footprint.html" %}
-                    </div>
+                        {% for mission in missions %}
+                        <div class="col justify-content-center" >
+                            <div class="d-flex justify-content-center">
+                                <div class="card" style="width: 13rem; background-color: rgb(255, 220, 176); border: 1px solid transparent;">
+                                    <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <!-- <h5 class="card-title">{{ mission.title }}</h5> -->
+                                        <p class="card-text" style="height: 5rem">{{ mission.action }}</p>
+                                        <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}" class="btn btn-primary">{{ mission.title }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                </div>
+                <div class="row pt-4 justify-content-center" >
+                    <!-- Carbon Value Card -->
+                    {% include "partials/quiz_footprint.html" %}
                 </div>
             {% endif %}
         </div>

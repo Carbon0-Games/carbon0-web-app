@@ -33,21 +33,27 @@ def track_achievement_creation(achievement, user):
     Returns: None
 
     """
-    try: 
-        # instantiate the Mixpanel tracker
-        mp = Mixpanel(settings.MP_PROJECT_TOKEN)
-        # Set the properties
-        properties = dict()
-        properties["achievementType"] = achievement.mission.question.category
-        # set the user property
-        if user.is_authenticated:
-            properties["user"] = user.username
-        else:  # user is not authenticated
-            properties["user"] = "visitor"
-        # track the event
-        mp.track(properties["user"], event_name="createAchievement", properties=properties)
+    # instantiate the Mixpanel tracker
+    mp = Mixpanel(settings.MP_PROJECT_TOKEN)
+    # Set the properties
+    properties = dict()
+    properties["achievementType"] = achievement.mission.question.category
+    # set the user property
+    if user.is_authenticated:
+        properties["user"] = user.username
+    else:  # user is not authenticated
+        properties["user"] = "visitor"
+    # track the event
+    try:
+        mp.track(
+            properties['user'],
+            event_name='createAchievement',
+            properties=properties
+        )
+    # TODO: figure out why Mixpanel throws an exception on some environments
     except MixpanelException:
-        pass
+        # log the error happened on the Terminal
+        print('MixpanelException occurred!')
     return None
 
 
