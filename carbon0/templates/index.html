@@ -124,30 +124,7 @@
         <div class="row justify-content-center">
             <div id="add-2-home-screen" class="col-md-4">
                 <!-- Add to Home Screen Button -->
-                <script>
-                    // JS function to make a new button
-                    const addBtn = (text) => {
-                        // detect if the user is on Android or iOS
-                         if (
-                            (navigator.userAgent.indexOf("Android") != -1) ||
-                            (navigator.userAgent.indexOf("like Mac") != -1)
-                        ) {
-                            // grab the div we want to add the button to
-                            buttonDiv = document.getElementById("add-2-home-screen");
-                            // make the button
-                            const btn = document.createElement("button");
-                            btn.innerText = text;
-                            // add CSS classes
-                            btn.classList.add("btn");
-                            btn.classList.add("btn-info");
-                            // add it to our HTML document
-                            buttonDiv.appendChild(btn);
-                            return btn;
-                        }
-                    }
-                    // call the function
-                    addBtn("Add to Home Screen!");
-                </script>
+                <script src="{% static 'js/addToHomeScreen.js' %}"></script>
             </div>
         </div>
     </div>
