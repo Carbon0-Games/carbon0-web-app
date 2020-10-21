@@ -32,28 +32,29 @@ def track_successful_signup(user, secret_id):
     Returns: None
 
     """
+    # instaniate the Mixpanel tracker
+    mp = Mixpanel(settings.MP_PROJECT_TOKEN)
+    # determine if user completed a quiz first
+    earned_achievement = secret_id is not None
+    # Tracks the event and its properties
     try:
-        # instaniate the Mixpanel tracker
-        mp = Mixpanel(settings.MP_PROJECT_TOKEN)
-        # determine if user completed a quiz first
-        earned_achievement = secret_id is not None
-        # Tracks the event and its properties
-        mp.track(
-            user.username,
-            "signUp",
-            {
-                "achievementEarned": earned_achievement,
-            },
-        )
+        mp.track(user.username, 'signUp', {
+            'achievementEarned': earned_achievement,
+        })
         # make a User profile for this person on Mixpanel
         mp.people_set(
-            user.username,
-            {"$email": user.email, "$phone": "", "logins": []},
+            user.username, {
+            '$email': user.email,
+            '$phone': '',
+            'logins': []
+            }, 
             # ignore geolocation data
-            meta={"$ignore_time": "true", "$ip": 0},
+            meta = {'$ignore_time' : 'true', '$ip' : 0}
         )
+    # TODO: figure out why Mixpanel throws an exception on some environments
     except MixpanelException:
-        pass
+        # log the error happened on the Terminal
+        print('MixpanelException occurred!')
     return None
 
 
@@ -66,13 +67,17 @@ def track_login_event(user):
     Returns: None
 
     """
+    # instaniate the Mixpanel tracker
+    mp = Mixpanel(settings.MP_PROJECT_TOKEN)
+    # add the date of the login, in the User's Mixpanel profile
     try:
-        # instaniate the Mixpanel tracker
-        mp = Mixpanel(settings.MP_PROJECT_TOKEN)
-        # add the date of the login, in the User's Mixpanel profile
-        mp.people_append(user.username, {"logins": dt.datetime.now()})
+        mp.people_append(user.username, {
+            'logins' : dt.datetime.now()
+        })
+    # TODO: figure out why Mixpanel throws an exception on some environments
     except MixpanelException:
-        pass
+        # log the error happened on the Terminal
+        print('MixpanelException occurred!')
     return None
 
 
