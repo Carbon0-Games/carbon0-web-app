@@ -60,7 +60,6 @@
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <div class="speech-bubble">{{ achievement.zeron_say_hello }}</div>
                     <div class="d-flex justify-content-center">
                         <model-viewer src="{% static browser_model %}"
                             ios-src="{% static ios_model %}"
@@ -100,14 +99,14 @@
                         </script>
                         <!-- Link to Sign Up -->
                         {% if user.is_authenticated is False %}
-                        <a class="ml-auto btn btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
+                        <a class="ml-auto btn-lg btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
                         {% endif %}
                     </div>
                 </div>
                 <div class="col-md-8 justify-content-center align-self-center" style="text-align: center">
                     
                         <!-- Link to Other Missions Related to this Quiz -->
-                        <a class="ml-auto btn btn-secondary mt-3" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">Want More Missions?</a>
+                        <a class="ml-auto btn btn-secondary mt-4" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">Want More Missions?</a>
                     
                 </div>
             </div>
