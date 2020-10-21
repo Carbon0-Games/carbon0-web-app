@@ -29,6 +29,6 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     # OAuth Lib-related URLs
     path("oauth/", include("social_django.urls", namespace="social")),
-    # API-related URLs
+    # API-related URLss
     path("api/", include("api.urls")),
 ]

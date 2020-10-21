@@ -36,6 +36,18 @@ class Question(models.Model):
         blank=True,
         help_text="Symbolizes what user needs to work on.",
     )
+    ANSWERS = [
+        (1, 'Yes'),
+        (0, 'No')
+    ]
+    improvement_response = models.IntegerField(
+        choices=ANSWERS,
+        default=0,
+        help_text=(
+            'Response that says the user needs to improve, with regards ' +
+            'to this area of their carbon footprint.'
+        )
+    )
 
     def __str__(self):
         """Returns the category of the Question, and it's id."""

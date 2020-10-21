@@ -157,7 +157,7 @@ class SettingsView(LoginRequiredMixin, TemplateView):
             google_login = user.social_auth.get(provider="google-oauth2")
         except UserSocialAuth.DoesNotExist:
             google_login = None
-
+            
         # track the login in Mixpanel
         track_login_event(user)
 

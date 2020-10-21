@@ -4,7 +4,10 @@ from django.contrib.auth import get_user_model
 from django.test.client import RequestFactory
 from django.test import Client, TestCase
 from django.urls import reverse_lazy, reverse, resolve
+from django.contrib.auth.models import User
+import datetime
 
+from .views import QuizCreate, MissionDetail
 from accounts.models import Profile
 from .models.question import Question
 from .models.mission import Mission
@@ -70,11 +73,13 @@ class DatabaseSetup(TestCase):
         quiz.save()
         self.quiz = quiz
         return None
-
+      
 
 class QuestionTests(TestCase):
     """Test suite for the Question model in the database."""
+    
 
+class QuestionModelTest(TestCase):
     def setUp(self):
         """Create new instances of the Question model."""
         # store the Questions in an array
@@ -137,7 +142,7 @@ class QuizTests(DatabaseSetup):
         self.assertEqual(quiz.slug, self.quiz.slug)
         # test that it has the correct default values
         self.assertEqual(quiz.active_question, 0)
-        self.assertEqual(quiz.carbon_value_total, 0)
+        self.assertEqual(quiz.carbon_value_total, 1000.0)
         # test that is has the right questions array
         self.assertEqual(quiz.questions, self.quiz.questions)
         return None
@@ -301,7 +306,6 @@ class QuizDetailTests(DatabaseSetup):
 
 class MissionDetailTest(TestCase):
     """Test suite for the MissionDetail view."""
-
     def setUp(self):
         """Initial work executed before each test in this suite."""
         # save a Question
@@ -338,7 +342,7 @@ class MissionDetailTest(TestCase):
         mission = Mission.objects.get(id=self.mission.id)
         self.assertContains(response, mission.title)
         return None
-
+      
 
 class AchievementCreateTests(QuizDetailTests):
     """Test suite for the AchievementCreate view."""

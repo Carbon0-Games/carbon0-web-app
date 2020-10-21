@@ -9,7 +9,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
     CreateView,
     UpdateView,
-    DeleteView)
+    DeleteView,
+)
 from mixpanel import Mixpanel, MixpanelException
 
 from .models.mission import Mission

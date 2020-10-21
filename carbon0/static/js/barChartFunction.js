@@ -19,10 +19,12 @@ export function barChart(plotLabels, plotData) {
             labels: plotLabels
         },
         options: {
+            responsive: true,
             scales: {
                 yAxes: [{
+                    display: true,
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
                     }
                 }]
             }
