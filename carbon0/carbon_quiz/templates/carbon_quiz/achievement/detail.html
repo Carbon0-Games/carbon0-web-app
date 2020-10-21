@@ -100,6 +100,7 @@
                         <!-- Link to Sign Up -->
                         {% if user.is_authenticated is False %}
                         <a class="ml-auto btn-lg btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
+
                         {% endif %}
                     </div>
                 </div>
@@ -107,6 +108,7 @@
                     
                         <!-- Link to Other Missions Related to this Quiz -->
                         <a class="ml-auto btn btn-secondary mt-4" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">Want More Missions?</a>
+
                     
                 </div>
             </div>
