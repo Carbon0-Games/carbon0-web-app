@@ -30,17 +30,17 @@
                             <h3 class="ml-3 mt-2 mb-2">Tools to Complete Your Mission</h3>
                             <ul class="list-group ml-5" style="background-color:rgb(255, 220, 176)">
                                 <!-- Link to AchievementCreate -->
-                                {% for description in link_descriptions %}
+                                {% for link in links %}
                                 <li>
                                     <!-- form a different URL depending on the context variables -->
                                     {% if quiz_slug %}
                                         <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
-                                        <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 quiz_slug %}">
+                                        <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id quiz_slug %}">
                                     {% else %}
-                                        <a href="{% url 'carbon_quiz:achievement_create' mission.id forloop.counter0 %}"></a>
+                                        <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}"></a>
                                     {% endif %}
                                         <!-- Show the website name for this link -->
-                                        {{ description }}</a>
+                                        {{ link.description }}</a>
                                 </li>
                                 {% endfor %}
                             </ul>

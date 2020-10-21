@@ -9,6 +9,7 @@ import datetime
 
 from .views import QuizCreate, MissionDetail
 from accounts.models import Profile
+from .models.link import Link
 from .models.question import Question
 from .models.mission import Mission
 from .models.quiz import Quiz
@@ -212,17 +213,13 @@ class QuizDetailTests(DatabaseSetup):
                 title="Beginner Diet Mission",
                 action="learn about the vegan diet",
                 learn_more="find out 20 delicious, nutritious vegan recipes!",
-                link_descriptions=["List of the Top 20 Vegan Recipes"],
-                link_addresses=["recipes.com/diets/vegan"],
                 question=self.questions[4],
-            ),
+            ), 
             # Recycling mission
             Mission.objects.create(
                 title="Beginner Recycling Mission",
                 action="learn about recycling",
                 learn_more="find out what's recyclable!",
-                link_descriptions=["List of the Top 20 Recyclables"],
-                link_addresses=["recipes.com/diets/vegan"],
                 question=self.questions[0],
             ),
             # Transit mission
@@ -230,8 +227,6 @@ class QuizDetailTests(DatabaseSetup):
                 title="Beginner Transit Mission",
                 action="learn about transit",
                 learn_more="find out what's being emitted when you drive!",
-                link_descriptions=["Tips for Car-Pooling"],
-                link_addresses=["carpools.com"],
                 question=self.questions[1],
             ),
             # Utilities mission
@@ -239,8 +234,6 @@ class QuizDetailTests(DatabaseSetup):
                 title="Beginner Utilities Mission",
                 action="buy LEDs",
                 learn_more="compare LEDs to CFLs!",
-                link_descriptions=["Buy LEDs at the Hardware Store"],
-                link_addresses=["hardwarestore.com"],
                 question=self.questions[2],
             ),
             # Airline-Transit mission
@@ -248,14 +241,43 @@ class QuizDetailTests(DatabaseSetup):
                 title="Beginner Airline-Transit Mission",
                 action="offset your carbon footprint",
                 learn_more="see how much planes emit each year!",
-                link_descriptions=["Science of Plane Emissions"],
-                link_addresses=["plane-emissions.com"],
                 question=self.questions[3],
             ),
         ]
         # save the Missions
         for m in self.missions:
             m.save()
+        # make links for the Missions
+        self.links = [
+            Link.objects.create(
+                mission=Mission.objects.get(id=self.missions[0].id),
+                description="List of the Top 20 Vegan Recipes",
+                address="recipes.com/diets/vegan"
+            ),
+            Link.objects.create(
+                mission=Mission.objects.get(id=self.missions[1].id),
+                description="List of the Top 20 Recyclables",
+                address="recipes.com/diets/vegan"
+            ),
+            Link.objects.create(
+                mission=Mission.objects.get(id=self.missions[2].id),
+                description="Tips for Car-Pooling",
+                address="carpools.com"
+            ),
+            Link.objects.create(
+                mission=Mission.objects.get(id=self.missions[3].id),
+                description="Buy LEDs at the Hardware Store",
+                address="hardwarestore.com"
+            ),
+            Link.objects.create(
+                mission=Mission.objects.get(id=self.missions[4].id),
+                description="Science of Plane Emissions",
+                address="plane-emissions.com"
+            ),
+        ]
+        # save the links
+        for l in self.links:
+            l.save()
         return None
 
     def test_get_question_page(self):
@@ -375,7 +397,7 @@ class AchievementCreateTests(QuizDetailTests):
             "carbon_quiz:achievement_create",
             kwargs={
                 "mission_id": self.missions[0].id,
-                "chosen_link_index": 0,  # right now the Mission only has 1
+                "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
                 "quiz_slug": self.quiz.slug,
             },
         )
@@ -397,7 +419,7 @@ class AchievementCreateTests(QuizDetailTests):
             "carbon_quiz:achievement_create",
             kwargs={
                 "mission_id": self.missions[0].id,
-                "chosen_link_index": 0,  # right now the Mission only has 1
+                "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
             },
         )
         # user gets a response
@@ -421,7 +443,7 @@ class AchievementCreateTests(QuizDetailTests):
                 "carbon_quiz:achievement_create",
                 kwargs={
                     "mission_id": self.missions[0].id,
-                    "chosen_link_index": 0,  # right now the Mission only has 1
+                    "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
                     "quiz_slug": self.quiz.slug,
                 },
             )
@@ -454,7 +476,7 @@ class AchievementCreateTests(QuizDetailTests):
                 "carbon_quiz:achievement_create",
                 kwargs={
                     "mission_id": self.missions[0].id,
-                    "chosen_link_index": 0,  # right now the Mission only has 1
+                    "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
                 },
             )
         )
