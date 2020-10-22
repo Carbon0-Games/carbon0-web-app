@@ -58,6 +58,30 @@ def track_achievement_creation(achievement, user):
     return None
 
 
+def filter_completed_missions(missions, user):
+    """Given a set of missions and a user, return only non-completed missions.
+    
+       Parameters:
+       missions: QuerySet of Missions
+       user: can be authenticated or not
+
+       Returns: set of Missions
+                if the user is not authenticated, 
+                we return all the same missions
+
+    """
+    # if the user is signed in
+    if user.is_authenticated:
+        # get all the Missions related to a user,
+        achievements = Achievement.objects.filter(profile=user.profile)
+        user_missions = set([
+            a.mission for a in achievements
+        ])
+        # get only the missions not yet completed by the user
+        missions = set(missions) - user_missions
+    return missions
+
+
 class QuizCreate(CreateView):
     """View to create new Quiz instance from randomly picked questions."""
 
@@ -154,6 +178,8 @@ class QuizDetail(DetailView):
                     set(Mission.objects.all()), 3
                 )
                 is_random = True
+            # finally, take out missions completed before
+            missions = filter_completed_missions(missions, request.user)
             # set the additional key value pairs
             additional_key_value_pairs = [
                 ("missions", missions),  # possible missions for the user
@@ -187,16 +213,8 @@ class MissionList(ListView):
         """
         # start with all Missions in the queryset
         missions = self.queryset 
-        # if the user is signed in
-        user = request.user
-        if user.is_authenticated:
-            # get all the Missions related to a user,
-            achievements = Achievement.objects.filter(profile=user.profile)
-            user_missions = set([
-                a.mission for a in achievements
-            ])
-            # get only the missions not yet completed by the user
-            missions = set(missions) - user_missions
+        # get only the missions not yet completed by the user
+        missions = filter_completed_missions(missions, request.user)
         # set the context
         context = {
             'missions': missions,
