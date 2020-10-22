@@ -25,7 +25,7 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176); height: 115vh">
+    <div style="background-color:rgb(255, 220, 176); height: 200vh">
         <div class="container">
             <!-- if User is viewing a Question -->
             {% if question %}
@@ -72,7 +72,7 @@
                 </div>   
             <!-- if User is viewing their Missions -->
             {% else %}
-                {% if not is_random %}
+                {% if is_random is False %}
                     {% include "partials/missions_suggested.html" %}
                 <!-- if no missions for the user -->
                 {% else %}

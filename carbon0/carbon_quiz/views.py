@@ -148,7 +148,7 @@ class QuizDetail(DetailView):
                     # add to the list of Missions
                     missions.append(mission)
             # if no missions to suggest, give 3 randomly
-            else:
+            if len(missions) == 0:
                 missions = random.sample(
                     set(Mission.objects.all()), 3
                 )

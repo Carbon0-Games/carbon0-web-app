@@ -6,13 +6,8 @@
     <hr/>
       {% if user.is_authenticated %}
       You are signed in as <strong>{{ user.username }}</strong> 
-      <!-- 
-
-        open form tag
-        include csrf_token
-        
-
-      -->
+      
+      
 
         <a href="{% url 'accounts:logout' %}">logout</a>
       {% else %}

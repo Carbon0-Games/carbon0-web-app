@@ -140,7 +140,7 @@ class LoginView(auth_views.LoginView):
         return super().form_valid(form)
 
 
-class SettingsView(LoginRequiredMixin, TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
     """
     Currently shows the user info from social signup or login
     """
