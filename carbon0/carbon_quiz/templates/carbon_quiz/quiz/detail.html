@@ -25,7 +25,7 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176); height: 100vh">
+    <div style="background-color:rgb(255, 220, 176); height: 115vh">
         <div class="container">
             <!-- if User is viewing a Question -->
             {% if question %}
@@ -72,12 +72,31 @@
                 </div>   
             <!-- if User is viewing their Missions -->
             {% else %}
-                {% if missions %}
-                    {% include "partials/mission_found.html" %}
+                {% if not is_random %}
+                    {% include "partials/missions_suggested.html" %}
                 <!-- if no missions for the user -->
                 {% else %}
-                    {% include "partials/mission_not_found.html" %}
+                    {% include "partials/missions_not_suggested.html" %}
                 {% endif %}
+                <div class="row">
+                    <!-- List links for Mission Details -->
+                    {% for mission in missions %}
+                    <div class="col justify-content-center">
+                        <div class="d-flex justify-content-center">
+                            <div class="card"
+                                style="width: 13rem; background-color: rgb(255, 220, 176); border: 1px solid transparent;">
+                                <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <!-- <h5 class="card-title">{{ mission.title }}</h5> -->
+                                    <p class="card-text" style="height: 5rem">{{ mission.action }}</p>
+                                    <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}"
+                                        class="btn btn-primary">{{ mission.title }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
                 <div class="row pt-4 justify-content-center">
                     <!-- Carbon Value Card -->
                     {% include "partials/quiz_footprint.html" %}
