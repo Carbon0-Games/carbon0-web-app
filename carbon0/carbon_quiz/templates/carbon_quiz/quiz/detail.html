@@ -87,7 +87,6 @@
                                 style="width: 13rem; background-color: rgb(255, 220, 176); border: 1px solid transparent;">
                                 <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <!-- <h5 class="card-title">{{ mission.title }}</h5> -->
                                     <p class="card-text" style="height: 5rem">{{ mission.action }}</p>
                                     <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}"
                                         class="btn btn-primary">{{ mission.title }}</a>

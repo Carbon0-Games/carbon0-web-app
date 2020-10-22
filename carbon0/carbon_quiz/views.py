@@ -11,6 +11,7 @@ from django.views.generic.edit import (
     UpdateView,
     DeleteView,
 )
+from django.views.generic import ListView
 from mixpanel import Mixpanel, MixpanelException
 
 from .models.link import Link
@@ -164,6 +165,44 @@ class QuizDetail(DetailView):
         )
         # add additional key value pairs to the context
         context.update(additional_key_value_pairs)
+        # return the response
+        return render(request, self.template_name, context)
+
+class MissionList(ListView):
+    '''Displays all the Missions not yet completed by the user.'''
+    model = Mission
+    queryset = Mission.objects.all()
+    # reuse the QuizDetail template, for when question is not in the context
+    template_name = "carbon_quiz/mission/list.html" 
+
+    def get(self, request):
+        """Return a view of all missions not yet completed, or
+           all of them if the user is not authenticated.
+
+           Parameters:
+           request(HttpRequest): carries the user as a property
+
+           Returns: HttpResponse: the view of the QuizDetail template
+        
+        """
+        # start with all Missions in the queryset
+        missions = self.queryset 
+        # if the user is signed in
+        user = request.user
+        if user.is_authenticated:
+            # get all the Missions related to a user,
+            achievements = Achievement.objects.filter(profile=user.profile)
+            user_missions = set([
+                a.mission for a in achievements
+            ])
+            # get only the missions not yet completed by the user
+            missions = set(missions) - user_missions
+        # set the context
+        context = {
+            'missions': missions,
+            'is_random': False,
+            'MP_PROJECT_TOKEN': settings.MP_PROJECT_TOKEN
+        }
         # return the response
         return render(request, self.template_name, context)
 

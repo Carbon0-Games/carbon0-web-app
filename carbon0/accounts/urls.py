@@ -21,8 +21,8 @@ urlpatterns = [
         name="login",
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    # User settings page
-    path("settings/", ProfileView.as_view(), name="settings"),
+    # User profile page - 'settings' is the required view function name
+    path("profile/", ProfileView.as_view(), name="settings"),
     # path('logout_social/', logout_view, name='logout-social'),
     path(
         "leaderboard/",
