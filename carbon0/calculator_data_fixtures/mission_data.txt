@@ -1,0 +1,86 @@
+[
+{
+    "model": "carbon_quiz.mission",
+    "pk": 1,
+    "fields": {
+        "title": "Start Reycling - Beginner",
+        "action": "learn more about what recycling is",
+        "clicks_needed": 1,
+        "learn_more": "Recycling is a tried and true practice for reducing waste on the planet",
+        "question": 1,
+        "percent_carbon_sequestration": 0.0
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 2,
+    "fields": {
+        "title": "Transit Mission - Beginner",
+        "action": "decrease the amount of time you spend in the car",
+        "clicks_needed": 1,
+        "learn_more": "Using local options when you shop is a great way to support your town's economy - and it helps you learn about where you live!",
+        "question": 2,
+        "percent_carbon_sequestration": 0.0
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 3,
+    "fields": {
+        "title": "Start Reycling - Intermediate",
+        "action": "make a sign from recycled materials to remind you to turn off lights before you sleep",
+        "clicks_needed": 1,
+        "learn_more": "Reminders are important!",
+        "question": 1,
+        "percent_carbon_sequestration": 0.0
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 4,
+    "fields": {
+        "title": "Clean Up Your Search - Beginner",
+        "action": "Install Ecosia!",
+        "clicks_needed": 1,
+        "learn_more": "Ecosia is a nonprofit browser extension - every search you make removes 1kg of CO2 from the atmosphere!",
+        "question": 4,
+        "percent_carbon_sequestration": 0.0
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 5,
+    "fields": {
+        "title": "Clean Up Your Diet - Beginner",
+        "action": "learn about the vegan diet",
+        "clicks_needed": 1,
+        "learn_more": "Some people may believe that without meat they won't be able to eat healthy. However there are many great plant-based alternatives!",
+        "question": 3,
+        "percent_carbon_sequestration": 0.0
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 6,
+    "fields": {
+        "title": "Offset Your Air Travel - Beginner",
+        "action": "reduce your emissions due to flying",
+        "clicks_needed": 1,
+        "learn_more": "Reducing your carbon offset from when you fly is an enormous step to creating better skies!",
+        "question": 4,
+        "percent_carbon_sequestration": 0.0
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 7,
+    "fields": {
+        "title": "Upgrade Utilities - Beginner",
+        "action": "purchase your LED light bulbs",
+        "clicks_needed": 1,
+        "learn_more": "An LED light bulb will reduce your carbon footprint. Install yours today!",
+        "question": 5,
+        "percent_carbon_sequestration": 0.0
+    }
+}
+]

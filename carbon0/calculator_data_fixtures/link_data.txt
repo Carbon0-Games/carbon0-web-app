@@ -1,0 +1,11 @@
+[
+{
+    "model": "carbon_quiz.link",
+    "pk": 1,
+    "fields": {
+        "mission": 5,
+        "description": "Find a local farmer!",
+        "address": "https://localhens.com/"
+    }
+}
+]
