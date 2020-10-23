@@ -23,9 +23,9 @@ export function barChart(plotLabels, plotData) {
           {
             display: true,
             ticks: {
-              max: 1020,
-              min: 995,
-              // beginAtZero: true,
+              // max: 1080,
+              // min: 900,
+              beginAtZero: true,
             },
           },
         ],
