@@ -13,4 +13,5 @@ install:
 # command to run tests
 script:
   - python manage.py collectstatic --noinput
+  - django-admin loaddata fixture carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json  
   - python manage.py test
