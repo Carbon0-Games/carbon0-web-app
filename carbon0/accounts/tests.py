@@ -8,7 +8,7 @@ from django.urls import reverse, reverse_lazy
 
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.tests import AchievementDetailTests
-from .views import UserCreate, SettingsView
+from .views import UserCreate, ProfileView
 
 
 class UserCreateTests(AchievementDetailTests):
@@ -107,8 +107,8 @@ class UserCreateTests(AchievementDetailTests):
         return None
 
 
-class SettingsViewTests(TestCase):
-    """Test suite for the SettingsView."""
+class ProfileViewTests(TestCase):
+    """Test suite for the ProfileView."""
 
     def setUp(self):
         """Adds the db models needed for each test in this suite."""
