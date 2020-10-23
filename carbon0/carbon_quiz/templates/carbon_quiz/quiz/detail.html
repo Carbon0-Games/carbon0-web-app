@@ -25,12 +25,12 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176); height: 115vh">
+    <div style="background-color:rgb(255, 220, 176); max-height: 100%; overflow: hidden;">
         <div class="container">
             <!-- if User is viewing a Question -->
             {% if question %}
                 <!-- Header -->
-                <h1 class="row">
+                <h1 class="row ml-2">
                     <p class="mt-2" style="color:brown;">Carbon Calculator</p>
                 </h1>
                 <!-- Ask the Question -->
