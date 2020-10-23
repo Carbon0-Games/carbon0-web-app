@@ -57,7 +57,7 @@ Please follow these steps to be able to run the project:
     - Do any db migrations that might be needed, using `python manage.py migrate`
     - Also migrate the initial data for the database, using the `loaddata` command:
         ```
-        python manage.py loaddata --app carbon_quiz --format json
+        django-admin loaddata fixture carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json
         ```
 
 ### __Running Locally__
