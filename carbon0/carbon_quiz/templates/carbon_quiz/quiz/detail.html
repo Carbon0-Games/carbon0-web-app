@@ -25,16 +25,16 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176); height: 200vh">
-        <div class="container">
+    <div style="background-color:rgb(255, 220, 176); height: 135vh; overflow: hidden;">
+        <div class="container pb-5" style="height: 120vh;">
             <!-- if User is viewing a Question -->
             {% if question %}
                 <!-- Header -->
-                <h1 class="row">
+                <h1 class="row ml-2">
                     <p class="mt-2" style="color:brown;">Carbon Calculator</p>
                 </h1>
                 <!-- Ask the Question -->
-                <div class="row ml-5 mt-3">
+                <div class="row mx-4 mt-3">
                     <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
                         <h3 class="text-white ml-5 mr-5">
                             {{ question.question_text }}
@@ -47,13 +47,13 @@
                     <div class="col-md-8">
                         <div class="row">
                             <!-- Yes and No Buzzers-->
-                            <div class="col-md-6">
+                            <div class="col">
                                 <img src="{% static 'images/Present-yes.png' %}" 
-                                    alt="Yes" width=400px height=400px onclick="nextQuestion('1')">
+                                    alt="Yes" style="max-width: 100%" onclick="nextQuestion('1')">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col">
                                 <img src="{% static 'images/Present-_No.png' %}" 
-                                    alt="No" width=400px height=400px onclick="nextQuestion('0')">
+                                    alt="No" style="max-width: 100%" onclick="nextQuestion('0')">
 
                             </div>
                             <!-- JS function to go to the next quiz question -->

@@ -31,34 +31,38 @@
         background-color: #445C3C;
         /* position: absolute; */
         overflow: hidden;
+        max-height: 10%;
 
     }
 
-    @media (max-width: 300px) {
+    /* @media (max-width: 300px) {
         p {
             font-size: 2rem;
         }
-    }
+    } */
 
     p {
         font-size: 6vw;
+        /* max-height: 15%; */
         font-family: "American Typewriter";
         color: white
     }
 
     #main-land {
         background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
-        height: 80vh;
+        /* height: 80vh; */
+        max-height: 80%;
         background-size: cover;
-        background-repeat: no-repeat
+        background-repeat: no-repeat;
+        margin: 0%
     }
 </style>
-{% include 'partials/navbar.html' %}
+ {% include 'partials/navbar.html' %} 
 
 <div class="container-fluid" id="main-land">
     <div class="row">
         <div class="col-2">
-            <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" alt="Logo" style="max-width: 100%">
+            <img class="mx-2 my-2" src="{% static 'images/Carbon0_Logo_GDC.png' %}" alt="Logo" style="max-width: 100%">
         </div>
         <div class="col-8">
             <div class="container pt-4">
@@ -76,7 +80,8 @@
         </div>
         <div class="col-8">
             <div class="container">
-                <div class="row align-items-center" style="height: 20vh">
+                <div class="row align-items-center my-5">
+                    <!-- style="height: 20vh" -->
                     <div class="col justify-content-center">
                         <div class="d-flex justify-content-center">
                             <!-- Call to ACTION: Play the Game for the First Time -->
@@ -89,7 +94,7 @@
                                     }
                                 </script>
                                 <a href="{% url 'carbon_quiz:quiz_create' %}" onclick="beginQuiz()" type="button"
-                                    class="btn btn-primary rounded-pill" style="font-family: Coda; width: 150px">NEW PLAYER</a>
+                                    class="btn btn-primary rounded-pill my-1" style="width: 150px">NEW PLAYER</a>
                             </div>
                         </div>
                     </div>
@@ -106,13 +111,15 @@
             </div>
         </div>
         <div class="col-2">
-            <img src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" alt="CaptainJoy"
-                style="max-width: 100%; position: absolute; bottom: 0">
+            <!-- <img class = "align-bottom" src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" alt="CaptainJoy"
+                style="max-width: 100%; position: absolute; bottom: 0"> -->
+                <img src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" alt="Captain Joy Goes Here"
+                style="max-width: 90%; position: absolute; bottom: 0">
         </div>
     </div>
 </div>
 
-<footer class="footer-bottom" id="foot">
+<footer class="footer-sticky" id="foot">
     <!-- Use fixed-bottom in the class to keep it fixed -->
     <div class="container">
         <p style="display:inline; color: white">Be A </p>
@@ -120,13 +127,13 @@
         <p style="display:inline; color: white">Get to</p>
         <p style="display:inline; color: #49beb7"> Zero</p>
     </div>
-    <div class="container" style="background-color: #445C3C;">
-        <div class="row justify-content-center">
-            <div id="add-2-home-screen" class="col-md-4">
+    <!-- <div class="container" style="background-color: #445C3C;"> -->
+        <!-- <div class="row justify-content-center"> -->
+            <!-- <div id="add-2-home-screen" class="col-md-4"> -->
                 <!-- Add to Home Screen Button -->
-                <script src="{% static 'js/addToHomeScreen.js' %}"></script>
-            </div>
-        </div>
-    </div>
+                <!-- <script src="{% static 'js/addToHomeScreen.js' %}"></script> -->
+            <!-- </div> -->
+        <!-- </div> -->
+    <!-- </div> -->
 </footer>
 {% endblock %}
