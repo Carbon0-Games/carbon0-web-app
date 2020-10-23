@@ -1,6 +1,7 @@
 <style>
   #nav1 {
-    background-color: #f6e6d4; /*whichever you want*/
+    background-color: #f6e6d4;
+    /*whichever you want*/
     opacity: 0.7;
     filter: (opacity=50);
   }
@@ -16,9 +17,7 @@
       <div>
         <a
           class="nav-link nav-item active"
-          href="{% url 'accounts:leaderboard' %}"
-          >Leaderboard</a
-        >
+          href="{% url 'accounts:leaderboard' %}">Leaderboard</a>
       </div>
     </li>
   </ul>
@@ -26,9 +25,10 @@
   <div>
     Hello,
     <strong>
-      {% if user.get_username %} {{ user.get_username }} {% else %} Guest {%
-      endif %} </strong
-    >!
+      {% if user.get_username %} 
+      {{ user.get_username }} 
+      {% else %} Guest 
+      {% endif %} </strong>!
   </div>
   <!-- <div class="collapse navbar-collapse" id="navbarC">
 

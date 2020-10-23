@@ -23,8 +23,7 @@ export function barChart(plotLabels, plotData) {
           {
             display: true,
             ticks: {
-              // max: 1080,
-              // min: 900,
+              max: 20000,
               beginAtZero: true,
             },
           },
