@@ -20,6 +20,8 @@
     var player;
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
+            height: '450',
+            width: '700',
             videoId: 'jZ_YdamxG30',
             events: {
                 'onReady': onPlayerReady,

@@ -24,6 +24,15 @@
     font-size: xx-large;
 }
 
+@media(max-width: 1200px) {
+    .card-section :nth-child(1)  {
+      order: 1;
+    }
+    .card-section :nth-child(3)  {
+        order: 3;
+      }
+  }
+
 p {
     font-size: large;
 }

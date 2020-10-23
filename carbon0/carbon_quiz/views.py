@@ -133,6 +133,8 @@ class QuizDetail(DetailView):
                 profile.increase_user_footprint(quiz)
             # find the missions the user can choose
             missions = list()
+            # set a flag to tell if the Missions are random
+            is_random = False
             # get the question id that each user actually interacted with
             for question_id in quiz.questions:
                 # check if this question was answered no (needs a mission)
@@ -145,9 +147,16 @@ class QuizDetail(DetailView):
                     mission = mission_set.pop()
                     # add to the list of Missions
                     missions.append(mission)
+            # if no missions to suggest, give 3 randomly
+            else:
+                missions = random.sample(
+                    set(Mission.objects.all()), 3
+                )
+                is_random = True
             # set the additional key value pairs
             additional_key_value_pairs = [
                 ("missions", missions),  # possible missions for the user
+                ("is_random", is_random),
             ]
         # add the Mixpanel token
         additional_key_value_pairs.append(
