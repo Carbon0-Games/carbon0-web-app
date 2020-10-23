@@ -3,73 +3,69 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div style="background-color:rgb(255, 220, 176); height: 100vh;">
-    <div class="container">
-        <!-- Header -->
-        <h1 class="row ">
-            <p class="mt-2" style="color:brown;">{{ mission.title }}</p>
-        </h1>
+    <div style="background-color:rgb(255, 220, 176); height: 100vh;">
+        <div class="container">
+            <!-- Header -->
+            <h1 class="row ">
+                <p class="mt-2" style="color:brown;">{{ mission.title }}</p>
+            </h1>
 
-        <!-- Mission Description -->
-        <div class="row">
-            <h5 class="ml-5">
-                Click on <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.clicks_needed}}</a>
-                of these links to <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.action }}</a> now!
-                <br>
-                And take a photo to show us you completed your mission!
-            </h5>
-        </div>
-
-        <!-- Image of Mission, More info -->
-        <div class="row my-4">
-            <div class="col-md-7">
-                <div class="row my-2">
-                    <!-- Link options -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="ml-3 mt-2 mb-2">Tools to Complete Your Mission</h3>
-                            <ul class="list-group ml-5" style="background-color:rgb(255, 220, 176)">
-                                <!-- Link to AchievementCreate -->
-                                {% for link in links %}
-                                <li>
-                                    <!-- form a different URL depending on the context variables -->
-                                    {% if quiz_slug %}
-                                        <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
-                                        <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id quiz_slug %}">
-                                    {% else %}
-                                        <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}"></a>
-                                    {% endif %}
-                                        <!-- Show the website name for this link -->
-                                        {{ link.description }}</a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <h6 class="ml-3">Take a Photo</h6>
-                </div>
-                <div class="row pt-5">
-                    <div class="col-md-5 my-auto">
-                        <img class="img-fluid " src="{{ mission.question.learn_image.url }}" alt="Symbol goes here" height=275px width=300px>
-                    </div>
-                    <!-- More about the mission-->
-                    <div class="col-md-7 mt-5 my-auto">
-                        <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
-                            <p class="text-white mt-2 mb-2 ml-5 mr-5">
-                                {{ mission.learn_more }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            <!-- Mission Description -->
+            <div class="row">
+                <h5 class="ml-5">
+                    Click on <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.clicks_needed}}</a>
+                    of these links to <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.action }}</a> now!
+                    <br>
+                    And take a photo to show us you completed your mission!
+                </h5>
             </div>
-            <div class="col-md-5">
-                <!-- Captain joy -->
-                {% include "partials/captain_joy_image.html" %}
+
+            <!-- Image of Mission, More info -->
+            <div class="row my-4">
+                <div class="col-md-7">
+                    <div class="row my-2">
+                        <!-- Link options -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="ml-3 mt-2 mb-2">Tools to Complete Your Mission</h3>
+                                <ul class="list-group ml-5" style="background-color:rgb(255, 220, 176)">
+                                    <!-- Link to AchievementCreate -->
+                                    {% for link in links %}
+                                    <li>
+                                        <!-- form a different URL depending on the context variables -->
+                                        {% if quiz_slug %}
+                                            <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
+                                            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id quiz_slug %}">
+                                        {% else %}
+                                            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}"></a>
+                                        {% endif %}
+                                            <!-- Show the website name for this link -->
+                                            {{ link.description }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-5">
+                        <div class="col-md-5 my-auto">
+                            <img class="img-fluid " src="{{ mission.question.learn_image.url }}" alt="Symbol goes here" height=275px width=300px>
+                        </div>
+                        <!-- More about the mission-->
+                        <div class="col-md-7 mt-5 my-auto">
+                            <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
+                                <p class="text-white mt-2 mb-2 ml-5 mr-5">
+                                    {{ mission.learn_more }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5" style="background-color:rgb(255, 220, 176);">
+                    <!-- Captain joy -->
+                    {% include "partials/captain_joy_image.html" %}
+                </div>
             </div>
         </div>
     </div>
-
-</div>
 {% endblock %}

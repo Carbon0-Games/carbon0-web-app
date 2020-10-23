@@ -3,13 +3,16 @@
 {% load static %}
 <!-- List links for Mission Details -->
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176); height: 120vh">
+    <div style="background-color:rgb(255, 220, 176)">
         <div class="container">
-            <div class="row">
-                <h1>
-                    <p class="mt-2" style="color:brown;">Carbon Missions</p>
-                </h1>
+            <!-- Intro Text -->
+            <div class="row pt-2" style="color:brown;">
+                <h1>Carbon Missions</h1>
             </div>
+            <div class="row pl-2">
+                <h3>Below we have displayed all the missions you have not yet completed.</h3>
+            </div>
+            <!-- Missions on Display -->
             <div class="row justify-content-center>">
                 <div class="card-columns">
                     {% for mission in missions %}
