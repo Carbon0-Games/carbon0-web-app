@@ -1,29 +1,36 @@
 <style>
-    #nav1
-        {  
-            background-color:#F6E6D4; /*whichever you want*/
-            opacity: 0.7; 
-            filter:(opacity=50);  
-            max-height: 10%     
-        }
+  #nav1 {
+    background-color: #f6e6d4;
+    /*whichever you want*/
+    opacity: 0.7;
+    filter: (opacity=50);
+  }
 </style>
-    
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav1">
-    <!-- <div class="collapse navbar-collapse" id="navbarC">
+  <!-- <div class="collapse navbar-collapse" id="navbarC">
 
     </div> -->
-    <a class="navbar-brand" href="{% url 'landing_page' %}">Carbon0</a>
-    <div><a class="nav-link" href="{% url 'accounts:leaderboard' %}">Leaderboard</a></div>
-    <div >Hello, 
-        <strong>
-        {% if user.get_username %}
-          {{ user.get_username }}
-        {% else %}
-          Guest
-        {% endif %}
-        </strong>!
+  <a class="navbar-brand" href="{% url 'landing_page' %}">Carbon0</a>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <div>
+        <a
+          class="nav-link nav-item active"
+          href="{% url 'accounts:leaderboard' %}">Leaderboard</a>
       </div>
-    <!-- <div class="collapse navbar-collapse" id="navbarC">
+    </li>
+  </ul>
+
+  <div>
+    Hello,
+    <strong>
+      {% if user.get_username %} 
+      {{ user.get_username }} 
+      {% else %} Guest 
+      {% endif %} </strong>!
+  </div>
+  <!-- <div class="collapse navbar-collapse" id="navbarC">
 
     </div> -->
 </nav>
