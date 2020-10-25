@@ -16,14 +16,7 @@
             <div class="row justify-content-center>">
                 <div class="card-columns">
                     {% for mission in missions %}
-                        <div class="card" style="width: 13rem; background-color: rgb(255, 220, 176); border: 1px solid transparent;">
-                            <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <p class="card-text" style="height: 5rem">{{ mission.action }}</p>
-                                <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}"
-                                    class="btn btn-primary">{{ mission.title }}</a>
-                            </div>
-                        </div>
+                        {% include "partials/mission_card.html" %}
                     {% endfor %}
                 </div>
             </div>
