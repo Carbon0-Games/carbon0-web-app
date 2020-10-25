@@ -37,7 +37,7 @@
                                             <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
                                             <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id quiz_slug %}">
                                         {% else %}
-                                            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}"></a>
+                                            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}">
                                         {% endif %}
                                             <!-- Show the website name for this link -->
                                             {{ link.description }}</a>
