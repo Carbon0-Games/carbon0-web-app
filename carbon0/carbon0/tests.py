@@ -19,5 +19,5 @@ class LandingPageTests(TestCase):
         response = self.client.get(reverse(self.url))
         self.assertEqual(response.status_code, 200)
         # test the content on the landing page
-        self.assertContains(response, "Be A Hero Get to Zero")
+        self.assertContains(response, "NEW PLAYER")
         return None
