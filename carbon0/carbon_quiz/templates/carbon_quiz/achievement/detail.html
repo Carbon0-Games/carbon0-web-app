@@ -65,6 +65,11 @@
                             ios-src="{% static ios_model %}"
                             poster="PNG goes here"
                             alt="3D model of a Zeron" shadow-intensity="1" camera-controls auto-rotate ar>
+                            <!-- Mobile: Button to Enter AR Mode -->
+                            <button slot="ar-button"
+                                style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 16px; right: 16px; ">
+                                👋 Activate AR
+                            </button>
                         </model-viewer>
                     </div>
                 </div>
