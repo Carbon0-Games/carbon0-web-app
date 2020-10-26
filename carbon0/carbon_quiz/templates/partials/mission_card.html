@@ -4,7 +4,7 @@
     <div class="card-body">
         <p class="card-text">{{ mission.action }}</p>
         <!-- form a different link based on the context -->
-        {% if quiz_slug %}
+        {% if quiz %}
             <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}" class="btn btn-primary">
         {% else %}
             <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}" class="btn btn-primary">
