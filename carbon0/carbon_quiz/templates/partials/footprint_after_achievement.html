@@ -2,8 +2,7 @@
 <div class="card" style="background-color:rgb(255, 220, 176)">
     <div class="card-body">
         <h4 class="card-title" style="color:brown;">Your NEW Carbon Footprint</h4>
-        <!-- <h6 class="card-subtitle mb-2">Based on Questions Answered "No"</h6> -->
-        <h5 class="card-text"><strong>{{ achievement.quiz.carbon_value_total }} metric tons CO2</strong></h5>
+        <h5 class="card-text"><strong id="new-footprint"></strong></h5>
         <!-- Display of Bar Chart -->
         <canvas id="barChart" width="700" height="160rem"></canvas>
         <!-- JS to make the bar chart -->
@@ -18,9 +17,13 @@
                     method: "GET",
                     url: endpoint,
                     success: function (data) {
-                        plotLabels = data.labels
-                        plotData = data.footprint
-                        barChart(plotLabels, plotData)
+                        plotLabels = data.labels;
+                        plotData = data.footprint;
+                        barChart(plotLabels, plotData);
+                        // use the same data to title the card
+                        let title = document.getElementById("new-footprint");
+                        let text = document.createTextNode(plotData + " metric tons CO2");
+                        title.appendChild(text);
                     },
                     error: function (error_data) {
                         console.log(error_data)
