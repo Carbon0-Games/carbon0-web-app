@@ -3,10 +3,10 @@
 {% load static %}
 <!-- List links for Mission Details -->
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176)">
+    <div style="background-color:#143963">
         <div class="container">
             <!-- Intro Text -->
-            <div class="row pt-2" style="color:brown;">
+            <div class="row pt-2" style="color:white;">
                 <h1>Carbon Missions</h1>
             </div>
             <div class="row pl-2">
@@ -16,7 +16,7 @@
             <div class="row justify-content-center>">
                 <div class="card-columns">
                     {% for mission in missions %}
-                        <div class="card" style="width: 13rem; background-color: rgb(255, 220, 176); border: 1px solid transparent;">
+                        <div class="card" style="width: 13rem; background-color: #143963; border: 1px solid transparent;">
                             <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <p class="card-text" style="height: 5rem">{{ mission.action }}</p>

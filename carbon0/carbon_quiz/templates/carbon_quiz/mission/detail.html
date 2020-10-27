@@ -3,11 +3,11 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176); height: 100vh;">
+    <div style="background-color:#143963; height: 100vh;">
         <div class="container">
             <!-- Header -->
             <h1 class="row">
-                <p class="mt-2 mx-2" style="color:brown;">{{ mission.title }}</p>
+                <p class="mt-2 mx-2" style="color:white;">{{ mission.title }}</p>
             </h1>
 
             <!-- Mission Description -->
@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <h3 class="ml-3 mt-2 mb-2">Tools to Complete Your Mission</h3>
-                                <ul class="list-group ml-5" style="background-color:rgb(255, 220, 176)">
+                                <ul class="list-group ml-5" style="background-color:#143963">
                                     <!-- Link to AchievementCreate -->
                                     {% for link in links %}
                                     <li>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5" style="background-color:rgb(255, 220, 176);">
+                <div class="col-md-5" style="background-color:#143963;">
                     <!-- Captain joy -->
                     {% include "partials/captain_joy_image.html" %}
                 </div>

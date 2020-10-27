@@ -25,21 +25,19 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176); max-height: 100%; overflow: hidden;">
+    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;">
         <div class="container pb-5">
             <!-- if User is viewing a Question -->
             {% if question %}
                 <!-- Header -->
-                <h1 class="row ml-2">
-                    <p class="mt-2" style="color:brown;">Carbon Calculator</p>
+                <h1 class="row">
+                    <h1 class="mt-2" style="color:white;">Carbon Calculator</h1>
                 </h1>
                 <!-- Ask the Question -->
-                <div class="row mx-4 mt-3">
-                    <div class="btn btn-warning" style="background-color:rgb(245, 186, 114)">
-                        <h3 class="text-white ml-5 mr-5">
-                            {{ question.question_text }}
-                        </h3>
-                    </div>
+                <div class="row mt-3">
+                    <p class="text-white ml-5 mr-5">
+                        {{ question.question_text }}
+                    </p>
                 </div>
                 <!-- Show the buzzers, Capt Joy, and info box -->
                 <div class="row">
@@ -47,19 +45,18 @@
                     <div class="col-md-8">
                         <div class="row">
                             <!-- Yes and No Buzzers-->
-                            <div class="col">
-                                <img src="{% static 'images/Present-yes.png' %}" 
-                                    alt="Yes" style="max-width: 100%" onclick="nextQuestion('1')">
+                            <div class="col d-flex justify-content-center">
+                                    <button onclick="nextQuestion('1')" type="button"
+                                        class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">YES</button>
                             </div>
-                            <div class="col">
-                                <img src="{% static 'images/Present-_No.png' %}" 
-                                    alt="No" style="max-width: 100%" onclick="nextQuestion('0')">
-
+                            <div class="col d-flex justify-content-center">
+                                    <button onclick="nextQuestion('0')" type="button"
+                                        class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">NO</button>
                             </div>
                             <!-- JS function to go to the next quiz question -->
                             {% include 'partials/next_question_script.html' %}
                         </div>
-                        
+
                         <div class="row justify-content-center">
                                 <!-- Carbon Value Card -->
                                 {% include "partials/quiz_footprint.html" %}
@@ -69,7 +66,7 @@
                         <!-- Captain Joy -->
                         {% include "partials/captain_joy_image.html" %}
                     </div>
-                </div>   
+                </div>
             <!-- if User is viewing their Missions -->
             {% else %}
                 {% if is_random is False %}
@@ -84,10 +81,10 @@
                     <div class="col justify-content-center">
                         <div class="d-flex justify-content-center">
                             <div class="card"
-                                style="width: 13rem; background-color: rgb(255, 220, 176); border: 1px solid transparent;">
+                                style="width: 13rem; background-color: #143963; border: 1px solid transparent;">
                                 <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <p class="card-text" style="height: 5rem">{{ mission.action }}</p>
+                                    <p class="card-text" style="min-height: 5rem">{{ mission.action }}</p>
                                     <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}"
                                         class="btn btn-primary">{{ mission.title }}</a>
                                 </div>
