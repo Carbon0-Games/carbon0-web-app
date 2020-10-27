@@ -12,7 +12,7 @@ install:
   - pip install -r requirements.txt
 # add the enivronment variables
 env:
-  - AT_GLB=assets/glb-files/Coin2.glb AT_USDZ=assets/usdz-files/Coin2.usdz DIET_GLB=assets/glb-files/carrot2.glb  DIET_USDZ=assets/usdz-files/carrot2.usdz UTIL_GLB=assets/glb-files/lightbulb2.glb UTIL_USDZ=assets/usdz-files/lightbulb2.usdz RECYCLING_GLB=assets/glb-files/Bin2.glb RECYCLING_USDZ=assets/usdz-files/Bin2.usdz TRANSIT_GLB=assets/glb-files/wheel2.glb TRANSIT_USDZ=assets/usdz-files/wheel2.usdz
+  - AT_GLB=assets/glb-files/coin180.glb AT_USDZ=assets/usdz-files/coin180.usdz DIET_GLB=assets/glb-files/carrot180.glb  DIET_USDZ=assets/usdz-files/carrot180.usdz UTIL_GLB=assets/glb-files/bulb180.glb UTIL_USDZ=assets/usdz-files/bulb180.usdz RECYCLING_GLB=assets/glb-files/bin180.glb RECYCLING_USDZ=assets/usdz-files/bin180.usdz TRANSIT_GLB=assets/glb-files/wheel180.glb TRANSIT_USDZ=assets/usdz-files/wheel180.usdz
 # command to run tests
 script:
   - python manage.py collectstatic --noinput
