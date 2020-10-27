@@ -27,7 +27,7 @@ export class EveryoneElse extends Component {
     let everyoneElseList = [];
 
     if (this.state.players.length > 3)
-      for (var i = 3; i < this.state.players.length; i++) {
+      for (let i = 3; i < this.state.players.length; i++) {
         everyoneElseList.push(this.state.players[i])
       }
 
