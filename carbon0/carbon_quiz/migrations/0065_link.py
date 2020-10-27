@@ -7,17 +7,48 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0064_auto_20201020_1351'),
+        ("carbon_quiz", "0064_auto_20201020_1351"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Link',
+            name="Link",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.CharField(blank=True, help_text='The website the user can visit to complete the mission.', max_length=300, null=True)),
-                ('address', models.CharField(blank=True, help_text='Links that user can click to complete the mission.', max_length=300, null=True)),
-                ('mission', models.ForeignKey(help_text='The related Mission.', on_delete=django.db.models.deletion.CASCADE, to='carbon_quiz.mission')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "description",
+                    models.CharField(
+                        blank=True,
+                        help_text="The website the user can visit to complete the mission.",
+                        max_length=300,
+                        null=True,
+                    ),
+                ),
+                (
+                    "address",
+                    models.CharField(
+                        blank=True,
+                        help_text="Links that user can click to complete the mission.",
+                        max_length=300,
+                        null=True,
+                    ),
+                ),
+                (
+                    "mission",
+                    models.ForeignKey(
+                        help_text="The related Mission.",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="carbon_quiz.mission",
+                    ),
+                ),
             ],
         ),
     ]

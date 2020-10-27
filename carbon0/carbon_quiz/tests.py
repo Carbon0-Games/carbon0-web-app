@@ -74,11 +74,11 @@ class DatabaseSetup(TestCase):
         quiz.save()
         self.quiz = quiz
         return None
-      
+
 
 class QuestionTests(TestCase):
     """Test suite for the Question model in the database."""
-    
+
 
 class QuestionModelTest(TestCase):
     def setUp(self):
@@ -214,7 +214,7 @@ class QuizDetailTests(DatabaseSetup):
                 action="learn about the vegan diet",
                 learn_more="find out 20 delicious, nutritious vegan recipes!",
                 question=self.questions[4],
-            ), 
+            ),
             # Recycling mission
             Mission.objects.create(
                 title="Beginner Recycling Mission",
@@ -252,27 +252,27 @@ class QuizDetailTests(DatabaseSetup):
             Link.objects.create(
                 mission=Mission.objects.get(id=self.missions[0].id),
                 description="List of the Top 20 Vegan Recipes",
-                address="recipes.com/diets/vegan"
+                address="recipes.com/diets/vegan",
             ),
             Link.objects.create(
                 mission=Mission.objects.get(id=self.missions[1].id),
                 description="List of the Top 20 Recyclables",
-                address="recipes.com/diets/vegan"
+                address="recipes.com/diets/vegan",
             ),
             Link.objects.create(
                 mission=Mission.objects.get(id=self.missions[2].id),
                 description="Tips for Car-Pooling",
-                address="carpools.com"
+                address="carpools.com",
             ),
             Link.objects.create(
                 mission=Mission.objects.get(id=self.missions[3].id),
                 description="Buy LEDs at the Hardware Store",
-                address="hardwarestore.com"
+                address="hardwarestore.com",
             ),
             Link.objects.create(
                 mission=Mission.objects.get(id=self.missions[4].id),
                 description="Science of Plane Emissions",
-                address="plane-emissions.com"
+                address="plane-emissions.com",
             ),
         ]
         # save the links
@@ -328,6 +328,7 @@ class QuizDetailTests(DatabaseSetup):
 
 class MissionDetailTest(TestCase):
     """Test suite for the MissionDetail view."""
+
     def setUp(self):
         """Initial work executed before each test in this suite."""
         # save a Question
@@ -364,7 +365,7 @@ class MissionDetailTest(TestCase):
         mission = Mission.objects.get(id=self.mission.id)
         self.assertContains(response, mission.title)
         return None
-      
+
 
 class AchievementCreateTests(QuizDetailTests):
     """Test suite for the AchievementCreate view."""
@@ -443,7 +444,9 @@ class AchievementCreateTests(QuizDetailTests):
                 "carbon_quiz:achievement_create",
                 kwargs={
                     "mission_id": self.missions[0].id,
-                    "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
+                    "chosen_link_id": self.links[
+                        0
+                    ].id,  # right now the Mission only has 1
                     "quiz_slug": self.quiz.slug,
                 },
             )
@@ -476,7 +479,9 @@ class AchievementCreateTests(QuizDetailTests):
                 "carbon_quiz:achievement_create",
                 kwargs={
                     "mission_id": self.missions[0].id,
-                    "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
+                    "chosen_link_id": self.links[
+                        0
+                    ].id,  # right now the Mission only has 1
                 },
             )
         )

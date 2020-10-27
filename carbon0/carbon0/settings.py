@@ -152,7 +152,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # AWS S3 Variables
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")

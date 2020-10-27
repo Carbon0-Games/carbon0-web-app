@@ -7,6 +7,7 @@ from carbon0.views import get_landing
 
 class LandingPageTests(TestCase):
     """Tests for the landing page view."""
+
     def setUp(self):
         """Initial work done for each test in this suite."""
         self.client = Client()

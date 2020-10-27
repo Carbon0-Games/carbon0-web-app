@@ -47,36 +47,32 @@ def track_achievement_creation(achievement, user):
     # track the event
     try:
         mp.track(
-            properties['user'],
-            event_name='createAchievement',
-            properties=properties
+            properties["user"], event_name="createAchievement", properties=properties
         )
     # TODO: figure out why Mixpanel throws an exception on some environments
     except MixpanelException:
         # log the error happened on the Terminal
-        print('MixpanelException occurred!')
+        print("MixpanelException occurred!")
     return None
 
 
 def filter_completed_missions(missions, user):
     """Given a set of missions and a user, return only non-completed missions.
-    
-       Parameters:
-       missions: QuerySet of Missions
-       user: can be authenticated or not
 
-       Returns: set of Missions
-                if the user is not authenticated, 
-                we return all the same missions
+    Parameters:
+    missions: QuerySet of Missions
+    user: can be authenticated or not
+
+    Returns: set of Missions
+             if the user is not authenticated,
+             we return all the same missions
 
     """
     # if the user is signed in
     if user.is_authenticated:
         # get all the Missions related to a user,
         achievements = Achievement.objects.filter(profile=user.profile)
-        user_missions = set([
-            a.mission for a in achievements
-        ])
+        user_missions = set([a.mission for a in achievements])
         # get only the missions not yet completed by the user
         missions = set(missions) - user_missions
     return missions
@@ -174,9 +170,7 @@ class QuizDetail(DetailView):
                     missions.append(mission)
             # if no missions to suggest, give 3 randomly
             if len(missions) == 0:
-                missions = random.sample(
-                    set(Mission.objects.all()), 3
-                )
+                missions = random.sample(set(Mission.objects.all()), 3)
                 is_random = True
             # finally, take out missions completed before
             missions = filter_completed_missions(missions, request.user)
@@ -194,32 +188,34 @@ class QuizDetail(DetailView):
         # return the response
         return render(request, self.template_name, context)
 
+
 class MissionList(ListView):
-    '''Displays all the Missions not yet completed by the user.'''
+    """Displays all the Missions not yet completed by the user."""
+
     model = Mission
     queryset = Mission.objects.all()
     # reuse the QuizDetail template, for when question is not in the context
-    template_name = "carbon_quiz/mission/list.html" 
+    template_name = "carbon_quiz/mission/list.html"
 
     def get(self, request):
         """Return a view of all missions not yet completed, or
-           all of them if the user is not authenticated.
+        all of them if the user is not authenticated.
 
-           Parameters:
-           request(HttpRequest): carries the user as a property
+        Parameters:
+        request(HttpRequest): carries the user as a property
 
-           Returns: HttpResponse: the view of the QuizDetail template
-        
+        Returns: HttpResponse: the view of the QuizDetail template
+
         """
         # start with all Missions in the queryset
-        missions = self.queryset 
+        missions = self.queryset
         # get only the missions not yet completed by the user
         missions = filter_completed_missions(missions, request.user)
         # set the context
         context = {
-            'missions': missions,
-            'is_random': False,
-            'MP_PROJECT_TOKEN': settings.MP_PROJECT_TOKEN
+            "missions": missions,
+            "is_random": False,
+            "MP_PROJECT_TOKEN": settings.MP_PROJECT_TOKEN,
         }
         # return the response
         return render(request, self.template_name, context)
@@ -284,10 +280,7 @@ class AchievementCreate(CreateView):
         # get the links related to the mission
         link = Link.objects.get(id=chosen_link_id)
         # set the context
-        context = {
-            "mission": mission,
-            "link": link
-        }
+        context = {"mission": mission, "link": link}
         # return the response
         return render(request, self.template_name, context)
 
