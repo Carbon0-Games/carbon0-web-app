@@ -29,6 +29,13 @@ export function barChart(plotLabels, plotData) {
           },
         ],
       },
+      // turn the legend white
+      legend: {
+        display: true,
+        labels: {
+          fontColor: 'rgb(255, 255, 255)'
+        }
+      }
     },
   });
 }
