@@ -16,9 +16,9 @@
     "pk": 2,
     "fields": {
         "title": "Recycling - Learning Mission",
-        "action": "Learn about plastic symbols for recycling and find a 1 or 2 symbol in your house",
+        "action": "Learn about plastic symbols for recycling and find '1' or '2' symbols in your house",
         "clicks_needed": 1,
-        "learn_more": "I'm Reu, Earth has a lot of strange symbols on materials to communicate what can be recycled. On my planet we learnt to not buy things that can't be recycled?",
+        "learn_more": "I'm Reu, Earth has a lot of strange symbols on materials to communicate what can be recycled. On my planet we learnt not to buy things that can't be recycled",
         "question": 1,
         "percent_carbon_sequestration": 0.01
     }
@@ -30,7 +30,7 @@
         "title": "Recycling - Fridge Mission",
         "action": "Organize your fridge to reduce waste",
         "clicks_needed": 1,
-        "learn_more": "I'm Reu, us Zerons decided to have shared food storage with our community so things don't go to waste. Can you show me a well organized fridge on Earth?",
+        "learn_more": "I'm Reu, us Zerons decided to organize food storage as a community so things don't go to waste. Can you show me a well-ordered fridge on Earth?",
         "question": 1,
         "percent_carbon_sequestration": 0.02
     }
@@ -54,7 +54,7 @@
         "title": "Recycling - Gifting Mission",
         "action": "Give away something you don't need",
         "clicks_needed": 1,
-        "learn_more": "I'm Reu, on our planet we believe the best gift you can give someone is something you recycled or don't need anymore",
+        "learn_more": "I'm Reu, on our planet we believe the best gift you can give someone is something upcycled, recycled or don't need anymore",
         "question": 1,
         "percent_carbon_sequestration": 0.02
     }
@@ -66,7 +66,7 @@
         "title": "Recycling - Open your wallet",
         "action": "Donate money to help recycling efforts",
         "clicks_needed": 1,
-        "learn_more": "I'm Reu, on our planet money works a bit different, we give what we don't need to help people doing important work.",
+        "learn_more": "I'm Reu, on our planet money works a bit differently, we give what we don't need to help people who're doing important work.",
         "question": 1,
         "percent_carbon_sequestration": 0.015
     }
@@ -76,9 +76,9 @@
     "pk": 7,
     "fields": {
         "title": "Diet - Learning Mission",
-        "action": "Learn what is your favorite low carbon emission food",
+        "action": "Learn your favorite low carbon emission food",
         "clicks_needed": 1,
-        "learn_more": "I'm Yum, Zerons loved eating Wagl, but making Wagl produce a lot of CO2, so our food scientists came up with a similar tasting food that produced less C02. Can you show me your favorite low carbon emission food?",
+        "learn_more": "I'm Yum, Zerons loved eating Wagl, but making Wagl produces a lot of CO2, so our food scientists came up with food that tastes similar and produced less C02. Can you show me your favorite low carbon emission food?",
         "question": 3,
         "percent_carbon_sequestration": 0.01
     }
@@ -102,7 +102,7 @@
         "title": "Diet - Open your wallet",
         "action": "Buy some of the tastiest plant based food",
         "clicks_needed": 1,
-        "learn_more": "I'm Yum, I love cooking my food. I also love tasting things other people make that have low carbon emission. Can you buy me something to taste? ",
+        "learn_more": "I'm Yum, I love cooking my food. I also love tasting things other people make that have low carbon emission. Can you buy me something that tastes great? ",
         "question": 3,
         "percent_carbon_sequestration": 0.015
     }
@@ -114,7 +114,7 @@
         "title": "Diet - Grow Veggies",
         "action": "Grow your own food",
         "clicks_needed": 1,
-        "learn_more": "I'm Yum, it took me some time to learn to grow things on my planet. I wonder how it is on Earth? Please show me!",
+        "learn_more": "I'm Yum, it took me some time to learn to grow things on my planet. I wonder how it works on Earth? Please show me!",
         "question": 3,
         "percent_carbon_sequestration": 0.1
     }
@@ -126,7 +126,7 @@
         "title": "Energy - Learning Mission",
         "action": "Learn which renewable energy works best for where you live",
         "clicks_needed": 1,
-        "learn_more": "I'm EL, the science minister. To save our planet everyone learnt about innovations in energy and how creating C02 could be prevented. Can you show me which renewable energy works best for where you live",
+        "learn_more": "I'm EL, the science minister. To save our planet everyone learnt about innovations in energy and how to prevent the excessive creation of C02. Can you show me which renewable energy works best for where you live",
         "question": 5,
         "percent_carbon_sequestration": 0.01
     }
@@ -136,9 +136,9 @@
     "pk": 12,
     "fields": {
         "title": "Energy - Reminder Mission",
-        "action": "Make a sign from recycled materials to remind you to turn off lights before you go to bed to and put it somewhere you will see before going to bed",
+        "action": "Make a sign from recycled materials to remind you to turn off lights before you go to bed to and put it somewhere you will see it easily",
         "clicks_needed": 1,
-        "learn_more": "I'm EL, not all your light bulbs on Earth are the same, incandescent light bulbs are very wasteful, fluorescent lights take a lot of electricity to start so turn them off only if you will be gone for more than 15 min. LEDs are very efficient!",
+        "learn_more": "I'm EL, not all light bulbs on Earth are the same. Incandescent lightbulbs are very wasteful, fluorescent lights take a lot of electricity to start so turn them off only if you will be gone for more than 15 minutes; LEDs are very efficient!",
         "question": 5,
         "percent_carbon_sequestration": 0.02
     }
@@ -148,7 +148,7 @@
     "pk": 13,
     "fields": {
         "title": "Energy - Open your wallet for Solar Panels",
-        "action": "Buy (or ask your homeowner to buy) solar panels",
+        "action": "Buy and install (or ask your homeowner or landlord to buy) solar panels",
         "clicks_needed": 1,
         "learn_more": "I'm EL, your sun is such a magnificent source of power, you are so lucky. Our planet was further away from the sun. Can you buy some solar powered technology?",
         "question": 5,
@@ -159,10 +159,10 @@
     "model": "carbon_quiz.mission",
     "pk": 14,
     "fields": {
-        "title": "Energy - Open your wallet for LED light bulbs",
-        "action": "Buy (or ask your homeowner to buy) LED light bulbs",
+        "title": "Energy - Open your wallet for LED lightbulbs",
+        "action": "Buy (or ask your homeowner or landlord to buy) LED lightbulbs",
         "clicks_needed": 1,
-        "learn_more": "I'm EL, when I was young I studied why LED light bulbs are more efficient, they use electroluminescence, electrons jump to lower energy bands and release energy as light! Buy some?",
+        "learn_more": "I'm EL, when I was young I studied why LED lightbulbs are more efficient. They use electroluminescence. Electrons jump to lower energy bands and release energy as light! Buy some",
         "question": 5,
         "percent_carbon_sequestration": 0.015
     }
@@ -172,9 +172,9 @@
     "pk": 15,
     "fields": {
         "title": "Offset - Learning Mission",
-        "action": "Learn what is a CIRCULAR ECONOMY and show us a symbol that reminds you of the concept.",
+        "action": "Learn what a Circular Economy is and create a symbol that reminds you of the concept.",
         "clicks_needed": 1,
-        "learn_more": "I'm Coi, I'm the minister of Economy on my planet. We've learnt to make money work for our planet. I hear on Earth you call this CIRCULAR ECONOMY ",
+        "learn_more": "I'm Coi, I'm the Economics Minister on my planet. We've learnt to make money work for our planet. I hear on Earth you call this the Circular Economy ",
         "question": 4,
         "percent_carbon_sequestration": 0.01
     }
@@ -186,7 +186,7 @@
         "title": "Offset - Company Mission",
         "action": "Learn which companies are helping save the planet and show us a product you like from one of these companies.",
         "clicks_needed": 1,
-        "learn_more": "I'm Coi, when things got dangerous on our planet all Zeros stopped buying or working for companies that didn't care for the planet and the companies changed!",
+        "learn_more": "I'm Coi, when things got dangerous on our planet all Zeros stopped buying or working for companies that didn't care for the planet and this forced companies to change!",
         "question": 4,
         "percent_carbon_sequestration": 0.01
     }
@@ -198,7 +198,7 @@
         "title": "Offset - Listening Mission",
         "action": "Subscribe to one of these podcasts about technology that is helping to save the planet. Show us which technology or company impressed you the most",
         "clicks_needed": 1,
-        "learn_more": "I'm Coi, the more I learn about the innovations on Earth the more confident I am that you too can save your planet!",
+        "learn_more": "I'm Coi, the more I learn about innovations on Earth the more confident I am that you too can save your planet!",
         "question": 4,
         "percent_carbon_sequestration": 0.01
     }
@@ -208,9 +208,9 @@
     "pk": 18,
     "fields": {
         "title": "Offset - Action Mission",
-        "action": "Add browser plugins that offset your carbon with no cost to you and share them with friends",
+        "action": "Add browser plugins that offset carbon at no cost to you and share these with friends",
         "clicks_needed": 1,
-        "learn_more": "I'm Coi, I'm impressed with these ideas that help you save the planet with one or two click of this device called a mouse?!?",
+        "learn_more": "I'm Coi, I'm impressed with these ideas that help you save the planet with one or two clicks of this device called a mouse?!?",
         "question": 4,
         "percent_carbon_sequestration": 0.02
     }
@@ -222,7 +222,7 @@
         "title": "Offset - Open Your Wallet Mission",
         "action": "Donate to one of these impressive ideas to offset your carbon",
         "clicks_needed": 1,
-        "learn_more": "I'm Coi, when I started to save our planet with an idea I had generous people helped me build it",
+        "learn_more": "I'm Coi, when I started to save our planet with an idea I had generous people who helped me build it",
         "question": 4,
         "percent_carbon_sequestration": 0.015
     }
@@ -232,9 +232,9 @@
     "pk": 20,
     "fields": {
         "title": "Transport - Learning Mission",
-        "action": "Show us which is the lowest emission transportation mode that makes sense for where you live?",
+        "action": "Show us which of the lowest emission transportation modes makes sense for where you live?",
         "clicks_needed": 1,
-        "learn_more": "I'm Gogo, our planet is 3 times bigger than Earth, We learned we could minimize our carbon emissions by being smart about how we get around.",
+        "learn_more": "I'm Gogo, our planet is 3 times bigger than Earth. We learned we could minimize our carbon emissions by being smart about how we get around.",
         "question": 2,
         "percent_carbon_sequestration": 0.01
     }
@@ -244,9 +244,9 @@
     "pk": 21,
     "fields": {
         "title": "Transport - Motivation",
-        "action": "Use one of these ways to motivate you use your feet to save the planet",
+        "action": "Use one of these ways to motivate you to use your feet to save the planet",
         "clicks_needed": 1,
-        "learn_more": "I'm Gogo, I've learned it's very healthy for humans to walk or bike just remember that how you replenish your calories matters too.",
+        "learn_more": "I'm Gogo, I've learned it's very healthy for humans to walk or cycle. Just remember that how you replenish your calories matters too.",
         "question": 2,
         "percent_carbon_sequestration": 0.02
     }
@@ -256,7 +256,7 @@
     "pk": 22,
     "fields": {
         "title": "Transport - Open Your Wallet",
-        "action": "Buy one of these low carbon transportation.",
+        "action": "Buy one of these low carbon transportation devices.",
         "clicks_needed": 1,
         "learn_more": "I'm Gogo, I love some of the wheeled transportation devices you have on Earth. Can you buy one for me?",
         "question": 2,
@@ -350,7 +350,7 @@
     "pk": 10,
     "fields": {
         "mission": 5,
-        "description": "free pickups for donations with Donationtown.org",
+        "description": "Free pickups for donations with Donationtown.org",
         "address": "http://donationtown.org/donation-pick-up.html" 
     }
 },
@@ -359,7 +359,7 @@
     "pk": 11,
     "fields": {
         "mission": 5,
-        "description": "local groups you can post what you are giving away or looking for",
+        "description": "Local groups in which you can post what you are giving away or looking for",
         "address": "https://groups.freecycle.org/" 
     }
 },
@@ -377,7 +377,7 @@
     "pk": 13,
     "fields": {
         "mission": 6,
-        "description": "Donate to clean the oceans and beaches from plastic",
+        "description": "Donate to clear the oceans and beaches from plastic",
         "address": "https://www.surfrider.org/" 
     }
 },
@@ -386,7 +386,7 @@
     "pk": 14,
     "fields": {
         "mission": 7,
-        "description": "Visualize carbon footprints of food with visualcapitalist.com",
+        "description": "Visualize carbon footprints from food with visualcapitalist.com",
         "address": "https://www.visualcapitalist.com/visualising-the-greenhouse-gas-impact-of-each-food/" 
     }
 },
@@ -495,8 +495,8 @@
     "pk": 26,
     "fields": {
         "mission": 13,
-        "description": "Buy or recommend your home owner buys DIY solar kits from Gogreensolar.com/",
-        "address": "https://shareasale.com/r.cfm?b=463618&u=2590062&m=16774&urllink=&afftrack="
+        "description": "Buy or recommend your homeowner/landlord buys DIY solar kits from Gogreensolar.com/",
+        "address": "https://shareasale.com/r.cfm?b=463618&u=2590062&m=16774&urllink=&afftrack=" 
     }
 },
 {
@@ -505,7 +505,7 @@
     "fields": {
         "mission": 13,
         "description": "Buy a solar cooking oven from GoSun.co",
-        "address": "https://shareasale.com/r.cfm?b=576342&u=2590062&m=52143&urllink=&afftrack=" 
+        "address": "https://shareasale.com/r.cfm?b=576342&u=2590062&m=52143&urllink=&afftrack="
     }
 },
 {
@@ -513,7 +513,7 @@
     "pk": 28,
     "fields": {
         "mission": 13,
-        "description": "Buy a outdoor solar lamps from sunwaylighting LLC on Outdoorsolarlamps.com",
+        "description": "Buy outdoor solar lamps from sunwaylighting LLC on Outdoorsolarlamps.com",
         "address": "https://shareasale.com/r.cfm?b=1215829&u=2590062&m=81286&urllink=&afftrack=" 
     }
 },
@@ -531,7 +531,7 @@
     "pk": 30,
     "fields": {
         "mission": 14,
-        "description": "Buy LED bulbs lights from SansiLed.com",
+        "description": "Buy LED lightbulbs from SansiLed.com",
         "address": "https://shareasale.com/u.cfm?d=591319&m=76819&u=2590062&afftrack=" 
     }
 },
@@ -540,7 +540,7 @@
     "pk": 31,
     "fields": {
         "mission": 15,
-        "description": "What is Circular Economy from EllenMacarthurFoundation.org",
+        "description": "What is Circular Economy? from EllenMacarthurFoundation.org",
         "address": "https://www.ellenmacarthurfoundation.org/circular-economy/what-is-the-circular-economy" 
     }
 },
@@ -549,7 +549,7 @@
     "pk": 32,
     "fields": {
         "mission": 15,
-        "description": "What is Circular Economy watch a short youtube video",
+        "description": "What is the Circular Economy? watch a short youtube video",
         "address": "https://www.youtube.com/embed/zCRKvDyyHmI" 
     }
 },
@@ -558,7 +558,7 @@
     "pk": 33,
     "fields": {
         "mission": 16,
-        "description": "Interactive data base to look up companies care for the planet from Betterworldshopper.org",
+        "description": "Interactive data base to look up companies who care for the planet from Betterworldshopper.org",
         "address": "https://betterworldshopper.org/#companies-section" 
     }
 },
@@ -567,7 +567,7 @@
     "pk": 34,
     "fields": {
         "mission": 16,
-        "description": "Interactive ranking and search of companies care for the planet by JustCapital.com",
+        "description": "Interactive ranking and search of companies who care for the planet by JustCapital.com",
         "address": "https://justcapital.com/rankings/" 
     }
 },
@@ -603,7 +603,7 @@
     "pk": 37,
     "fields": {
         "mission": 18,
-        "description": "Offset the transportation of your online shopping for free with this chrome plugin.",
+        "description": "Offset the transportation of online shopping for free with this chrome plugin.",
         "address": "https://ecocart.io/" 
     }
 },
@@ -612,7 +612,7 @@
     "pk": 39,
     "fields": {
         "mission": 19,
-        "description": "Contribute to research to create clothes that absorb your carbon!",
+        "description": "Contribute to research to creating clothes that absorb your carbon!",
         "address": "https://www.patreon.com/postcarbonlab." 
     }
 },
@@ -621,7 +621,7 @@
     "pk": 40,
     "fields": {
         "mission": 19,
-        "description": "Contribute to help us keep building this game!",
+        "description": "Contribute to helping us keep building this game!",
         "address": "http://www.mycarbon0.com/" 
     }
 },
@@ -648,7 +648,7 @@
     "pk": 43,
     "fields": {
         "mission": 21,
-        "description": "Make a sign from recycled material like one of these from Pintrest.com to inspire your feet to save the planet with your feet.",
+        "description": "Make a sign from recycled material like one of these from Pintrest.com to inspire you -  help save the planet with your feet.",
         "address": "https://www.pinterest.com/yeledo/save-the-planet-with-your-feet/" 
     }
 },
