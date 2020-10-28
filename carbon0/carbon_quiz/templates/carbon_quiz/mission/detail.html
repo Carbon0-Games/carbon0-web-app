@@ -12,12 +12,11 @@
 
             <!-- Mission Description -->
             <div class="row text-white">
-                <h5 class="ml-5">
-                    Click on <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.clicks_needed}}</a>
-                    of these links to <a class="text-danger" style="text-decoration: none;" href="#">{{ mission.action }}</a> now!
+                <p class="ml-5">
+                    {{ mission.action }}
                     <br>
-                    And take a photo to show us you completed your mission!
-                </h5>
+                    And take a photo to share when you've completed your mission!
+                </p>
             </div>
 
             <!-- Image of Mission, More info -->
@@ -35,9 +34,9 @@
                                         <!-- form a different URL depending on the context variables -->
                                         {% if quiz_slug %}
                                             <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
-                                            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id quiz_slug %}">
+                                            <a class="text-white" href="{% url 'carbon_quiz:achievement_create' mission.id link.id quiz_slug %}">
                                         {% else %}
-                                            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}">
+                                            <a class="text-white" href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}">
                                         {% endif %}
                                             <!-- Show the website name for this link -->
                                             {{ link.description }}</a>
