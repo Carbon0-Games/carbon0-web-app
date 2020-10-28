@@ -27,40 +27,86 @@
 {% block content %}
 <!-- HERO -->
 <style>
+ body {
+   background-color:#143963;
+   overflow-x: hidden;
+ }
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    h7,
+    h8,
+    ol,
+    ul,
+    span {
+      font-family: "Coda", sans-serif;
+    }
+
+    input, textarea {
+      -webkit-appearance: none;
+    }
+
     #foot {
         background-color: #445C3C;
-        /* position: absolute; */
-        overflow: hidden;
-
     }
 
-    @media (max-width: 300px) {
-        p {
-            font-size: 2rem;
-        }
-    }
-
-    p {
-        font-size: 6vw;
+    .be-a-hero {
+        font-size: 1.8rem;
         font-family: "American Typewriter";
-        color: white
+        line-height: inherit;
+        color: white;
     }
+    @media only screen and (min-width: 600px) {
+      .be-a-hero {
+          font-size: 4rem;
+          line-height: inherit;
+      }
+    }
+
+    .carbon0-button {
+      background-color: white;
+      padding: 10px 16px;
+      -webkit-appearance: none;
+      font-size: 16px;
+      border-radius: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      min-width: 150px;
+      font-family: "Coda", sans-serif;
+    }
+    @media only screen and (min-width: 600px) {
+      .carbon0-button {
+        padding: 12px 20px;
+        font-size: 26px;
+      }
+    }
+
+
 
     #main-land {
         background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
-        height: 80vh;
         background-size: cover;
-        background-repeat: no-repeat
+        background-repeat: no-repeat;
+        margin: 0%;
     }
+
 </style>
-{% include 'partials/navbar.html' %}
+ {% include 'partials/navbar.html' %}
 
 <div class="container-fluid" id="main-land">
     <div class="row">
-        <div class="col-2">
-            <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" alt="Logo" style="max-width: 100%">
+        <div class="col-sm-3 col-md-2" style="padding-top: 20px; text-align:center">
+            <img class="mx-2 my-2" src="{% static 'images/Carbon0_Logo_GDC.png' %}" alt="Logo" style="max-width: 150px; display: inline-block;">
         </div>
-        <div class="col-8">
+        <div class="col-md-8 col-sm-12">
             <div class="container pt-4">
                 <div class="embed-responsive embed-responsive-16by9">
                     {% include "partials/intro_video_player.html" %}
@@ -76,7 +122,8 @@
         </div>
         <div class="col-8">
             <div class="container">
-                <div class="row align-items-center" style="height: 20vh">
+                <div class="row align-items-center my-5">
+                    <!-- style="height: 20vh" -->
                     <div class="col justify-content-center">
                         <div class="d-flex justify-content-center">
                             <!-- Call to ACTION: Play the Game for the First Time -->
@@ -89,7 +136,7 @@
                                     }
                                 </script>
                                 <a href="{% url 'carbon_quiz:quiz_create' %}" onclick="beginQuiz()" type="button"
-                                    class="btn btn-primary rounded-pill" style="width: 150px">NEW PLAYER</a>
+                                    class="carbon0-button" style="margin-bottom: 20px;">NEW PLAYER</a>
                             </div>
                         </div>
                     </div>
@@ -97,8 +144,7 @@
                     <div class="col justify-content-center">
                         <div class="d-flex justify-content-center">
                             <!-- Call to ACTION: Login -->
-                            <a href="{% url 'accounts:login' %}" type="button" class="btn btn-success rounded-pill"
-                                style="width: 150px">LOGIN</a>
+                            <a href="{% url 'accounts:login' %}" type="button" class="carbon0-button" style="margin-bottom: 20px;">LOGIN</a>
                         </div>
                     </div>
 
@@ -106,27 +152,29 @@
             </div>
         </div>
         <div class="col-2">
-            <img src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" alt="CaptainJoy"
-                style="max-width: 100%; position: absolute; bottom: 0">
+            <!-- <img class = "align-bottom" src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" alt="CaptainJoy"
+                style="max-width: 100%; position: absolute; bottom: 0"> -->
+                <img src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" alt="Captain Joy Goes Here"
+                style="max-width: 90%; position: absolute; bottom: 0">
         </div>
     </div>
 </div>
 
-<footer class="footer-bottom" id="foot">
+<footer class="footer-sticky" id="foot">
     <!-- Use fixed-bottom in the class to keep it fixed -->
     <div class="container">
-        <p style="display:inline; color: white">Be A </p>
-        <p style="display:inline; color: #49beb7">Hero </p>
-        <p style="display:inline; color: white">Get to</p>
-        <p style="display:inline; color: #49beb7"> Zero</p>
+        <p class="be-a-hero" style="display:inline; color: white">Be A </p>
+        <p class="be-a-hero" style="display:inline; color: #49beb7; margin-right: 25px;">Hero</p>
+        <p class="be-a-hero" style="display:inline; color: white">Get to </p>
+        <p class="be-a-hero" style="display:inline; color: #49beb7">Zero</p>
     </div>
-    <div class="container" style="background-color: #445C3C;">
-        <div class="row justify-content-center">
-            <div id="add-2-home-screen" class="col-md-4">
+    <!-- <div class="container" style="background-color: #445C3C;"> -->
+        <!-- <div class="row justify-content-center"> -->
+            <!-- <div id="add-2-home-screen" class="col-md-4"> -->
                 <!-- Add to Home Screen Button -->
-                <script src="{% static 'js/addToHomeScreen.js' %}"></script>
-            </div>
-        </div>
-    </div>
+                <!-- <script src="{% static 'js/addToHomeScreen.js' %}"></script> -->
+            <!-- </div> -->
+        <!-- </div> -->
+    <!-- </div> -->
 </footer>
 {% endblock %}

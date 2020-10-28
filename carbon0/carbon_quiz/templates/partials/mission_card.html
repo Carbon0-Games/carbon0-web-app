@@ -1,0 +1,14 @@
+{% load static %}
+<div class="card" style="width: 13rem; background-color:  #143963; border: 1px solid transparent;">
+    <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+        <p class="card-text">{{ mission.action }}</p>
+        <!-- form a different link based on the context -->
+        {% if quiz %}
+            <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}" class="btn btn-primary">
+        {% else %}
+            <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}" class="btn btn-primary">
+        {% endif %}
+        {{ mission.title }}</a>
+    </div>
+</div>

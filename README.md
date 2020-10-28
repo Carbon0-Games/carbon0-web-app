@@ -55,6 +55,10 @@ Please follow these steps to be able to run the project:
     - Within the outer `carbon0/` directory, enter the following to install all the dependencies through your command line: `python -m pip install -r requirements.txt` 
     - Also run the command `npm install` in this directory, to install all the dependencies for Node.js.
     - Do any db migrations that might be needed, using `python manage.py migrate`
+    - Also migrate the initial data for the database, using the `loaddata` command:
+        ```
+        django-admin loaddata fixture carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json
+        ```
 
 ### __Running Locally__
 

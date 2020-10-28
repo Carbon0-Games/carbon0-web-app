@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0060_auto_20201018_1100'),
+        ("carbon_quiz", "0060_auto_20201018_1100"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='question',
-            name='improvement_response',
-            field=models.IntegerField(choices=[(1, 'Yes'), (0, 'No')], default=0, help_text='Response that says the user needs to improve, with regards to this area of their carbon footprint.'),
+            model_name="question",
+            name="improvement_response",
+            field=models.IntegerField(
+                choices=[(1, "Yes"), (0, "No")],
+                default=0,
+                help_text="Response that says the user needs to improve, with regards to this area of their carbon footprint.",
+            ),
         ),
     ]

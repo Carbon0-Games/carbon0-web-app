@@ -4,6 +4,7 @@ from .views import (
     QuizCreate,
     QuizDetail,
     MissionDetail,
+    MissionList,
     AchievementCreate,
     AchievementDetail,
 )
@@ -42,4 +43,5 @@ urlpatterns = [
         AchievementDetail.as_view(),
         name="achievement_detail",
     ),
+    path("mission/list/", MissionList.as_view(), name="mission_list"),
 ]

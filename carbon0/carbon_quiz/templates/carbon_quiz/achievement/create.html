@@ -4,23 +4,23 @@
 {% load static %}
 
 {% block content %}
-<div style="background-color:rgb(255, 220, 176); height: 100vh;">
+<div style="background-color:#143963; height: 100vh;">
     <div class="container">
         <!-- Header -->
-        <h1 class="row ">
-            <p class="mt-2" style="color:brown;">Complete Your Mission</p>
+        <h1 class="row mt-2" style="color:white;">
+            Complete Your Mission
         </h1>
         <!-- Title of the Mission -->
-        <h3 class="row ml-2">{{ mission.title }}</h3>
+        <h3 class="row ml-2 text-white">{{ mission.title }}</h3>
         <!-- Web View of Mission Link -->
-        <div class="row">
+        <div class="row text-white">
             <div class="col-md-8">
                 <!-- Site Preview -->
                 <div class="row ml-2">
                     <p>
                         <strong>Action:</strong> {{ mission.action }}.<br>
                         When you are finished on the website linked below, come back and 
-                        select "Complete Mission" so we can give you your prize! <br>
+                        select "Mission Completed" so we can give you your prize! <br>
                         <a class="link-overview" href="{{ link.address }}" target="_blank">
                             Preview Link: {{ link.description }}
                         </a>
@@ -32,7 +32,7 @@
                 <div class="row ml-2">
                     <form method="post">
                         {% csrf_token %}
-                        <input type="submit" class="btn btn-success" value="Mission Completed!">
+                        <input type="submit" class="btn btn-success" value="Mission Completed">
                     </form>
                 </div>
             </div>

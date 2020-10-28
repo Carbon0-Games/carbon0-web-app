@@ -1,0 +1,682 @@
+[
+{
+    "model": "carbon_quiz.mission",
+    "pk": 1,
+    "fields": {
+        "title": "Recycling - Art Mission",
+        "action": "Make art with your garbage",
+        "clicks_needed": 1,
+        "learn_more": "I'm Reu, we almost lost everything on my planet because all the stuff we were buying was producing too much C02. Our greatest artists decided to use only recycled material to inspire us to change.",
+        "question": 1,
+        "percent_carbon_sequestration": 0.01
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 2,
+    "fields": {
+        "title": "Recycling - Learning Mission",
+        "action": "Learn about plastic symbols for recycling and find '1' or '2' symbols in your house",
+        "clicks_needed": 1,
+        "learn_more": "I'm Reu, Earth has a lot of strange symbols on materials to communicate what can be recycled. On my planet we learnt not to buy things that can't be recycled",
+        "question": 1,
+        "percent_carbon_sequestration": 0.01
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 3,
+    "fields": {
+        "title": "Recycling - Fridge Mission",
+        "action": "Organize your fridge to reduce waste",
+        "clicks_needed": 1,
+        "learn_more": "I'm Reu, us Zerons decided to organize food storage as a community so things don't go to waste. Can you show me a well-ordered fridge on Earth?",
+        "question": 1,
+        "percent_carbon_sequestration": 0.02
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 4,
+    "fields": {
+        "title": "Recycling - Reminder Mission",
+        "action": "Make a Sign out of recycled materials to inspire you to recycle. Put it near the garbage",
+        "clicks_needed": 1,
+        "learn_more": "I'm Reu, to be honest my memory isn't the best so I learnt to use reminders to help me recycle.",
+        "question": 1,
+        "percent_carbon_sequestration": 0.02
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 5,
+    "fields": {
+        "title": "Recycling - Gifting Mission",
+        "action": "Give away something you don't need",
+        "clicks_needed": 1,
+        "learn_more": "I'm Reu, on our planet we believe the best gift you can give someone is something upcycled, recycled or don't need anymore",
+        "question": 1,
+        "percent_carbon_sequestration": 0.02
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 6,
+    "fields": {
+        "title": "Recycling - Open your wallet",
+        "action": "Donate money to help recycling efforts",
+        "clicks_needed": 1,
+        "learn_more": "I'm Reu, on our planet money works a bit differently, we give what we don't need to help people who're doing important work.",
+        "question": 1,
+        "percent_carbon_sequestration": 0.015
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 7,
+    "fields": {
+        "title": "Diet - Learning Mission",
+        "action": "Learn your favorite low carbon emission food",
+        "clicks_needed": 1,
+        "learn_more": "I'm Yum, Zerons loved eating Wagl, but making Wagl produces a lot of CO2, so our food scientists came up with food that tastes similar and produced less C02. Can you show me your favorite low carbon emission food?",
+        "question": 3,
+        "percent_carbon_sequestration": 0.01
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 8,
+    "fields": {
+        "title": "Diet - Cooking Mission",
+        "action": "Commit to cooking a low carbon emission dinner once a week",
+        "clicks_needed": 1,
+        "learn_more": "I'm Yum, I'm a famous chef on my planet cooking low carbon tasty food. But I don't know about Earth food. Can you show me Earth meals?",
+        "question": 3,
+        "percent_carbon_sequestration": 0.037
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 9,
+    "fields": {
+        "title": "Diet - Open your wallet",
+        "action": "Buy some of the tastiest plant based food",
+        "clicks_needed": 1,
+        "learn_more": "I'm Yum, I love cooking my food. I also love tasting things other people make that have low carbon emission. Can you buy me something that tastes great? ",
+        "question": 3,
+        "percent_carbon_sequestration": 0.015
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 10,
+    "fields": {
+        "title": "Diet - Grow Veggies",
+        "action": "Grow your own food",
+        "clicks_needed": 1,
+        "learn_more": "I'm Yum, it took me some time to learn to grow things on my planet. I wonder how it works on Earth? Please show me!",
+        "question": 3,
+        "percent_carbon_sequestration": 0.1
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 11,
+    "fields": {
+        "title": "Energy - Learning Mission",
+        "action": "Learn which renewable energy works best for where you live",
+        "clicks_needed": 1,
+        "learn_more": "I'm EL, the science minister. To save our planet everyone learnt about innovations in energy and how to prevent the excessive creation of C02. Can you show me which renewable energy works best for where you live",
+        "question": 5,
+        "percent_carbon_sequestration": 0.01
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 12,
+    "fields": {
+        "title": "Energy - Reminder Mission",
+        "action": "Make a sign from recycled materials to remind you to turn off lights before you go to bed to and put it somewhere you will see it easily",
+        "clicks_needed": 1,
+        "learn_more": "I'm EL, not all light bulbs on Earth are the same. Incandescent lightbulbs are very wasteful, fluorescent lights take a lot of electricity to start so turn them off only if you will be gone for more than 15 minutes; LEDs are very efficient!",
+        "question": 5,
+        "percent_carbon_sequestration": 0.02
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 13,
+    "fields": {
+        "title": "Energy - Open your wallet for Solar Panels",
+        "action": "Buy and install (or ask your homeowner or landlord to buy) solar panels",
+        "clicks_needed": 1,
+        "learn_more": "I'm EL, your sun is such a magnificent source of power, you are so lucky. Our planet was further away from the sun. Can you buy some solar powered technology?",
+        "question": 5,
+        "percent_carbon_sequestration": 0.015
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 14,
+    "fields": {
+        "title": "Energy - Open your wallet for LED lightbulbs",
+        "action": "Buy (or ask your homeowner or landlord to buy) LED lightbulbs",
+        "clicks_needed": 1,
+        "learn_more": "I'm EL, when I was young I studied why LED lightbulbs are more efficient. They use electroluminescence. Electrons jump to lower energy bands and release energy as light! Buy some",
+        "question": 5,
+        "percent_carbon_sequestration": 0.015
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 15,
+    "fields": {
+        "title": "Offset - Learning Mission",
+        "action": "Learn what a Circular Economy is and create a symbol that reminds you of the concept.",
+        "clicks_needed": 1,
+        "learn_more": "I'm Coi, I'm the Economics Minister on my planet. We've learnt to make money work for our planet. I hear on Earth you call this the Circular Economy ",
+        "question": 4,
+        "percent_carbon_sequestration": 0.01
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 16,
+    "fields": {
+        "title": "Offset - Company Mission",
+        "action": "Learn which companies are helping save the planet and show us a product you like from one of these companies.",
+        "clicks_needed": 1,
+        "learn_more": "I'm Coi, when things got dangerous on our planet all Zeros stopped buying or working for companies that didn't care for the planet and this forced companies to change!",
+        "question": 4,
+        "percent_carbon_sequestration": 0.01
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 17,
+    "fields": {
+        "title": "Offset - Listening Mission",
+        "action": "Subscribe to one of these podcasts about technology that is helping to save the planet. Show us which technology or company impressed you the most",
+        "clicks_needed": 1,
+        "learn_more": "I'm Coi, the more I learn about innovations on Earth the more confident I am that you too can save your planet!",
+        "question": 4,
+        "percent_carbon_sequestration": 0.01
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 18,
+    "fields": {
+        "title": "Offset - Action Mission",
+        "action": "Add browser plugins that offset carbon at no cost to you and share these with friends",
+        "clicks_needed": 1,
+        "learn_more": "I'm Coi, I'm impressed with these ideas that help you save the planet with one or two clicks of this device called a mouse?!?",
+        "question": 4,
+        "percent_carbon_sequestration": 0.02
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 19,
+    "fields": {
+        "title": "Offset - Open Your Wallet Mission",
+        "action": "Donate to one of these impressive ideas to offset your carbon",
+        "clicks_needed": 1,
+        "learn_more": "I'm Coi, when I started to save our planet with an idea I had generous people who helped me build it",
+        "question": 4,
+        "percent_carbon_sequestration": 0.015
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 20,
+    "fields": {
+        "title": "Transport - Learning Mission",
+        "action": "Show us which of the lowest emission transportation modes makes sense for where you live?",
+        "clicks_needed": 1,
+        "learn_more": "I'm Gogo, our planet is 3 times bigger than Earth. We learned we could minimize our carbon emissions by being smart about how we get around.",
+        "question": 2,
+        "percent_carbon_sequestration": 0.01
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 21,
+    "fields": {
+        "title": "Transport - Motivation",
+        "action": "Use one of these ways to motivate you to use your feet to save the planet",
+        "clicks_needed": 1,
+        "learn_more": "I'm Gogo, I've learned it's very healthy for humans to walk or cycle. Just remember that how you replenish your calories matters too.",
+        "question": 2,
+        "percent_carbon_sequestration": 0.02
+    }
+},
+{
+    "model": "carbon_quiz.mission",
+    "pk": 22,
+    "fields": {
+        "title": "Transport - Open Your Wallet",
+        "action": "Buy one of these low carbon transportation devices.",
+        "clicks_needed": 1,
+        "learn_more": "I'm Gogo, I love some of the wheeled transportation devices you have on Earth. Can you buy one for me?",
+        "question": 2,
+        "percent_carbon_sequestration": 0.015
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 1,
+    "fields": {
+        "mission": 1,
+        "description": "4 years of trash turned into art",
+        "address": "https://www.boredpanda.com/4-years-trash-365-unpacked-photographer-antoine-repesse/"
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 2,
+    "fields": {
+        "mission": 1,
+        "description": "Watch a short Youtube video of art from recycled bottles",
+        "address": "https://www.youtube.com/embed/r8kMDYgLAto/"
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 3,
+    "fields": {
+        "mission": 2,
+        "description": "Guide to recycling symbols",
+        "address": "https://www.acmeplastics.com/content/your-guide-to-plastic-recycling-symbols/"
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 4,
+    "fields": {
+        "mission": 2,
+        "description": "Watch a short Youtube video explaining recycling plastic",
+        "address": "https://www.youtube.com/embed/_qTelxi3MjU" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 5,
+    "fields": {
+        "mission": 3,
+        "description": "Food storage mistakes from Treehugger.com",
+        "address": "https://www.treehugger.com/refrigerator-food-storage-mistakes-are-costly-and-wasteful-4856850"
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 6,
+    "fields": {
+        "mission": 3,
+        "description": "5 ways to organize your fridge from sparefoot.com",
+        "address": "https://www.sparefoot.com/self-storage/blog/22710-5-ways-to-organize-your-fridge-and-reduce-food-waste/" 
+
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 7,
+    "fields": {
+        "mission": 4,
+        "description": "Creative Recycling signs on pintrest.com",
+        "address": "https://www.pinterest.com/daveray2122/recycling-signs/"
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 8,
+    "fields": {
+        "mission": 4,
+        "description": "Make your own sign with stopwaste.org",
+        "address": "https://www.stopwaste.org/signmaker" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 9,
+    "fields": {
+        "mission": 5,
+        "description": "Get or donate free stuff with Trashnothing.org",
+        "address": "https://trashnothing.com/beta/ "
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 10,
+    "fields": {
+        "mission": 5,
+        "description": "Free pickups for donations with Donationtown.org",
+        "address": "http://donationtown.org/donation-pick-up.html" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 11,
+    "fields": {
+        "mission": 5,
+        "description": "Local groups in which you can post what you are giving away or looking for",
+        "address": "https://groups.freecycle.org/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 12,
+    "fields": {
+        "mission": 6,
+        "description": "Donate to reduce plastic pollution with Plasticpollutioncoalition.org/",
+        "address": "https://www.plasticpollutioncoalition.org/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 13,
+    "fields": {
+        "mission": 6,
+        "description": "Donate to clear the oceans and beaches from plastic",
+        "address": "https://www.surfrider.org/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 14,
+    "fields": {
+        "mission": 7,
+        "description": "Visualize carbon footprints from food with visualcapitalist.com",
+        "address": "https://www.visualcapitalist.com/visualising-the-greenhouse-gas-impact-of-each-food/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 15,
+    "fields": {
+        "mission": 7,
+        "description": "Online food carbon calculator from BBC.com",
+        "address": "https://www.bbc.com/news/science-environment-46459714" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 16,
+    "fields": {
+        "mission": 8,
+        "description": "Low carbon footprint recipes from Lowlyfoods.com",
+        "address": "https://www.lowlyfood.com/recipes/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 17,
+    "fields": {
+        "mission": 8,
+        "description": "Low carbon footprint recipes from LiveEatLearn.com",
+        "address": "https://www.liveeatlearn.com/recipes-to-reduce-carbon-footprint/" 
+    }
+},
+
+{
+    "model": "carbon_quiz.link",
+    "pk": 18,
+    "fields": {
+        "mission": 10,
+        "description": "Plant based meals delivered to you from Veginout.com. $20 Off 1st Order (code: Share20)",
+        "address": "https://shareasale.com/r.cfm?b=626867&u=2590062&m=54400&urllink=&afftrack" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 19,
+    "fields": {
+        "mission": 11,
+        "description": "In depth review of renewable energy from Nrdc.org",
+        "address": "https://www.nrdc.org/stories/renewable-energy-clean-facts" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 20,
+    "fields": {
+        "mission": 10,
+        "description": "Growing vegetables indoors from TheSpruce.com",
+        "address": " https://www.thespruce.com/how-to-grow-vegetables-indoors-1403183" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 21,
+    "fields": {
+        "mission": 10,
+        "description": "Grow a vegetable garden from BackYardBoss.net",
+        "address": "https://www.backyardboss.net/vegetable-gardening-tips-for-beginners/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 22,
+    "fields": {
+        "mission": 10,
+        "description": "Grow Microgreens from HerbsAtHome.co",
+        "address": "https://herbsathome.co/how-to-grow-microgreens-at-home/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 23,
+    "fields": {
+        "mission": 11,
+        "description": "Watch a short youtube video about about renewable energy",
+        "address": "https://www.youtube.com/embed/KEeH4EniM3Es" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 24,
+    "fields": {
+        "mission": 12,
+        "description": "Details about lightbulb efficiency from AstralEnergyllc.com",
+        "address": "https://www.astralenergyllc.com/5-essential-facts-about-turning-off-your-lights-to-save-energy/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 25,
+    "fields": {
+        "mission": 12,
+        "description": "Images on Pintrest.com for inspiration ",
+        "address": "https://www.pinterest.com/yeledo/pins" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 26,
+    "fields": {
+        "mission": 13,
+        "description": "Buy or recommend your homeowner/landlord buys DIY solar kits from Gogreensolar.com/",
+        "address": "https://shareasale.com/r.cfm?b=463618&u=2590062&m=16774&urllink=&afftrack=" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 27,
+    "fields": {
+        "mission": 13,
+        "description": "Buy a solar cooking oven from GoSun.co",
+        "address": "https://shareasale.com/r.cfm?b=576342&u=2590062&m=52143&urllink=&afftrack="
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 28,
+    "fields": {
+        "mission": 13,
+        "description": "Buy outdoor solar lamps from sunwaylighting LLC on Outdoorsolarlamps.com",
+        "address": "https://shareasale.com/r.cfm?b=1215829&u=2590062&m=81286&urllink=&afftrack=" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 29,
+    "fields": {
+        "mission": 14,
+        "description": "Buy unique LED lights from one of this months deals on Loftek.us",
+        "address": "https://shareasale.com/r.cfm?b=1496809&u=2590062&m=85259&urllink=&afftrack=" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 30,
+    "fields": {
+        "mission": 14,
+        "description": "Buy LED lightbulbs from SansiLed.com",
+        "address": "https://shareasale.com/u.cfm?d=591319&m=76819&u=2590062&afftrack=" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 31,
+    "fields": {
+        "mission": 15,
+        "description": "What is Circular Economy? from EllenMacarthurFoundation.org",
+        "address": "https://www.ellenmacarthurfoundation.org/circular-economy/what-is-the-circular-economy" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 32,
+    "fields": {
+        "mission": 15,
+        "description": "What is the Circular Economy? watch a short youtube video",
+        "address": "https://www.youtube.com/embed/zCRKvDyyHmI" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 33,
+    "fields": {
+        "mission": 16,
+        "description": "Interactive data base to look up companies who care for the planet from Betterworldshopper.org",
+        "address": "https://betterworldshopper.org/#companies-section" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 34,
+    "fields": {
+        "mission": 16,
+        "description": "Interactive ranking and search of companies who care for the planet by JustCapital.com",
+        "address": "https://justcapital.com/rankings/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 34,
+    "fields": {
+        "mission": 17,
+        "description": "Who is Saving the Planet podcast",
+        "address": "https://whossavingtheplanet.com" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 35,
+    "fields": {
+        "mission": 17,
+        "description": "Fatal Error podcast",
+        "address": "https://fatalerror.blog/podcast/ " 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 36,
+    "fields": {
+        "mission": 18,
+        "description": "Ecosia search engine contributes trees for every search you make",
+        "address": "https://www.ecosia.org/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 37,
+    "fields": {
+        "mission": 18,
+        "description": "Offset the transportation of online shopping for free with this chrome plugin.",
+        "address": "https://ecocart.io/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 39,
+    "fields": {
+        "mission": 19,
+        "description": "Contribute to research to creating clothes that absorb your carbon!",
+        "address": "https://www.patreon.com/postcarbonlab." 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 40,
+    "fields": {
+        "mission": 19,
+        "description": "Contribute to helping us keep building this game!",
+        "address": "http://www.mycarbon0.com/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 41,
+    "fields": {
+        "mission": 20,
+        "description": "Article about transportation carbon footprint from BBC.com",
+        "address": "https://www.bbc.com/news/science-environment-49349566" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 42,
+    "fields": {
+        "mission": 20,
+        "description": "In depth review of transportation carbon footprint from C2es.org.",
+        "address": "https://www.c2es.org/content/reducing-your-transportation-footprint" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 43,
+    "fields": {
+        "mission": 21,
+        "description": "Make a sign from recycled material like one of these from Pintrest.com to inspire you -  help save the planet with your feet.",
+        "address": "https://www.pinterest.com/yeledo/save-the-planet-with-your-feet/" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 44,
+    "fields": {
+        "mission": 21,
+        "description": "Find and download a free app that will motivate you to walk more from VeryWellFit.com",
+        "address": "https://www.verywellfit.com/best-walking-apps-3434995" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 45,
+    "fields": {
+        "mission": 22,
+        "description": "Buy some of the coolest low emission transportation devices",
+        "address": "https://shareasale.com/r.cfm?b=1443099&amp;u=2590062&amp;m=92615&amp;urllink=&amp;afftrack=" 
+    }
+},
+{
+    "model": "carbon_quiz.link",
+    "pk": 46,
+    "fields": {
+        "mission": 22,
+        "description": "Find and download a free app that will motivate you to walk more from VeryWellFit.com",
+        "address": "https://www.verywellfit.com/best-walking-apps-3434995" 
+    }
+}
+]

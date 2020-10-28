@@ -1,0 +1,25 @@
+<!-- carbon0/carbon_quiz/templates/carbon_quiz/mission/list.html -->
+{% extends "base.html" %}
+{% load static %}
+<!-- List links for Mission Details -->
+{% block content %}
+    <div style="background-color:#143963">
+        <div class="container">
+            <!-- Intro Text -->
+            <div class="row pt-3" style="color:white;">
+                <h1>Carbon Missions</h1>
+            </div>
+            <div class="row pl-2">
+                <h3>Below we have displayed all the missions you have not yet completed.</h3>
+            </div>
+            <!-- Missions on Display -->
+            <div class="row justify-content-center>">
+                <div class="card-columns">
+                    {% for mission in missions %}
+                        {% include "partials/mission_card.html" %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

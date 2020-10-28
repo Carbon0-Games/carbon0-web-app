@@ -35,13 +35,13 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:rgb(255, 220, 176); height: 100vh;">
+    <div style="background-color:#143963; height: 100vh;">
         <div class="container">
             <!-- Header -->
-            <h1 class="row ">
-                <p class="mt-2" style="color:brown;">Congratulations!</p>
+            <h1 class="row mt-2" style="color:white;">
+                Congratulations!
             </h1>
-            <p class="row">Say hello to your new Zeron! Be sure to share with friends - more of them are coming to Earth soon!</p>
+            <p class="row text-white">Say hello to your new Zeron! Be sure to share with friends - more of them are coming to Earth soon!</p>
             <!-- Image, Mission Complete Ribbon-->
             <div class="row">
                 <div class="col-md-4">
@@ -65,6 +65,11 @@
                             ios-src="{% static ios_model %}"
                             poster="PNG goes here"
                             alt="3D model of a Zeron" shadow-intensity="1" camera-controls auto-rotate ar>
+                            <!-- Mobile: Button to Enter AR Mode -->
+                            <button slot="ar-button"
+                                style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 16px; right: 16px; ">
+                                👋 Activate AR
+                            </button>
                         </model-viewer>
                     </div>
                 </div>
@@ -73,7 +78,7 @@
             <!-- Bottom Rows -->
             <div class="row">
                 <div class="col-md-4">
-                    <div class="row">
+                    <div class="row text-white">
                         <p class="mr-auto">Like what you see?</p>
                     </div>
                     <div class="row">
@@ -105,11 +110,15 @@
                     </div>
                 </div>
                 <div class="col-md-8 justify-content-center align-self-center" style="text-align: center">
-                    
-                        <!-- Link to Other Missions Related to this Quiz -->
-                        <a class="ml-auto btn btn-secondary mt-4" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">Want More Missions?</a>
-
-                    
+                    <!-- Link to More Missions -->
+                    {% if achievement.quiz %}
+                        <!-- Missions on the Related Quiz -->
+                        <a class="ml-auto btn btn-secondary mt-4" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">
+                    {% else %}
+                        <!-- All Uncompleted Missions -->
+                        <a class="ml-auto btn btn-secondary mt-4" href="{% url 'carbon_quiz:mission_list'%}">
+                    {% endif %}
+                        Want More Missions?</a>
                 </div>
             </div>
         </div>

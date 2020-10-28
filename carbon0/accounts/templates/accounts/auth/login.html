@@ -6,17 +6,29 @@
 {% block content %}
 
     <style>
-        body { background-color:#F6E6D4;}
-        h1 { color:#7F2321; font-weight: 300}
+        body { background-color:#143963;}
+        h1 { font-weight: 300}
+
+        img[alt="CaptainJoy"] {
+          height: 150px;
+
+        }
+
+        @media only screen and (min-width: 600px) {
+          img[alt="CaptainJoy"] {
+            height: 50vh;
+          }
+
+        }
     </style>
 
     {% include 'partials/navbar.html' %}
     <div class="container">
         <div class="row">
-            <div class="col">
-                <img alt="CaptainJoy" src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}" style="width: 50vh">
+            <div class="col-sm-12 col-md-6">
+                <img alt="CaptainJoy" src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}">
             </div>
-            <div class="col">
+            <div class="col-sm-12 col-md-6">
                     <strong><h1 class="display-3 mt-5 font-weight-bold">Sign In</h1></strong>
                 <form method="post">
                     {% csrf_token %}
@@ -26,7 +38,7 @@
                                 {{ field.label_tag }}<br>
                                 {{ field }}
                                 {% for error in field.errors %}
-                                    <p style="color: red">{{ error }}</p>
+                                    <p style="color: yellow">{{ error }}</p>
                                 {% endfor %}
                             </p>
                         </div>
