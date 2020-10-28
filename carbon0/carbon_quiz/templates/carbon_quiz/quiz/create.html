@@ -7,26 +7,20 @@
 {% block content %}
     <style>
         body {
-            background-color: #F6E6D4;
-        }
-
-        h1 {
-            color: #7F2321;
-            font-weight: 300
-        }
-        h3{
-            line-height: 75px
+            background-color: #143963;
         }
     </style>
     {% include 'partials/navbar.html' %}
 
-    <div class="container" style="max-height: 100%;">
+    <div class="container site-container" style="max-height: 100%; padding-top:20px;">
         <div class="row">
-            <h1 class="my-2 ml-2">Welcome to the Carbon Quiz!</h1>
-            <h3 class="ml-2">Let's get to know you. <br>
+            <h1 class="my-2 ml-2 text-white">Welcome to the Carbon Quiz!</h1> <br>
+        </div>
+        <div class="row">
+            <p class="ml-2 text-white">Let's get to know you. <br>
                 I'll ask 5 questions that show how much carbon you create per year. <br>
                 This is called your <i>carbon footprint</i>.
-            </h3>
+            </p>
         </div>
         <div class="row d-flex justify-content-center my-3">
             <!-- Call to ACTION: Go to the First Questions -->
@@ -36,8 +30,8 @@
             </form>
         </div>
         <!-- Greeting Image -->
-        <div class="row ml-1">
-            <h5>You'll also get a chance to see some of your new Zeron friends!</h5>
+        <div class="row ml-1 text-white">
+            <p>You'll also get a chance to see some of your new Zeron friends!</p>
         </div>
         <div class="row justify-content-center">
             <!-- <img src="{% static 'images/3D_tree.png' %}" alt="Diet Zeron" width=690rem height=400rem>

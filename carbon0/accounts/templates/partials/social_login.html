@@ -3,16 +3,16 @@
 <div class="container-fluid">
     <div class="row align-items-center">
         <div class="col-md-4 mr-5">
-            <img alt="SignInWith" src="{% static 'images/sign_in_with.png' %}">
+            <img alt="SignInWith" src="{% static 'images/sign_in_with.png' %}" style="max-width: 100%">
         </div>
         <div class="col-md-3 ml-5">
             <a href="{% url 'social:begin' 'facebook' %}">
-                <img alt="Facebook" src="{% static 'images/facebook_img.png' %}">
+                <img alt="Facebook" src="{% static 'images/facebook_img.png' %}" style="max-width: 100%">
             </a>
         </div>
         <div class="col-md-3">
             <a href="{% url 'social:begin' 'google-oauth2' %}">
-                <img alt="Google" src="{% static 'images/Google_Logo.png' %}" width=290rem height=290rem>
+                <img alt="Google" src="{% static 'images/Google_Logo.png' %}" style="max-width: 100%">
             </a>
         </div>
         <!-- Other Social Buttons -->

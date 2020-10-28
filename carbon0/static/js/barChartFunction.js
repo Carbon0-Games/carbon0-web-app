@@ -25,10 +25,19 @@ export function barChart(plotLabels, plotData) {
             ticks: {
               max: 20000,
               beginAtZero: true,
+              // turn the tick marks white
+              fontColor: 'rgb(255, 255, 255)'
             },
           },
         ],
       },
+      // turn the legend white
+      legend: {
+        display: true,
+        labels: {
+          fontColor: 'rgb(255, 255, 255)',
+        }
+      }
     },
   });
 }
