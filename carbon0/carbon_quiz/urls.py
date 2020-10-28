@@ -43,5 +43,5 @@ urlpatterns = [
         AchievementDetail.as_view(),
         name="achievement_detail",
     ),
-    path("mission/list/", MissionList.as_view(), name='mission_list'),
+    path("mission/list/", MissionList.as_view(), name="mission_list"),
 ]

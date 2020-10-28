@@ -7,6 +7,7 @@ from carbon0.views import get_landing
 
 class LandingPageTests(TestCase):
     """Tests for the landing page view."""
+
     def setUp(self):
         """Initial work done for each test in this suite."""
         self.client = Client()
@@ -19,5 +20,5 @@ class LandingPageTests(TestCase):
         response = self.client.get(reverse(self.url))
         self.assertEqual(response.status_code, 200)
         # test the content on the landing page
-        self.assertContains(response, "Be A Hero Get to Zero")
+        self.assertContains(response, "NEW PLAYER")
         return None

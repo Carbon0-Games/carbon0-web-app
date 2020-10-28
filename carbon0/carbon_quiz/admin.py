@@ -15,17 +15,21 @@ class LinkInline(admin.StackedInline):
 
 class MissionAdmin(admin.ModelAdmin):
     fieldsets = [
-    (None, {'fields': [
-        'title',
-        'action',
-        'clicks_needed',
-        'learn_more',
-        'question',
-        'percent_carbon_sequestration',
-    ]}),
+        (
+            None,
+            {
+                "fields": [
+                    "title",
+                    "action",
+                    "clicks_needed",
+                    "learn_more",
+                    "question",
+                    "percent_carbon_sequestration",
+                ]
+            },
+        ),
     ]
     inlines = [LinkInline]
-
 
 
 # Register your models here

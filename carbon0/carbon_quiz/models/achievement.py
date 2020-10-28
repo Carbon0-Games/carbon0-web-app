@@ -153,9 +153,9 @@ class Achievement(models.Model):
         new_footprint = current_footprint - (
             self.mission.percent_carbon_sequestration * related_question.carbon_value
         )
-        return new_footprint
+        return round(new_footprint, 4)
 
-    def save(self, *args, user=None, **kwargs):
+    def save(self, user=None, *args, **kwargs):
         """Saves a new instance of the Achievement model.
 
         Parameters:

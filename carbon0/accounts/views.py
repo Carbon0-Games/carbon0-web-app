@@ -38,23 +38,24 @@ def track_successful_signup(user, secret_id):
     earned_achievement = secret_id is not None
     # Tracks the event and its properties
     try:
-        mp.track(user.username, 'signUp', {
-            'achievementEarned': earned_achievement,
-        })
+        mp.track(
+            user.username,
+            "signUp",
+            {
+                "achievementEarned": earned_achievement,
+            },
+        )
         # make a User profile for this person on Mixpanel
         mp.people_set(
-            user.username, {
-            '$email': user.email,
-            '$phone': '',
-            'logins': []
-            }, 
+            user.username,
+            {"$email": user.email, "$phone": "", "logins": []},
             # ignore geolocation data
-            meta = {'$ignore_time' : 'true', '$ip' : 0}
+            meta={"$ignore_time": "true", "$ip": 0},
         )
     # TODO: figure out why Mixpanel throws an exception on some environments
     except MixpanelException:
         # log the error happened on the Terminal
-        print('MixpanelException occurred!')
+        print("MixpanelException occurred!")
     return None
 
 
@@ -71,13 +72,11 @@ def track_login_event(user):
     mp = Mixpanel(settings.MP_PROJECT_TOKEN)
     # add the date of the login, in the User's Mixpanel profile
     try:
-        mp.people_append(user.username, {
-            'logins' : dt.datetime.now()
-        })
+        mp.people_append(user.username, {"logins": dt.datetime.now()})
     # TODO: figure out why Mixpanel throws an exception on some environments
     except MixpanelException:
         # log the error happened on the Terminal
-        print('MixpanelException occurred!')
+        print("MixpanelException occurred!")
     return None
 
 
@@ -157,7 +156,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             google_login = user.social_auth.get(provider="google-oauth2")
         except UserSocialAuth.DoesNotExist:
             google_login = None
-            
+
         # track the login in Mixpanel
         track_login_event(user)
 

@@ -37,7 +37,7 @@
                                             <!-- pass in both the id of the Mission the Achievement will be for, and the link to use in completion -->
                                             <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id quiz_slug %}">
                                         {% else %}
-                                            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}"></a>
+                                            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}">
                                         {% endif %}
                                             <!-- Show the website name for this link -->
                                             {{ link.description }}</a>
@@ -49,7 +49,9 @@
                     </div>
                     <div class="row pt-5">
                         <div class="col-md-5 my-auto">
-                            <img class="img-fluid " src="{{ mission.question.learn_image.url }}" alt="Symbol goes here" height=275px width=300px>
+                            {% if mission.question.learn_image %}
+                                <img class="img-fluid " src="{{ mission.question.learn_image.url }}" alt="Symbol goes here" height=275px width=300px>
+                            {% endif %}
                         </div>
                         <!-- More about the mission-->
                         <div class="col-md-7 mt-5 my-auto">
