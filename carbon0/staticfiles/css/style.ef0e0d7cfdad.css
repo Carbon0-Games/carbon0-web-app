@@ -1,0 +1,39 @@
+.link-overview:hover + .box,.box:hover{
+    display: block;
+    position: relative;
+    z-index: 100;
+}
+
+.box{
+    display: none;
+    width: 100%;
+}
+
+model-viewer {
+    height: 500px;
+    width: 400px;
+}
+
+
+/* Using Code found, some edits need to be made most likely */
+.speech-bubble {
+	position: relative;
+	background: #ffffff;
+	border-radius: .4em;
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 30px solid transparent;
+	border-top-color: #ffffff;
+    border-bottom: 0;
+    /* Change this to change which way the tail points */
+	border-right: 0;
+	margin-left: -15px;
+	margin-bottom: -30px;
+}
