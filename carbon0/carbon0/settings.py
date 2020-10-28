@@ -16,8 +16,11 @@ import dj_database_url
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# DJANGO_SETTINGS_MODULE = os.path.join(BASE_DIR, 'carbon0/settings.py')
 
 # Loads in environment variables from a .env file
 load_dotenv()
