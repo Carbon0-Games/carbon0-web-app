@@ -6,7 +6,7 @@ export default function Leaderboard() {
   return (
     <Fragment>
       <h1 className='leaderboard'>Leaderboard</h1>
-      <TopThreeUsers />
+      {/* <TopThreeUsers /> */}
       <EveryoneElse />
     </Fragment>
   );

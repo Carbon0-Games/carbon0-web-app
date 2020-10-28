@@ -24,16 +24,16 @@ export class EveryoneElse extends Component {
   }
 
   render() {
-    let everyoneElseList = [];
+    // let everyoneElseList = [];
 
-    if (this.state.players.length > 3)
-      for (let i = 3; i < this.state.players.length; i++) {
-        everyoneElseList.push(this.state.players[i])
-      }
+    // if (this.state.players.length > 3)
+    //   for (let i = 3; i < this.state.players.length; i++) {
+    //     everyoneElseList.push(this.state.players[i])
+    //   }
 
     return (
       <>
-        <h3>Others</h3>
+        {/* <h3>Others</h3> */}
 
         <table className="table table-bordered">
           <thead>
@@ -44,7 +44,7 @@ export class EveryoneElse extends Component {
             </tr>
           </thead>
           <tbody>
-            {everyoneElseList.map(player =>
+            {this.state.players.map(player =>
               <tr>
                 <td scope="row"> <strong>{player.position + 1}</strong></td>
                 <td>{player.username}</td>
