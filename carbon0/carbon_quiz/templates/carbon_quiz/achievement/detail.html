@@ -65,7 +65,21 @@
                             ios-src="{% static ios_model %}"
                             poster="PNG goes here"
                             alt="3D model of a Zeron" shadow-intensity="1" camera-controls auto-rotate ar>
+                            <!-- Error Message -->
+                            <div id="error" class="hide">AR is not supported on this device</div>
                         </model-viewer>
+                        <!-- JS to handle AR errors https://modelviewer.dev/examples/augmentedreality/index.html#customButton -->
+                        <script>
+                            document.querySelector("#model-viewer").addEventListener('ar-status', (event) => {
+                                if (event.detail.status === 'failed') {
+                                    const error = document.querySelector("#error");
+                                    error.classList.remove('hide');
+                                    error.addEventListener('transitionend', (event) => {
+                                        error.classList.add('hide');
+                                    });
+                                }
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
