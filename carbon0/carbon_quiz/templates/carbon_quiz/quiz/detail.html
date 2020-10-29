@@ -44,6 +44,8 @@
                     <!-- buzzers and info -->
                     <div class="col-md-8">
                         <div class="row">
+                            <!-- JS function to go to the next quiz question -->
+                            {% include 'partials/next_question_script.html' %}
                             <!-- Yes and No Buzzers-->
                             <div class="col d-flex justify-content-center">
                                     <button onclick="nextQuestion('1')" type="button"
@@ -53,8 +55,6 @@
                                     <button onclick="nextQuestion('0')" type="button"
                                         class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">NO</button>
                             </div>
-                            <!-- JS function to go to the next quiz question -->
-                            {% include 'partials/next_question_script.html' %}
                         </div>
 
                         <div class="row justify-content-center">
