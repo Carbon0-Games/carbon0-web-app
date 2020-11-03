@@ -3,6 +3,7 @@ from django.urls import path
 from api.views import (
     AchievementData,
     ProfileData,
+    FootprintOverTime,
     QuizUpdate,
     QuizData,
     UserFootPrintData,
@@ -26,5 +27,9 @@ urlpatterns = [
         "footprint-leaderboard/",
         UserFootPrintData.as_view(),
         name="footprint_leaderboard",
+    ),
+    # Data for the Footprint Over Time
+    path('footprint-change/<int:pk>/', FootprintOverTime.as_view(),
+         name="footprint_change"
     ),
 ]
