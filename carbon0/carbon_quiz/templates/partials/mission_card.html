@@ -2,7 +2,16 @@
 <div class="card" style="width: 13rem; background-color:  #143963; border: 1px solid transparent;">
     <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
     <div class="card-body">
-        <p class="card-text">{{ mission.action }}</p>
+        <p class="card-text">{{ mission.action }}
+            <br>
+            <!-- Display if the mission is stationary or not -->
+            {% if mission.is_stationary %}
+            <div class="row ml-1">
+                <img width="30rem" height="30rem" src="https://img.icons8.com/flat_round/64/000000/checkmark.png" />
+                <div class="ml-1 text-info">At-Home Mission!</div>
+            </div>
+            {% endif %}
+        </p>
         <!-- form a different link based on the context -->
         {% if quiz %}
             <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}" class="btn btn-primary">
