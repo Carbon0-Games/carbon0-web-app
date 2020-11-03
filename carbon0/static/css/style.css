@@ -46,7 +46,13 @@
   content: none;
 }
 
+a.mission-link {
+  color: white;
+}
 
+a.mission-link:hover {
+  background-color: green;
+}
 
 
 
