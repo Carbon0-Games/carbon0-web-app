@@ -162,7 +162,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
         return render(
             request,
-            "accounts/auth/settings.html",
+            "accounts/auth/profile.html",
             {
                 "facebook_login": facebook_login,
                 "google_login": google_login,
