@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="background-color:#143963; height: 100vh">
+        <div class="container mb-5">
+            <!-- Profile Username with Logout Link -->
+            <div class="row mt-5 ml-3">
+              <h1 class="text-white">Profile for: {{ user.username }}
+                <small class="text-muted">
+                  <a class="text-white" href="{% url 'accounts:logout' %}">(logout)</a>
+                </small>
+              </h1>
+            </div>
+            <!-- Profile Info -->
+            <div class="row ml-2 justify-content-center">
+              <div class="col-md-6">
+                <div class="row justify-content-center">
+                  <ul class="list-group list-group-horizontal my-3">
+                    <!-- Email -->
+                    <li class="list-group-item text-dark">
+                      Email: {{ user.email }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row justify-content-center">
+                  <ul class="list-group list-group-horizontal my-3">
+                    <!-- Link to More Missions -->
+                    <li class="list-group-item text-dark">
+                      <!-- All Uncompleted Missions -->
+                      <a class="" href="{% url 'carbon_quiz:mission_list'%}">
+                        More Missions
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row justify-content-center">
+                  <!-- Footprint Over Time -->
+                  <h2 class="text-white justify-content-center">Carbon Footprint Over Time</h2>
+                  {% include "partials/footprint-line-plot.html" %}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row justify-content-center my-3">
+                  <!-- Current Footprint -->
+                  <div class="carbon0-button">
+                    <p class="text-dark" style="font-size: 20px;">Current Footprint:</p>
+                    <!-- Show the value in different colors depending on its value-->
+                    {% if is_footprint_green %}
+                      <div class="text-success">
+                    {% else %}
+                      <div class="text-danger">
+                    {% endif %}
+                    {{ footprint }} metric tons</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+{% endblock %}

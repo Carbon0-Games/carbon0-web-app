@@ -130,6 +130,15 @@ class Achievement(models.Model):
         zeron_img_paths, zeron_model_name = category_to_zerons[category]
         return zeron_img_paths
 
+    def reduce_footprint(self, current_footprint):
+        '''Decrease the current footprint of a user as appropiate.'''
+        #  compute the new footprint value
+        new_footprint = current_footprint - (
+            self.mission.percent_carbon_sequestration *
+            self.mission.question.carbon_value
+        )
+        return round(new_footprint, 4)
+
     def calculate_new_footprint(self, has_user=True):
         """
         Return the new carbon footprint, with the Achievement now won.
@@ -141,19 +150,15 @@ class Achievement(models.Model):
         Returns: float: new footprint value
 
         """
-        # get the Question related to this Achievement
-        related_question = self.mission.question
+        current_footprint = 0
         # calculate the new footprint for the user
         if has_user is True:
             current_footprint = self.profile.users_footprint
         # calculate the overall footprint for a quiz (unauthenticated user)
         else:  # has_user is False
             current_footprint = self.quiz.carbon_value_total
-        # compute the new footprint value
-        new_footprint = current_footprint - (
-            self.mission.percent_carbon_sequestration * related_question.carbon_value
-        )
-        return round(new_footprint, 4)
+        # return the new footprint value
+        return self.reduce_footprint(current_footprint)
 
     def save(self, user=None, *args, **kwargs):
         """Saves a new instance of the Achievement model.

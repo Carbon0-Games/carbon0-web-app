@@ -143,31 +143,35 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     """
     Currently shows the user info from social signup or login
     """
+    template_name = "accounts/auth/profile.html"
 
     def get(self, request, *args, **kwargs):
+        '''Display the profile page for the user.'''
+        # get info about the user
         user = request.user
-
         try:
             facebook_login = user.social_auth.get(provider="facebook")
         except UserSocialAuth.DoesNotExist:
             facebook_login = None
-
         try:
             google_login = user.social_auth.get(provider="google-oauth2")
         except UserSocialAuth.DoesNotExist:
             google_login = None
-
         # track the login in Mixpanel
         track_login_event(user)
-
-        return render(
-            request,
-            "accounts/auth/settings.html",
-            {
-                "facebook_login": facebook_login,
-                "google_login": google_login,
-            },
-        )
+        # decide how to color the user's footprint
+        is_footprint_green = False
+        if user.profile.users_footprint <= 1000:
+            is_footprint_green = True  # green means "Good"
+        # define the template context
+        context = {
+            "facebook_login": facebook_login,
+            "google_login": google_login,
+            "is_footprint_green": is_footprint_green,
+            "footprint": user.profile.users_footprint,
+            "profile": user.profile,
+        }
+        return render(request, self.template_name, context)
 
 
 def create_social_user_with_achievement(request, user, response, *args, **kwargs):
