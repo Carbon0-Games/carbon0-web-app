@@ -44,7 +44,19 @@
                 <!-- Footprint Over Time -->
               </div>
               <div class="col-md-6">
-                <!-- Current Footprint -->
+                <div class="row justify-content-center">
+                  <!-- Current Footprint -->
+                  <div class="carbon0-button">
+                    <p class="text-dark" style="font-size: 20px;">Current Footprint:</p>
+                    <!-- Show the value in different colors depending on its value-->
+                    {% if is_footprint_green %}
+                      <div class="text-success">
+                    {% else %}
+                      <div class="text-danger">
+                    {% endif %}
+                    {{ footprint }} metric tons</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
