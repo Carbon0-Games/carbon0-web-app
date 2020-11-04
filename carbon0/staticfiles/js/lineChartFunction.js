@@ -35,6 +35,11 @@ export function lineChart(plotLabels, plotData) {
                     ticks: {
                         // color the plot label white
                         fontColor: "white",
+                    },
+                    // add white lines going parallel to the x-axis
+                    gridLines: {
+                        color: "white",
+                        display: true
                     }
                 }],
             },

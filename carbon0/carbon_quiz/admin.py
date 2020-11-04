@@ -25,6 +25,7 @@ class MissionAdmin(admin.ModelAdmin):
                     "learn_more",
                     "question",
                     "percent_carbon_sequestration",
+                    "is_stationary",
                 ]
             },
         ),
