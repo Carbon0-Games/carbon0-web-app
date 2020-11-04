@@ -169,6 +169,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             "google_login": google_login,
             "is_footprint_green": is_footprint_green,
             "footprint": user.profile.users_footprint,
+            "profile": user.profile,
         }
         return render(request, self.template_name, context)
 
