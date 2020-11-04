@@ -1,7 +1,7 @@
 <!-- carbon0/accounts/templates/partials/footprint-line-plot.html -->
 
 <!-- Display of Line Chart -->
-<canvas id="lineChart" width="1400rem" height="320rem"></canvas>
+<canvas id="lineChart" width="1400rem" height="1000rem"></canvas>
 <!-- JS to make the line chart -->
 <script type="module">
     import { lineChart } from '../../../../static/js/lineChartFunction.js';
@@ -14,9 +14,9 @@
             method: "GET",
             url: endpoint,
             success: function (data) {
-                plotLabels = data.labels
-                plotData = data.footprint
-                barChart(plotLabels, plotData)
+                plotLabels = data.Events
+                plotData = data.Footprint
+                lineChart(plotLabels, plotData)
             },
             error: function (error_data) {
                 console.log(error_data)

@@ -140,7 +140,7 @@ class FootprintOverTime(APIView):
         profile = Profile.objects.get(id=pk)
         # get all the Achievements related to the Profile, ordered by pk
         achievements = (
-            Achievement.object.filter(profile=profile).order_by('id')
+            Achievement.objects.filter(profile=profile).order_by('id')
         )
         # init the lists for the data and their labels
         data, labels = list(), list()
@@ -167,5 +167,5 @@ class FootprintOverTime(APIView):
         # return the response
         return Response({
             "Events": labels,  # Time axis
-            "Footprint Values": data  # Vertical Axis
+            "Footprint": data  # Vertical Axis
         })
