@@ -19,15 +19,31 @@ export function barChart(plotLabels, plotData) {
     options: {
       responsive: true,
       scales: {
-        xAxes: [
-          {
-            display: true,
-            ticks: {
-              max: 20000,
-              beginAtZero: true,
-            },
+        xAxes: [{
+          display: true,
+          ticks: {
+            max: 20000,
+            beginAtZero: true,
+            // turn the tick markers white
+            fontColor: 'rgb(255, 255, 255)'
           },
-        ],
+          gridLines: {
+            color: "white"
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            // color the plot label white
+            fontColor: "white",
+          }
+        }],
+      },
+      // turn the legend white
+      legend: {
+        display: true,
+        labels: {
+          fontColor: 'rgb(255, 255, 255)',
+        }
       },
     },
   });
