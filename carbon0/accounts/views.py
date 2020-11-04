@@ -166,6 +166,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             {
                 "facebook_login": facebook_login,
                 "google_login": google_login,
+                "is_footprint_green": False
             },
         )
 
