@@ -21,6 +21,19 @@
                     // Track when user has completed a Quiz
                     mixpanel.track("completeQuiz", {});
                 }
+                // Otherwise, Mixpanel tracks which Question they completed
+                else {
+                    // map question number to English equivalent
+                    const numberWord = {
+                        "1": "One",
+                        "2": "Two",
+                        "3": "Three",
+                        "4": "Four",
+                        "5": "Five"
+                    }
+                    let evt = "completeQuestion" + numberWord[currentQuestionNum];
+                    mixpanel.track(evt, {});
+                }
                 // update the url the user is requesting, top show the next Question
                 let startURL = "/carbon-quiz/{{ quiz.slug }}/answer-question/";
                 let completedURL = startURL.concat(nextQuestionNum, "/");
