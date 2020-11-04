@@ -32,6 +32,10 @@ class Mission(models.Model):
             + "e.g. if the value entered here is 0.97, that means 97%."
         ),
     )
+    is_stationary = models.BooleanField(
+        default=False, 
+        help_text="Would the player get off the couch to complete this?"
+    )
 
     def __str__(self):
         """Returns human-readable name of the Mission."""

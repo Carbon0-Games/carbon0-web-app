@@ -89,6 +89,12 @@
                     <!-- Carbon Value Card -->
                     {% include "partials/quiz_footprint.html" %}
                 </div>
+                <div class="row justify-content-center">
+                    <!-- Link to All Uncompleted Missions -->
+                    <a class="btn btn-secondary mt-5" href="{% url 'carbon_quiz:mission_list'%}">
+                        Want More Missions?
+                    </a>
+                </div>
             {% endif %}
         </div>
     </div>
