@@ -113,6 +113,7 @@ export function carbonCalculator(plotLabels, plotData) {
   };
 
   // to enable either gauge or horizontal bar chart; either or and not both!
-  new Chart(ctx, configGaugeChart);
-  // new Chart(ctx, configBarChart)
+  let carbonCalculator = new Chart(ctx, configGaugeChart);
+  // let carbonCalculator = new Chart(ctx, configBarChart)
+  return carbonCalculator;
 }
