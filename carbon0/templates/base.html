@@ -54,6 +54,12 @@
     <meta name="theme-color" content="#ffffff">
     <!-- Additional Meta Data Goes Here -->
     {% block metadata %}{% endblock %}
+
+    <!-- Chart.js and Chartjs-Gauge -->
+    <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+    <script src="https://unpkg.com/chartjs-gauge@0.2.0/dist/chartjs-gauge.js"></script>
+    <script src="https://unpkg.com/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.js"></script>
+
 </head>
 <body class="site">
     <!-- Facebook JS SDK -->
@@ -70,8 +76,8 @@
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <!-- Chart.js CDN (no longer using) -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
 
     <!-- Code Fonts -->
     <style>
