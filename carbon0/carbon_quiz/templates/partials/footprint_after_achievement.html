@@ -4,10 +4,10 @@
         <h4 class="card-title" style="color:white;">Your NEW Carbon Footprint</h4>
         <h5 class="card-text"><strong id="new-footprint"></strong></h5>
         <!-- Display of Bar Chart -->
-        <canvas id="barChart" width="700" height="160rem"></canvas>
+        <canvas id="carbonCalculator" width="700" height="160rem"></canvas>
         <!-- JS to make the bar chart -->
         <script type="module">
-            import { barChart } from '../../../../static/js/barChartFunction.js';
+            import { carbonCalculator } from '../../../../static/js/carbonCalculator.js';
             $(document).ready(function () {
                 // get the data on the carbon footprint from the API
                 let endpoint = '/api/achievement-data/{{ achievement.id }}/'
@@ -19,7 +19,7 @@
                     success: function (data) {
                         plotLabels = data.labels;
                         plotData = data.footprint;
-                        barChart(plotLabels, plotData);
+                        carbonCalculator(plotLabels, plotData);
                         // use the same data to title the card
                         let title = document.getElementById("new-footprint");
                         let text = document.createTextNode(plotData + " metric tons CO2");

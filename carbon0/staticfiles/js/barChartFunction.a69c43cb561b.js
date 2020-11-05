@@ -1,7 +1,7 @@
 // make bar chart
-export function barChart(plotLabels, plotData) {
-    let ctx = document.getElementById('barChart').getContext('2d');
-    let barChart = new Chart(ctx, {
+export function carbonCalculator(plotLabels, plotData) {
+    let ctx = document.getElementById('carbonCalculator').getContext('2d');
+    let carbonCalculator = new Chart(ctx, {
         type: "horizontalBar",
         data: {
             datasets: [{
