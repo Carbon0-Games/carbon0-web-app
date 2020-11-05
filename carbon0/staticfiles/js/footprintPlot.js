@@ -1,12 +1,12 @@
 // make line chart
-export function lineChart(plotLabels, plotData) {
-    let ctx = document.getElementById("lineChart").getContext("2d");
-    let lineChart = new Chart(ctx, {
+export function footprintPlot(plotLabels, plotData) {
+    let ctx = document.getElementById("footprintPlot").getContext("2d");
+    let footprintPlot = new Chart(ctx, {
         type: "line",
         data: {
             datasets: [
                 {
-                    label: "Your Carbon Footprint (metric tons)",
+                    label: "Your Carbon Footprint Over Time",
                     data: plotData,
                     // set options for the chart
                     backgroundColor: ["rgba(255, 99, 132, 0.2)"],
@@ -28,15 +28,13 @@ export function lineChart(plotLabels, plotData) {
                         fontColor: 'rgb(255, 255, 255)'
                     },
                     gridLines: {
-                        color: "white",
-                        display: true
+                        color: "white"
                     }
                 }],
                 yAxes: [{
                     ticks: {
                         // color the plot label white
                         fontColor: "white",
-                        label: "Your Footprint (metric tons)"
                     },
                     // add white lines going parallel to the x-axis
                     gridLines: {

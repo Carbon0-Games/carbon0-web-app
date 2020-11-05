@@ -1,10 +1,10 @@
 <!-- carbon0/accounts/templates/partials/footprint-line-plot.html -->
 
 <!-- Display of Line Chart -->
-<canvas id="lineChart" width="1400rem" height="1000rem"></canvas>
+<canvas id="footprintPlot" width="1400rem" height="1000rem"></canvas>
 <!-- JS to make the line chart -->
 <script type="module">
-    import { lineChart } from '../../../../static/js/lineChartFunction.js';
+    import { footprintPlot } from '../../../../static/js/footprintPlotFunction.js';
     $(document).ready(function () {
         // get the data on the carbon footprint from the API
         let endpoint = "{% url 'api:footprint_change' profile.id %}"
@@ -16,7 +16,7 @@
             success: function (data) {
                 plotLabels = data.Events
                 plotData = data.Footprint
-                lineChart(plotLabels, plotData)
+                footprintPlot(plotLabels, plotData)
             },
             error: function (error_data) {
                 console.log(error_data)
