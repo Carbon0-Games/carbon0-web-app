@@ -4,36 +4,36 @@ export function barChart(plotLabels, plotData) {
 
   // configuration for gauge chart
   const configGaugeChart = {
-    type: 'gauge',
+    type: "gauge",
     data: {
       //labels: ['Success', 'Warning', 'Warning', 'Error'],
-      datasets: [{
-        data: [1000, 5000, 10000, 20000],
-        value: plotData,
-        backgroundColor: ['green', 'yellow', 'orange', 'red'],
-        borderWidth: 2
-      }]
+      datasets: [
+        {
+          data: [1000, 5000, 10000, 20000],
+          value: plotData,
+          backgroundColor: ["green", "yellow", "orange", "red"],
+          borderWidth: 2,
+        },
+      ],
     },
     options: {
       responsive: true,
+      // enable/disable guage chart title
       // title: {
       //   display: true,
       //   text: 'metric tons CO2'
       // },
       layout: {
         padding: {
-          bottom: 30
-        }
+          bottom: 30,
+        },
       },
+      // needle settings
       needle: {
-        // Needle circle radius as the percentage of the chart area width
         radiusPercentage: 2,
-        // Needle width as the percentage of the chart area width
         widthPercentage: 3.2,
-        // Needle length as the percentage of the interval between inner radius (0%) and outer radius (100%) of the arc
         lengthPercentage: 80,
-        // The color of the needle
-        color: 'rgba(0, 0, 0, 1)'
+        color: "rgba(0, 0, 0, 1)",
       },
       valueLabel: {
         formatter: Math.round,
@@ -43,24 +43,24 @@ export function barChart(plotLabels, plotData) {
         datalabels: {
           display: true,
           formatter: function (value, context) {
-            return '< ' + Math.round(value);
+            return "< " + Math.round(value);
           },
           color: function (context) {
             return context.dataset.backgroundColor;
           },
           //color: 'rgba(255, 255, 255, 1.0)',
-          backgroundColor: 'rgba(0, 0, 0, 1.0)',
+          backgroundColor: "rgba(0, 0, 0, 1.0)",
           borderWidth: 0,
           borderRadius: 5,
           font: {
-            weight: 'bold'
-          }
-        }
-      }
-    }
+            weight: "bold",
+          },
+        },
+      },
+    },
   };
 
-// configuration for horizontal bar chart
+  // configuration for horizontal bar chart
   const configBarChart = {
     type: "horizontalBar",
     data: {
@@ -79,37 +79,40 @@ export function barChart(plotLabels, plotData) {
     options: {
       responsive: true,
       scales: {
-        xAxes: [{
-          display: true,
-          ticks: {
-            max: 20000,
-            beginAtZero: true,
-            // turn the tick markers white
-            fontColor: 'rgb(255, 255, 255)'
+        xAxes: [
+          {
+            display: true,
+            ticks: {
+              max: 20000,
+              beginAtZero: true,
+              // turn the tick markers white
+              fontColor: "rgb(255, 255, 255)",
+            },
+            gridLines: {
+              color: "white",
+            },
           },
-          gridLines: {
-            color: "white"
-          }
-        }],
-        yAxes: [{
-          ticks: {
-            // color the plot label white
-            fontColor: "white",
-          }
-        }],
+        ],
+        yAxes: [
+          {
+            ticks: {
+              // color the plot label white
+              fontColor: "white",
+            },
+          },
+        ],
       },
       // turn the legend white
       legend: {
         display: true,
         labels: {
-          fontColor: 'rgb(255, 255, 255)',
-        }
+          fontColor: "rgb(255, 255, 255)",
+        },
       },
     },
   };
 
-// to enable either gauge or horizontal bar chart; either or and not both!
-new Chart(ctx, configGaugeChart)
-// new Chart(ctx, configBarChart)
-
+  // to enable either gauge or horizontal bar chart; either or and not both!
+  new Chart(ctx, configGaugeChart);
+  // new Chart(ctx, configBarChart)
 }
