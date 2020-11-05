@@ -16,7 +16,7 @@ export function footprintPlot(plotLabels, plotData) {
             ],
             labels: plotLabels,
         },
-        options: {
+        options: { 
             responsive: true,
             scales: {
                 xAxes: [{
@@ -52,6 +52,6 @@ export function footprintPlot(plotLabels, plotData) {
                     fontColor: 'rgb(255, 255, 255)',
                 }
             },
-        },
+        }, 
     });
 }
