@@ -1,6 +1,6 @@
 // make bar chart
-export function barChart(plotLabels, plotData) {
-  let ctx = document.getElementById("barChart").getContext("2d");
+export function carbonCalculator(plotLabels, plotData) {
+  let ctx = document.getElementById("carbonCalculator").getContext("2d");
 
   // configuration for gauge chart
   const configGaugeChart = {

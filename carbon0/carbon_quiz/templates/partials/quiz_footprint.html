@@ -5,10 +5,10 @@
         <!-- <h6 class="card-subtitle mb-2">Based on Questions Answered "No"</h6> -->
         <p class="card-text text-white">{{ quiz.carbon_value_total }} metric tons CO2</p>
         <!-- Display of Bar Chart -->
-        <canvas id="barChart" width="700rem" height="560rem"></canvas>
+        <canvas id="carbonCalculator" width="700rem" height="560rem"></canvas>
         <!-- JS to make the bar chart -->
         <script type="module">
-            import {barChart} from '../../../../static/js/barChartFunction.js';
+            import {carbonCalculator} from '../../../../static/js/carbonCalculator.js';
             $(document).ready(function () {
                 // get the data on the carbon footprint from the API
                 let endpoint = '/api/quiz-data/{{ quiz.id }}/'
@@ -20,7 +20,7 @@
                     success: function (data) {
                         plotLabels = data.labels
                         plotData = data.footprint
-                        barChart(plotLabels, plotData)
+                        carbonCalculator(plotLabels, plotData)
                     },
                     error: function (error_data) {
                         console.log(error_data)
