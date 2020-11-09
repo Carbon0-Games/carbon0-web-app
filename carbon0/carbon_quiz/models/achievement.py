@@ -6,13 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
 from accounts.models import Profile
-from carbon0.settings import (
-    DIET_ZERON_PATHS,
-    TRANSIT_ZERON_PATHS,
-    RECYCLING_ZERON_PATHS,
-    AT_ZERON_PATHS,
-    UTIL_ZERON_PATHS,
-)
+from django.conf import settings 
 from .mission import Mission
 from .question import Question
 from .quiz import Quiz
@@ -51,15 +45,15 @@ class Achievement(models.Model):
     # Zerons for Achievements: (img_url_paths: List[str], name_of_zeron: str)
     ZERONS = [
         # 1. Diet category Zeron
-        (DIET_ZERON_PATHS, "Nature's Model"),
+        (settings.DIET_ZERON_PATHS, "Nature's Model"),
         # 2. Transit category Zeron
-        (TRANSIT_ZERON_PATHS, "Wheel Model"),
+        (settings.TRANSIT_ZERON_PATHS, "Wheel Model"),
         # 3. Recycling category Zeron
-        (RECYCLING_ZERON_PATHS, "Bin Model"),
+        (settings.RECYCLING_ZERON_PATHS, "Bin Model"),
         # 4. Airline-Travel category Zeron
-        (AT_ZERON_PATHS, "Coin Model"),
+        (settings.AT_ZERON_PATHS, "Coin Model"),
         # 5. Utilities category Zeron
-        (UTIL_ZERON_PATHS, "Light Bulb Model"),
+        (settings.UTIL_ZERON_PATHS, "Light Bulb Model"),
     ]
     zeron_image_url = ArrayField(
         models.CharField(
