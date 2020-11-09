@@ -63,12 +63,16 @@ Please follow these steps to be able to run the project:
 ### __Running Locally__
 
 1. Make sure all settings are installed and migrations completed, especially after pulling the latest version from master
-2. Once you've navigated to the application folder, run the command:
+2. Navigate to the application folder `carbon0/`, and run this command to set your `DJANGO_SETTINGS_MODULE` environment variable. This will tell Django to use the local settings while you work on the project. It only needs to be done once, on the first time before you run the project locally:
+
+        $ export DJANGO_SETTINGS_MODULE=carbon0.settings.local
+
+3. Now, you can use the command to run the project locally:
 
         $ python3 manage.py runserver
         
 
-3. Something similar to the following will be returned in the command prompt:
+4. Something similar to the following will be returned in the command prompt:
 
         Performing system checks...
 
@@ -80,7 +84,7 @@ Please follow these steps to be able to run the project:
         Quit the server with CONTROL-C.
         
 
-4. You can then enter the url into your browser to navigate to the launched project.
+5. You can then enter the url into your browser to navigate to the launched project.
 
 
 ### __Creating a Pull Request__
