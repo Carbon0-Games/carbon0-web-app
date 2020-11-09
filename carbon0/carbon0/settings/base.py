@@ -18,7 +18,7 @@ from pathlib import Path
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # DJANGO_SETTINGS_MODULE = os.path.join(BASE_DIR, 'carbon0/settings.py')
 
@@ -213,6 +213,9 @@ RECYCLING_ZERON_PATHS = [
 ]
 AT_ZERON_PATHS = [str(os.getenv("AT_GLB")), str(os.getenv("AT_USDZ"))]
 UTIL_ZERON_PATHS = [str(os.getenv("UTIL_GLB")), str(os.getenv("UTIL_USDZ"))]
+
+# Mixpanel Project Token
+MP_PROJECT_TOKEN = str(os.getenv("MP_PROJECT_TOKEN"))
 
 # Convert the DATABASE_URL environment variable into what Django understands
 db_from_env = dj_database_url.config()
