@@ -18,30 +18,13 @@ from pathlib import Path
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# DJANGO_SETTINGS_MODULE = os.path.join(BASE_DIR, 'carbon0/settings.py')
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Loads in environment variables from a .env file
 load_dotenv()
 
-# Set up other environment variables
-settings.configure()
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.getenv("SECRET_KEY"))
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG")
-
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "carbon0.herokuapp.com",
-]
 
 # Application definition
 

@@ -5,6 +5,10 @@ from django.shortcuts import render
 def get_landing(request):
     """Render the landing page of the site."""
     # set the context of the view
-    context = {"MP_PROJECT_TOKEN": settings.MP_PROJECT_TOKEN}
+    context = dict()
+    try:  # track using Mixpanel in production only
+        context = {"MP_PROJECT_TOKEN": settings.MP_PROJECT_TOKEN}
+    except AttributeError:
+        pass
     # return the response
     return render(request, "index.html", context)
