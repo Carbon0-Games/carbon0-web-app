@@ -52,10 +52,9 @@ def track_successful_signup(user, secret_id):
             # ignore geolocation data
             meta={"$ignore_time": "true", "$ip": 0},
         )
-    # TODO: figure out why Mixpanel throws an exception on some environments
+    # let Mixpanel fail silently in the dev environment
     except MixpanelException:
-        # log the error happened on the Terminal
-        print("MixpanelException occurred!")
+        pass
     return None
 
 
@@ -73,10 +72,9 @@ def track_login_event(user):
     # add the date of the login, in the User's Mixpanel profile
     try:
         mp.people_append(user.username, {"logins": dt.datetime.now()})
-    # TODO: figure out why Mixpanel throws an exception on some environments
+    # let Mixpanel fail silently in the dev environment
     except MixpanelException:
-        # log the error happened on the Terminal
-        print("MixpanelException occurred!")
+        pass
     return None
 
 

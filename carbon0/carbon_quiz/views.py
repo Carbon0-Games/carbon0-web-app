@@ -49,10 +49,9 @@ def track_achievement_creation(achievement, user):
         mp.track(
             properties["user"], event_name="createAchievement", properties=properties
         )
-    # TODO: figure out why Mixpanel throws an exception on some environments
+    # let Mixpanel fail silently in the dev environment
     except MixpanelException:
-        # log the error happened on the Terminal
-        print("MixpanelException occurred!")
+        pass
     return None
 
 
