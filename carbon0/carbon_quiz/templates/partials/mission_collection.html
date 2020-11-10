@@ -1,0 +1,10 @@
+<div class="row">
+    <!-- List links for Mission Details -->
+    {% for mission in missions %}
+    <div class="col justify-content-center">
+        <div class="d-flex justify-content-center">
+            {% include "partials/mission_card.html" %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
