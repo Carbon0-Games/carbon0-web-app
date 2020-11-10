@@ -9,8 +9,9 @@ from django.views.generic.edit import CreateView
 from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
-from .forms import UserSignUpForm
+from carbon_quiz.models.mission import Mission
 from .models import Profile
+from .forms import UserSignUpForm
 
 
 # Social Auth
@@ -143,6 +144,32 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     """
     template_name = "accounts/auth/profile.html"
 
+    def _suggest_missions(self, user):
+        """Return uncompleted missions the User will most likely enjoy, 
+        based on the following order:
+
+        1. Missions in areas they need to improve on
+        2. Missions in areas they have not said they need improvement in
+        3. If no missions are available for 1 or 2, 
+           then display 3 random missions.
+
+        Parameter:
+        user(User): the user making the request to the view
+        
+        Returns: QuerySet<Mission>
+
+        """
+        def get_improvement_missions(achievement):
+            pass
+        def get_non_improvement_missions(achievement):
+            pass
+        def get_random_missions():
+            pass
+        # grab the most recent Achievement
+        # if failure, try to grab improvement questions
+        # if failure, try to grab questions randomly
+        # return the missions
+
     def get(self, request, *args, **kwargs):
         '''Display the profile page for the user.'''
         # get info about the user
@@ -161,6 +188,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         is_footprint_green = False
         if user.profile.users_footprint <= 1000:
             is_footprint_green = True  # green means "Good"
+        # grab missions for the context
         # define the template context
         context = {
             "facebook_login": facebook_login,
