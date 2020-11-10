@@ -10,6 +10,7 @@ from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.mission import Mission
+import carbon_quiz.views as cqv
 from .models import Profile
 from .forms import UserSignUpForm
 
@@ -159,16 +160,33 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         Returns: QuerySet<Mission>
 
         """
-        def get_improvement_missions(achievement):
+
+        def get_improvement_missions(achievement, incomplete_missions):
+            # get the quiz for the achievement
+            # get the question related to the achievement
+            # get the other improvement questions from the quiz
+            # get missions for those questions
             pass
-        def get_non_improvement_missions(achievement):
+
+        def get_non_improvement_missions(achievement, incomplete_missions):
             pass
+
         def get_random_missions():
             pass
+
         # grab the most recent Achievement
-        # if failure, try to grab improvement questions
-        # if failure, try to grab questions randomly
+        user_achievements = Achievement.objects.filter(profile=user.profile)
+        latest_achievement = user_achievements.order_by("id").last()
+        # grab all non-completed missions
+        all_missions = Mission.objects.all()
+        incomplete_missions = cqv.filter_completed_missions(all_missions, user)
+        # grab missions for improvement questions 
+        missions = get_improvement_missions(latest_achievement, 
+                                            incomplete_missions)
+        # if failure, try to grab missions for non improvement questions
+        # if failure, try to grab missions randomly
         # return the missions
+        return missions
 
     def get(self, request, *args, **kwargs):
         '''Display the profile page for the user.'''

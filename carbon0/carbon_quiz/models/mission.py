@@ -1,3 +1,4 @@
+import random
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
@@ -42,3 +43,11 @@ class Mission(models.Model):
     def __str__(self):
         """Returns human-readable name of the Mission."""
         return f"{self.title}"
+
+    @classmethod
+    def get_related_mission(cls, question_obj):
+        """Given a Question instance, return a related Mission randomly."""
+        related_missions = Mission.objects.filter(question=question_obj)
+        mission_set = random.sample(set(related_missions), 1)
+        mission = mission_set.pop()
+        return mission

@@ -159,12 +159,9 @@ class QuizDetail(DetailView):
             for question_id in quiz.questions:
                 # check if this question was answered no (needs a mission)
                 if question_id > 0:
-                    # get the question
+                    # get a mission related to the Question
                     question_obj = Question.objects.get(id=question_id)
-                    # get a random Mission related to the Question
-                    related_missions = Mission.objects.filter(question=question_obj)
-                    mission_set = random.sample(set(related_missions), 1)
-                    mission = mission_set.pop()
+                    mission = Mission.get_related_mission(question_obj)
                     # add to the list of Missions
                     missions.append(mission)
             # if no missions to suggest, give 3 randomly
