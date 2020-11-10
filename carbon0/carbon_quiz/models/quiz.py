@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
+from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question
 
 
@@ -87,3 +88,17 @@ class Quiz(models.Model):
         question_id = self.questions[self.active_question]
         question_obj = Question.objects.get(id=question_id)
         return question_obj
+
+    def get_related_improvement_missions(self):
+        """Return Missions related to the Questions on a Quiz."""
+        missions = list()
+        # get the question id that each user actually interacted with
+        for question_id in self.questions:
+            # check if this question was answered no (needs a mission)
+            if question_id > 0:
+                # get a mission related to the Question
+                question_obj = Question.objects.get(id=question_id)
+                mission = Mission.get_related_mission(question_obj)
+                # add to the list of Missions
+                missions.append(mission)
+        return missions
