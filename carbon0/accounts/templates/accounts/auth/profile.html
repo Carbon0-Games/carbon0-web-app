@@ -69,6 +69,15 @@
               </div>
             </div>
           </div>
+          <!-- Mission Recommendations -->
+          <div class="container">
+            {% if False is False %}
+              {% include "partials/missions_suggested.html" %}
+              <!-- if no missions for the user -->
+            {% else %}
+              {% include "partials/missions_not_suggested.html" %}
+            {% endif %}
+          </div>
         </div>
     </div>
 
