@@ -128,20 +128,18 @@ class UserFootPrintData(APIView):
 class FootprintOverTime(APIView):
     def get(self, request, pk):
         """Returns JSON data on a user's carbon footprint over time.
-           Parameters:
-           request(HttpRequest)
-           pk(int): the id of the Profile instance encapsulating the
-                    user's carbon footprint data
-          Return: dict: A JSON object that maps that encapsulates the
-                        data points needed to plot the carbon footprint
-                        data on a line chart.
+         Parameters:
+         request(HttpRequest)
+         pk(int): the id of the Profile instance encapsulating the
+                  user's carbon footprint data
+        Return: dict: A JSON object that maps that encapsulates the
+                      data points needed to plot the carbon footprint
+                      data on a line chart.
         """
         # get the Profile related to the pk
         profile = Profile.objects.get(id=pk)
         # get all the Achievements related to the Profile, ordered by pk
-        achievements = (
-            Achievement.objects.filter(profile=profile).order_by('id')
-        )
+        achievements = Achievement.objects.filter(profile=profile).order_by("id")
         # init the lists for the data and their labels
         data, labels = list(), list()
         # record the starting footprint value, and its label
@@ -165,7 +163,6 @@ class FootprintOverTime(APIView):
             # record the label for this point
             labels.append("Completed Mission")
         # return the response
-        return Response({
-            "Events": labels,  # Time axis
-            "Footprint": data  # Vertical Axis
-        })
+        return Response(
+            {"Events": labels, "Footprint": data}  # Time axis  # Vertical Axis
+        )
