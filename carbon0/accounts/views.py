@@ -1,4 +1,5 @@
 import datetime as dt
+import random
 
 from django.conf import settings
 import django.contrib.auth.views as auth_views
@@ -157,7 +158,11 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         Parameter:
         user(User): the user making the request to the view
         
-        Returns: QuerySet<Mission>
+        Returns: 
+        is_random(bool): a flag to tell us if the missions were selected 
+                         randomly or not. Helps in deciding which partial 
+                         templates to use on the view
+        QuerySet<Mission> - the missions suggested for the user
 
         """
 
@@ -181,9 +186,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
                 missions = achievement.quiz.get_unrelated_missions()
             return missions
 
-        def get_random_missions():
-            pass
-
         # grab the most recent Achievement
         user_achievements = Achievement.objects.filter(profile=user.profile)
         latest_achievement = user_achievements.order_by("id").last()
@@ -193,12 +195,18 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         # grab missions for improvement questions 
         missions = get_improvement_missions(latest_achievement, 
                                             incomplete_missions)
+        # set a flag to track if the Missions are selectec randomly
+        is_random = False
         # if failure, try to grab missions for non improvement questions
         if len(missions) == 0:
-            pass
+            missions = get_non_improvement_missions(latest_achievement, 
+                                                    incomplete_missions)
         # if failure, try to grab missions randomly
+        if len(missions) == 0:
+            missions = random.sample(set(Mission.objects.all()), 3)
+            is_random = True
         # return the missions
-        return missions
+        return is_random, missions
 
     def get(self, request, *args, **kwargs):
         '''Display the profile page for the user.'''
@@ -219,6 +227,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         if user.profile.users_footprint <= 1000:
             is_footprint_green = True  # green means "Good"
         # grab missions for the context
+        is_random, missions = self._suggest_missions(user)
         # define the template context
         context = {
             "facebook_login": facebook_login,
@@ -226,6 +235,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             "is_footprint_green": is_footprint_green,
             "footprint": user.profile.users_footprint,
             "profile": user.profile,
+            "is_random": is_random,
+            "missions": missions
         }
         return render(request, self.template_name, context)
 

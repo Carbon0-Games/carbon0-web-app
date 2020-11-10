@@ -71,7 +71,7 @@
           </div>
           <!-- Mission Recommendations -->
           <div class="container">
-            {% if False is False %}
+            {% if is_random is False %}
               {% include "partials/missions_suggested.html" %}
               <!-- if no missions for the user -->
             {% else %}
@@ -81,7 +81,12 @@
             <!-- Show the Missions -->
             {% include "partials/mission_collection.html" %}
 
-            <!-- Link to All Missions -->
+            <!-- Link to All Uncompleted Missions -->
+            <div class="row justify-content-center">
+              <a class="btn btn-secondary mt-5" href="{% url 'carbon_quiz:mission_list'%}">
+                Want More Missions?
+              </a>
+            </div>
           </div>
         </div>
     </div>
