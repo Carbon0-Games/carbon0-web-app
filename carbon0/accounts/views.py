@@ -162,14 +162,24 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         """
 
         def get_improvement_missions(achievement, incomplete_missions):
-            # get the quiz for the achievement
-            # get the question related to the achievement
-            # get the other improvement questions from the quiz
-            # get missions for those questions
-            pass
+            """
+            Get missions for the questions in areas
+            that the user needs to improve in.
+            """
+            missions = list()
+            if achievement.quiz is not None:
+                missions = achievement.quiz.get_related_missions()
+            return missions
 
         def get_non_improvement_missions(achievement, incomplete_missions):
-            pass
+            """
+            Get missions for the questions in areas in which the user 
+            may already be strong.
+            """
+            missions = list()
+            if achievement.quiz is not None:
+                missions = achievement.quiz.get_unrelated_missions()
+            return missions
 
         def get_random_missions():
             pass
@@ -184,6 +194,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         missions = get_improvement_missions(latest_achievement, 
                                             incomplete_missions)
         # if failure, try to grab missions for non improvement questions
+        if len(missions) == 0:
+            pass
         # if failure, try to grab missions randomly
         # return the missions
         return missions

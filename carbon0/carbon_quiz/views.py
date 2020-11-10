@@ -154,7 +154,7 @@ class QuizDetail(DetailView):
             # set a flag to tell if the Missions are random
             is_random = False
             # find the missions the user can choose
-            missions = quiz.get_related_improvement_missions()
+            missions = quiz.get_related_missions()
             # if no missions to suggest, give 3 randomly
             if len(missions) == 0:
                 missions = random.sample(set(Mission.objects.all()), 3)
