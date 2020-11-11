@@ -304,7 +304,7 @@ class AchievementCreate(CreateView):
             form.instance.quiz = quiz
         return super().form_valid(form)
 
-    def post(self, request, mission_id, chosen_link_id, quiz_slug=None):
+    def post(self, request, mission_id, quiz_slug=None):
         """
         Passes the id of the Mission the Achievement is for,
         as part of the POST request.
@@ -312,8 +312,6 @@ class AchievementCreate(CreateView):
         Parameters:
         request(HttpRequest): the GET request sent to the server
         mission_id(int): unique slug value of the Quiz instance
-        chosen_link_id(int): the id of the Link model we will use
-                             to complete the mission
 
         Returns:
         HttpResponseRedirect: the view of the detail template for the Achievement
