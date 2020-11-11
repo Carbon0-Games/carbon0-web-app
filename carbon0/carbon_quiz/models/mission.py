@@ -33,10 +33,8 @@ class Mission(models.Model):
         ),
     )
     is_stationary = models.BooleanField(
-        default=False, 
-        help_text=(
-            "Does the player need to get off the couch to complete this?"
-        )
+        default=False,
+        help_text=("Does the player need to get off the couch to complete this?"),
     )
 
     def __str__(self):

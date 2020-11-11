@@ -29,7 +29,9 @@ urlpatterns = [
         name="footprint_leaderboard",
     ),
     # Data for the Footprint Over Time
-    path('footprint-change/<int:pk>/', FootprintOverTime.as_view(),
-         name="footprint_change"
+    path(
+        "footprint-change/<int:pk>/",
+        FootprintOverTime.as_view(),
+        name="footprint_change",
     ),
 ]

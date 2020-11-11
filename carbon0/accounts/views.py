@@ -141,10 +141,11 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     """
     Currently shows the user info from social signup or login
     """
+
     template_name = "accounts/auth/profile.html"
 
     def get(self, request, *args, **kwargs):
-        '''Display the profile page for the user.'''
+        """Display the profile page for the user."""
         # get info about the user
         user = request.user
         try:
