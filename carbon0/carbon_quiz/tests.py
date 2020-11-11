@@ -70,7 +70,7 @@ class DatabaseSetup(TestCase):
         for q in self.questions:
             q.save()
         # save a new Quiz
-        quiz = Quiz.objects.create()
+        quiz = Quiz.objects.create(title="New Quiz 1")
         quiz.save()
         self.quiz = quiz
         return None
@@ -398,7 +398,7 @@ class AchievementCreateTests(QuizDetailTests):
             "carbon_quiz:achievement_create",
             kwargs={
                 "mission_id": self.missions[0].id,
-                "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
+                # "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
                 "quiz_slug": self.quiz.slug,
             },
         )
@@ -420,7 +420,7 @@ class AchievementCreateTests(QuizDetailTests):
             "carbon_quiz:achievement_create",
             kwargs={
                 "mission_id": self.missions[0].id,
-                "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
+                # "chosen_link_id": self.links[0].id,  # right now the Mission only has 1
             },
         )
         # user gets a response
@@ -444,9 +444,6 @@ class AchievementCreateTests(QuizDetailTests):
                 "carbon_quiz:achievement_create",
                 kwargs={
                     "mission_id": self.missions[0].id,
-                    "chosen_link_id": self.links[
-                        0
-                    ].id,  # right now the Mission only has 1
                     "quiz_slug": self.quiz.slug,
                 },
             )
@@ -454,7 +451,7 @@ class AchievementCreateTests(QuizDetailTests):
         request.user = self.user
         # user gets a response
         response = AchievementCreate.as_view()(
-            request, self.missions[0].id, 0, self.quiz.slug
+            request, self.missions[0].id, self.quiz.slug
         )
         # user is redirected
         self.assertEquals(response.status_code, 302)
@@ -478,16 +475,13 @@ class AchievementCreateTests(QuizDetailTests):
             reverse(
                 "carbon_quiz:achievement_create",
                 kwargs={
-                    "mission_id": self.missions[0].id,
-                    "chosen_link_id": self.links[
-                        0
-                    ].id,  # right now the Mission only has 1
+                    "mission_id": self.missions[0].id
                 },
             )
         )
         request.user = self.user
         # user gets a response
-        response = AchievementCreate.as_view()(request, self.missions[0].id, 0)
+        response = AchievementCreate.as_view()(request, self.missions[0].id, self.quiz.slug)
         # user is redirected
         self.assertEquals(response.status_code, 302)
         # test that Achievement is made after the request
