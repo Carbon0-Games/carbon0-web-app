@@ -14,9 +14,9 @@
         </p>
         <!-- Link to AchievementCreate -->
         {% if quiz %}
-            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id quiz.slug %}" class="btn btn-primary">
+            <a href="{% url 'carbon_quiz:achievement_create' mission.id quiz.slug %}" class="btn btn-primary">
         {% else %}
-            <a href="{% url 'carbon_quiz:achievement_create' mission.id link.id %}" class="btn btn-primary">
+            <a href="{% url 'carbon_quiz:achievement_create' mission.id %}" class="btn btn-primary">
         {% endif %}
         {{ mission.title }}</a>
     </div>

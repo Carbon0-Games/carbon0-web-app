@@ -259,15 +259,14 @@ class AchievementCreate(CreateView):
     template_name = "carbon_quiz/achievement/create.html"
     queryset = Achievement.objects.all()
 
-    def get(self, request, mission_id, chosen_link_id, quiz_slug=None):
+    def get(self, request, mission_id, quiz_slug=None):
         """
         Renders a page to show the question currently being asked.
+        Assume we only want the first link related to a mission.
 
         Parameters:
         request(HttpRequest): the GET request sent to the server
         mission_id(int): unique slug value of the Quiz instance
-        chosen_link_id(int): the id of the Link model we will use
-                             to complete the mission
 
         Returns:
         HttpResponse: the view of the detail template for the Achievement
@@ -277,9 +276,13 @@ class AchievementCreate(CreateView):
         # get the mission object
         mission = Mission.objects.get(id=mission_id)
         # get the links related to the mission
-        link = Link.objects.get(id=chosen_link_id)
+        link_descriptions, link_addresses = Link.get_mission_links(mission)
         # set the context
-        context = {"mission": mission, "link": link}
+        context = {
+            "mission": mission,
+            "link_description": link_descriptions[0],
+            "link_address": link_addresses[0]
+        }
         # return the response
         return render(request, self.template_name, context)
 
