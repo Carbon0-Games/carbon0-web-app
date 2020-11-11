@@ -151,22 +151,10 @@ class QuizDetail(DetailView):
                 profile = Profile.objects.get(user=request.user)
                 # update their profile's footprint
                 profile.increase_user_footprint(quiz)
-            # find the missions the user can choose
-            missions = list()
             # set a flag to tell if the Missions are random
             is_random = False
-            # get the question id that each user actually interacted with
-            for question_id in quiz.questions:
-                # check if this question was answered no (needs a mission)
-                if question_id > 0:
-                    # get the question
-                    question_obj = Question.objects.get(id=question_id)
-                    # get a random Mission related to the Question
-                    related_missions = Mission.objects.filter(question=question_obj)
-                    mission_set = random.sample(set(related_missions), 1)
-                    mission = mission_set.pop()
-                    # add to the list of Missions
-                    missions.append(mission)
+            # find the missions the user can choose
+            missions = quiz.get_related_missions()
             # if no missions to suggest, give 3 randomly
             if len(missions) == 0:
                 missions = random.sample(set(Mission.objects.all()), 3)

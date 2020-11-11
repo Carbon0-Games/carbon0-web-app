@@ -87,10 +87,11 @@ a.mission-link:hover {
     }
 
     h1 {
-      font-size: 16px;
+      font-size: 35px;
       line-height: 24px;
-      font-weight: bold;
     }
+
+    
     @media only screen and (min-width: 600px) {
       h1 {
           font-size: 24px;
