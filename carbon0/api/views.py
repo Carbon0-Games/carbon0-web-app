@@ -6,6 +6,8 @@ from rest_framework.response import Response
 
 from accounts.models import Profile
 from carbon_quiz.models.achievement import Achievement
+from carbon_quiz.models.link import Link
+from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.quiz import Quiz
 
 
@@ -128,10 +130,10 @@ class UserFootPrintData(APIView):
 class FootprintOverTime(APIView):
     def get(self, request, pk):
         """Returns JSON data on a user's carbon footprint over time.
-         Parameters:
-         request(HttpRequest)
-         pk(int): the id of the Profile instance encapsulating the
-                  user's carbon footprint data
+        Parameters:
+        request(HttpRequest)
+        pk(int): the id of the Profile instance encapsulating the
+                 user's carbon footprint data
         Return: dict: A JSON object that maps that encapsulates the
                       data points needed to plot the carbon footprint
                       data on a line chart.
@@ -166,3 +168,35 @@ class FootprintOverTime(APIView):
         return Response(
             {"Events": labels, "Footprint": data}  # Time axis  # Vertical Axis
         )
+
+
+class AchievementCreateLink(APIView):
+    def get(self, request, mission_id, quiz_slug=None):
+        """Returns a fully-qualified path to AchievementCreate,
+           given a Mission and Quiz instance. 
+        
+           We have the ASSUMPTION that there is only one Link object 
+           related to the Mission.
+
+           Parameters:
+           mission_id(int): id field of a Mission instance
+           quiz_slug(str): slug value of one of the Quizzes
+
+           Returns: str for the URL path
+
+        """
+        # get the Link related to the Mission
+        mission_obj = Mission.objects.get(id=mission_id)
+        link = Link.get_mission_links(mission_obj)[0]
+        # get the available arguments for the URL path
+        arguments = [mission_id, link.id]
+        if quiz_slug is not None:
+            arguments.append(quiz_slug)
+        # form and return the path
+        path = reverse(
+            "carbon_quiz:achievement_create",
+            args=arguments
+        )
+        return path
+
+ 
