@@ -163,45 +163,40 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         is_random(bool): a flag to tell us if the missions were selected 
                          randomly or not. Helps in deciding which partial 
                          templates to use on the view
-        QuerySet<Mission> - the missions suggested for the user
+        QuerySet<Mission>: the missions suggested for the user
 
         """
 
-        def get_improvement_missions(achievement, incomplete_missions):
+        def get_improvement_missions(achievement):
             """
             Get missions for the questions in areas
             that the user needs to improve in.
             """
             missions = list()
-            if achievement.quiz is not None:
+            if achievement is not None and achievement.quiz is not None:
                 missions = achievement.quiz.get_related_missions()
             return missions
 
-        def get_non_improvement_missions(achievement, incomplete_missions):
+        def get_non_improvement_missions(achievement):
             """
             Get missions for the questions in areas in which the user 
             may already be strong.
             """
             missions = list()
-            if achievement.quiz is not None:
+            if achievement is not None and achievement.quiz is not None:
                 missions = achievement.quiz.get_unrelated_missions()
             return missions
 
         # grab the most recent Achievement
         user_achievements = Achievement.objects.filter(profile=user.profile)
         latest_achievement = user_achievements.order_by("id").last()
-        # grab all non-completed missions
-        all_missions = Mission.objects.all()
-        incomplete_missions = cqv.filter_completed_missions(all_missions, user)
         # grab missions for improvement questions 
-        missions = get_improvement_missions(latest_achievement, 
-                                            incomplete_missions)
+        missions = get_improvement_missions(latest_achievement)
         # set a flag to track if the Missions are selectec randomly
         is_random = False
         # if failure, try to grab missions for non improvement questions
         if len(missions) == 0:
-            missions = get_non_improvement_missions(latest_achievement, 
-                                                    incomplete_missions)
+            missions = get_non_improvement_missions(latest_achievement)
         # if failure, try to grab missions randomly
         if len(missions) == 0:
             missions = random.sample(set(Mission.objects.all()), 3)
@@ -209,18 +204,10 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         # return the missions
         return is_random, missions
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         """Display the profile page for the user."""
         # get info about the user
         user = request.user
-        try:
-            facebook_login = user.social_auth.get(provider="facebook")
-        except UserSocialAuth.DoesNotExist:
-            facebook_login = None
-        try:
-            google_login = user.social_auth.get(provider="google-oauth2")
-        except UserSocialAuth.DoesNotExist:
-            google_login = None
         # track the login in Mixpanel
         track_login_event(user)
         # decide how to color the user's footprint
@@ -231,8 +218,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         is_random, missions = self._suggest_missions(user)
         # define the template context
         context = {
-            "facebook_login": facebook_login,
-            "google_login": google_login,
             "is_footprint_green": is_footprint_green,
             "footprint": user.profile.users_footprint,
             "profile": user.profile,
