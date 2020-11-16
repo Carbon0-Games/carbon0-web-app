@@ -14,6 +14,7 @@ from django.views.generic.edit import (
 from django.views.generic import ListView
 from mixpanel import Mixpanel, MixpanelException
 
+from .forms import QuizForm
 from .models.link import Link
 from .models.mission import Mission
 from accounts.models import Profile
@@ -109,12 +110,14 @@ class QuizCreate(CreateView):
         return super().form_valid(form)
 
 
-class QuizDetail(DetailView):
+class QuizDetail(UpdateView):
     """Displays questions on the quiz to answer, or the missions to complete."""
   
     model = Quiz
     quiz_template_name = "carbon_quiz/quiz/detail.html"
     mission_template_name = "carbon_quiz/mission/results.html"
+    queryset = Quiz.objects.all()
+    form_class = QuizForm
 
     def get(self, request, slug, question_number):
         """
@@ -195,6 +198,42 @@ class QuizDetail(DetailView):
         context.update(additional_key_value_pairs)
         # return the response
         return render(request, template_name, context)
+
+    def get_success_url(self):
+        '''Returns the URL to go back to the QuizDetail view.'''
+        quiz = self.get_object()
+        path_components = {
+            "slug": quiz.slug,
+            # for the question number, increment zero-indexed number
+            "question_number": quiz.active_question + 1,
+        }
+        return HttpResponseRedirect(reverse_lazy(
+            "carbon_quiz:quiz_detail", kwargs=path_components
+        )) 
+
+    def post(self, request, slug, *args, **kwargs):
+        """
+        Processes the response to a n open response question, 
+        and moves on to the next part of the quiz.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        slug(slug): unique slug value of the Quiz instance
+        question_number(int): the number of the question in the quiz
+
+        Returns:
+        HttpResponseRedirect: the view of the detail template for the Quiz
+
+        """
+        # get the Quiz and current Question
+        quiz = Quiz.objects.get(slug=slug)
+        question_obj = quiz.get_current_question()
+        # increment the total carbon value of this quiz so far
+        quiz.increment_carbon_value(question_obj)
+        # increment the active_question for the next call
+        quiz.increment_active_question()
+        # update the Question model and redirect to the next part of the quiz
+        return super.post(request, *args, **kwargs)
 
 
 class MissionList(ListView):
