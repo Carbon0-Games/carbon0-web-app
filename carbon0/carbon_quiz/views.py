@@ -111,7 +111,7 @@ class QuizCreate(CreateView):
 
 class QuizDetail(DetailView):
     """Displays questions on the quiz to answer, or the missions to complete."""
-
+  
     model = Quiz
     template_name = "carbon_quiz/quiz/detail.html"
 
@@ -129,26 +129,22 @@ class QuizDetail(DetailView):
         HttpResponse: the view of the detail template for the Quiz
 
         """
-        # get the Quiz instance
-        quiz = Quiz.objects.get(slug=slug)
-        # set the context
-        context = {"quiz": quiz}
-        # init the other key value pairs, which we will set later
-        additional_key_value_pairs = list()
-        # if the next question needs to be shown
-        if quiz.active_question < 5:
+        
+        def display_quiz_question(quiz):
+            '''Gets the current question to display on the quiz.'''
             # get the current Question
             question_obj = quiz.get_current_question()
             # set the addtional key value pairs to the context
-            additional_key_value_pairs = [
+            key_value_pairs = [
                 ("question", question_obj),
             ]
-        # otherwise show the mission start page
-        else:  #  quiz.active_question == 5:
+            return key_value_pairs
+        def display_mission_results(user):
+            '''Gets Missions to best match the user's answers to the quiz.'''
             # if the user is logged in, acculmulate their total footprint
             if request.user.is_authenticated is True:
                 # get the User profile
-                profile = Profile.objects.get(user=request.user)
+                profile = Profile.objects.get(user=user)
                 # update their profile's footprint
                 profile.increase_user_footprint(quiz)
             # set a flag to tell if the Missions are random
@@ -162,10 +158,24 @@ class QuizDetail(DetailView):
             # finally, take out missions completed before
             missions = filter_completed_missions(missions, request.user)
             # set the additional key value pairs
-            additional_key_value_pairs = [
+            key_value_pairs = [
                 ("missions", missions),  # possible missions for the user
                 ("is_random", is_random),
             ]
+            return key_value_pairs
+        # get the Quiz instance
+        quiz = Quiz.objects.get(slug=slug)
+        # set the context
+        context = {"quiz": quiz}
+        # init the other key value pairs, which we will set later
+        additional_key_value_pairs = list()
+        # if the next question needs to be shown
+        if quiz.active_question < 5:
+            # get the current Question
+            additional_key_value_pairs = display_quiz_question(quiz)
+        # otherwise show the mission start page
+        else:  #  quiz.active_question == 5:
+            additional_key_value_pairs = display_mission_results(request.user)
         # add the Mixpanel token
         additional_key_value_pairs.append(
             ("MP_PROJECT_TOKEN", settings.MP_PROJECT_TOKEN)

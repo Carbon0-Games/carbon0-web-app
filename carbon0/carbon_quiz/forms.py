@@ -8,4 +8,6 @@ class QuizForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = "__all__"
+        fields = [
+            'answer'  # we only use the form for open-reponse questions
+        ]
