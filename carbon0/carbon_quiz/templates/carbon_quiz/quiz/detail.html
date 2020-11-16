@@ -48,19 +48,36 @@
             <div class="row">
                 <!-- buzzers and info -->
                 <div class="col-md-8">
-                    <div class="row">
-                        <!-- JS function to go to the next quiz question -->
-                        {% include 'partials/next_question_script.html' %}
-                        <!-- Yes and No Buzzers-->
-                        <div class="col d-flex justify-content-center">
-                                <button onclick="nextQuestion('1')" type="button"
-                                    class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">YES</button>
+                    {% if question.is_open_response is False %}
+                        <!-- Answer Section for Yes/No Questions -->
+                        <div class="row">
+                            <!-- JS function to go to the next quiz question -->
+                            {% include 'partials/next_question_script.html' %}
+                            <!-- Yes and No Buzzers-->
+                            <div class="col d-flex justify-content-center">
+                                    <button onclick="nextQuestion('1')" type="button"
+                                        class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">YES</button>
+                            </div>
+                            <div class="col d-flex justify-content-center">
+                                    <button onclick="nextQuestion('0')" type="button"
+                                        class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">NO</button>
+                            </div>
                         </div>
-                        <div class="col d-flex justify-content-center">
-                                <button onclick="nextQuestion('0')" type="button"
-                                    class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">NO</button>
-                        </div>
-                    </div>
+                    {% else %}
+                        <!-- Answer Section for Open Response Questions -->
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="text-white" for="openAnswer">Answer Here</label>
+                                <input type="text" class="form-control"
+                                    name="answer" id="openAnswer" 
+                                    aria-describedby="answerField"
+                                    placeholder="Enter your response to the question">
+                                <small id="answerHelp" class="form-text text-muted">We'll use this to personalize your missions!</small>
+                            </div>
+                            <input type="submit" value="Submit Answer" class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">
+                        </form>
+                    {% endif %}
 
                     <div class="row justify-content-center">
                         <!-- Carbon Value Card -->
