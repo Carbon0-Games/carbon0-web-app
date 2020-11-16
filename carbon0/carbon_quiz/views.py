@@ -113,7 +113,8 @@ class QuizDetail(DetailView):
     """Displays questions on the quiz to answer, or the missions to complete."""
   
     model = Quiz
-    template_name = "carbon_quiz/quiz/detail.html"
+    quiz_template_name = "carbon_quiz/quiz/detail.html"
+    mission_template_name = "carbon_quiz/mission/results.html"
 
     def get(self, request, slug, question_number):
         """
@@ -131,16 +132,22 @@ class QuizDetail(DetailView):
         """
         
         def display_quiz_question(quiz):
-            '''Gets the current question to display on the quiz.'''
+            """
+            Gets the current question to display on the quiz.
+            Return the name of the template for quiz questions.
+            """
             # get the current Question
             question_obj = quiz.get_current_question()
             # set the addtional key value pairs to the context
             key_value_pairs = [
                 ("question", question_obj),
             ]
-            return key_value_pairs
+            return key_value_pairs, self.quiz_template_name
         def display_mission_results(user):
-            '''Gets Missions to best match the user's answers to the quiz.'''
+            """
+            Gets Missions to best match the user's answers to the quiz.
+            Return the name of the template for resulting missions.
+            """
             # if the user is logged in, acculmulate their total footprint
             if request.user.is_authenticated is True:
                 # get the User profile
@@ -162,7 +169,7 @@ class QuizDetail(DetailView):
                 ("missions", missions),  # possible missions for the user
                 ("is_random", is_random),
             ]
-            return key_value_pairs
+            return key_value_pairs, self.mission_template_name
         # get the Quiz instance
         quiz = Quiz.objects.get(slug=slug)
         # set the context
@@ -172,10 +179,14 @@ class QuizDetail(DetailView):
         # if the next question needs to be shown
         if quiz.active_question < 5:
             # get the current Question
-            additional_key_value_pairs = display_quiz_question(quiz)
+            additional_key_value_pairs, template_name = (
+                display_quiz_question(quiz)
+            )
         # otherwise show the mission start page
         else:  #  quiz.active_question == 5:
-            additional_key_value_pairs = display_mission_results(request.user)
+            additional_key_value_pairs, template_name = (
+                display_mission_results(request.user)
+            )
         # add the Mixpanel token
         additional_key_value_pairs.append(
             ("MP_PROJECT_TOKEN", settings.MP_PROJECT_TOKEN)
@@ -183,7 +194,7 @@ class QuizDetail(DetailView):
         # add additional key value pairs to the context
         context.update(additional_key_value_pairs)
         # return the response
-        return render(request, self.template_name, context)
+        return render(request, template_name, context)
 
 
 class MissionList(ListView):
