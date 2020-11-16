@@ -48,7 +48,7 @@
             <div class="row">
                 <!-- buzzers and info -->
                 <div class="col-md-8">
-                    {% if question.is_open_response is False %}
+                    {% if question.improvement_response != -1 %}
                         <!-- Answer Section for Yes/No Questions -->
                         <div class="row">
                             <!-- JS function to go to the next quiz question -->

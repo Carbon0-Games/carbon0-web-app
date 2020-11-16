@@ -220,8 +220,9 @@ class QuizDetail(UpdateView):
         # increment the active_question for the next call
         quiz.increment_active_question()
         # add to the Quiz model's answers, and redirect to the next page
-        new_answer = form.instance.open_response_answers
+        new_answer = form.cleaned_data['open_response_answers'][0]
         quiz.open_response_answers.append(new_answer)
+        quiz.save()
         return HttpResponseRedirect(quiz.get_absolute_url())
 
     def post(self, request, slug, question_number):
@@ -238,7 +239,8 @@ class QuizDetail(UpdateView):
         HttpResponseRedirect: the view of the detail template for the Quiz
 
         """
-        form = self.get_form()
+        form = self.form_class(request.POST)
+        print(f'Data passed into the form: {request.POST}')
         if form.is_valid():
             return self.form_valid(form, slug)
         else:

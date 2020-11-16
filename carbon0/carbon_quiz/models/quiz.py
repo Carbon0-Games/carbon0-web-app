@@ -39,7 +39,7 @@ class Quiz(models.Model):
     )
     open_response_answers = ArrayField(
         models.TextField(null=True, blank=True, help_text="User's response."),
-        default=[]
+        default=list
     )
 
     def __str__(self):
