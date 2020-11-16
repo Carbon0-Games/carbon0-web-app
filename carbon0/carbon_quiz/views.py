@@ -198,7 +198,7 @@ class QuizDetail(UpdateView):
         context.update(additional_key_value_pairs)
         # return the response
         return render(request, template_name, context)
-
+    """
     def get_success_url(self):
         '''Returns the URL to go back to the QuizDetail view.'''
         quiz = self.get_object()
@@ -210,8 +210,21 @@ class QuizDetail(UpdateView):
         return HttpResponseRedirect(reverse_lazy(
             "carbon_quiz:quiz_detail", kwargs=path_components
         )) 
+    """
+    def form_valid(self, form, slug):
+         # get the Quiz and current Question
+        quiz = Quiz.objects.get(slug=slug)
+        question_obj = quiz.get_current_question()
+        # increment the total carbon value of this quiz so far
+        quiz.increment_carbon_value(question_obj)
+        # increment the active_question for the next call
+        quiz.increment_active_question()
+        # add to the Quiz model's answers, and redirect to the next page
+        new_answer = form.instance.open_response_answers
+        quiz.open_response_answers.append(new_answer)
+        return HttpResponseRedirect(quiz.get_absolute_url())
 
-    def post(self, request, slug, *args, **kwargs):
+    def post(self, request, slug, question_number):
         """
         Processes the response to a n open response question, 
         and moves on to the next part of the quiz.
@@ -225,15 +238,11 @@ class QuizDetail(UpdateView):
         HttpResponseRedirect: the view of the detail template for the Quiz
 
         """
-        # get the Quiz and current Question
-        quiz = Quiz.objects.get(slug=slug)
-        question_obj = quiz.get_current_question()
-        # increment the total carbon value of this quiz so far
-        quiz.increment_carbon_value(question_obj)
-        # increment the active_question for the next call
-        quiz.increment_active_question()
-        # update the Question model and redirect to the next part of the quiz
-        return super.post(request, *args, **kwargs)
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form, slug)
+        else:
+            return self.form_invalid(form)
 
 
 class MissionList(ListView):

@@ -37,6 +37,10 @@ class Quiz(models.Model):
         default=1000,
         help_text="Total metric tons of carbon that the user can eliminate.",
     )
+    open_response_answers = ArrayField(
+        models.TextField(null=True, blank=True, help_text="User's response."),
+        default=[]
+    )
 
     def __str__(self):
         """Returns human-readable name of the Quiz."""

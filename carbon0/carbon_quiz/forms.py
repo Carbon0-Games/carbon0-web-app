@@ -4,10 +4,10 @@ from .models.quiz import Quiz
 
 
 class QuizForm(ModelForm):
-    """Used to generate/fill out a quiz."""
+    """Used to generate a quiz."""
 
     class Meta:
         model = Quiz
         fields = [
-            'answer'  # we only use the form for open-reponse questions
+            'open_response_answers'
         ]
