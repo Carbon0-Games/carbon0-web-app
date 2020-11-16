@@ -36,7 +36,7 @@ class Question(models.Model):
         blank=True,
         help_text="Symbolizes what user needs to work on.",
     )
-    ANSWERS = [(1, "Yes"), (0, "No")]
+    ANSWERS = [(1, "Yes"), (0, "No"), (-1, "Open-Response")]
     improvement_response = models.IntegerField(
         choices=ANSWERS,
         default=0,
@@ -45,6 +45,10 @@ class Question(models.Model):
             + "to this area of their carbon footprint."
         ),
     )
+    is_open_response = models.BooleanField(
+        default=False, help_text="Is the question answered with text or not."
+    )
+    answer = models.TextField(null=True, blank=True, help_text="User's response.")
 
     def __str__(self):
         """Returns the category of the Question, and it's id."""
