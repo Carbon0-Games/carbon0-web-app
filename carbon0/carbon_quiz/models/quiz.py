@@ -102,9 +102,12 @@ class Quiz(models.Model):
             if question_id > 0:
                 # get a mission related to the Question
                 question_obj = Question.objects.get(id=question_id)
-                mission = Mission.get_related_mission(question_obj)
-                # add to the list of Missions
-                missions.append(mission)
+                # TODO: add Missions related to open-response questions
+                # for now, we'll just only get missions for yes/no questions
+                if question_obj.improvement_response > -1:
+                    mission = Mission.get_related_mission(question_obj)
+                    # add to the list of Missions
+                    missions.append(mission)
         return missions
 
     def get_unrelated_missions(self):

@@ -227,7 +227,7 @@ class QuizDetail(UpdateView):
 
     def post(self, request, slug, question_number):
         """
-        Processes the response to a n open response question, 
+        Processes the response to an open response question, 
         and moves on to the next part of the quiz.
 
         Parameters:
@@ -240,7 +240,6 @@ class QuizDetail(UpdateView):
 
         """
         form = self.form_class(request.POST)
-        print(f'Data passed into the form: {request.POST}')
         if form.is_valid():
             return self.form_valid(form, slug)
         else:
