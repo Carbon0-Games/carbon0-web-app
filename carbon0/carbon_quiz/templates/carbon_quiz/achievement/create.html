@@ -3,56 +3,31 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block metadata %}
-<!-- Taken from = http://jsfiddle.net/TBJ83/3/ -->
-<script>
-    $(function() {
-    setIFrameSize();
-    $(window).resize(function() {
-      setIFrameSize();
-    });
-  });
-  
-  function setIFrameSize() {
-    var ogWidth = 700;
-    var ogHeight = 600;
-    var ogRatio = ogWidth / ogHeight;
-  
-    var windowWidth = $(window).width();
-    if (windowWidth < 480) {
-      var parentDivWidth = $(".iframe-size").parent().width();
-      var newHeight = (parentDivWidth / ogRatio);
-      $(".iframe-size").addClass("iframe-class-resize");
-      $(".iframe-class-resize").css("width", parentDivWidth);
-      $(".iframe-class-resize").css("height", newHeight);
-    } else {
-      $(".iframe-size").removeClass("iframe-class-resize").css({
-        width: '',
-        height: ''
-      });
-    }
-  }
-</script>
-  
-{% endblock %}
-
 {% block content %}
+
+
 <style>
-    .iframe-container{
+    /* .iframe-container{
         width: 100%;
         height: 500px;
     }
     .iframe-size{
-        width: 100%;
-        height: 100%;
-        overflow: auto;
+        width: 800px;
+        height: 800px;
     }
+
+    @media only screen and (min-width: 600px){
+        .iframe-size{
+            width: 600px;
+            height: 700px;
+        }
+    } */
 </style>
 
 <div style="background-color:#143963; height: 100vh;">
     <div class="container">
         <!-- Header -->
-        <h1 class="row mt-2" style="color:white;">
+        <h1 class="row mt-2 mx-1" style="color:white;">
             Complete Your Mission
         </h1>
         <!-- Title of the Mission -->
@@ -61,7 +36,7 @@
         <div class="row text-white">
             <div class="col-md-8">
                 <!-- Site Preview -->
-                <div class="row ml-2">
+                <div class="row mx-2">
                     <p>
                         <strong>Action:</strong> {{ mission.action }}.<br>
                         When you are finished on the website linked below, come back and 
@@ -70,11 +45,9 @@
                             Preview Link: {{ link_description }}
                         </a>
                         <!-- Link Preview -->
-
-                        <div class="container" id="iframe-container">
-                            <iframe src="{{ link.address }}" id="iframe-size"></iframe>
+                        <div class="embed-responsive embed-responsive-4by3 my-2">
+                            <iframe class="embed-responsive-item" src="{{ link_address }}" id="iframe-size"></iframe>
                         </div>
-
                     </p>
                 </div>
                 <!-- Mission Complete Button -->
