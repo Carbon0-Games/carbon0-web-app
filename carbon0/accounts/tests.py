@@ -111,13 +111,16 @@ class UserCreateTests(AchievementDetailTests):
         return None
 
 
-class ProfileViewTests(AchievementCreateTests):
+class ProfileViewTests(TestCase):
     """Test suite for the ProfileView."""
+    # add initial data to the db
+    fixtures = [
+        'question_data.json',
+        'mission_link_data.json',
+    ]
 
     def setUp(self):
         """Adds the db models needed for each test in this suite."""
-        # add initial data to the db
-        super().setUp()
         # instantiate the test client
         self.client = Client()
         # add a new User and their Profile to the db
