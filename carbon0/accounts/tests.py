@@ -124,17 +124,17 @@ class ProfileViewTests(TestCase):
         self.url = reverse("accounts:settings")
         return None
 
-        def test_user_gets_profile_page(self):
-            """
-            User logs in and is able to see their username
-            on the frontend.
-            """
-            # user logs in
-            self.client.login(username=self.user.username, password=self.password)
-            # user sends a request to GET the view
-            response = self.client.get(self.url)
-            # response is sent back OK
-            self.assertEquals(response.status_code, 200)
-            # the response has the right content
-            self.assertContains(response, self.user.username)
-            return None
+    def test_user_gets_profile_page(self):
+        """
+        User logs in and is able to see their username
+        on the frontend.
+        """
+        # user logs in
+        self.client.login(username=self.user.username, password=self.password)
+        # user sends a request to GET the view
+        response = self.client.get(self.url)
+        # response is sent back OK
+        self.assertEquals(response.status_code, 200)
+        # the response has the right content
+        self.assertContains(response, self.user.username)
+        return None
