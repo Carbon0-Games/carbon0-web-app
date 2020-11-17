@@ -36,7 +36,7 @@ class Question(models.Model):
         blank=True,
         help_text="Symbolizes what user needs to work on.",
     )
-    ANSWERS = [(1, "Yes"), (0, "No")]
+    ANSWERS = [(1, "Yes"), (0, "No"), (-1, "Open-Response")]
     improvement_response = models.IntegerField(
         choices=ANSWERS,
         default=0,
