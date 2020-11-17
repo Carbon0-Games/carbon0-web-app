@@ -16,6 +16,8 @@ then
     echo "PostgreSQL started"
 fi
 
+# use local settings
+export DJANGO_SETTINGS_MODULE=carbon0.settings.local
 # migrate data and SQL schema
 python manage.py collectstatic --noinput
 python manage.py migrate --noinput
