@@ -13,7 +13,7 @@ app_name = "carbon_quiz"
 
 # save a variable to abbreviate one of the longer paths
 achievement_create_path = (
-    "achievement/create/<int:mission_id>/" + "<int:chosen_link_id>/<slug:quiz_slug>/"
+    "achievement/create/<int:mission_id>/" + "<slug:quiz_slug>/"
 )
 
 # define the URL paths for the views in this module
@@ -31,11 +31,11 @@ urlpatterns = [
     ),
     path("mission/<int:pk>/", MissionDetail.as_view(), name="mission_detail"),
     path(
-        achievement_create_path, AchievementCreate.as_view(), name="achievement_create"
+        "achievement/create/<int:mission_id>/<slug:quiz_slug>/", 
+        AchievementCreate.as_view(), name="achievement_create"
     ),
     path(
-        "achievement/create/<int:mission_id>/<int:chosen_link_id>/",
-        AchievementCreate.as_view(),
+        "achievement/create/<int:mission_id>/", AchievementCreate.as_view(),
         name="achievement_create",
     ),
     path(

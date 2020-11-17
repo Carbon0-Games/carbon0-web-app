@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
 from accounts.models import Profile
-from django.conf import settings 
+from django.conf import settings
 from .mission import Mission
 from .question import Question
 from .quiz import Quiz
@@ -125,11 +125,11 @@ class Achievement(models.Model):
         return zeron_img_paths
 
     def reduce_footprint(self, current_footprint):
-        '''Decrease the current footprint of a user as appropiate.'''
+        """Decrease the current footprint of a user as appropiate."""
         #  compute the new footprint value
         new_footprint = current_footprint - (
-            self.mission.percent_carbon_sequestration *
-            self.mission.question.carbon_value
+            self.mission.percent_carbon_sequestration
+            * self.mission.question.carbon_value
         )
         return round(new_footprint, 4)
 

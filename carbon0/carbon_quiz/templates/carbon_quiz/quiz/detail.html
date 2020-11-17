@@ -87,18 +87,12 @@
                 {% else %}
                     {% include "partials/missions_not_suggested.html" %}
                 {% endif %}
-                <div class="row">
-                    <!-- List links for Mission Details -->
-                    {% for mission in missions %}
-                    <div class="col justify-content-center">
-                        <div class="d-flex justify-content-center">
-                            {% include "partials/mission_card.html" %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+
+                <!-- Show the Missions -->
+                {% include "partials/mission_collection.html" %}
+
+                <!-- Carbon Value Card -->
                 <div class="row pt-4 justify-content-center">
-                    <!-- Carbon Value Card -->
                     {% include "partials/quiz_footprint.html" %}
                 </div>
                 <div class="row justify-content-center">

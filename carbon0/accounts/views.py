@@ -1,4 +1,5 @@
 import datetime as dt
+import random
 
 from django.conf import settings
 import django.contrib.auth.views as auth_views
@@ -9,8 +10,10 @@ from django.views.generic.edit import CreateView
 from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
-from .forms import UserSignUpForm
+from carbon_quiz.models.mission import Mission
+import carbon_quiz.views as cqv
 from .models import Profile
+from .forms import UserSignUpForm
 
 
 # Social Auth
@@ -141,33 +144,85 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     """
     Currently shows the user info from social signup or login
     """
+
     template_name = "accounts/auth/profile.html"
 
-    def get(self, request, *args, **kwargs):
-        '''Display the profile page for the user.'''
+    def _suggest_missions(self, user):
+        """Return uncompleted missions the User will most likely enjoy, 
+        based on the following order:
+
+        1. Missions in areas they need to improve on
+        2. Missions in areas they have not said they need improvement in
+        3. If no missions are available for 1 or 2, 
+           then display 3 random missions.
+
+        Parameter:
+        user(User): the user making the request to the view
+        
+        Returns: 
+        is_random(bool): a flag to tell us if the missions were selected 
+                         randomly or not. Helps in deciding which partial 
+                         templates to use on the view
+        QuerySet<Mission>: the missions suggested for the user
+
+        """
+
+        def get_improvement_missions(achievement):
+            """
+            Get missions for the questions in areas
+            that the user needs to improve in.
+            """
+            missions = list()
+            if achievement is not None and achievement.quiz is not None:
+                missions = achievement.quiz.get_related_missions()
+            return missions
+
+        def get_non_improvement_missions(achievement):
+            """
+            Get missions for the questions in areas in which the user 
+            may already be strong.
+            """
+            missions = list()
+            if achievement is not None and achievement.quiz is not None:
+                missions = achievement.quiz.get_unrelated_missions()
+            return missions
+
+        # grab the most recent Achievement
+        user_achievements = Achievement.objects.filter(profile=user.profile)
+        latest_achievement = user_achievements.order_by("id").last()
+        # grab missions for improvement questions 
+        missions = get_improvement_missions(latest_achievement)
+        # set a flag to track if the Missions are selectec randomly
+        is_random = False
+        # if failure, try to grab missions for non improvement questions
+        if len(missions) == 0:
+            missions = get_non_improvement_missions(latest_achievement)
+        # if failure, try to grab missions randomly
+        if len(missions) == 0:
+            missions = random.sample(set(Mission.objects.all()), 3)
+            is_random = True
+        # return the missions
+        return is_random, missions
+
+    def get(self, request):
+        """Display the profile page for the user."""
         # get info about the user
         user = request.user
-        try:
-            facebook_login = user.social_auth.get(provider="facebook")
-        except UserSocialAuth.DoesNotExist:
-            facebook_login = None
-        try:
-            google_login = user.social_auth.get(provider="google-oauth2")
-        except UserSocialAuth.DoesNotExist:
-            google_login = None
         # track the login in Mixpanel
         track_login_event(user)
         # decide how to color the user's footprint
         is_footprint_green = False
         if user.profile.users_footprint <= 1000:
             is_footprint_green = True  # green means "Good"
+        # grab missions for the context
+        is_random, missions = self._suggest_missions(user)
         # define the template context
         context = {
-            "facebook_login": facebook_login,
-            "google_login": google_login,
             "is_footprint_green": is_footprint_green,
             "footprint": user.profile.users_footprint,
             "profile": user.profile,
+            "is_random": is_random,
+            "missions": missions
         }
         return render(request, self.template_name, context)
 

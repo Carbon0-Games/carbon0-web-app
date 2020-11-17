@@ -151,22 +151,10 @@ class QuizDetail(DetailView):
                 profile = Profile.objects.get(user=request.user)
                 # update their profile's footprint
                 profile.increase_user_footprint(quiz)
-            # find the missions the user can choose
-            missions = list()
             # set a flag to tell if the Missions are random
             is_random = False
-            # get the question id that each user actually interacted with
-            for question_id in quiz.questions:
-                # check if this question was answered no (needs a mission)
-                if question_id > 0:
-                    # get the question
-                    question_obj = Question.objects.get(id=question_id)
-                    # get a random Mission related to the Question
-                    related_missions = Mission.objects.filter(question=question_obj)
-                    mission_set = random.sample(set(related_missions), 1)
-                    mission = mission_set.pop()
-                    # add to the list of Missions
-                    missions.append(mission)
+            # find the missions the user can choose
+            missions = quiz.get_related_missions()
             # if no missions to suggest, give 3 randomly
             if len(missions) == 0:
                 missions = random.sample(set(Mission.objects.all()), 3)
@@ -259,15 +247,14 @@ class AchievementCreate(CreateView):
     template_name = "carbon_quiz/achievement/create.html"
     queryset = Achievement.objects.all()
 
-    def get(self, request, mission_id, chosen_link_id, quiz_slug=None):
+    def get(self, request, mission_id, quiz_slug=None):
         """
         Renders a page to show the question currently being asked.
+        Assume we only want the first link related to a mission.
 
         Parameters:
         request(HttpRequest): the GET request sent to the server
         mission_id(int): unique slug value of the Quiz instance
-        chosen_link_id(int): the id of the Link model we will use
-                             to complete the mission
 
         Returns:
         HttpResponse: the view of the detail template for the Achievement
@@ -277,9 +264,13 @@ class AchievementCreate(CreateView):
         # get the mission object
         mission = Mission.objects.get(id=mission_id)
         # get the links related to the mission
-        link = Link.objects.get(id=chosen_link_id)
+        link_descriptions, link_addresses = Link.get_mission_links(mission)
         # set the context
-        context = {"mission": mission, "link": link}
+        context = {
+            "mission": mission,
+            "link_description": link_descriptions[0],
+            "link_address": link_addresses[0]
+        }
         # return the response
         return render(request, self.template_name, context)
 
@@ -301,7 +292,7 @@ class AchievementCreate(CreateView):
             form.instance.quiz = quiz
         return super().form_valid(form)
 
-    def post(self, request, mission_id, chosen_link_id, quiz_slug=None):
+    def post(self, request, mission_id, quiz_slug=None):
         """
         Passes the id of the Mission the Achievement is for,
         as part of the POST request.
@@ -309,8 +300,6 @@ class AchievementCreate(CreateView):
         Parameters:
         request(HttpRequest): the GET request sent to the server
         mission_id(int): unique slug value of the Quiz instance
-        chosen_link_id(int): the id of the Link model we will use
-                             to complete the mission
 
         Returns:
         HttpResponseRedirect: the view of the detail template for the Achievement
