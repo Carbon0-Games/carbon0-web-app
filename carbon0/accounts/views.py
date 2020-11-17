@@ -219,7 +219,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         # define the template context
         context = {
             "is_footprint_green": is_footprint_green,
-            "footprint": user.profile.users_footprint,
+            "footprint": round(user.profile.users_footprint, 2),
             "profile": user.profile,
             "is_random": is_random,
             "missions": missions
