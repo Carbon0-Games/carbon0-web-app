@@ -105,13 +105,11 @@ class Quiz(models.Model):
 
     def get_unrelated_missions(self):
         """
-        Return Missions related to the Question for which the user 
+        Return Missions related to the Question for which the user
         does not necessarily need to improve.
         """
         # get all the ids of all Questions, removing affirmative ones
-        not_improvement_questions = (
-            Question.objects.exclude(pk__in=self.questions)
-        )
+        not_improvement_questions = Question.objects.exclude(pk__in=self.questions)
         # randomly sample missions
         missions = list()
         for question_obj in not_improvement_questions:

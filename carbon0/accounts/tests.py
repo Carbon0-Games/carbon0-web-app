@@ -113,10 +113,11 @@ class UserCreateTests(AchievementDetailTests):
 
 class ProfileViewTests(TestCase):
     """Test suite for the ProfileView."""
+
     # add initial data to the db
     fixtures = [
-        'question_data.json',
-        'mission_link_data.json',
+        "question_data.json",
+        "mission_link_data.json",
     ]
 
     def setUp(self):
@@ -127,7 +128,7 @@ class ProfileViewTests(TestCase):
         self.PASSWORD = "carbon0_ftw123"
         self.user = get_user_model().objects.create_user(
             "testing_user789",  # username
-            email="test@email.com", 
+            email="test@email.com",
             password=self.PASSWORD,
         )
         self.profile = Profile.objects.create(user=self.user).save()
@@ -142,8 +143,7 @@ class ProfileViewTests(TestCase):
         """
         # user logs in
         logged_in = self.client.login(
-            username=self.user.username, 
-            password=self.PASSWORD
+            username=self.user.username, password=self.PASSWORD
         )
         self.assertTrue(logged_in)
         # user sends a request to GET the view

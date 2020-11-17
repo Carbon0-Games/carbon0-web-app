@@ -148,20 +148,20 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "accounts/auth/profile.html"
 
     def _suggest_missions(self, user):
-        """Return uncompleted missions the User will most likely enjoy, 
+        """Return uncompleted missions the User will most likely enjoy,
         based on the following order:
 
         1. Missions in areas they need to improve on
         2. Missions in areas they have not said they need improvement in
-        3. If no missions are available for 1 or 2, 
+        3. If no missions are available for 1 or 2,
            then display 3 random missions.
 
         Parameter:
         user(User): the user making the request to the view
-        
-        Returns: 
-        is_random(bool): a flag to tell us if the missions were selected 
-                         randomly or not. Helps in deciding which partial 
+
+        Returns:
+        is_random(bool): a flag to tell us if the missions were selected
+                         randomly or not. Helps in deciding which partial
                          templates to use on the view
         QuerySet<Mission>: the missions suggested for the user
 
@@ -179,7 +179,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
         def get_non_improvement_missions(achievement):
             """
-            Get missions for the questions in areas in which the user 
+            Get missions for the questions in areas in which the user
             may already be strong.
             """
             missions = list()
@@ -190,7 +190,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         # grab the most recent Achievement
         user_achievements = Achievement.objects.filter(profile=user.profile)
         latest_achievement = user_achievements.order_by("id").last()
-        # grab missions for improvement questions 
+        # grab missions for improvement questions
         missions = get_improvement_missions(latest_achievement)
         # set a flag to track if the Missions are selectec randomly
         is_random = False
@@ -222,7 +222,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             "footprint": round(user.profile.users_footprint, 2),
             "profile": user.profile,
             "is_random": is_random,
-            "missions": missions
+            "missions": missions,
         }
         return render(request, self.template_name, context)
 

@@ -23,12 +23,12 @@ urlpatterns = [
     path(
         "achievement-create-link/<int:mission_id>/<slug:quiz_slug>/",
         AchievementCreateLink.as_view(),
-        name="achievement_create_link"
+        name="achievement_create_link",
     ),
     path(
         "achievement-create-link/<int:mission_id>/",
         AchievementCreateLink.as_view(),
-        name="achievement_create_link"
+        name="achievement_create_link",
     ),
     # Data for the Bar Charts
     path(

@@ -269,7 +269,7 @@ class AchievementCreate(CreateView):
         context = {
             "mission": mission,
             "link_description": link_descriptions[0],
-            "link_address": link_addresses[0]
+            "link_address": link_addresses[0],
         }
         # return the response
         return render(request, self.template_name, context)
