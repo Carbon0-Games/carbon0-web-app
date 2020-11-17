@@ -157,13 +157,17 @@ class FootprintOverTime(APIView):
                 # record the increase
                 data.append(footprint)
                 # record the label for this point
-                labels.append("Took Quiz")
+                labels.append("Completed Quiz")
             # decrease the footprint
-            footprint = a.reduce_footprint(footprint)
+            footprint = a.calculate_new_footprint()
             # record the new value
             data.append(footprint)
             # record the label for this point
             labels.append("Completed Mission")
+        # finally, add the current user footprint
+        if footprint != profile.users_footprint:
+            data.append(profile.users_footprint)
+            labels.append("Current Footprint")
         # return the response
         return Response(
             {"Events": labels, "Footprint": data}  # Time axis  # Vertical Axis
