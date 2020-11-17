@@ -3,7 +3,51 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block metadata %}
+<script>
+    $(function() {
+    setIFrameSize();
+    $(window).resize(function() {
+      setIFrameSize();
+    });
+  });
+  
+  function setIFrameSize() {
+    var ogWidth = 700;
+    var ogHeight = 600;
+    var ogRatio = ogWidth / ogHeight;
+  
+    var windowWidth = $(window).width();
+    if (windowWidth < 480) {
+      var parentDivWidth = $(".iframe-size").parent().width();
+      var newHeight = (parentDivWidth / ogRatio);
+      $(".iframe-size").addClass("iframe-class-resize");
+      $(".iframe-class-resize").css("width", parentDivWidth);
+      $(".iframe-class-resize").css("height", newHeight);
+    } else {
+      $(".iframe-size").removeClass("iframe-class-resize").css({
+        width: '',
+        height: ''
+      });
+    }
+  }
+</script>
+  
+{% endblock %}
+
 {% block content %}
+<style>
+    .iframe-container{
+        width: 100%;
+        height: 500px;
+    }
+    .iframe-size{
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+</style>
+
 <div style="background-color:#143963; height: 100vh;">
     <div class="container">
         <!-- Header -->
@@ -25,7 +69,9 @@
                             Preview Link: {{ link.description }}
                         </a>
                         <!-- Link Preview -->
-                        <iframe src="{{ link.address }}" width=500rem height=500rem></iframe>
+                        <div class="container" id="iframe-container">
+                            <iframe src="{{ link.address }}" id="iframe-size"></iframe>
+                        </div>
                     </p>
                 </div>
                 <!-- Mission Complete Button -->
