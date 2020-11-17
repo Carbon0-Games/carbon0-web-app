@@ -7,7 +7,11 @@ from django.test.client import RequestFactory
 from django.urls import reverse, reverse_lazy
 
 from carbon_quiz.models.achievement import Achievement
-from carbon_quiz.tests import AchievementDetailTests
+from carbon_quiz.tests import (
+    AchievementCreateTests,
+    AchievementDetailTests,
+)
+from .models import Profile
 from .views import UserCreate, ProfileView
 
 
@@ -107,19 +111,23 @@ class UserCreateTests(AchievementDetailTests):
         return None
 
 
-class ProfileViewTests(TestCase):
+class ProfileViewTests(AchievementCreateTests):
     """Test suite for the ProfileView."""
 
     def setUp(self):
         """Adds the db models needed for each test in this suite."""
+        # add initial data to the db
+        super().setUp()
         # instantiate the test client
         self.client = Client()
-        # add a User and their Profile to the db
+        # add a new User and their Profile to the db
+        self.PASSWORD = "carbon0_ftw123"
         self.user = get_user_model().objects.create_user(
-            "testing_user456",  # username
-            "test@email.com",  # email
-            "carbon0_ftw123",  # password
+            "testing_user789",  # username
+            email="test@email.com", 
+            password=self.PASSWORD,
         )
+        self.profile = Profile.objects.create(user=self.user).save()
         # url of the request
         self.url = reverse("accounts:settings")
         return None
@@ -130,7 +138,11 @@ class ProfileViewTests(TestCase):
         on the frontend.
         """
         # user logs in
-        self.client.login(username=self.user.username, password=self.password)
+        logged_in = self.client.login(
+            username=self.user.username, 
+            password=self.PASSWORD
+        )
+        self.assertTrue(logged_in)
         # user sends a request to GET the view
         response = self.client.get(self.url)
         # response is sent back OK
