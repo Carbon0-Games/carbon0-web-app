@@ -1,3 +1,6 @@
+# Credit to Mausam Gaurav, who posted the Dockerfile I used as a starting point
+# on this blog: 
+# https://datagraphi.com/blog/post/2020/8/30/docker-guide-build-a-fully-production-ready-machine-learning-app-with-react-django-and-postgresql-on-docker
 ###########
 # BUILDER #
 ###########
@@ -13,8 +16,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install dependencies
-COPY ./carbon0/requirements.txt .
-RUN python pip install -r carbon0/requirements.txt
+COPY ./requirements.txt .
+RUN python pip install -r ./requirements.txt
 
 
 #########
@@ -39,8 +42,8 @@ WORKDIR /usr/src/app
 # copy entrypoint.sh
 COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 
-# copy our django project
-COPY ./carbon0 .
+# copy our Django project
+COPY ./ .
 
 # run entrypoint.sh
 RUN chmod +x /usr/src/app/entrypoint.sh
