@@ -3,7 +3,16 @@
 {% load static %}
 <!-- List links for Mission Details -->
 {% block content %}
-    <div style="background-color:#143963">
+    <style>
+        #mission-list-main {
+            background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0%;
+        }
+    </style>
+
+    <div style="background-color:#143963" id="mission-list-main">
         <div class="container">
             <!-- Intro Text -->
             <div class="row pt-3" style="color:white;">

@@ -12,7 +12,16 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;">
+    <style>
+        #mission-results-main {
+            background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0%;
+        }
+    </style>
+
+    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;" id="mission-results-main">
         <div class="container pb-5">
             {% if is_random is False %}
                 {% include "partials/missions_suggested.html" %}

@@ -1,5 +1,14 @@
 {% load static %}
-<div class="card" style="width: 13rem; background-color:  #143963; border: 1px solid transparent;">
+<style>
+    #card{
+        /*  */
+        background-color: rgba(20, 57, 99, 0);
+        /* background-color:  #143963; */
+        width: 13rem;
+        border: 1px solid transparent;
+    }
+</style>
+<div class="card" id="card">
     <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
     <div class="card-body">
         <p class="card-text">{{ mission.action }}

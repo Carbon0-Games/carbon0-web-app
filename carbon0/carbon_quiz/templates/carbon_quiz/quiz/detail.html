@@ -32,7 +32,16 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;">
+    <style>
+        #quiz-detail-main {
+            background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0%;
+        }
+    </style>
+
+    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;" id="quiz-detail-main">
         {% if question %}
         {% else %}
             {% include 'partials/navbar.html' %}
