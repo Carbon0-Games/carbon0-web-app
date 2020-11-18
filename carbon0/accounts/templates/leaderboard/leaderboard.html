@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 
+<!-- Will NOT be extending the base.html background image -->
+{% block background %}{% endblock %}
+
 {% block content %}
 
 {% include 'partials/navbar.html' %}
