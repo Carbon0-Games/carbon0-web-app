@@ -157,13 +157,17 @@ class FootprintOverTime(APIView):
                 # record the increase
                 data.append(footprint)
                 # record the label for this point
-                labels.append("Took Quiz")
+                labels.append("Completed Quiz")
             # decrease the footprint
-            footprint = a.reduce_footprint(footprint)
+            footprint = a.calculate_new_footprint()
             # record the new value
             data.append(footprint)
             # record the label for this point
             labels.append("Completed Mission")
+        # finally, add the current user footprint
+        if footprint != profile.users_footprint:
+            data.append(profile.users_footprint)
+            labels.append("Current Footprint")
         # return the response
         return Response(
             {"Events": labels, "Footprint": data}  # Time axis  # Vertical Axis
@@ -173,16 +177,16 @@ class FootprintOverTime(APIView):
 class AchievementCreateLink(APIView):
     def get(self, request, mission_id, quiz_slug=None):
         """Returns a fully-qualified path to AchievementCreate,
-           given a Mission and Quiz instance. 
-        
-           We have the ASSUMPTION that there is only one Link object 
-           related to the Mission.
+        given a Mission and Quiz instance.
 
-           Parameters:
-           mission_id(int): id field of a Mission instance
-           quiz_slug(str): slug value of one of the Quizzes
+        We have the ASSUMPTION that there is only one Link object
+        related to the Mission.
 
-           Returns: str for the URL path
+        Parameters:
+        mission_id(int): id field of a Mission instance
+        quiz_slug(str): slug value of one of the Quizzes
+
+        Returns: str for the URL path
 
         """
         # get the Link related to the Mission
@@ -193,10 +197,5 @@ class AchievementCreateLink(APIView):
         if quiz_slug is not None:
             arguments.append(quiz_slug)
         # form and return the path
-        path = reverse(
-            "carbon_quiz:achievement_create",
-            args=arguments
-        )
+        path = reverse("carbon_quiz:achievement_create", args=arguments)
         return path
-
- 

@@ -1,0 +1,39 @@
+<!-- QuizDetail template: User is viewing their Missions based on the Quiz -->
+<!-- carbon0/carbon_quiz/templates/carbon_quiz/mission/results.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block metadata %}
+    <!-- Chart.js and Chartjs-Gauge -->
+    <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+    <script src="https://unpkg.com/chartjs-gauge@0.2.0/dist/chartjs-gauge.js"></script>
+    <!-- Data Labels Plug-in for Chart.js -->
+    <script src="https://unpkg.com/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;">
+        <div class="container pb-5">
+            {% if is_random is False %}
+                {% include "partials/missions_suggested.html" %}
+            <!-- if no missions for the user -->
+            {% else %}
+                {% include "partials/missions_not_suggested.html" %}
+            {% endif %}
+
+            <!-- Show the Missions -->
+            {% include "partials/mission_collection.html" %}
+
+            <!-- Carbon Value Card -->
+            <div class="row pt-4 justify-content-center">
+                {% include "partials/quiz_footprint.html" %}
+            </div>
+            <div class="row justify-content-center">
+                <!-- Link to All Uncompleted Missions -->
+                <a class="btn btn-secondary mt-5" href="{% url 'carbon_quiz:mission_list'%}">
+                    Want More Missions?
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

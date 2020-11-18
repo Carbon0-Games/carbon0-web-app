@@ -474,14 +474,14 @@ class AchievementCreateTests(QuizDetailTests):
         request = self.factory.post(
             reverse(
                 "carbon_quiz:achievement_create",
-                kwargs={
-                    "mission_id": self.missions[0].id
-                },
+                kwargs={"mission_id": self.missions[0].id},
             )
         )
         request.user = self.user
         # user gets a response
-        response = AchievementCreate.as_view()(request, self.missions[0].id, self.quiz.slug)
+        response = AchievementCreate.as_view()(
+            request, self.missions[0].id, self.quiz.slug
+        )
         # user is redirected
         self.assertEquals(response.status_code, 302)
         # test that Achievement is made after the request

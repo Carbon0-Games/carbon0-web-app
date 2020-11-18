@@ -37,6 +37,10 @@ class Quiz(models.Model):
         default=1000,
         help_text="Total metric tons of carbon that the user can eliminate.",
     )
+    open_response_answers = ArrayField(
+        models.TextField(null=True, blank=True, help_text="User's response."),
+        default=list
+    )
 
     def __str__(self):
         """Returns human-readable name of the Quiz."""
@@ -98,20 +102,21 @@ class Quiz(models.Model):
             if question_id > 0:
                 # get a mission related to the Question
                 question_obj = Question.objects.get(id=question_id)
-                mission = Mission.get_related_mission(question_obj)
-                # add to the list of Missions
-                missions.append(mission)
+                # TODO: add Missions related to open-response questions
+                # for now, we'll just only get missions for yes/no questions
+                if question_obj.improvement_response > -1:
+                    mission = Mission.get_related_mission(question_obj)
+                    # add to the list of Missions
+                    missions.append(mission)
         return missions
 
     def get_unrelated_missions(self):
         """
-        Return Missions related to the Question for which the user 
+        Return Missions related to the Question for which the user
         does not necessarily need to improve.
         """
         # get all the ids of all Questions, removing affirmative ones
-        not_improvement_questions = (
-            Question.objects.exclude(pk__in=self.questions)
-        )
+        not_improvement_questions = Question.objects.exclude(pk__in=self.questions)
         # randomly sample missions
         missions = list()
         for question_obj in not_improvement_questions:

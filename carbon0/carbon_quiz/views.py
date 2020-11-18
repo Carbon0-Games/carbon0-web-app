@@ -14,6 +14,7 @@ from django.views.generic.edit import (
 from django.views.generic import ListView
 from mixpanel import Mixpanel, MixpanelException
 
+from .forms import QuizForm
 from .models.link import Link
 from .models.mission import Mission
 from accounts.models import Profile
@@ -109,11 +110,14 @@ class QuizCreate(CreateView):
         return super().form_valid(form)
 
 
-class QuizDetail(DetailView):
+class QuizDetail(UpdateView):
     """Displays questions on the quiz to answer, or the missions to complete."""
-
+  
     model = Quiz
-    template_name = "carbon_quiz/quiz/detail.html"
+    quiz_template_name = "carbon_quiz/quiz/detail.html"
+    mission_template_name = "carbon_quiz/mission/results.html"
+    queryset = Quiz.objects.all()
+    form_class = QuizForm
 
     def get(self, request, slug, question_number):
         """
@@ -129,26 +133,28 @@ class QuizDetail(DetailView):
         HttpResponse: the view of the detail template for the Quiz
 
         """
-        # get the Quiz instance
-        quiz = Quiz.objects.get(slug=slug)
-        # set the context
-        context = {"quiz": quiz}
-        # init the other key value pairs, which we will set later
-        additional_key_value_pairs = list()
-        # if the next question needs to be shown
-        if quiz.active_question < 5:
+        
+        def display_quiz_question(quiz):
+            """
+            Gets the current question to display on the quiz.
+            Return the name of the template for quiz questions.
+            """
             # get the current Question
             question_obj = quiz.get_current_question()
             # set the addtional key value pairs to the context
-            additional_key_value_pairs = [
+            key_value_pairs = [
                 ("question", question_obj),
             ]
-        # otherwise show the mission start page
-        else:  #  quiz.active_question == 5:
+            return key_value_pairs, self.quiz_template_name
+        def display_mission_results(user):
+            """
+            Gets Missions to best match the user's answers to the quiz.
+            Return the name of the template for resulting missions.
+            """
             # if the user is logged in, acculmulate their total footprint
             if request.user.is_authenticated is True:
                 # get the User profile
-                profile = Profile.objects.get(user=request.user)
+                profile = Profile.objects.get(user=user)
                 # update their profile's footprint
                 profile.increase_user_footprint(quiz)
             # set a flag to tell if the Missions are random
@@ -162,10 +168,28 @@ class QuizDetail(DetailView):
             # finally, take out missions completed before
             missions = filter_completed_missions(missions, request.user)
             # set the additional key value pairs
-            additional_key_value_pairs = [
+            key_value_pairs = [
                 ("missions", missions),  # possible missions for the user
                 ("is_random", is_random),
             ]
+            return key_value_pairs, self.mission_template_name
+        # get the Quiz instance
+        quiz = Quiz.objects.get(slug=slug)
+        # set the context
+        context = {"quiz": quiz}
+        # init the other key value pairs, which we will set later
+        additional_key_value_pairs = list()
+        # if the next question needs to be shown
+        if quiz.active_question < 5:
+            # get the current Question
+            additional_key_value_pairs, template_name = (
+                display_quiz_question(quiz)
+            )
+        # otherwise show the mission start page
+        else:  #  quiz.active_question == 5:
+            additional_key_value_pairs, template_name = (
+                display_mission_results(request.user)
+            )
         # add the Mixpanel token
         additional_key_value_pairs.append(
             ("MP_PROJECT_TOKEN", settings.MP_PROJECT_TOKEN)
@@ -173,7 +197,53 @@ class QuizDetail(DetailView):
         # add additional key value pairs to the context
         context.update(additional_key_value_pairs)
         # return the response
-        return render(request, self.template_name, context)
+        return render(request, template_name, context)
+    """
+    def get_success_url(self):
+        '''Returns the URL to go back to the QuizDetail view.'''
+        quiz = self.get_object()
+        path_components = {
+            "slug": quiz.slug,
+            # for the question number, increment zero-indexed number
+            "question_number": quiz.active_question + 1,
+        }
+        return HttpResponseRedirect(reverse_lazy(
+            "carbon_quiz:quiz_detail", kwargs=path_components
+        )) 
+    """
+    def form_valid(self, form, slug):
+         # get the Quiz and current Question
+        quiz = Quiz.objects.get(slug=slug)
+        question_obj = quiz.get_current_question()
+        # increment the total carbon value of this quiz so far
+        quiz.increment_carbon_value(question_obj)
+        # increment the active_question for the next call
+        quiz.increment_active_question()
+        # add to the Quiz model's answers, and redirect to the next page
+        new_answer = form.cleaned_data['open_response_answers'][0]
+        quiz.open_response_answers.append(new_answer)
+        quiz.save()
+        return HttpResponseRedirect(quiz.get_absolute_url())
+
+    def post(self, request, slug, question_number):
+        """
+        Processes the response to an open response question, 
+        and moves on to the next part of the quiz.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        slug(slug): unique slug value of the Quiz instance
+        question_number(int): the number of the question in the quiz
+
+        Returns:
+        HttpResponseRedirect: the view of the detail template for the Quiz
+
+        """
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            return self.form_valid(form, slug)
+        else:
+            return self.form_invalid(form)
 
 
 class MissionList(ListView):
@@ -269,7 +339,7 @@ class AchievementCreate(CreateView):
         context = {
             "mission": mission,
             "link_description": link_descriptions[0],
-            "link_address": link_addresses[0]
+            "link_address": link_addresses[0],
         }
         # return the response
         return render(request, self.template_name, context)

@@ -1,4 +1,4 @@
-<!-- QuizDetail template -->
+<!-- QuizDetail template: User is viewing a Question -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/quiz/detail.html -->
 {% extends "base.html" %}
 {% load static %}
@@ -31,26 +31,29 @@
 
 {% endblock %}
 
-
 {% block content %}
     <div style="background-color:#143963; min-height: 100vh; overflow: hidden;">
+        {% if question %}
+        {% else %}
+            {% include 'partials/navbar.html' %}
+        {% endif %}
         <div class="container pb-5">
-            <!-- if User is viewing a Question -->
-            {% if question %}
-                <!-- Header -->
-                <h1 class="row">
-                    <h1 class="mt-2" style="color:white;">Carbon Calculator</h1>
-                </h1>
-                <!-- Ask the Question -->
-                <div class="row mt-3">
-                    <p class="text-white ml-5 mr-5">
-                        {{ question.question_text }}
-                    </p>
-                </div>
-                <!-- Show the buzzers, Capt Joy, and info box -->
-                <div class="row">
-                    <!-- buzzers and info -->
-                    <div class="col-md-8">
+            <!-- Header -->
+            <h1 class="row">
+                <h1 class="mt-2" style="color:white;">Carbon Calculator</h1>
+            </h1>
+            <!-- Ask the Question -->
+            <div class="row mt-3">
+                <p class="text-white ml-5 mr-5">
+                    {{ question.question_text }}
+                </p>
+            </div>
+            <!-- Show the buzzers, Capt Joy, and info box -->
+            <div class="row">
+                <!-- buzzers and info -->
+                <div class="col-md-8">
+                    {% if question.improvement_response != -1 %}
+                        <!-- Answer Section for Yes/No Questions -->
                         <div class="row">
                             <!-- JS function to go to the next quiz question -->
                             {% include 'partials/next_question_script.html' %}
@@ -64,40 +67,32 @@
                                         class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">NO</button>
                             </div>
                         </div>
+                    {% else %}
+                        <!-- Answer Section for Open Response Questions -->
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="text-white" for="openAnswer">Answer Here</label>
+                                <input type="text" class="form-control"
+                                    name="open_response_answers" id="openAnswer" 
+                                    aria-describedby="answerField"
+                                    placeholder="Enter your response to the question">
+                                <small id="answerHelp" class="form-text text-white">We'll use this to personalize your missions!</small>
+                            </div>
+                            <input type="submit" value="Submit Answer" class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">
+                        </form>
+                    {% endif %}
 
-                        <div class="row justify-content-center">
-                                <!-- Carbon Value Card -->
-                                {% include "partials/quiz_footprint.html" %}
-                        </div>
+                    <div class="row justify-content-center">
+                        <!-- Carbon Value Card -->
+                        {% include "partials/quiz_footprint.html" %}
                     </div>
-                    <div class="col-md-4 justify-content-center">
-                        <!-- Captain Joy -->
-                        {% include "partials/captain_joy_image.html" %}
-                    </div>
                 </div>
-            <!-- if User is viewing their Missions -->
-            {% else %}
-                {% if is_random is False %}
-                    {% include "partials/missions_suggested.html" %}
-                <!-- if no missions for the user -->
-                {% else %}
-                    {% include "partials/missions_not_suggested.html" %}
-                {% endif %}
-
-                <!-- Show the Missions -->
-                {% include "partials/mission_collection.html" %}
-
-                <!-- Carbon Value Card -->
-                <div class="row pt-4 justify-content-center">
-                    {% include "partials/quiz_footprint.html" %}
+                <div class="col-md-4 justify-content-center">
+                    <!-- Captain Joy -->
+                    {% include "partials/captain_joy_image.html" %}
                 </div>
-                <div class="row justify-content-center">
-                    <!-- Link to All Uncompleted Missions -->
-                    <a class="btn btn-secondary mt-5" href="{% url 'carbon_quiz:mission_list'%}">
-                        Want More Missions?
-                    </a>
-                </div>
-            {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}
