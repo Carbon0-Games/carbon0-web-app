@@ -86,8 +86,8 @@ DATABASES = {
         "NAME": "carbon0",
         "USER": "postgres",
         "PASSWORD": str(os.getenv("DATABASE_PASSWORD")),
-        "HOST": "",
-        "PORT": "5432",
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 
@@ -141,16 +141,16 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # AWS S3 Variables
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME", "")
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # Facebook variables
-FACEBOOK_SHARING_APP_ID = os.getenv("FACEBOOK_SHARING_APP_ID")
+FACEBOOK_SHARING_APP_ID = os.getenv("FACEBOOK_SHARING_APP_ID", "")
 
 # Social Auth settings
 SOCIAL_AUTH_URL_NAMESPACE = "social"
@@ -169,11 +169,15 @@ LOGIN_REDIRECT_URL = "accounts:settings"
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
 # SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
-SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("SOCIAL_AUTH_FACEBOOK_KEY")
-SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("SOCIAL_AUTH_FACEBOOK_SECRET")
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("SOCIAL_AUTH_FACEBOOK_KEY", "")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("SOCIAL_AUTH_FACEBOOK_SECRET", "")
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = (
+    os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY", "")
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = (
+    os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", "")
+)
 
 SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ["secret_id"]
 
@@ -189,19 +193,6 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
 )
-
-# File paths for the Zeron model files
-DIET_ZERON_PATHS = [str(os.getenv("DIET_GLB")), str(os.getenv("DIET_USDZ"))]
-TRANSIT_ZERON_PATHS = [str(os.getenv("TRANSIT_GLB")), str(os.getenv("TRANSIT_USDZ"))]
-RECYCLING_ZERON_PATHS = [
-    str(os.getenv("RECYCLING_GLB")),
-    str(os.getenv("RECYCLING_USDZ")),
-]
-AT_ZERON_PATHS = [str(os.getenv("AT_GLB")), str(os.getenv("AT_USDZ"))]
-UTIL_ZERON_PATHS = [str(os.getenv("UTIL_GLB")), str(os.getenv("UTIL_USDZ"))]
-
-# Mixpanel Project Token
-MP_PROJECT_TOKEN = str(os.getenv("MP_PROJECT_TOKEN"))
 
 # Convert the DATABASE_URL environment variable into what Django understands
 db_from_env = dj_database_url.config()
