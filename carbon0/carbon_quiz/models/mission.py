@@ -35,7 +35,17 @@ class Mission(models.Model):
     )
     is_stationary = models.BooleanField(
         default=False,
-        help_text=("Does the player need to get off the couch to complete this?"),
+        help_text=(
+            "Does the player need to get off the " +
+            "couch to complete the mission?"
+            ),
+    )
+    is_paid = models.BooleanField(
+        default=False,
+        help_text=(
+            "Does it cost anything for the player " +
+            "to complete the mission"
+        ),
     )
 
     def __str__(self):
