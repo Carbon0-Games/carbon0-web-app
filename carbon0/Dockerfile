@@ -6,7 +6,7 @@
 ###########
 
 # pull official base image
-FROM python:3.9.0-slim as builder
+FROM python:3.9.0-buster as builder
 
 # set work directory
 WORKDIR /usr/src/app
@@ -15,9 +15,11 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# export the path to pg_config (helps in installing psycopg2-binary)
+
 # install dependencies
 COPY ./requirements.txt .
-RUN python pip install -r ./requirements.txt
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
 
 
 #########
@@ -25,7 +27,7 @@ RUN python pip install -r ./requirements.txt
 #########
 
 # pull official base image
-FROM python:3.9.0-slim
+FROM python:3.9.0-buster
 
 # installing netcat (nc) since we are using that to listen to postgres server in entrypoint.sh
 RUN apt-get update && apt-get install -y --no-install-recommends netcat && \
@@ -34,7 +36,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends netcat && \
     rm -rf /var/lib/apt/lists/*
 
 # install dependencies
+COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
+RUN pip install --no-cache /wheels/*
 
 # set work directory
 WORKDIR /usr/src/app
