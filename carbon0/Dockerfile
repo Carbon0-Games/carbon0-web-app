@@ -1,54 +1,50 @@
 # Credit to Mausam Gaurav, who posted the Dockerfile I used as a starting point
 # on this blog: 
 # https://datagraphi.com/blog/post/2020/8/30/docker-guide-build-a-fully-production-ready-machine-learning-app-with-react-django-and-postgresql-on-docker
+
 ###########
 # BUILDER #
 ###########
 
 # pull official base image
-FROM python:3.9.0-buster as builder
+FROM node:15.2.1-alpine3.10 as builder
 
 # set work directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/
 
-# Don't write to pyc files, and log messages (helps with debugging)
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# install dependencies and avoid `node-gyp rebuild` errors
+COPY ./package.json .
+COPY ./webpack.config.js .
+RUN apk add --no-cache --virtual .gyp \
+        python \
+        make \
+        g++ \
+    && npm install \
+    && apk del .gyp
 
-# export the path to pg_config (helps in installing psycopg2-binary)
+# copy our react project
+COPY ./react_leaderboard .
+COPY ./.babelrc .
+RUN ls
 
-# install dependencies
-COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
-
+# perform npm build
+# ARG API_SERVER
+# ENV REACT_APP_API_SERVER=${API_SERVER}
+# RUN REACT_APP_API_SERVER=${API_SERVER} \
+RUN npm run build ./src
 
 #########
 # FINAL #
 #########
 
 # pull official base image
-FROM python:3.9.0-buster
-
-# installing netcat (nc) since we are using that to listen to postgres server in entrypoint.sh
-RUN apt-get update && apt-get install -y --no-install-recommends netcat && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# install dependencies
-COPY --from=builder /usr/src/app/wheels /wheels
-COPY --from=builder /usr/src/app/requirements.txt .
-RUN pip install --no-cache /wheels/*
+FROM node:15.2.1-alpine3.10
 
 # set work directory
 WORKDIR /usr/src/app
 
-# copy entrypoint.sh
-COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+# install serve - deployment static server suggested by official create-react-app
+RUN npm install -g serve
 
-# copy our Django project
-COPY ./ .
-
-# run entrypoint.sh
-RUN chmod +x /usr/src/app/entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+# copy our build files from our builder stage
+COPY --from=builder /usr/src/app/build ./build
