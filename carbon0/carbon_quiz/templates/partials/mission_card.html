@@ -1,6 +1,17 @@
 {% load static %}
 <div class="card" style="width: 13rem; background-color:  #143963; border: 1px solid transparent;">
-    <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
+    {% if mission.question.category == 'A' %}
+        <img src="{% static 'icons/Flying.png' %}" class="card-img-top" alt="...">
+        {% elif mission.question.category == 'D' %}
+        <img src="{% static 'icons/Veggie_Bowl.png' %}" class="card-img-top" alt="...">
+        {% elif mission.question.category == 'T' %}
+        <img src="{% static 'icons/Gasoline_Transport.png' %}" class="card-img-top" alt="...">
+        {% elif mission.question.category == 'R' %}
+        <img src="{% static 'icons/Recycling.png' %}" class="card-img-top" alt="...">
+        {% elif mission.question.category == 'U' %}
+        <img src="{% static 'icons/Solar_Panel.png' %}" class="card-img-top" alt="...">
+    {% endif %}
+
     <div class="card-body">
         <p class="card-text">{{ mission.action }}
             <br>
