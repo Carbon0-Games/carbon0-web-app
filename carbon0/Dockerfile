@@ -15,6 +15,11 @@ WORKDIR /usr/src/app/
 # install dependencies and avoid `node-gyp rebuild` errors
 COPY ./package.json .
 COPY ./webpack.config.js .
+COPY ./static .
+# copy our react project
+COPY ./react_leaderboard .
+COPY ./.babelrc .
+RUN ls
 RUN apk add --no-cache --virtual .gyp \
         python \
         make \
@@ -22,10 +27,6 @@ RUN apk add --no-cache --virtual .gyp \
     && npm install \
     && apk del .gyp
 
-# copy our react project
-COPY ./react_leaderboard .
-COPY ./.babelrc .
-RUN ls
 
 # perform npm build
 # ARG API_SERVER
