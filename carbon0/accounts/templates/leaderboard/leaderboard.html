@@ -1,13 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
 
-<!-- Will NOT be extending the base.html background image -->
-{% block background %}{% endblock %}
 
 {% block content %}
+<style>
+    html, body{
+        height: 100%;
+        margin: 0;
+    }
+    #main {
+        background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin: 0%;
+        overflow: hidden;
+        max-height: 100%;
+        height: 100vh;
+    }
+</style>
 
 {% include 'partials/navbar.html' %}
-<div id="app" style="display: flex; justify-content: center; align-items: center;"></div>
-<script src="{% static 'js/leaderboard.js' %}"> </script>
+<div id="main">
+    <div id="app" style="display: flex; justify-content: center; align-items: center;"></div>
+    <script src="{% static 'js/leaderboard.js' %}"> </script>
+</div>
 
 {% endblock %}
