@@ -45,6 +45,7 @@ class QuizUpdate(APIView):
         # otherwise:
         else:
             # increment the total carbon value of this quiz so far
+            quiz.previous_carbon_value = quiz.carbon_value_total
             quiz.increment_carbon_value(question_obj)
         # increment the active_question for the next call
         quiz.increment_active_question()
