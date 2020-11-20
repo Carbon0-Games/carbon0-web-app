@@ -9,9 +9,13 @@ services:
       - django_static_volume:/usr/src/app/static
     expose:
       - 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE=postgres
     env_file:
       - ./carbon0/.env
-    command: gunicorn carbon0.wsgi:application --bind 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     depends_on:
       - db
   db:
