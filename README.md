@@ -46,8 +46,28 @@ All while having fun!
 ## How to Run Locally
 Please follow these steps to be able to run the project:
 
+### Option 1: Using Docker and Docker-Compose
 
-### __Initial Setup__
+#### Prerequisite:
+
+Make sure you have the latest version of [Docker](https://www.docker.com/get-started) installed. If you are not on macOS or experience any trouble installing Docker Compose, check out the [Docker documentation](https://docs.docker.com/compose/install/).
+
+#### Instructions
+
+1. Once you have done so and have also cloned the repository locally, you can run the project using `docker-compose` in the root directory:
+
+        ``` 
+        docker-compose up --build
+        ```
+
+2. Then you can view the project at [http://localhost:8000](http://localhost:8000).
+
+You can also open up Docker Desktop, and view the health of the `carbon0-web-app` container on a panel that will look something like below:
+
+![Screenshot from Docker Desktop](https://i.postimg.cc/wvGHhhD8/Screen-Shot-2020-11-20-at-10-27-24-AM.png)
+
+### Option 2: Using `virtualenv`: 
+#### __Initial Setup__
 
 1. In the folder of your choice, type `git clone https://github.com/Carbon0-Games/carbon0-web-app.git` into the command line.
 2. Setup the folder as you wish while following these instructions
