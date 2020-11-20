@@ -18,6 +18,8 @@ services:
     image: postgres:12.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./carbon0/postgres/.env
   react:
     build:
       context: ./carbon0
@@ -37,7 +39,7 @@ services:
       - django_static_volume:/usr/src/app/django_files/static
       - react_static_volume:/usr/src/app/react_files/static
     ports:
-      - 80:80
+      - 8080:8080
     depends_on:
       - react
 

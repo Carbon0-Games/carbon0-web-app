@@ -5,6 +5,7 @@
 # https://datagraphi.com/blog/post/2020/8/30/docker-guide-build-a-fully-production-ready-machine-learning-app-with-react-django-and-postgresql-on-docker
 
 # make sure PostgreSQL is running before we migrate data and SQL schema
+export DATABASE=postgres
 if [ "$DATABASE" = "postgres" ]
 then
     echo "Waiting for postgres..."
