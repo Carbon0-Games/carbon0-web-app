@@ -42,6 +42,8 @@ class Quiz(models.Model):
         default=list
     )
 
+    previous_carbon_value = models.FloatField(blank=True, default=1, editable=False)
+
     def __str__(self):
         """Returns human-readable name of the Quiz."""
         return f"{self.title}"
@@ -70,7 +72,7 @@ class Quiz(models.Model):
         Returns: None
 
         """
-        self.carbon_value_total += question.carbon_value
+        self.carbon_value_total += question.carbon_value 
         self.save()
         return None
 
