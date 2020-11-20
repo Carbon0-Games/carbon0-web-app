@@ -72,7 +72,7 @@ class Quiz(models.Model):
         Returns: None
 
         """
-        self.carbon_value_total += question.carbon_value
+        self.carbon_value_total += question.carbon_value 
         self.previous_carbon_value = self.carbon_value_total - question.carbon_value
         self.save()
         return None
