@@ -1,14 +1,23 @@
 {% load static %}
-<div class="card" style="width: 13rem; background-color:  #143963; border: 1px solid transparent;">
+<style>
+    #card{
+        /*  */
+        background-color: rgba(20, 57, 99, 0);
+        /* background-color:  #143963; */
+        width: 13rem;
+        border: 1px solid transparent;
+    }
+</style>
+<div class="card" id="card">
     {% if mission.question.category == 'A' %}
         <img src="{% static 'icons/Flying.png' %}" class="card-img-top" alt="...">
-        {% elif mission.question.category == 'D' %}
+    {% elif mission.question.category == 'D' %}
         <img src="{% static 'icons/Veggie_Bowl.png' %}" class="card-img-top" alt="...">
-        {% elif mission.question.category == 'T' %}
+    {% elif mission.question.category == 'T' %}
         <img src="{% static 'icons/Gasoline_Transport.png' %}" class="card-img-top" alt="...">
-        {% elif mission.question.category == 'R' %}
+    {% elif mission.question.category == 'R' %}
         <img src="{% static 'icons/Recycling.png' %}" class="card-img-top" alt="...">
-        {% elif mission.question.category == 'U' %}
+    {% elif mission.question.category == 'U' %}
         <img src="{% static 'icons/Solar_Panel.png' %}" class="card-img-top" alt="...">
     {% endif %}
 

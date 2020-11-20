@@ -3,8 +3,17 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+    <style>
+        #mission-detail-main {
+            background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0%;
+        }
+    </style>
+
     {% include 'partials/navbar.html' %}
-    <div style="background-color:#143963; height: 100vh;">
+    <div style="background-color:#143963; height: 100vh;" id="mission-detail-main">
         <div class="container">
             <!-- Header -->
             <h1 class="row mt-2 mx-2" style="color:white;">

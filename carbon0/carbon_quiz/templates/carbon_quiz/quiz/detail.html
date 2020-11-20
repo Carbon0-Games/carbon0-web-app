@@ -40,29 +40,33 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;">
+    <style>
+        #quiz-detail-main {
+            background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0%;
+        }
+    </style>
+
+    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;" id="quiz-detail-main">
         {% if question %}
         {% else %}
             {% include 'partials/navbar.html' %}
         {% endif %}
         <div class="container pb-5">
             <!-- Header -->
-            <h1 class="row">
-                <h1 class="mt-2" style="color:white;">Carbon Calculator</h1>
-            </h1>
+            <h1 class="mt-2" style="color:#3FC5F0; font-weight: 500; font-size: 40;">Carbon Calculator</h1>
             <!-- Ask the Question -->
-            <div class="row mt-3">
-                <p class="text-white ml-5 mr-5">
-                    {{ question.question_text }}
-                </p>
-            </div>
-            <!-- Show the buzzers, Capt Joy, and info box -->
-            <div class="row">
-                <!-- buzzers and info -->
-                <div class="col-md-8">
+            <h2 class="text-white mx-5" style="font-weight: 500; font-size: 30px;">{{ question.question_text }}</h2>
+           
+
+            <div class="row justify-content-center">
+                <!-- Show the buzzers and info box -->
+                <div class="row justify-content-center" style="width: 100%;">
                     {% if question.improvement_response != -1 %}
                         <!-- Answer Section for Yes/No Questions -->
-                        <div class="row">
+                        <div class="row justify-content-center">
                             <!-- JS function to go to the next quiz question -->
                             {% include 'partials/next_question_script.html' %}
                             <!-- Yes and No Buzzers-->
@@ -84,22 +88,17 @@
                                 <input type="text" class="form-control"
                                     name="open_response_answers" id="openAnswer" 
                                     aria-describedby="answerField"
-                                    placeholder="Enter your response to the question">
+                                    placeholder="Enter your response to the question" style="width:100%;">
                                 <small id="answerHelp" class="form-text text-white">We'll use this to personalize your missions!</small>
                             </div>
                             <input type="submit" value="Submit Answer" class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">
                         </form>
                     {% endif %}
-
-                    <div class="row justify-content-center">
-                        <!-- Carbon Value Card -->
-                        {% include "partials/quiz_footprint.html" %}
-                    </div>
                 </div>
-                <div class="col-md-4 justify-content-center">
-                    <!-- Captain Joy -->
-                    {% include "partials/captain_joy_image.html" %}
-                </div>
+            </div>
+            <div class="row justify-content-center">
+                <!-- Carbon Value Card -->
+                {% include "partials/quiz_footprint.html" %}
             </div>
         </div>
     </div>
