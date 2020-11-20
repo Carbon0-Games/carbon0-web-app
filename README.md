@@ -56,9 +56,7 @@ Make sure you have the latest version of [Docker](https://www.docker.com/get-sta
 
 1. Once you have done so and have also cloned the repository locally, you can run the project using `docker-compose` in the root directory:
 
-        ``` 
         docker-compose up --build
-        ```
 
 2. Then you can view the project at [http://localhost:8000](http://localhost:8000).
 
