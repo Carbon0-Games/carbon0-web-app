@@ -11,17 +11,14 @@ services:
       - 8000
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE=postgres
-      - DB_HOST=db
     env_file:
-      - ./carbon0/.env
+      - ./carbon0/.docker_env
     depends_on:
       - db
   db:
     image: postgres
     env_file:
-      - ./carbon0/postgres/.env
+      - ./carbon0/postgres/.docker_env
   react:
     build:
       context: ./carbon0

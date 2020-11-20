@@ -1,0 +1,5 @@
+POSTGRES_DB=carbon0
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres_password
+DB_PORT=5432
+DB_HOST=db
