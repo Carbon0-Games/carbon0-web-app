@@ -41,7 +41,7 @@ class QuizUpdate(APIView):
         if question_response != question_obj.improvement_response:
             # ignore the question later, when finding missions
             quiz.questions[quiz.active_question] = 0
-            quiz.previous_carbon_value = 1000
+            # quiz.previous_carbon_value = 1000
         # otherwise:
         else:
             # increment the total carbon value of this quiz so far
