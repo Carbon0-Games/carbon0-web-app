@@ -4,10 +4,21 @@
         <h4 class="card-title" style="color:#3FC5F0; font-weight: 500; font-size: x-large">Your Carbon Footprint</h4>
         <!-- <h6 class="card-subtitle mb-2">Based on Questions Answered "No"</h6> -->
         <p class="card-text text-white">{{ quiz.carbon_value_total }} metric tons CO2</p>
-        <!-- Display of gauge Chart -->
-        <canvas id="carbonCalculator" width="700rem" height="560rem"></canvas>
-        <!-- JS to make the gauge chart -->
+
+
+        <div id="chartdiv" style="width: 450px; height: 260px;"></div>
+
         <script type="module">
+            import { footprintPlot } from '../../../../static/js/amGuageChart.js';
+            footprintPlot(1, {{ quiz.carbon_value_total }})
+        </script>
+
+
+        <!-- Display of gauge Chart -->
+        <!-- <canvas id="carbonCalculator" width="700rem" height="560rem"></canvas> -->
+
+        <!-- JS to make the gauge chart -->
+        <!-- <script type="module">
             import {carbonCalculator} from '../../../../static/js/carbonCalculator.js';
             $(document).ready(function () {
                 // get the data on the carbon footprint from the API
@@ -19,7 +30,9 @@
                     url: endpoint,
                     success: function (data) {
                         plotLabels = data.labels
+                        console.log(plotLabels)
                         plotData = data.footprint
+                        console.log(plotData)
                         carbonCalculator(plotLabels, plotData)
                     },
                     error: function (error_data) {
@@ -27,6 +40,7 @@
                     }
                 })
             })
-        </script>
+        </script> -->
+
     </div>
 </div>
