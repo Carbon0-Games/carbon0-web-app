@@ -10,7 +10,7 @@
 
         <script type="module">
             import { footprintPlot } from '../../../../static/js/amGuageChart.js';
-            footprintPlot(1, {{ quiz.carbon_value_total }})
+            footprintPlot({{ quiz.previous_carbon_value }}, {{ quiz.carbon_value_total }})
         </script>
 
 
