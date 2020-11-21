@@ -166,7 +166,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         QuerySet<Mission>: the missions suggested for the user
 
         """
-
         def get_improvement_missions(achievement):
             """
             Get missions for the questions in areas
@@ -175,6 +174,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             missions = list()
             if achievement is not None and achievement.quiz is not None:
                 missions = achievement.quiz.get_related_missions()
+                # get only the missions not yet completed by the user
+                missions = cqv.filter_completed_missions(missions, user)
             return missions
 
         def get_non_improvement_missions(achievement):
@@ -185,6 +186,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             missions = list()
             if achievement is not None and achievement.quiz is not None:
                 missions = achievement.quiz.get_unrelated_missions()
+                # get only the missions not yet completed by the user
+                missions = cqv.filter_completed_missions(missions, user)
             return missions
 
         # grab the most recent Achievement

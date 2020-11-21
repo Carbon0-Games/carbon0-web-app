@@ -198,19 +198,7 @@ class QuizDetail(UpdateView):
         context.update(additional_key_value_pairs)
         # return the response
         return render(request, template_name, context)
-    """
-    def get_success_url(self):
-        '''Returns the URL to go back to the QuizDetail view.'''
-        quiz = self.get_object()
-        path_components = {
-            "slug": quiz.slug,
-            # for the question number, increment zero-indexed number
-            "question_number": quiz.active_question + 1,
-        }
-        return HttpResponseRedirect(reverse_lazy(
-            "carbon_quiz:quiz_detail", kwargs=path_components
-        )) 
-    """
+
     def form_valid(self, form, slug):
          # get the Quiz and current Question
         quiz = Quiz.objects.get(slug=slug)
