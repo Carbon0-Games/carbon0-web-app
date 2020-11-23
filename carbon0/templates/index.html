@@ -143,8 +143,13 @@
                                         mixpanel.track("beginQuiz", {});
                                     }
                                 </script>
-                                <a href="{% url 'carbon_quiz:quiz_create' %}" onclick="beginQuiz()" type="button"
-                                    class="carbon0-button" style="margin-bottom: 20px;">NEW PLAYER</a>
+                                <form class='float' method='post' action="{% url 'carbon_quiz:quiz_create' %}">
+                                    {% csrf_token %}
+                                    <input type="submit" value="NEW PLAYER" 
+                                        class="text-primary carbon0-button" 
+                                        style="margin-bottom: 20px;"
+                                        onclick="beginQuiz()">
+                                </form>
                             </div>
                         </div>
                     </div>
