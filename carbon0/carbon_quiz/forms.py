@@ -10,7 +10,7 @@ class AchievementForm(ModelForm):
     class Meta:
         model = Achievement
         fields = [
-            'mission_response',
+            "mission_response",
         ]
 
 
@@ -19,6 +19,4 @@ class QuizForm(ModelForm):
 
     class Meta:
         model = Quiz
-        fields = [
-            'open_response_answers'
-        ]
+        fields = ["open_response_answers"]

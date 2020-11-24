@@ -166,6 +166,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         QuerySet<Mission>: the missions suggested for the user
 
         """
+
         def get_improvement_missions(achievement):
             """
             Get missions for the questions in areas

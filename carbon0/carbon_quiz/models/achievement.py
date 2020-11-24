@@ -76,7 +76,7 @@ class Achievement(models.Model):
         max_length=700,
         null=True,
         blank=True,
-        help_text="The text-answer which completed the mission."
+        help_text="The text-answer which completed the mission.",
     )
 
     def __str__(self):

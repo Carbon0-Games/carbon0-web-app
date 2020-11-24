@@ -6,18 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0081_auto_20201120_1328'),
+        ("carbon_quiz", "0081_auto_20201120_1328"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='achievement',
-            name='mission_response',
-            field=models.CharField(blank=True, help_text='The text-answer which completed the mission.', max_length=700, null=True),
+            model_name="achievement",
+            name="mission_response",
+            field=models.CharField(
+                blank=True,
+                help_text="The text-answer which completed the mission.",
+                max_length=700,
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='mission',
-            name='requires_answer',
-            field=models.BooleanField(default=False, help_text='Does this mission need a text answer?'),
+            model_name="mission",
+            name="requires_answer",
+            field=models.BooleanField(
+                default=False, help_text="Does this mission need a text answer?"
+            ),
         ),
     ]
