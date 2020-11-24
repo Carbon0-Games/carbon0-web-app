@@ -27,11 +27,13 @@
         <div class="row text-white">
             <div class="col-md-8">
                 <!-- Complete the Mission -->
+                <p class="row mx-2">
+                    <strong>Action:</strong> {{ mission.action }}.<br>
+                </p>
                 <!-- Mission that Require Users to go to a Link -->
                 {% if mission.requires_answer is False %}
                     <div class="row mx-2">
                         <p>
-                            <strong>Action:</strong> {{ mission.action }}.<br>
                             When you are finished on the website linked below, come back and 
                             select "Mission Completed" so we can give you your prize! <br>
                             <a class="link-overview mission-link" href="{{ link_address }}" target="_blank">

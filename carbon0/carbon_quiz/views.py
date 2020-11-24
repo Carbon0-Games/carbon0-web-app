@@ -301,7 +301,7 @@ class AchievementCreate(CreateView):
     """Creates the award the user gets for completing a mission."""
 
     model = Achievement
-    fields = []
+    fields = ['mission_response']
     template_name = "carbon_quiz/achievement/create.html"
     queryset = Achievement.objects.all()
 
