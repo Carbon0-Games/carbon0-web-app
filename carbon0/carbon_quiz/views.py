@@ -14,7 +14,7 @@ from django.views.generic.edit import (
 from django.views.generic import ListView
 from mixpanel import Mixpanel, MixpanelException
 
-from .forms import QuizForm
+from .forms import AchievementForm, QuizForm
 from .models.link import Link
 from .models.mission import Mission
 from accounts.models import Profile
@@ -301,7 +301,8 @@ class AchievementCreate(CreateView):
     """Creates the award the user gets for completing a mission."""
 
     model = Achievement
-    fields = ['mission_response']
+    # fields = ['mission_response']
+    form_class = AchievementForm
     template_name = "carbon_quiz/achievement/create.html"
     queryset = Achievement.objects.all()
 
@@ -346,7 +347,7 @@ class AchievementCreate(CreateView):
         # set the answer to the mission, if present
         print(f'Form: {form}')
         if 'mission_answer' in form:
-            form.instance.mission_answer = form.cleaned_data['mission_answer']
+            form.instance.mission_response = form.cleaned_data['mission_answer']
         # track the event in Mixpanel
         track_achievement_creation(form.instance, user)
         # if it's available, set the quiz relationship on the new instance
@@ -370,7 +371,7 @@ class AchievementCreate(CreateView):
         HttpResponseRedirect: the view of the detail template for the Achievement
         """
         # get form needed for Achievement model instantiation
-        form = self.get_form()
+        form = self.form_class(request.POST)
         # validate
         if form.is_valid():
             # if the user is logged in
