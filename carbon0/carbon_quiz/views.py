@@ -343,6 +343,10 @@ class AchievementCreate(CreateView):
         form.instance.mission = mission
         # set the url of the Zeron image field
         form.instance.zeron_image_url = Achievement.set_zeron_image_url(mission)
+        # set the answer to the mission, if present
+        print(f'Form: {form}')
+        if 'mission_answer' in form:
+            form.instance.mission_answer = form.cleaned_data['mission_answer']
         # track the event in Mixpanel
         track_achievement_creation(form.instance, user)
         # if it's available, set the quiz relationship on the new instance

@@ -155,9 +155,8 @@ class Achievement(models.Model):
         if has_user is True:
             current_footprint = self.profile.users_footprint
         # calculate the overall footprint for a quiz (unauthenticated user)
-        else:  # has_user is False
+        elif self.quiz is not None:  # achievement comes after a quiz
             current_footprint = self.quiz.carbon_value_total
-        # return the new footprint value
         return self.reduce_footprint(current_footprint)
 
     def save(self, user=None, *args, **kwargs):
