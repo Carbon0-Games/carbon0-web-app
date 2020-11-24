@@ -47,6 +47,9 @@ class Mission(models.Model):
             "to complete the mission"
         ),
     )
+    requires_answer = models.BooleanField(
+        default=False, help_text="Does this mission need a text answer?"
+    )
 
     def __str__(self):
         """Returns human-readable name of the Mission."""

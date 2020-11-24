@@ -72,6 +72,12 @@ class Achievement(models.Model):
         blank=True,
         help_text="The badge that the user earns in this achievement.",
     )
+    mission_response = models.CharField(
+        max_length=700,
+        null=True,
+        blank=True,
+        help_text="The text-answer which completed the mission."
+    )
 
     def __str__(self):
         """Returns a human-readable name for the Achievement."""
