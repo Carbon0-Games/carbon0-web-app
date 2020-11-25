@@ -11,38 +11,77 @@
  * ---------------------------------------
  */
 
-export function footprintPlot(current, next) {
+export function footprintPlot(from, to) {
 // Themes begin
 am4core.useTheme(am4themes_animated);
 // Themes end
 
+var chartMax 
+var data
+
 var chartMin = 0;
-var chartMax = 20000;
+if (to > 20000) {
+  chartMax = to * 1.01
+  data = {
+    score: from,
+    gradingData: [
+      {
+        title: "Low",
+        color: "green",
+        lowScore: 0,
+        highScore: 2000
+      },
+      {
+        title: "Med",
+        color: "yellow",
+        lowScore: 2000,
+        highScore: 7000
+      },
+      {
+        title: "High",
+        color: "red",
+        lowScore: 7000,
+        highScore: 20000
+      },
+      {
+        title: "Extreme",
+        color: "#c1003a",
+        lowScore: 20000,
+        highScore: chartMax
+      },
+    ]
+  };
 
-var data = {
-  score: current,
-  gradingData: [
-    {
-      title: "Low",
-      color: "green",
-      lowScore: 0,
-      highScore: 2000
-    },
-    {
-      title: "Med",
-      color: "yellow",
-      lowScore: 2000,
-      highScore: 7000
-    },
-    {
-      title: "High",
-      color: "red",
-      lowScore: 7000,
-      highScore: 20000
-    },
+} else {
+  chartMax = 20000;
 
-  ]
-};
+  data = {
+    score: from,
+    gradingData: [
+      {
+        title: "Low",
+        color: "green",
+        lowScore: 0,
+        highScore: 2000
+      },
+      {
+        title: "Med",
+        color: "yellow",
+        lowScore: 2000,
+        highScore: 7000
+      },
+      {
+        title: "High",
+        color: "red",
+        lowScore: 7000,
+        highScore: 20000
+      },
+    ]
+  };
+
+}
+
+
 
 /**
 Grading Lookup
@@ -191,7 +230,7 @@ hand.events.on("positionchanged", function(){
 })
 
 setInterval(function() {
-    var value = next;
+    var value = to;
     hand.showValue(value, 1000, am4core.ease.cubicOut);
 }, 1000);
 
