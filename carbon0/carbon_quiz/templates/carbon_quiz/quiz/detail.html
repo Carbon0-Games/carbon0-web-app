@@ -42,7 +42,7 @@
 {% block content %}
     <style>
         #quiz-detail-main {
-            background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
+            background-image: url("{% static 'images/Carbon0_Website_No_Logo1.png' %}");
             background-size: cover;
             background-repeat: no-repeat;
             margin: 0%;
@@ -57,6 +57,16 @@
         <div class="container pb-5">
             <!-- Header -->
             <h1 class="mt-2" style="color:#3FC5F0; font-weight: 500; font-size: 40;">Carbon Calculator</h1>
+            <!-- Show Instructions for the Quiz (first question only) -->
+            {% if quiz.active_question == 0 %}
+                <div class="row ml-2">
+                    <h2 class="ml-2 text-white">Please Read:</h2> br
+                    <p class="ml-2 text-white">Let's get to know you. <br>
+                        I'll ask 5 questions to figure out how much CO2 you emit per year. <br>
+                        This is called your <i>carbon footprint</i>.
+                    </p>
+                </div>
+            {% endif %}
             <!-- Ask the Question -->
             <h2 class="text-white mx-5" style="font-weight: 500; font-size: 30px;">{{ question.question_text }}</h2>
            
