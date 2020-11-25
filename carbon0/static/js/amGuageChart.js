@@ -11,38 +11,74 @@
  * ---------------------------------------
  */
 
-export function footprintPlot(current, next) {
+export function footprintPlot(from, to) {
 // Themes begin
 am4core.useTheme(am4themes_animated);
 // Themes end
 
+var chartMax 
+var data
+
 var chartMin = 0;
-var chartMax = 20000;
+if (to > 20000) {
+  chartMax = to * 1.02
+  data = {
+    score: from,
+    gradingData: [
+      {
+        title: "Low",
+        color: "green",
+        lowScore: 0,
+        highScore: 2000
+      },
+      {
+        title: "Med",
+        color: "yellow",
+        lowScore: 2000,
+        highScore: 7000
+      },
+      {
+        title: "High",
+        color: "red",
+        lowScore: 7000,
+        highScore: 20000
+      },
+      {
+        title: "Extreme",
+        color: "#c1003a",
+        lowScore: 20000,
+        highScore: chartMax
+      },
+    ]
+  };
 
-var data = {
-  score: current,
-  gradingData: [
-    {
-      title: "Low",
-      color: "green",
-      lowScore: 0,
-      highScore: 2000
-    },
-    {
-      title: "Med",
-      color: "yellow",
-      lowScore: 2000,
-      highScore: 7000
-    },
-    {
-      title: "High",
-      color: "red",
-      lowScore: 7000,
-      highScore: 20000
-    },
+} else {
+  chartMax = 20000;
+  data = {
+    score: from,
+    gradingData: [
+      {
+        title: "Low",
+        color: "green",
+        lowScore: 0,
+        highScore: 2000
+      },
+      {
+        title: "Med",
+        color: "yellow",
+        lowScore: 2000,
+        highScore: 7000
+      },
+      {
+        title: "High",
+        color: "red",
+        lowScore: 7000,
+        highScore: 20000
+      },
+    ]
+  };
 
-  ]
-};
+}
 
 /**
 Grading Lookup
@@ -75,26 +111,6 @@ var axis = chart.xAxes.push(new am4charts.ValueAxis());
 axis.min = chartMin;
 axis.max = chartMax;
 axis.hide()
-// axis.strictMinMax = true;
-// axis.renderer.radius = am4core.percent(10);
-// axis.renderer.inside = true;
-// axis.renderer.line.strokeOpacity = 0.1;
-// axis.renderer.ticks.template.disabled = true;
-// axis.renderer.ticks.template.strokeOpacity = 1;
-// axis.renderer.ticks.template.strokeWidth = 0.5;
-// axis.renderer.ticks.template.length = 5;
-// axis.renderer.grid.template.disabled = true;
-// axis.renderer.labels.template.radius = am4core.percent(15);
-// axis.renderer.labels.template.fontSize = "0.9em";
-
-//// Not part of this
-// var rangeMin = axis.axisRanges.create();
-// rangeMin.value = chartMin;
-// rangeMin.label.text = "Low"; // converting to string
-
-// var rangeMax = axis.axisRanges.create();
-// rangeMax.value = chartMax;
-// rangeMax.label.text = "Hi" ; // converting to string
 
 
 /**
@@ -191,7 +207,7 @@ hand.events.on("positionchanged", function(){
 })
 
 setInterval(function() {
-    var value = next;
+    var value = to;
     hand.showValue(value, 1000, am4core.ease.cubicOut);
 }, 1000);
 
