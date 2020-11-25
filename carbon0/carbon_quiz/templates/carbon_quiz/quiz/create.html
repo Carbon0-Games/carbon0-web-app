@@ -25,24 +25,28 @@
     <div id="quiz-create-main">
         <div class="container site-container" style="max-height: 100%; padding-top:20px;">
             <div class="row">
-                <h1 class="my-2 ml-2 text-white">Welcome to the Carbon Quiz!</h1> <br>
+                <h1 class="my-2 ml-2 text-white" style="font-weight: 400; font-size: 50px; line-height: 45px;">Welcome to the Carbon Quiz!</h1> <br>
             </div>
-            <div class="row">
-                <p class="ml-2 text-white">Let's get to know you. <br>
+            <div class="row ml-3 my-3">
+                <p class="text-white" style="font-size: 20px;">Let's get to know you. <br>
                     I'll ask 5 questions that show how much carbon you create per year. <br>
-                    This is called your <i>carbon footprint</i>.
+                    <br>
+                    This is called your <i>CARBON FOOTPRINT</i>.
                 </p>
             </div>
             <div class="row d-flex justify-content-center my-3">
-                <!-- Call to ACTION: Go to the First Questions -->
-                <form class='float' method='post'>
-                    {% csrf_token %}
-                    <input type="submit" value="Go to the First Question" class="btn-lg btn-success rounded-pill">
-                </form>
-            </div>
-            <!-- Greeting Image -->
-            <div class="row ml-1 text-white">
-                <p>You'll also get a chance to see some of your new Zeron friends!</p>
+                <div class="col-md-4 justify-content-center">
+                    <!-- Call to ACTION: Go to the First Questions -->
+                    <form class='float' style="text-align: center;" method='post'>
+                        {% csrf_token %}
+                        <input type="submit" value="Go to the First Question" class="carbon0-button">
+                    </form>
+                     <!-- Greeting Image -->
+                    <div class="row text-white">
+                        <p style="font-weight: lighter; text-align: center;">You'll also get a chance to see some of your new Zeron friends!</p>
+                    </div>
+                </div>
+                
             </div>
             <div class="row justify-content-center">
                 <!-- <img src="{% static 'images/3D_tree.png' %}" alt="Diet Zeron" width=690rem height=400rem>

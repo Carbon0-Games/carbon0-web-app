@@ -185,6 +185,31 @@ a.mission-link:hover {
     }
 
 
+    /* https://stackoverflow.com/questions/16056591/font-scaling-based-on-width-of-container */
+    .carbon0-button-mission {
+      background-color: white;
+      padding: 5px 8px;
+      -webkit-appearance: none;
+      font-size: 12px;
+      border-radius: 16px;
+      white-space: nowrap;
+      /* overflow: hidden; */
+      text-align: center;
+      text-decoration: none;
+      /* display: inline-block; */
+      min-width: 50px;
+      font-family: "Coda", sans-serif;
+      outline: none;
+      border: 0px;
+    }
+    @media only screen and (min-width: 600px) {
+      .carbon0-button-mission {
+        padding: 6px 10px;
+        font-size: vi;
+      }
+    }
+
+
 
 
 

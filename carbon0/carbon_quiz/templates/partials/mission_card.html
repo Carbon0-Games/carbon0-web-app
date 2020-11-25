@@ -34,9 +34,10 @@
         </p>
         <!-- Link to AchievementCreate -->
         {% if quiz %}
-            <a href="{% url 'carbon_quiz:achievement_create' mission.id quiz.slug %}" class="btn btn-primary">
+            <!-- Need to use class = "carbon0-button", but change a few stylings btn btn-primary-->
+            <a href="{% url 'carbon_quiz:achievement_create' mission.id quiz.slug %}" class="carbon0-button-mission">
         {% else %}
-            <a href="{% url 'carbon_quiz:achievement_create' mission.id %}" class="btn btn-primary">
+            <a href="{% url 'carbon_quiz:achievement_create' mission.id %}" class="carbon0-button-mission">
         {% endif %}
         {{ mission.title }}</a>
     </div>
