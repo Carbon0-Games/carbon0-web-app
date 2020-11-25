@@ -12,10 +12,11 @@
         <h4 class="card-title" style="color:#3FC5F0; font-weight: 500; font-size: x-large">Your NEW Carbon Footprint</h4>
         <h5 class="card-text"><strong id="new-footprint" style="font-weight: 500;"></strong></h5>
         <!-- Display of Bar Chart -->
-        <canvas id="carbonCalculator" width="1000rem" height="560rem"></canvas>
+        <!-- <canvas id="carbonCalculator" width="1000rem" height="560rem"></canvas> -->
         <!-- JS to make the bar chart -->
+        
         <script type="module">
-            import { carbonCalculator } from '../../../../static/js/carbonCalculator.js';
+            import { footprintPlot } from '../../../../static/js/amGuageChart.js';
             $(document).ready(function () {
                 // get the data on the carbon footprint from the API
                 let endpoint = '/api/achievement-data/{{ achievement.id }}/'
@@ -25,13 +26,12 @@
                     method: "GET",
                     url: endpoint,
                     success: function (data) {
-                        plotLabels = data.labels;
                         plotData = data.footprint;
-                        carbonCalculator(plotLabels, plotData);
+                        footprintPlot({{ achievement.quiz.carbon_value_total }}, plotData[0]);
                         // use the same data to title the card
                         let title = document.getElementById("new-footprint");
-                        let text = document.createTextNode(plotData + " metric tons CO2");
-                        title.appendChild(text);
+                        title.innerText = plotData[0] + " metric tons CO2"
+                        // let text = document.createTextNode(" metric tons CO2");
                     },
                     error: function (error_data) {
                         console.log(error_data)
