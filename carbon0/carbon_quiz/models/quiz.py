@@ -39,7 +39,7 @@ class Quiz(models.Model):
     )
     open_response_answers = ArrayField(
         models.TextField(null=True, blank=True, help_text="User's response."),
-        default=list
+        default=list,
     )
 
     previous_carbon_value = models.FloatField(blank=True, default=1, editable=False)
@@ -72,7 +72,7 @@ class Quiz(models.Model):
         Returns: None
 
         """
-        self.carbon_value_total += question.carbon_value 
+        self.carbon_value_total += question.carbon_value
         self.save()
         return None
 

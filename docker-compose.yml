@@ -12,13 +12,13 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - ./carbon0/.docker_env
+      - ./carbon0/.env.sample
     depends_on:
       - db
   db:
     image: postgres
     env_file:
-      - ./carbon0/postgres/.docker_env
+      - ./carbon0/postgres/.env.sample
   react:
     build:
       context: ./carbon0

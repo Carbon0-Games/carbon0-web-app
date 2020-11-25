@@ -1,0 +1,11 @@
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="form-group row mx-2">
+        <label class="text-white" for="openAnswer">Answer Here</label>
+        <input type="text" class="form-control" name="mission_response"
+            aria-describedby="answerField" style="width:100%;"
+            placeholder="Enter your response to complete the mission">
+        <small id="answerHelp" class="form-text text-white">We'll use this to personalize your missions!</small>
+    </div>
+    <input type="submit" value="Submit Answer" class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">
+</form>

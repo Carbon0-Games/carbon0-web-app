@@ -14,7 +14,7 @@ from django.views.generic.edit import (
 from django.views.generic import ListView
 from mixpanel import Mixpanel, MixpanelException
 
-from .forms import QuizForm
+from .forms import AchievementForm, QuizForm
 from .models.link import Link
 from .models.mission import Mission
 from accounts.models import Profile
@@ -112,7 +112,7 @@ class QuizCreate(CreateView):
 
 class QuizDetail(UpdateView):
     """Displays questions on the quiz to answer, or the missions to complete."""
-  
+
     model = Quiz
     quiz_template_name = "carbon_quiz/quiz/detail.html"
     mission_template_name = "carbon_quiz/mission/results.html"
@@ -133,7 +133,7 @@ class QuizDetail(UpdateView):
         HttpResponse: the view of the detail template for the Quiz
 
         """
-        
+
         def display_quiz_question(quiz):
             """
             Gets the current question to display on the quiz.
@@ -146,6 +146,7 @@ class QuizDetail(UpdateView):
                 ("question", question_obj),
             ]
             return key_value_pairs, self.quiz_template_name
+
         def display_mission_results(user):
             """
             Gets Missions to best match the user's answers to the quiz.
@@ -173,6 +174,7 @@ class QuizDetail(UpdateView):
                 ("is_random", is_random),
             ]
             return key_value_pairs, self.mission_template_name
+
         # get the Quiz instance
         quiz = Quiz.objects.get(slug=slug)
         # set the context
@@ -182,13 +184,11 @@ class QuizDetail(UpdateView):
         # if the next question needs to be shown
         if quiz.active_question < 5:
             # get the current Question
-            additional_key_value_pairs, template_name = (
-                display_quiz_question(quiz)
-            )
+            additional_key_value_pairs, template_name = display_quiz_question(quiz)
         # otherwise show the mission start page
         else:  #  quiz.active_question == 5:
-            additional_key_value_pairs, template_name = (
-                display_mission_results(request.user)
+            additional_key_value_pairs, template_name = display_mission_results(
+                request.user
             )
         # add the Mixpanel token
         additional_key_value_pairs.append(
@@ -200,7 +200,7 @@ class QuizDetail(UpdateView):
         return render(request, template_name, context)
 
     def form_valid(self, form, slug):
-         # get the Quiz and current Question
+        # get the Quiz and current Question
         quiz = Quiz.objects.get(slug=slug)
         question_obj = quiz.get_current_question()
         # increment the total carbon value of this quiz so far
@@ -208,14 +208,14 @@ class QuizDetail(UpdateView):
         # increment the active_question for the next call
         quiz.increment_active_question()
         # add to the Quiz model's answers, and redirect to the next page
-        new_answer = form.cleaned_data['open_response_answers'][0]
+        new_answer = form.cleaned_data["open_response_answers"][0]
         quiz.open_response_answers.append(new_answer)
         quiz.save()
         return HttpResponseRedirect(quiz.get_absolute_url())
 
     def post(self, request, slug, question_number):
         """
-        Processes the response to an open response question, 
+        Processes the response to an open response question,
         and moves on to the next part of the quiz.
 
         Parameters:
@@ -301,7 +301,8 @@ class AchievementCreate(CreateView):
     """Creates the award the user gets for completing a mission."""
 
     model = Achievement
-    fields = []
+    # fields = ['mission_response']
+    form_class = AchievementForm
     template_name = "carbon_quiz/achievement/create.html"
     queryset = Achievement.objects.all()
 
@@ -321,14 +322,19 @@ class AchievementCreate(CreateView):
         """
         # get the mission object
         mission = Mission.objects.get(id=mission_id)
-        # get the links related to the mission
-        link_descriptions, link_addresses = Link.get_mission_links(mission)
-        # set the context
-        context = {
-            "mission": mission,
-            "link_description": link_descriptions[0],
-            "link_address": link_addresses[0],
-        }
+        # init the context
+        context = {"mission": mission}
+        # add links, if that's what the mission needs
+        if mission.requires_answer is False:
+            # get the links related to the mission
+            link_descriptions, link_addresses = Link.get_mission_links(mission)
+            # add to the context
+            context.update(
+                [
+                    ("link_description", link_descriptions[0]),
+                    ("link_address", link_addresses[0]),
+                ]
+            )
         # return the response
         return render(request, self.template_name, context)
 
@@ -340,6 +346,10 @@ class AchievementCreate(CreateView):
         form.instance.mission = mission
         # set the url of the Zeron image field
         form.instance.zeron_image_url = Achievement.set_zeron_image_url(mission)
+        # set the answer to the mission, if present
+        print(f"Form: {form}")
+        if "mission_answer" in form:
+            form.instance.mission_response = form.cleaned_data["mission_answer"]
         # track the event in Mixpanel
         track_achievement_creation(form.instance, user)
         # if it's available, set the quiz relationship on the new instance
@@ -363,7 +373,7 @@ class AchievementCreate(CreateView):
         HttpResponseRedirect: the view of the detail template for the Achievement
         """
         # get form needed for Achievement model instantiation
-        form = self.get_form()
+        form = self.form_class(request.POST)
         # validate
         if form.is_valid():
             # if the user is logged in

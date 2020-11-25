@@ -26,28 +26,36 @@
         <!-- Web View of Mission Link -->
         <div class="row text-white">
             <div class="col-md-8">
-                <!-- Site Preview -->
-                <div class="row mx-2">
-                    <p>
-                        <strong>Action:</strong> {{ mission.action }}.<br>
-                        When you are finished on the website linked below, come back and 
-                        select "Mission Completed" so we can give you your prize! <br>
-                        <a class="link-overview mission-link" href="{{ link_address }}" target="_blank">
-                            Preview Link: {{ link_description }}
-                        </a>
-                        <!-- Link Preview -->
-                        <div class="embed-responsive embed-responsive-4by3 my-2">
-                            <iframe class="embed-responsive-item" src="{{ link_address }}" id="iframe-size"></iframe>
-                        </div>
-                    </p>
-                </div>
-                <!-- Mission Complete Button -->
-                <div class="row ml-2">
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-success" value="Mission Completed">
-                    </form>
-                </div>
+                <!-- Complete the Mission -->
+                <p class="row mx-2">
+                    <strong>Action:</strong> {{ mission.action }}.<br>
+                </p>
+                <!-- Mission that Require Users to go to a Link -->
+                {% if mission.requires_answer is False %}
+                    <div class="row mx-2">
+                        <p>
+                            When you are finished on the website linked below, come back and 
+                            select "Mission Completed" so we can give you your prize! <br>
+                            <a class="link-overview mission-link" href="{{ link_address }}" target="_blank">
+                                Preview Link: {{ link_description }}
+                            </a>
+                            <!-- Link Preview -->
+                            <div class="embed-responsive embed-responsive-4by3 my-2">
+                                <iframe class="embed-responsive-item" src="{{ link_address }}" id="iframe-size"></iframe>
+                            </div>
+                        </p>
+                    </div>
+                    <!-- Mission Complete Button -->
+                    <div class="row ml-2">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-success" value="Mission Completed">
+                        </form>
+                    </div>
+                <!-- Mission that Require Users to Enter Text -->
+                {% else %}
+                    {% include "partials/answer_mission.html" %}
+                {% endif %}
             </div>
             <!-- Capt. Joy Image -->
             <div class="col-md-4">
