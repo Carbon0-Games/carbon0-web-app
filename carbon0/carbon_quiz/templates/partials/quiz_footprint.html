@@ -13,14 +13,12 @@
         <!-- <h6 class="card-subtitle mb-2">Based on Questions Answered "No"</h6> -->
         <p class="card-text text-white">{{ quiz.carbon_value_total }} metric tons CO2</p>
 
-
         <div id="chartdiv" style="width: 450px; height: 260px;"></div>
 
         <script type="module">
             import { footprintPlot } from '../../../../static/js/amGuageChart.js';
             footprintPlot({{ quiz.previous_carbon_value }}, {{ quiz.carbon_value_total }})
         </script>
-
 
         <!-- Display of gauge Chart -->
         <!-- <canvas id="carbonCalculator" width="700rem" height="560rem"></canvas> -->

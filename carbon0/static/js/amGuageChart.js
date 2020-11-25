@@ -21,7 +21,7 @@ var data
 
 var chartMin = 0;
 if (to > 20000) {
-  chartMax = to * 1.01
+  chartMax = to * 1.02
   data = {
     score: from,
     gradingData: [
@@ -54,7 +54,6 @@ if (to > 20000) {
 
 } else {
   chartMax = 20000;
-
   data = {
     score: from,
     gradingData: [
@@ -80,8 +79,6 @@ if (to > 20000) {
   };
 
 }
-
-
 
 /**
 Grading Lookup
@@ -114,26 +111,6 @@ var axis = chart.xAxes.push(new am4charts.ValueAxis());
 axis.min = chartMin;
 axis.max = chartMax;
 axis.hide()
-// axis.strictMinMax = true;
-// axis.renderer.radius = am4core.percent(10);
-// axis.renderer.inside = true;
-// axis.renderer.line.strokeOpacity = 0.1;
-// axis.renderer.ticks.template.disabled = true;
-// axis.renderer.ticks.template.strokeOpacity = 1;
-// axis.renderer.ticks.template.strokeWidth = 0.5;
-// axis.renderer.ticks.template.length = 5;
-// axis.renderer.grid.template.disabled = true;
-// axis.renderer.labels.template.radius = am4core.percent(15);
-// axis.renderer.labels.template.fontSize = "0.9em";
-
-//// Not part of this
-// var rangeMin = axis.axisRanges.create();
-// rangeMin.value = chartMin;
-// rangeMin.label.text = "Low"; // converting to string
-
-// var rangeMax = axis.axisRanges.create();
-// rangeMax.value = chartMax;
-// rangeMax.label.text = "Hi" ; // converting to string
 
 
 /**
