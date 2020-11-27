@@ -1,4 +1,5 @@
 <!-- carbon0/carbon_quiz/templates/partials/quiz_footprint.html -->
+{% load static %}
 <style>
     #quiz-footprint-card{
         /*  */
@@ -16,7 +17,7 @@
         <div id="chartdiv" style="width: 450px; height: 260px;"></div>
 
         <script type="module">
-            import { footprintPlot } from '../../../../static/js/amGuageChart.js';
+            import { footprintPlot } from "{% static 'js/amGuageChart.js' %}";
             footprintPlot({{ quiz.previous_carbon_value }}, {{ quiz.carbon_value_total }})
         </script>
         <div class="justify-content-center" style="text-align: center">
