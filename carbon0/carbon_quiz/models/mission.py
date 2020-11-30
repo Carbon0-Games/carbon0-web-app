@@ -46,6 +46,16 @@ class Mission(models.Model):
     requires_answer = models.BooleanField(
         default=False, help_text="Does this mission need a text answer?"
     )
+    PRIORITIES =  [
+        (0, "Not Applicable"),
+        (1, "Learning Level"),
+        (2, "Listening Level"),
+        (3, "Action Level")
+    ]
+    priority_level = models.IntegerField(
+        default=0, 
+        help_text="The stage at which a player is ready for this mission."
+    )
 
     def __str__(self):
         """Returns human-readable name of the Mission."""

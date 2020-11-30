@@ -41,7 +41,6 @@ class Quiz(models.Model):
         models.TextField(null=True, blank=True, help_text="User's response."),
         default=list,
     )
-
     previous_carbon_value = models.FloatField(blank=True, default=1, editable=False)
 
     def __str__(self):

@@ -3,6 +3,8 @@ from carbon0 import settings
 from django.urls import reverse
 from django.conf import settings
 
+from carbon_quiz.models.mission import Mission
+
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -13,6 +15,31 @@ class Profile(models.Model):
     users_footprint = models.FloatField(
         default=0,
         help_text="The total carbon footprint of the User across all quizzes.",
+    )
+    offsets_level = models.IntegerField(
+        default=0, choices=Mission.PRIORITIES,
+        help_text=("Which level of Airlines-Utilities Missions to recommend" +
+                   " for this player.")
+    )
+    diet_level = models.IntegerField(
+        default=0, choices=Mission.PRIORITIES,
+        help_text=("Which level of Diet Missions to recommend" +
+                   " for this player.")
+    )
+    transit_level = models.IntegerField(
+        default=0, choices=Mission.PRIORITIES,
+        help_text=("Which level of Transit Missions to recommend" +
+                   " for this player.")
+    )
+    recycling_level = models.IntegerField(
+        default=0, choices=Mission.PRIORITIES,
+        help_text=("Which level of Recycling Missions to recommend" +
+                   " for this player.")
+    )
+    utilities_level = models.IntegerField(
+        default=0, choices=Mission.PRIORITIES,
+        help_text=("Which level of Utilities Missions to recommend" +
+                   " for this player.")
     )
 
     def __str__(self):
