@@ -6,7 +6,7 @@ export function footprintPlot(plotLabels, plotData) {
         data: {
             datasets: [
                 {
-                    label: "Your Carbon Footprint (metric tons)",
+                    label: "Your Carbon Footprint (kilograms)",
                     data: plotData,
                     // set options for the chart
                     backgroundColor: ["rgba(255, 99, 132, 0.2)"],
@@ -36,7 +36,7 @@ export function footprintPlot(plotLabels, plotData) {
                     ticks: {
                         // color the plot label white
                         fontColor: "white",
-                        label: "Your Footprint (metric tons)"
+                        label: "Your Footprint (kilograms)"
                     },
                     // add white lines going parallel to the x-axis
                     gridLines: {
