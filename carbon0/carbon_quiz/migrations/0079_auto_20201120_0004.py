@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0078_quiz_previous_carbon_value'),
+        ("carbon_quiz", "0078_quiz_previous_carbon_value"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='quiz',
-            name='previous_carbon_value',
+            model_name="quiz",
+            name="previous_carbon_value",
             field=models.FloatField(blank=True, default=1),
         ),
     ]

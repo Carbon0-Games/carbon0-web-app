@@ -6,18 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0076_auto_20201116_1501'),
+        ("carbon_quiz", "0076_auto_20201116_1501"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='mission',
-            name='is_paid',
-            field=models.BooleanField(default=False, help_text='Does it cost anything for the player to complete the mission'),
+            model_name="mission",
+            name="is_paid",
+            field=models.BooleanField(
+                default=False,
+                help_text="Does it cost anything for the player to complete the mission",
+            ),
         ),
         migrations.AlterField(
-            model_name='mission',
-            name='is_stationary',
-            field=models.BooleanField(default=False, help_text='Does the player need to get off the couch to complete the mission?'),
+            model_name="mission",
+            name="is_stationary",
+            field=models.BooleanField(
+                default=False,
+                help_text="Does the player need to get off the couch to complete the mission?",
+            ),
         ),
     ]

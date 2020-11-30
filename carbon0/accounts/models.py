@@ -34,6 +34,6 @@ class Profile(models.Model):
 
         """
         # add by the half, because this function is called twice
-        self.users_footprint += (quiz.carbon_value_total / 2)
+        self.users_footprint += quiz.carbon_value_total / 2
         self.save()
         return None
