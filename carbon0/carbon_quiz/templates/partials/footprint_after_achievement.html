@@ -9,10 +9,11 @@
 </style>
 <div class="card mb-3" id="new-footprint-card">
     <div class="card-body">
-        <h4 class="card-title" style="color:white;">Your NEW Carbon Footprint</h4>
-        <h5 class="card-text"><strong id="new-footprint"></strong></h5>
+        <h4 class="card-title" style="color:#3FC5F0; font-weight: 500; font-size: x-large">Your NEW Carbon Footprint</h4>
+        <h5 class="card-text"><strong id="new-footprint" style="font-weight: 500;></strong></h5>
 
-        <div id="chartdiv" style="width: 390px; height: 220px;"></div>        
+        <div id="chartdiv" style="width: 450px; height: 260px;"></div>       
+
         <script type="module">
             import { footprintPlot } from '../../../../static/js/amGuageChart.js';
             $(document).ready(function () {
@@ -37,5 +38,8 @@
                 })
             })
         </script>
+        <div class="justify-content-center" style="text-align: center">
+            <h5 style="color: #990303; font-weight: lighter; font-size: smaller;"> Avg. American: 20 metric tons/yr </h5>
+        </div>
     </div>
 </div>
