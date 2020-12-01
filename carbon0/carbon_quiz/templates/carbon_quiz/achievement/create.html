@@ -46,25 +46,9 @@
                         <a class="link-overview mission-link" href="{{ link_address }}" target="_blank">
                             Preview Link: {{ link_description }}
                         </a>
-                        <!-- Link Preview -->
-                        <div class="embed-responsive embed-responsive-4by3 my-2">
-                            <iframe class="embed-responsive-item" src="{{ link_address }}" id="iframe-size"></iframe>
-                        </div>
                     </p>
                 </div>
-                <!-- Mission that Require Users to go to a Link -->
-                {% if mission.requires_answer is False %}
-                    <!-- Mission Complete Button -->
-                    <div class="row ml-2">
-                        <form method="post">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-success" value="Mission Completed">
-                        </form>
-                    </div>
-                <!-- Mission that Require Users to Enter Text -->
-                {% else %}
-                    {% include "partials/answer_mission.html" %}
-                {% endif %}
+               
             </div>
             <div class="col-md-4">
                 <!-- Link Preview -->
@@ -74,11 +58,17 @@
             </div>
         </div>
         <div class="row justify-content-center">
+            <!-- Mission that Require Users to go to a Link -->
+            {% if mission.requires_answer is False %}
             <!-- Mission Complete Button -->
             <form method="post">
                 {% csrf_token %}
                 <input type="submit" class="carbon0-button" value="Mission Completed">
             </form>
+            {% else %}
+                {% include "partials/answer_mission.html" %}
+            {% endif %}
+            <!-- Mission that Require Users to Enter Text -->
         </div>
     </div>
 </div>

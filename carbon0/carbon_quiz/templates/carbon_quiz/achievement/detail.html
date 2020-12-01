@@ -78,72 +78,82 @@
                     </div>
                 </div>
                 <!-- 2nd Column -->
-                <div class="col-md-3">
-                    <!-- Authenticated users: Show the new carbon footprint -->
-                    {% if profile %}
-                    {% include "partials/user_footprint.html" %}
-                    <!-- Un-authenticated users: Show the new carbon footprint -->
-                    {% else %}
-                        {% include "partials/footprint_after_achievement.html" %}
-                    {% endif %}
-                    
-                    <div class="row my-1 justify-content-center" style="text-align: center;">
-                        <div class="d-flex justify-content-center">
-                            <!-- Link to More Missions -->
-                            {% if achievement.quiz %}
-                                <!-- Missions on the Related Quiz -->
-                                <a class="ml-auto carbon0-button my-2" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">
-                            {% else %}
-                                <!-- All Uncompleted Missions -->
-                                <a class="ml-auto carbon0-button my-2" href="{% url 'carbon_quiz:mission_list'%}">
-                            {% endif %}
-                                Want More Missions?</a>
-                        </div>
-                        
-                    </div>
-                </div>
-                <!-- 3rd Column -->
-                <div class="col-md-3" style="text-align: center;">
-                    <h2 class="mt-4" style="font-weight: 300; color:#3FC5F0; font-size: 30px;"> Lets Be Social! </h2>
+                <div class="col-md-6">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Authenticated users: Show the new carbon footprint -->
+                                {% if profile %}
+                                {% include "partials/user_footprint.html" %}
+                                <!-- Un-authenticated users: Show the new carbon footprint -->
+                                {% else %}
+                                    {% include "partials/footprint_after_achievement.html" %}
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 justify-content-center" style="text-align: center">
+                                <h2 class="mt-4" style="font-weight: 300; color:#3FC5F0; font-size: 30px;"> Lets Be Social! </h2>
 
-                    <div class="row my-1 justify-content-center" style="text-align: center;">
-                        <div class="d-flex justify-content-center">
-                                <!-- <h3>Share your Achievement!</h3> -->
-                                <div class="row">
-                                    <!-- Facebook Share Button -->
-                                    <div class="mr-auto">
-                                        <div class="fb-share-button" data-href="https://mycarbon0.com" data-layout="button_count" data-size="large"><a
-                                                id="share-on-facebook"                                                                                                         
-                                                target="_blank"
-                                                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmycarbon0.com%2F&amp;src=sdkpreparse"
-                                                class="fb-xfbml-parse-ignore">Share</a>
-                                        </div>
+                                <div class="row my-1 justify-content-center" style="text-align: center;">
+                                    <div class="d-flex justify-content-center">
+                                            <!-- <h3>Share your Achievement!</h3> -->
+                                            <div class="row">
+                                                <!-- Facebook Share Button -->
+                                                <div class="mr-auto">
+                                                    <div class="fb-share-button" data-href="https://mycarbon0.com" data-layout="button_count" data-size="large"><a
+                                                            id="share-on-facebook"                                                                                                         
+                                                            target="_blank"
+                                                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmycarbon0.com%2F&amp;src=sdkpreparse"
+                                                            class="fb-xfbml-parse-ignore">Share</a>
+                                                    </div>
+                                                </div>
+                            
+                                                <script>
+                                                        // function logs whenever someone shares the website
+                                                    let shareAttempt = (platform) => {
+                                                        // log the action of starting the quiz
+                                                        mixpanel.track("shareAttempted", {
+                                                            "platform": platform
+                                                        });
+                                                    }
+                                                    // listen for when a user clicks the Facebook share button
+                                                    document.getElementById("share-on-facebook").addEventListener("click", shareAttempt("Facebook"));
+                                                </script>
+                                            </div>
                                     </div>
-                
-                                    <script>
-                                            // function logs whenever someone shares the website
-                                        let shareAttempt = (platform) => {
-                                            // log the action of starting the quiz
-                                            mixpanel.track("shareAttempted", {
-                                                "platform": platform
-                                            });
-                                        }
-                                        // listen for when a user clicks the Facebook share button
-                                        document.getElementById("share-on-facebook").addEventListener("click", shareAttempt("Facebook"));
-                                    </script>
                                 </div>
+                            </div>
                         </div>
-                        
-                        
-                    </div>
-
-                    <div class="row my-1 justify-content-center" style="text-align: center;">
-                        <div class="d-flex justify-content-center">
-                            <!-- Link to Sign Up -->
-                            {% if user.is_authenticated is False %}
-                            <a class="ml-auto btn-lg btn-primary" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
-
-                            {% endif %}
+                        <div class="row">
+                            <div class="col-md-6 justify-content-center align-middle">
+                                <div class="row my-1 justify-content-center" style="text-align: center;">
+                                    <div class="d-flex justify-content-center">
+                                        <!-- Link to More Missions -->
+                                        {% if achievement.quiz %}
+                                            <!-- Missions on the Related Quiz -->
+                                            <a class="ml-auto carbon0-button my-2" href="{% url 'carbon_quiz:quiz_detail' achievement.quiz.slug 5 %}">
+                                        {% else %}
+                                            <!-- All Uncompleted Missions -->
+                                            <a class="ml-auto carbon0-button my-2" href="{% url 'carbon_quiz:mission_list'%}">
+                                        {% endif %}
+                                            Want More Missions?</a>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6 justify-content-center align-middle">
+                                <div class="row my-1 justify-content-center" style="text-align: center;">
+                                    <div class="d-flex justify-content-center">
+                                        <!-- Link to Sign Up -->
+                                        {% if user.is_authenticated is False %}
+                                        <a class="btn-lg btn-primary my-2" href="{% url 'accounts:signup' achievement.secret_id %}">Sign Up for More</a>
+            
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                    
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
