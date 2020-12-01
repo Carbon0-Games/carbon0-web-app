@@ -164,7 +164,7 @@ class QuizDetail(UpdateView):
                 # find the missions the user can choose
                 missions = quiz.get_related_missions(request.user.profile)
             else:  # choose missions randomly for site visitors
-            # if no missions to suggest, give 3 randomly
+                # if no missions to suggest, give 3 randomly
                 missions = random.sample(set(Mission.objects.all()), 3)
                 is_random = True
             # finally, take out missions completed before

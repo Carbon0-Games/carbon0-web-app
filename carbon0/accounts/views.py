@@ -190,6 +190,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
                 # get only the missions not yet completed by the user
                 missions = cqv.filter_completed_missions(missions, user)
             return missions
+
         # TODO: refactor suggest missions based on priority levels
         # grab the most recent Achievement
         user_achievements = Achievement.objects.filter(profile=user.profile)

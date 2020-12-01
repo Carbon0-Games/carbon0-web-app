@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0082_auto_20201124_0903'),
+        ("carbon_quiz", "0082_auto_20201124_0903"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='mission',
-            name='priority_level',
-            field=models.IntegerField(default=0, help_text='The stage at which a player is ready for this mission.'),
+            model_name="mission",
+            name="priority_level",
+            field=models.IntegerField(
+                default=0,
+                help_text="The stage at which a player is ready for this mission.",
+            ),
         ),
     ]

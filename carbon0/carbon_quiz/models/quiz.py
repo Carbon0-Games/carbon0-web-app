@@ -96,15 +96,15 @@ class Quiz(models.Model):
 
     def get_related_missions(self, profile):
         """Return Missions related to the Questions on a Quiz.
-           Assume that the user is logged in, so we can use their 
-           category levels.
+        Assume that the user is logged in, so we can use their
+        category levels.
 
-           Parameter:
-           profile (Profile): instance of the profile model related 
-                              to the requesting user; has priority levels
-        
-           Returns: List[Mission] at the priority level of categories
-                    which the user said they need to improve in, or lower
+        Parameter:
+        profile (Profile): instance of the profile model related
+                           to the requesting user; has priority levels
+
+        Returns: List[Mission] at the priority level of categories
+                 which the user said they need to improve in, or lower
 
         """
         missions = list()
@@ -118,8 +118,7 @@ class Quiz(models.Model):
                 level_threshold = profile.get_player_level(question_obj.category)
                 # search for a mission in that category and <= to the player level
                 mission = Mission.objects.filter(
-                    question=question_obj,
-                    priority_level__lte=level_threshold
+                    question=question_obj, priority_level__lte=level_threshold
                 ).first()
                 # add it to the list of Missions
                 missions.append(mission)
