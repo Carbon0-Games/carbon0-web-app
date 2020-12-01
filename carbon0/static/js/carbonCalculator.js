@@ -21,7 +21,7 @@ export function carbonCalculator(plotLabels, plotData) {
       // enable/disable guage chart title
       // title: {
       //   display: true,
-      //   text: 'metric tons CO2'
+      //   text: 'kilograms CO2'
       // },
       layout: {
         padding: {
@@ -66,7 +66,7 @@ export function carbonCalculator(plotLabels, plotData) {
     data: {
       datasets: [
         {
-          label: "metric tons CO2",
+          label: "kilograms CO2",
           data: plotData,
           // set options for the chart
           backgroundColor: ["rgba(255, 99, 132, 0.2)"],
