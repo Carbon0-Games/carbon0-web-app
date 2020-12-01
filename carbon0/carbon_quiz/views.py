@@ -78,6 +78,33 @@ def filter_completed_missions(missions, user):
     return missions
 
 
+def get_missions_for_journey(missions, player_level, category):
+    """
+    Given a profile and a category, return Missions appropiate for the player.
+
+    Parameters:
+    missions(QuerySet<Mission>): all non-completed missions
+    player_level(int): level of the player in one of the 5 cateogories
+    category(str): one of the choices in the Question.CATEGORIES
+                    array. If provided, we need to provide Missions
+                    in a specific category
+
+    Returns: list of Missions in that category, <= the priority level 
+
+    """
+    # take 3 Missions, decrement desired priority level
+    attempts_per_priority = 0
+    while len(missions) < 3:
+        pass
+        # get a random question in the desired category
+        # see if it has a Mission w/ the priority level we want
+        # increment the number of attempts
+        # if we try 3 times at this priority level
+            # decrement to the next possible priority level
+    # return the missions
+    return missions
+
+
 class QuizCreate(CreateView):
     """View to create new Quiz instance from randomly picked questions."""
 
@@ -243,12 +270,16 @@ class MissionList(ListView):
     # reuse the QuizDetail template, for when question is not in the context
     template_name = "carbon_quiz/mission/list.html"
 
-    def get(self, request):
-        """Return a view of all missions not yet completed, or
+    def get(self, request, player_level=None, category=None):
+        """Return a view of missions the Player should complete next, or
         all of them if the user is not authenticated.
 
         Parameters:
         request(HttpRequest): carries the user as a property
+        player_level(int): level of the player in one of the 5 cateogories
+        category(str): one of the choices in the Question.CATEGORIES
+                       array. If provided, we need to provide Missions
+                       in a specific category
 
         Returns: HttpResponse: the view of the QuizDetail template
 
@@ -257,6 +288,9 @@ class MissionList(ListView):
         missions = self.queryset
         # get only the missions not yet completed by the user
         missions = filter_completed_missions(missions, request.user)
+        # choose missions based on the player journey
+        if player_level is not None and category is not None:
+            journey_missions = get_missions_for_journey(missions, player_level, category)
         # set the context
         context = {
             "missions": missions,
