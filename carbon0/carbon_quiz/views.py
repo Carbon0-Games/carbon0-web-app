@@ -162,7 +162,7 @@ class QuizDetail(UpdateView):
                 # update their profile's footprint
                 profile.increase_user_footprint(quiz)
                 # find the missions the user can choose
-                missions = quiz.get_related_missions()
+                missions = quiz.get_related_missions(request.user.profile)
             else:  # choose missions randomly for site visitors
             # if no missions to suggest, give 3 randomly
                 missions = random.sample(set(Mission.objects.all()), 3)

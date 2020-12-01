@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.conf import settings
 
 from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
 
 
 class Profile(models.Model):
@@ -64,3 +65,19 @@ class Profile(models.Model):
         self.users_footprint += quiz.carbon_value_total / 2
         self.save()
         return None
+
+    def get_player_level(self, category):
+        """
+        Return the Profile's current level for a certain Question category.
+        """
+        # make a dict of all the Question categories and the profile's levels
+        levels = [
+            self.diet_level,
+            self.transit_level,
+            self.recycling_level,
+            self.offsets_level,
+            self.utilities_level,
+        ]
+        category_level = dict(zip(Question.CATEGORIES, levels))
+        # return the level value for the given category parameter
+        return category_level[category]

@@ -94,8 +94,19 @@ class Quiz(models.Model):
         question_obj = Question.objects.get(id=question_id)
         return question_obj
 
-    def get_related_missions(self):
-        """Return Missions related to the Questions on a Quiz."""
+    def get_related_missions(self, profile):
+        """Return Missions related to the Questions on a Quiz.
+           Assume that the user is logged in, so we can use their 
+           category levels.
+
+           Parameter:
+           profile (Profile): instance of the profile model related 
+                              to the requesting user; has priority levels
+        
+           Returns: List[Mission] at the priority level of categories
+                    which the user said they need to improve in, or lower
+
+        """
         missions = list()
         # get the question id that each user actually interacted with
         for question_id in self.questions:
@@ -103,12 +114,15 @@ class Quiz(models.Model):
             if question_id > 0:
                 # get a mission related to the Question
                 question_obj = Question.objects.get(id=question_id)
-                # TODO: add Missions related to open-response questions
-                # for now, we'll just only get missions for yes/no questions
-                if question_obj.improvement_response > -1:
-                    mission = Mission.get_related_mission(question_obj)
-                    # add to the list of Missions
-                    missions.append(mission)
+                # get the priority level of the user in the question category
+                level_threshold = profile.get_player_level(question_obj.category)
+                # search for a mission in that category and <= to the player level
+                mission = Mission.objects.filter(
+                    question=question_obj,
+                    priority_level__lte=level_threshold
+                ).first()
+                # add it to the list of Missions
+                missions.append(mission)
         return missions
 
     def get_unrelated_missions(self):
