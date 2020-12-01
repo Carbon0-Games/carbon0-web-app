@@ -152,18 +152,19 @@ class QuizDetail(UpdateView):
             Gets Missions to best match the user's answers to the quiz.
             Return the name of the template for resulting missions.
             """
+            # set a bool for if Missions are random (decided based on auth)
+            is_random = False
+            missions = list()
             # if the user is logged in, acculmulate their total footprint
             if request.user.is_authenticated is True:
                 # get the User profile
                 profile = Profile.objects.get(user=user)
                 # update their profile's footprint
                 profile.increase_user_footprint(quiz)
-            # set a flag to tell if the Missions are random
-            is_random = False
-            # find the missions the user can choose
-            missions = quiz.get_related_missions()
+                # find the missions the user can choose
+                missions = quiz.get_related_missions()
+            else:  # choose missions randomly for site visitors
             # if no missions to suggest, give 3 randomly
-            if len(missions) == 0:
                 missions = random.sample(set(Mission.objects.all()), 3)
                 is_random = True
             # finally, take out missions completed before
