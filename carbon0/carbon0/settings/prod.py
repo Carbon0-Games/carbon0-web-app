@@ -12,6 +12,7 @@ ALLOWED_HOSTS = ["carbon0.herokuapp.com", "playcarbon0.com"]
 # File paths for the Zeron model files
 DIET_ZERON_PATHS = [str(os.getenv("DIET_GLB")), str(os.getenv("DIET_USDZ"))]
 TRANSIT_ZERON_PATHS = [str(os.getenv("TRANSIT_GLB")), str(os.getenv("TRANSIT_USDZ"))]
+TREE_ZERON_PATHS = [str(os.getenv("TREE_GLB")), str(os.getenv("TREE_USDZ"))]
 RECYCLING_ZERON_PATHS = [
     str(os.getenv("RECYCLING_GLB")),
     str(os.getenv("RECYCLING_USDZ")),

@@ -54,6 +54,8 @@ class Achievement(models.Model):
         (settings.AT_ZERON_PATHS, "Coin Model"),
         # 5. Utilities category Zeron
         (settings.UTIL_ZERON_PATHS, "Light Bulb Model"),
+        # 6. Grand prize Zeron
+        (settings.TREE_ZERON_PATHS, "Tree Zeron"),
     ]
     zeron_image_url = ArrayField(
         models.CharField(
@@ -132,11 +134,13 @@ class Achievement(models.Model):
 
     def reduce_footprint(self, current_footprint):
         """Decrease the current footprint of a user as appropiate."""
-        #  compute the new footprint value
-        new_footprint = current_footprint - (
-            self.mission.percent_carbon_sequestration
-            * self.mission.question.carbon_value
-        )
+        #  compute the new footprint value, except when it's the Tree Zeron
+        new_footprint = 0
+        if self.mission is not None:  
+            new_footprint = current_footprint - (
+                self.mission.percent_carbon_sequestration
+                * self.mission.question.carbon_value
+            )
         return round(new_footprint, 4)
 
     def calculate_new_footprint(self, has_user=True):
