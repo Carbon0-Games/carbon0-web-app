@@ -37,7 +37,7 @@ All while having fun!
 - [Django](https://www.djangoproject.com/) and [Django REST Framework](https://www.django-rest-framework.org/) - for programming the backend web server using Python 3
 - [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) - for building a mobile-friendly UI for web browsers
 - [Postgres.app](https://postgresapp.com/) - for installing PostgreSQL on your local machine, to use as a database for the project
-- [Git](https://git-scm.com/doc) and [Github](https://www.github.com) - for Version Control and Team Collaboration
+- [Git](https://git-scm.com/doc) and [GitHub](https://www.github.com) - for Version Control and Team Collaboration
 - [WebXR](https://developers.google.com/web/updates/2018/05/welcome-to-immersive) - for displaying AR characters in the browser, with no external hardware required
 - [Chart.js](https://www.chartjs.org/) - for making visualizations the carbon footprints of the players
 
