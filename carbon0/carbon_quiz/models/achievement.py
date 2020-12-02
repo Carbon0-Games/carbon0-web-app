@@ -199,11 +199,23 @@ class Achievement(models.Model):
             self.profile.save()
             return None
 
+        def update_player_level():
+            """
+            If the user has a profile, we use the new Achievement to increment
+            their level in the category of the Mission they completed.
+            """
+            # get the related Mission, and the Question category
+            category = self.mission.question.category
+            # increment the player's level in that category if possible
+            self.profile.increment_player_level(category)
+            return None
+
         # get the unique secret id, make it URL safe
         secret_id = slugify(generate_unique_id())
         # set it on the new model instance
         self.secret_id = secret_id
-        # update the impacted user's carbon footprint
+        # update the impacted user's carbon footprint, and their player level
         if self.profile is not None:
             update_profile_footprint()
+            update_player_level()
         return super(Achievement, self).save(*args, **kwargs)

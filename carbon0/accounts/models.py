@@ -90,3 +90,25 @@ class Profile(models.Model):
         category_level = dict(zip(Question.CATEGORIES, levels))
         # return the level value for the given category parameter
         return category_level[category]
+
+    def increment_player_level(self, category):
+        """
+        Increase the Profile's current level for a certain Question category.
+        """
+        # list the profile's levels, order corresponds to Question categories
+        levels = [
+            self.diet_level,
+            self.transit_level,
+            self.recycling_level,
+            self.offsets_level,
+            self.utilities_level,
+        ]
+        # iterate over the categories until we hit a match
+        for index, question_category in Question.CATEGORIES:
+            if category == question_category:
+                # increment the level in that category if possible
+                if levels[index] < 3:
+                    levels[index] += 1
+                # save and exit the function
+                self.save()
+                return None
