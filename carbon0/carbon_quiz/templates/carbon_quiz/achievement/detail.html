@@ -62,7 +62,16 @@
                 <img src="{% static 'images/Present-_Mission_Completed-flat.png' %}" alt="" style="height: 180px;">
             </div>
             <div class="row justify-content-center mx-1">
-                <p class="text-white">Say hello to your new Zeron! Be sure to share with friends - more of them are coming to Earth soon!</p>
+                <p class="text-white">
+                    <!-- Intro the Zeron -->
+                    {% if achievement.mission %}
+                        Say hello to your new Zeron! Be sure to share with friends - more of them are coming to Earth soon!
+                    <!-- Add a Special Message When it's the Grand Prize Zeron -->
+                    {% else %}
+                        You have completed all the Missions so far - as a prize, you've unlocked the rarest Zeron 🌳 <br>
+                        Way to go Eco-Hero!
+                    {% endif %}
+                </p>
             </div>
 
             <!-- Body of Page -->
