@@ -1,3 +1,4 @@
+from heapq import nlargest
 import random
 
 from django.conf import settings
@@ -92,17 +93,15 @@ def get_missions_for_journey(missions, player_level, category):
     Returns: list of Missions in that category, <= the priority level 
 
     """
-    # take 3 Missions, decrement desired priority level
-    attempts_per_priority = 0
-    while len(missions) < 3:
-        pass
-        # get a random question in the desired category
-        # see if it has a Mission w/ the priority level we want
-        # increment the number of attempts
-        # if we try 3 times at this priority level
-            # decrement to the next possible priority level
-    # return the missions
-    return missions
+    # get all Questions related to the category
+    category_questions = Question.objects.filter(category=category)
+    # keep only Missions related those Questions
+    missions = [
+        m for m in missions if m.question in category_questions and
+        m.priority_level <= player_level
+    ]
+    # take the first 3 that meet the priority level, or progressively lower
+    return nlargest(3, missions, key=lambda x: x.priority_level)
 
 
 class QuizCreate(CreateView):
@@ -284,17 +283,18 @@ class MissionList(ListView):
         Returns: HttpResponse: the view of the QuizDetail template
 
         """
-        # start with all Missions in the queryset
-        missions = self.queryset
         # get only the missions not yet completed by the user
-        missions = filter_completed_missions(missions, request.user)
+        missions = filter_completed_missions(self.queryset, request.user)
+        # player has completed all Missions
+        if len(missions) == 0:
+            # TODO: give an AchievementDetail, w/ the tree zeron 
+            pass
         # choose missions based on the player journey
-        if player_level is not None and category is not None:
-            journey_missions = get_missions_for_journey(missions, player_level, category)
+        elif player_level is not None and category is not None:
+            missions = get_missions_for_journey(missions, player_level, category)
         # set the context
         context = {
             "missions": missions,
-            "is_random": False,
             "MP_PROJECT_TOKEN": settings.MP_PROJECT_TOKEN,
         }
         # return the response
