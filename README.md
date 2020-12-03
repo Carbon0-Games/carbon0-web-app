@@ -37,7 +37,7 @@ All while having fun!
 - [Django](https://www.djangoproject.com/) and [Django REST Framework](https://www.django-rest-framework.org/) - for programming the backend web server using Python 3
 - [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) - for building a mobile-friendly UI for web browsers
 - [Postgres.app](https://postgresapp.com/) - for installing PostgreSQL on your local machine, to use as a database for the project
-- [Git](https://git-scm.com/doc) and [Github](https://www.github.com) - for Version Control and Team Collaboration
+- [Git](https://git-scm.com/doc) and [GitHub](https://www.github.com) - for Version Control and Team Collaboration
 - [WebXR](https://developers.google.com/web/updates/2018/05/welcome-to-immersive) - for displaying AR characters in the browser, with no external hardware required
 - [Chart.js](https://www.chartjs.org/) - for making visualizations the carbon footprints of the players
 
@@ -99,7 +99,7 @@ You can also open up Docker Desktop, and view the health of the `carbon0-web-app
         System check identified no issues (0 silenced).
 
         September 15, 2020 - 15:50:53
-        Django version 3.1, using settings 'mysite.settings'
+        Django version 3.1, using settings 'carbon0.settings.local'
         Starting development server at http://127.0.0.1:8000/
         Quit the server with CONTROL-C.
         
@@ -109,6 +109,7 @@ You can also open up Docker Desktop, and view the health of the `carbon0-web-app
 
 ### __Creating a Pull Request__
 When you would like to contribute to the codebase, the following steps are key to keeping the code clean and functional.
+*Recommended*: when doing development work, use `virtualenv`, `Pipenv`, or some other tool for Python virtual environments as you run the code locally. Docker is great because it's easy to get up and running, but you may find it harder to do some things such as keeping track of the version numbers for new Python packages you install. 
 
 1. *Non-collaborators*: please first make a Fork of this repository, by clicking on the top left button on this page that says "Fork":
 ![Image of Fork button](https://i.postimg.cc/XJkWQtG1/Screen-Shot-2020-10-16-at-5-25-30-PM.png)
