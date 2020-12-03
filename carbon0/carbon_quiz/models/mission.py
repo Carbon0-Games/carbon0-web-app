@@ -47,7 +47,7 @@ class Mission(models.Model):
         default=False, help_text="Does this mission need a text answer?"
     )
     PRIORITIES = [
-        (0, "Not Applicable"),
+        (0, "Starter Level"),
         (1, "Learning Level"),
         (2, "Listening Level"),
         (3, "Action Level"),
