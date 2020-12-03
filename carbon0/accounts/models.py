@@ -3,6 +3,9 @@ from carbon0 import settings
 from django.urls import reverse
 from django.conf import settings
 
+from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
+
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -13,6 +16,40 @@ class Profile(models.Model):
     users_footprint = models.FloatField(
         default=0,
         help_text="The total carbon footprint of the User across all quizzes.",
+    )
+    offsets_level = models.IntegerField(
+        default=0,
+        choices=Mission.PRIORITIES,
+        help_text=(
+            "Which level of Airlines-Utilities Missions to recommend"
+            + " for this player."
+        ),
+    )
+    diet_level = models.IntegerField(
+        default=0,
+        choices=Mission.PRIORITIES,
+        help_text=("Which level of Diet Missions to recommend" + " for this player."),
+    )
+    transit_level = models.IntegerField(
+        default=0,
+        choices=Mission.PRIORITIES,
+        help_text=(
+            "Which level of Transit Missions to recommend" + " for this player."
+        ),
+    )
+    recycling_level = models.IntegerField(
+        default=0,
+        choices=Mission.PRIORITIES,
+        help_text=(
+            "Which level of Recycling Missions to recommend" + " for this player."
+        ),
+    )
+    utilities_level = models.IntegerField(
+        default=0,
+        choices=Mission.PRIORITIES,
+        help_text=(
+            "Which level of Utilities Missions to recommend" + " for this player."
+        ),
     )
 
     def __str__(self):
@@ -37,3 +74,45 @@ class Profile(models.Model):
         self.users_footprint += quiz.carbon_value_total / 2
         self.save()
         return None
+
+    def get_player_level(self, category):
+        """
+        Return the Profile's current level for a certain Question category.
+        """
+        # make a dict of all the Question categories and the profile's levels
+        levels = [
+            self.diet_level,
+            self.transit_level,
+            self.recycling_level,
+            self.offsets_level,
+            self.utilities_level,
+        ]
+        # get a list of the category abbreivations
+        categories = [
+            abbreviation for abbreviation, full in Question.CATEGORIES
+        ]
+        category_level = dict(zip(categories, levels))
+        # return the level value for the given category parameter
+        return category_level[category]
+
+    def increment_player_level(self, category):
+        """
+        Increase the Profile's current level for a certain Question category.
+        """
+        # list the profile's levels, order corresponds to Question categories
+        levels = [
+            self.diet_level,
+            self.transit_level,
+            self.recycling_level,
+            self.offsets_level,
+            self.utilities_level,
+        ]
+        # iterate over the categories until we hit a match
+        for index, question_category in Question.CATEGORIES:
+            if category == question_category:
+                # increment the level in that category if possible
+                if levels[index] < 3:
+                    levels[index] += 1
+                # save and exit the function
+                self.save()
+                return None

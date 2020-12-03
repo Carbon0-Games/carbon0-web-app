@@ -1,3 +1,4 @@
+from heapq import nlargest
 import random
 
 from django.conf import settings
@@ -78,6 +79,31 @@ def filter_completed_missions(missions, user):
     return missions
 
 
+def get_missions_for_journey(missions, player_level, category):
+    """
+    Given a profile and a category, return Missions appropiate for the player.
+
+    Parameters:
+    missions(QuerySet<Mission>): all non-completed missions
+    player_level(int): level of the player in one of the 5 cateogories
+    category(str): one of the choices in the Question.CATEGORIES
+                    array. If provided, we need to provide Missions
+                    in a specific category
+
+    Returns: list of Missions in that category, <= the priority level 
+
+    """
+    # get all Questions related to the category
+    category_questions = Question.objects.filter(category=category)
+    # keep only Missions related those Questions
+    missions = [
+        m for m in missions if m.question in category_questions and
+        m.priority_level <= player_level
+    ]
+    # take the first 3 that meet the priority level, or progressively lower
+    return nlargest(3, missions, key=lambda x: x.priority_level)
+
+
 class QuizCreate(CreateView):
     """View to create new Quiz instance from randomly picked questions."""
 
@@ -152,18 +178,19 @@ class QuizDetail(UpdateView):
             Gets Missions to best match the user's answers to the quiz.
             Return the name of the template for resulting missions.
             """
+            # set a bool for if Missions are random (decided based on auth)
+            is_random = False
+            missions = list()
             # if the user is logged in, acculmulate their total footprint
             if request.user.is_authenticated is True:
                 # get the User profile
                 profile = Profile.objects.get(user=user)
                 # update their profile's footprint
                 profile.increase_user_footprint(quiz)
-            # set a flag to tell if the Missions are random
-            is_random = False
-            # find the missions the user can choose
-            missions = quiz.get_related_missions()
-            # if no missions to suggest, give 3 randomly
-            if len(missions) == 0:
+                # find the missions the user can choose
+                missions = quiz.get_related_missions(request.user.profile)
+            else:  # choose missions randomly for site visitors
+                # if no missions to suggest, give 3 randomly
                 missions = random.sample(set(Mission.objects.all()), 3)
                 is_random = True
             # finally, take out missions completed before
@@ -242,24 +269,40 @@ class MissionList(ListView):
     # reuse the QuizDetail template, for when question is not in the context
     template_name = "carbon_quiz/mission/list.html"
 
-    def get(self, request):
-        """Return a view of all missions not yet completed, or
+    def get(self, request, pk=None, category=None):
+        """Return a view of missions the Player should complete next, or
         all of them if the user is not authenticated.
 
-        Parameters:
         request(HttpRequest): carries the user as a property
+        pk(int): id of a Profile
+        category(str): one of the choices in the Question.CATEGORIES
+                       array. If provided, we need to provide Missions
+                       in a specific category
 
         Returns: HttpResponse: the view of the QuizDetail template
 
         """
-        # start with all Missions in the queryset
-        missions = self.queryset
+        # get the Profile, and it's level in the category
+        profile = Profile.objects.get(id=pk)
+        player_level = profile.get_player_level(category)
         # get only the missions not yet completed by the user
-        missions = filter_completed_missions(missions, request.user)
+        missions = filter_completed_missions(self.queryset, request.user)
+        # player has completed all Missions
+        if len(missions) == 0:
+            # make an Achievement, w/ the tree zeron 
+            new_achievement = Achievement.objects.create(
+                profile=profile,
+                zeron_image_url=settings.TREE_ZERON_PATHS
+            )
+            new_achievement.save()
+            # redirect to the AchievementDetail view
+            return HttpResponseRedirect(new_achievement.get_absolute_url())
+        # choose missions based on the player journey
+        elif player_level is not None and category is not None:
+            missions = get_missions_for_journey(missions, player_level, category)
         # set the context
         context = {
             "missions": missions,
-            "is_random": False,
             "MP_PROJECT_TOKEN": settings.MP_PROJECT_TOKEN,
         }
         # return the response

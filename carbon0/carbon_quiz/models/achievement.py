@@ -54,6 +54,8 @@ class Achievement(models.Model):
         (settings.AT_ZERON_PATHS, "Coin Model"),
         # 5. Utilities category Zeron
         (settings.UTIL_ZERON_PATHS, "Light Bulb Model"),
+        # 6. Grand prize Zeron
+        (settings.TREE_ZERON_PATHS, "Tree Zeron"),
     ]
     zeron_image_url = ArrayField(
         models.CharField(
@@ -132,11 +134,13 @@ class Achievement(models.Model):
 
     def reduce_footprint(self, current_footprint):
         """Decrease the current footprint of a user as appropiate."""
-        #  compute the new footprint value
-        new_footprint = current_footprint - (
-            self.mission.percent_carbon_sequestration
-            * self.mission.question.carbon_value
-        )
+        #  compute the new footprint value, except when it's the Tree Zeron
+        new_footprint = 0
+        if self.mission is not None:  
+            new_footprint = current_footprint - (
+                self.mission.percent_carbon_sequestration
+                * self.mission.question.carbon_value
+            )
         return round(new_footprint, 4)
 
     def calculate_new_footprint(self, has_user=True):
@@ -199,11 +203,23 @@ class Achievement(models.Model):
             self.profile.save()
             return None
 
+        def update_player_level():
+            """
+            If the user has a profile, we use the new Achievement to increment
+            their level in the category of the Mission they completed.
+            """
+            # get the related Mission, and the Question category
+            category = self.mission.question.category
+            # increment the player's level in that category if possible
+            self.profile.increment_player_level(category)
+            return None
+
         # get the unique secret id, make it URL safe
         secret_id = slugify(generate_unique_id())
         # set it on the new model instance
         self.secret_id = secret_id
-        # update the impacted user's carbon footprint
+        # update the impacted user's carbon footprint, and their player level
         if self.profile is not None:
             update_profile_footprint()
+            update_player_level()
         return super(Achievement, self).save(*args, **kwargs)

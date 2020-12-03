@@ -318,11 +318,8 @@ class QuizDetailTests(DatabaseSetup):
         response = self.client.get(url)
         # the response is returned OK
         self.assertEqual(response.status_code, 200)
-        # now pick one of the Questions whose id is not 0
-        question = self.quiz.questions[4]
-        # test that the related mission is shown on the response HTML
-        mission = Mission.objects.get(question=question)
-        self.assertContains(response, mission.title)
+        # user is suggested missions randomly, because they're not logged in
+        self.assertContains(response, "we randomly generated 3 missions")
         return None
 
 
