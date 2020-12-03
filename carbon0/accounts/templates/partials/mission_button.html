@@ -1,0 +1,39 @@
+<!-- carbon0/accounts/templates/partials/mission_button.html -->
+{% load static %}
+<style>
+    .mission_selection_button{
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+        background-color: white;
+        padding: 5px 8px;
+        -webkit-appearance: none;
+        font-size: vi;
+        border-radius: 16px;
+        white-space: nowrap;
+        /* overflow: hidden; */
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        min-width: vmax;
+        font-family: "Coda", sans-serif;
+        outline: none;
+        border: 0px;
+        
+    }
+
+    @media only screen and (min-width: 600px) {
+      .mission_selection_button {
+        padding: 6px 10px;
+        font-size: vi;
+      }
+    }
+</style>
+<!-- <button></button> -->
+<!-- <a href="#" class="mission_selection_button" href="{% static 'images/Carbon0_Logo_GDC.png' %}"></a> -->
+<!-- https://stackoverflow.com/questions/1621891/html-how-to-make-a-submit-button-with-text-image-in-it -->
+<button type="submit" class="mission_selection_button" href="#">
+    <h3 style="color: black;">
+        Missions
+    </h3>
+    <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" alt="Image" style="max-height: 15vh"/>
+</button>

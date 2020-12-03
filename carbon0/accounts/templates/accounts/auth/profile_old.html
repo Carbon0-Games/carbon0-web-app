@@ -1,4 +1,4 @@
-<!-- carbon0/accounts/templates/accounts/auth/profile.html -->
+<!-- carbon0/accounts/templates/accounts/auth/profile_old.html -->
 {% extends 'base.html' %}
 
 {% block metadata %}
@@ -73,41 +73,22 @@
           <!-- Mission Recommendations -->
           
           <div class="container">
-              <h1 class="row mb-4 justify-content-center pt-3 ml-1" style="color:#3FC5F0; font-weight: 400; font-size: 50px; line-height: 45px;">
-                  Want More Missions? Start Here!
-              </h1>
-              <h1 class="row justify-content-center pt-1 ml-1" style="color:white; font-weight: 400; font-size: 20px; line-height: 45px;">
-                  Pick One Below:
-              </h1>
-              <!-- https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window -->
-              <div class="row">
-                  <div class="col justify-content-center ">
-                      <div class="d-flex justify-content-center">
-                          {% include "partials/mission_button.html" %}
-                      </div>                       
-                  </div>
-                  <div class="col justify-content-center">
-                      <div class="d-flex justify-content-center">
-                          {% include "partials/mission_button.html" %}
-                      </div> 
-                  </div>
-                  <div class="col justify-content-center">
-                      <div class="d-flex justify-content-center">
-                          {% include "partials/mission_button.html" %}
-                      </div> 
-                  </div>
-                  <div class="col justify-content-center">
-                      <div class="d-flex justify-content-center">
-                          {% include "partials/mission_button.html" %}
-                      </div> 
-                  </div>
-                  <div class="col justify-content-center">
-                      <div class="d-flex justify-content-center">
-                          {% include "partials/mission_button.html" %}
-                      </div> 
-                  </div>
-              </div>
-              
+            {% if is_random is False %}
+              {% include "partials/missions_suggested.html" %}
+              <!-- if no missions for the user -->
+            {% else %}
+              {% include "partials/missions_not_suggested.html" %}
+            {% endif %}
+
+            <!-- Show the Missions -->
+            {% include "partials/mission_collection.html" %}
+
+            <!-- Link to All Uncompleted Missions -->
+            <div class="row justify-content-center">
+              <a class="btn btn-secondary mt-5" href="{% url 'carbon_quiz:mission_list'%}">
+                Want More Missions?
+              </a>
+            </div>
           </div>
           
         </div>
