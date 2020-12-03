@@ -81,31 +81,13 @@
               </h1>
               <!-- https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window -->
               <div class="row">
+                {% for item in  categories %}
                   <div class="col justify-content-center ">
                       <div class="d-flex justify-content-center">
                           {% include "partials/mission_button.html" %}
                       </div>                       
                   </div>
-                  <div class="col justify-content-center">
-                      <div class="d-flex justify-content-center">
-                          {% include "partials/mission_button.html" %}
-                      </div> 
-                  </div>
-                  <div class="col justify-content-center">
-                      <div class="d-flex justify-content-center">
-                          {% include "partials/mission_button.html" %}
-                      </div> 
-                  </div>
-                  <div class="col justify-content-center">
-                      <div class="d-flex justify-content-center">
-                          {% include "partials/mission_button.html" %}
-                      </div> 
-                  </div>
-                  <div class="col justify-content-center">
-                      <div class="d-flex justify-content-center">
-                          {% include "partials/mission_button.html" %}
-                      </div> 
-                  </div>
+                {% endfor %}
               </div>
               
           </div>
