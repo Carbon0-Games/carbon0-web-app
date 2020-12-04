@@ -174,7 +174,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             """
             missions = list()
             if achievement is not None and achievement.quiz is not None:
-                missions = achievement.quiz.get_related_missions()
+                missions = achievement.quiz.get_related_missions(user.profile)
                 # get only the missions not yet completed by the user
                 missions = cqv.filter_completed_missions(missions, user)
             return missions
