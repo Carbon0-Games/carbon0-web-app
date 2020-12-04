@@ -18,6 +18,7 @@ from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from carbon0 import views
 
+
 urlpatterns = [
     # Admin URLs
     path("admin/", admin.site.urls),
