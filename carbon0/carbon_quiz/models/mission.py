@@ -47,10 +47,10 @@ class Mission(models.Model):
         default=False, help_text="Does this mission need a text answer?"
     )
     PRIORITIES = [
-        (0, "Starter Level"),
-        (1, "Learning Level"),
-        (2, "Listening Level"),
-        (3, "Action Level"),
+        (0, "Beginner Level"),
+        (1, "Intermediate Level"),
+        (2, "Advanced Level"),
+        (3, "Expert Level"),
     ]
     priority_level = models.IntegerField(
         default=0, help_text="The stage at which a player is ready for this mission."
