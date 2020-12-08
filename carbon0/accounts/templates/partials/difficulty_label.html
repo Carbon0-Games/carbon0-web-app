@@ -1,0 +1,69 @@
+<!-- carbon0/accounts/templates/partials/mission_button.html -->
+{% load static %}
+<style>
+
+    /* https://stackoverflow.com/questions/16056591/font-scaling-based-on-width-of-container */
+    .mission_difficulty_label {
+      background-color: white;
+      padding: 5px 8px;
+      -webkit-appearance: none;
+      font-size: vi;
+      border-radius: 16px;
+      white-space: nowrap;
+      /* overflow: hidden; */
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      min-width: vmax;
+      font-family: "Coda", sans-serif;
+      outline: none;
+      border: 0px;
+    }
+    @media only screen and (min-width: 600px) {
+      .mission_difficulty_label {
+        padding: 6px 10px;
+        font-size: vi;
+      }
+    }
+
+    h3{
+      font-weight: 500;
+    }
+</style>
+<!-- https://stackoverflow.com/questions/1621891/html-how-to-make-a-submit-button-with-text-image-in-it -->
+<!-- 
+"Starter Level"),
+        (1, "Learning Level"),
+        (2, "Listening Level"),
+        (3, "Action Level") -->
+<h3 class="mission_difficulty_label"> 
+    {% if mission.priority_level == 0 %}
+        <style>
+            .mission_difficulty_label {
+                color: #0ed60b
+            }
+        </style>
+        Beginner
+    {% elif mission.priority_level == 1 %}
+        <style>
+            .mission_difficulty_label {
+                color: #f2f207
+            }
+        </style>
+        Intermediate
+    {% elif mission.priority_level == 2 %}
+        <style>
+            .mission_difficulty_label {
+                color: #ffb300
+            }
+        </style>
+        Hard
+    {% elif mission.priority_level == 3 %}
+        <style>
+            .mission_difficulty_label {
+                color: #f5160a
+            }
+        </style>
+        Advanced
+    {% endif %}
+</h3>
