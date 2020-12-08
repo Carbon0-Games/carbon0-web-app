@@ -9,18 +9,25 @@
     }
 </style>
 <div class="card" id="card">
+    <div class="row justify-content-center my-1">
+            {% include "partials/difficulty_label.html" %}
+    </div>
     <div class="d-flex justify-content-center">
-        {% if mission.question.category == 'A' %}
-            <img src="{% static 'icons/Flying.png' %}" class="card-img-top" alt="...">
-        {% elif mission.question.category == 'D' %}
-            <img src="{% static 'icons/Veggie_Bowl.png' %}" class="card-img-top" alt="...">
-        {% elif mission.question.category == 'T' %}
-            <img src="{% static 'icons/Gasoline_Transport.png' %}" class="card-img-top" alt="...">
-        {% elif mission.question.category == 'R' %}
-            <img src="{% static 'icons/Recycling.png' %}" class="card-img-top" alt="...">
-        {% elif mission.question.category == 'U' %}
-            <img src="{% static 'icons/Solar_Panel.png' %}" class="card-img-top" alt="...">
-        {% endif %}
+        
+        <div class="row">
+            {% if mission.question.category == 'A' %}
+                <img src="{% static 'icons/Flying.png' %}" class="card-img-top" alt="...">
+            {% elif mission.question.category == 'D' %}
+                <img src="{% static 'icons/Veggie_Bowl.png' %}" class="card-img-top" alt="...">
+            {% elif mission.question.category == 'T' %}
+                <img src="{% static 'icons/Gasoline_Transport.png' %}" class="card-img-top" alt="...">
+            {% elif mission.question.category == 'R' %}
+                <img src="{% static 'icons/Recycling.png' %}" class="card-img-top" alt="...">
+            {% elif mission.question.category == 'U' %}
+                <img src="{% static 'icons/Solar_Panel.png' %}" class="card-img-top" alt="...">
+            {% endif %}
+        </div>
+        
     </div>
     <div class="d-flex justify-content-center">
         <div class="card-body">
