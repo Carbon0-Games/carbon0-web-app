@@ -165,7 +165,7 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_URL = "accounts:login"
 LOGOUT_URL = "logout"
-LOGIN_REDIRECT_URL = "accounts:settings"
+LOGIN_REDIRECT_URL = "accounts:profile"
 
 # SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'

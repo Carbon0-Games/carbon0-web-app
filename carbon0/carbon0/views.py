@@ -9,7 +9,7 @@ def get_landing(request):
     # if the user is logged in
     if request.user.is_authenticated:
         # redirect to the user's profile page
-        return HttpResponseRedirect(reverse("accounts:settings"))
+        return HttpResponseRedirect(reverse("accounts:profile"))
     # set the context of the view
     context = {"app_id": settings.FACEBOOK_SHARING_APP_ID}
     try:  # track using Mixpanel in production only

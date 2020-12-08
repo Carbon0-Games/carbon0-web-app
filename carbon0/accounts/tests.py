@@ -133,7 +133,7 @@ class ProfileViewTests(TestCase):
         )
         self.profile = Profile.objects.create(user=self.user).save()
         # url of the request
-        self.url = reverse("accounts:settings")
+        self.url = reverse("accounts:profile")
         return None
 
     def test_user_gets_profile_page(self):
