@@ -6,33 +6,78 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0004_auto_20201130_1544'),
+        ("accounts", "0004_auto_20201130_1544"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='diet_level',
-            field=models.IntegerField(choices=[(0, 'Starter Level'), (1, 'Learning Level'), (2, 'Listening Level'), (3, 'Action Level')], default=0, help_text='Which level of Diet Missions to recommend for this player.'),
+            model_name="profile",
+            name="diet_level",
+            field=models.IntegerField(
+                choices=[
+                    (0, "Starter Level"),
+                    (1, "Learning Level"),
+                    (2, "Listening Level"),
+                    (3, "Action Level"),
+                ],
+                default=0,
+                help_text="Which level of Diet Missions to recommend for this player.",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='offsets_level',
-            field=models.IntegerField(choices=[(0, 'Starter Level'), (1, 'Learning Level'), (2, 'Listening Level'), (3, 'Action Level')], default=0, help_text='Which level of Airlines-Utilities Missions to recommend for this player.'),
+            model_name="profile",
+            name="offsets_level",
+            field=models.IntegerField(
+                choices=[
+                    (0, "Starter Level"),
+                    (1, "Learning Level"),
+                    (2, "Listening Level"),
+                    (3, "Action Level"),
+                ],
+                default=0,
+                help_text="Which level of Airlines-Utilities Missions to recommend for this player.",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='recycling_level',
-            field=models.IntegerField(choices=[(0, 'Starter Level'), (1, 'Learning Level'), (2, 'Listening Level'), (3, 'Action Level')], default=0, help_text='Which level of Recycling Missions to recommend for this player.'),
+            model_name="profile",
+            name="recycling_level",
+            field=models.IntegerField(
+                choices=[
+                    (0, "Starter Level"),
+                    (1, "Learning Level"),
+                    (2, "Listening Level"),
+                    (3, "Action Level"),
+                ],
+                default=0,
+                help_text="Which level of Recycling Missions to recommend for this player.",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='transit_level',
-            field=models.IntegerField(choices=[(0, 'Starter Level'), (1, 'Learning Level'), (2, 'Listening Level'), (3, 'Action Level')], default=0, help_text='Which level of Transit Missions to recommend for this player.'),
+            model_name="profile",
+            name="transit_level",
+            field=models.IntegerField(
+                choices=[
+                    (0, "Starter Level"),
+                    (1, "Learning Level"),
+                    (2, "Listening Level"),
+                    (3, "Action Level"),
+                ],
+                default=0,
+                help_text="Which level of Transit Missions to recommend for this player.",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='utilities_level',
-            field=models.IntegerField(choices=[(0, 'Starter Level'), (1, 'Learning Level'), (2, 'Listening Level'), (3, 'Action Level')], default=0, help_text='Which level of Utilities Missions to recommend for this player.'),
+            model_name="profile",
+            name="utilities_level",
+            field=models.IntegerField(
+                choices=[
+                    (0, "Starter Level"),
+                    (1, "Learning Level"),
+                    (2, "Listening Level"),
+                    (3, "Action Level"),
+                ],
+                default=0,
+                help_text="Which level of Utilities Missions to recommend for this player.",
+            ),
         ),
     ]

@@ -222,7 +222,13 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         # grab missions for the context
         is_random, missions = self._suggest_missions(user)
         # List of Mission Categories
-        categories = ["Offsets Journey","Diet Journey","Recycling Journey","Utilities Journey","Transit Journey"]
+        categories = [
+            "Offsets Journey",
+            "Diet Journey",
+            "Recycling Journey",
+            "Utilities Journey",
+            "Transit Journey",
+        ]
         # define the template context
         context = {
             "is_footprint_green": is_footprint_green,

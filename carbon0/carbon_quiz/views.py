@@ -90,15 +90,16 @@ def get_missions_for_journey(missions, player_level, category):
                     array. If provided, we need to provide Missions
                     in a specific category
 
-    Returns: list of Missions in that category, <= the priority level 
+    Returns: list of Missions in that category, <= the priority level
 
     """
     # get all Questions related to the category
     category_questions = Question.objects.filter(category=category)
     # keep only Missions related those Questions
     missions = [
-        m for m in missions if m.question in category_questions and
-        m.priority_level <= player_level
+        m
+        for m in missions
+        if m.question in category_questions and m.priority_level <= player_level
     ]
     # take the first 3 that meet the priority level, or progressively lower
     return nlargest(3, missions, key=lambda x: x.priority_level)
@@ -290,10 +291,9 @@ class MissionList(ListView):
             player_level = profile.get_player_level(category)
             # player has completed all Missions - time for special Zeron!
             if len(missions) == 0:
-                # make an Achievement, w/ the tree zeron 
+                # make an Achievement, w/ the tree zeron
                 new_achievement = Achievement.objects.create(
-                    profile=profile,
-                    zeron_image_url=settings.TREE_ZERON_PATHS
+                    profile=profile, zeron_image_url=settings.TREE_ZERON_PATHS
                 )
                 new_achievement.save()
                 # redirect to the AchievementDetail view

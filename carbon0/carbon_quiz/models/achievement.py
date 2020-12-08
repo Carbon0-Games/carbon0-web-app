@@ -136,7 +136,7 @@ class Achievement(models.Model):
         """Decrease the current footprint of a user as appropiate."""
         #  compute the new footprint value, except when it's the Tree Zeron
         new_footprint = 0
-        if self.mission is not None:  
+        if self.mission is not None:
             new_footprint = current_footprint - (
                 self.mission.percent_carbon_sequestration
                 * self.mission.question.carbon_value
