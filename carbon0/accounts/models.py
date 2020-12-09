@@ -93,23 +93,19 @@ class Profile(models.Model):
         # return the level value for the given category parameter
         return category_level[category]
 
-    def change_level(self, category):
+    def change_level(self, category, lower_threshold, higher_threshold):
         """
         Update the Profile's current level for a certain Question category.
 
         Parameters:
         category(str): one of the 5 Question Categories
-        increase
+        lower_threshold(float): the value at which the profile's level
+                                decrements 
+        higher_threshold(float): the value at which the profile's level
+                                 increases
+
+        Returns: None
         """
-        def get_lower_threshold():
-            pass
-
-        def get_higher_threshold():
-            pass
-
-        # see what threshold this profile is above and below
-        lower_threshold = get_lower_threshold()
-        higher_threshold = get_higher_threshold()
         # see if the level needs to change, based on current footprint
         increase = None
         if self.users_footprint < lower_threshold:
@@ -137,27 +133,3 @@ class Profile(models.Model):
                 # save and exit the function
                 self.save()
                 return None
-
-    """
-    def increment_player_level(self, category):
-        '''
-        Increase the Profile's current level for a certain Question category.
-        '''
-        # list the profile's levels, order corresponds to Question categories
-        levels = [
-            self.diet_level,
-            self.transit_level,
-            self.recycling_level,
-            self.offsets_level,
-            self.utilities_level,
-        ]
-        # iterate over the categories until we hit a match
-        for index, question_category in Question.CATEGORIES:
-            if category == question_category:
-                # increment the level in that category if possible
-                if levels[index] < 3:
-                    levels[index] += 1
-                # save and exit the function
-                self.save()
-                return None
-    """
