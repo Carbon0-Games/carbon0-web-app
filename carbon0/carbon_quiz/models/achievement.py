@@ -203,25 +203,22 @@ class Achievement(models.Model):
             self.profile.save()
             return None
 
-        def update_player_level(profile, old_footprint):
+        def update_player_level(profile):
             """
             If the user has a profile, we use the new Achievement to increment
             their level in the category of the Mission they completed.
             """
-            # TODO: see what threshold this profile is above and below
-            # (make helper function)
+            # see what threshold this profile is above and below
+            lower_threshold = profile.get_lower_threshold()
+            higher_threshold = profile.get_higher_threshold()
             # see if the newly updated footprint passes the threshold or falls
-            # update the Profile's level for the Achievement category 
-            return None
-        
-        def update_profile():
-            """
-            Handles updating both the associated Profile's footprint, 
-            as well as their level.
-            """
-            # TODO: get the current footprint of the Profile
-            # TODO: update their footprint
-            # TODO: update their level
+            category = self.mission.question.category
+            if profile.users_footprint < lower_threshold:
+                # bring the profile down
+                profile.change_level(category, increase=False)
+            elif profile.users_footprint > higher_threshold:
+                # bring the profile up
+                profile.change_level(category, increase=True)
             return None
 
         # get the unique secret id, make it URL safe
@@ -230,7 +227,6 @@ class Achievement(models.Model):
         self.secret_id = secret_id
         # update the impacted user's carbon footprint, and their player level
         if self.profile is not None:
-            # update_profile_footprint()
-            # update_player_level()
-            pass
+            update_profile_footprint()
+            update_player_level(self.profile)
         return super(Achievement, self).save(*args, **kwargs)
