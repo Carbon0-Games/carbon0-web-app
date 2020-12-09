@@ -261,7 +261,7 @@ class Achievement(models.Model):
             category = self.mission.question.category
             # get the first Quiz related to the profile, if any
             profile_achievements = (
-                self.objects.filter(profile=profile).order_by("id")
+                Achievement.objects.filter(profile=profile).order_by("id")
             )
             quiz = None
             for achievement in profile_achievements:
@@ -269,10 +269,10 @@ class Achievement(models.Model):
                     quiz = achievement.quiz
             # see what threshold this profile is above and below
             if quiz is not None:
-                thresholds = get_thresholds(quiz, profile)
+                lower_threshold, higher_threshold = get_thresholds(quiz, profile)
             else:  # no previous Quiz on the Profile
-                thresholds = [float('-inf'), float('inf')]
-            profile.change_level(category, thresholds)
+                lower_threshold, higher_threshold = (float('-inf'), float('inf'))
+            profile.change_level(category, lower_threshold, higher_threshold)
             return None
 
         # get the unique secret id, make it URL safe
