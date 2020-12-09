@@ -208,17 +208,9 @@ class Achievement(models.Model):
             If the user has a profile, we use the new Achievement to increment
             their level in the category of the Mission they completed.
             """
-            # see what threshold this profile is above and below
-            lower_threshold = profile.get_lower_threshold()
-            higher_threshold = profile.get_higher_threshold()
             # see if the newly updated footprint passes the threshold or falls
             category = self.mission.question.category
-            if profile.users_footprint < lower_threshold:
-                # bring the profile down
-                profile.change_level(category, increase=False)
-            elif profile.users_footprint > higher_threshold:
-                # bring the profile up
-                profile.change_level(category, increase=True)
+            profile.change_level(category)
             return None
 
         # get the unique secret id, make it URL safe
