@@ -203,15 +203,25 @@ class Achievement(models.Model):
             self.profile.save()
             return None
 
-        def update_player_level():
+        def update_player_level(profile, old_footprint):
             """
             If the user has a profile, we use the new Achievement to increment
             their level in the category of the Mission they completed.
             """
-            # get the related Mission, and the Question category
-            category = self.mission.question.category
-            # increment the player's level in that category if possible
-            self.profile.increment_player_level(category)
+            # TODO: see what threshold this profile is above and below
+            # (make helper function)
+            # see if the newly updated footprint passes the threshold or falls
+            # update the Profile's level for the Achievement category 
+            return None
+        
+        def update_profile():
+            """
+            Handles updating both the associated Profile's footprint, 
+            as well as their level.
+            """
+            # TODO: get the current footprint of the Profile
+            # TODO: update their footprint
+            # TODO: update their level
             return None
 
         # get the unique secret id, make it URL safe
@@ -220,6 +230,7 @@ class Achievement(models.Model):
         self.secret_id = secret_id
         # update the impacted user's carbon footprint, and their player level
         if self.profile is not None:
-            update_profile_footprint()
-            update_player_level()
+            # update_profile_footprint()
+            # update_player_level()
+            pass
         return super(Achievement, self).save(*args, **kwargs)
