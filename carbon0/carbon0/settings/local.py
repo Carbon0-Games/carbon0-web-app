@@ -22,10 +22,12 @@ TRANSIT_ZERON_PATHS = [
     "assets/glb-files/wheel180.glb",
     "assets/usdz-files/wheel180.usdz",
 ]
-TREE_ZERON_PATHS = [
-    "assets/glb-files/tree.glb",
-    "assets/usdz-files/tree.usdz",
-],
+TREE_ZERON_PATHS = (
+    [
+        "assets/glb-files/tree.glb",
+        "assets/usdz-files/tree.usdz",
+    ],
+)
 RECYCLING_ZERON_PATHS = [
     "assets/glb-files/bin180.glb",
     "assets/usdz-files/bin180.usdz",

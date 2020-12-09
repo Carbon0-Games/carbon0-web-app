@@ -11,35 +11,45 @@
     <div class="card-body">
         <h4 class="card-title" style="color:#3FC5F0; font-weight: 500; font-size: x-large">Your NEW Carbon Footprint</h4>
         <h5 class="card-text"><strong id="new-footprint" style="font-weight: 500;"></strong></h5>
-
-        <div id="chartdiv" style="width: 450px; height: 260px;"></div>       
-
-        <script type="module">
-            import { footprintPlot } from '../../../../static/js/amGuageChart.js';
-            $(document).ready(function () {
-                // get the data on the carbon footprint from the API
-                let endpoint = '/api/achievement-data/{{ achievement.id }}/'
-                let plotData = []
-                let plotLabels = [];
-                $.ajax({
-                    method: "GET",
-                    url: endpoint,
-                    success: function (data) {
-                        plotData = data.footprint;
-                        footprintPlot({{ achievement.quiz.carbon_value_total }}, plotData[0]);
-                        // use the same data to title the card
-                        let title = document.getElementById("new-footprint");
-                        title.innerText = plotData[0] + " kilograms CO2"
-                        // let text = document.createTextNode(" kilograms CO2");
-                    },
-                    error: function (error_data) {
-                        console.log(error_data)
-                    }
-                })
-            })
-        </script>
-        <div class="justify-content-center" style="text-align: center">
-            <h5 style="color: #990303; font-weight: lighter; font-size: smaller;"> Avg. American: 20 metric tons/yr </h5>
+        <div class="row justify-content-center">
+            <div class="col">
+                <!-- Carbon Calculator Chart -->
+                <div class="row">
+                    <div id="chartdiv" style="width: 450px; height: 260px;"></div>       
+                    <script type="module">
+                        import { footprintPlot } from '../../../../static/js/amGuageChart.js';
+                        $(document).ready(function () {
+                            // get the data on the carbon footprint from the API
+                            let endpoint = '/api/achievement-data/{{ achievement.id }}/'
+                            let plotData = []
+                            let plotLabels = [];
+                            $.ajax({
+                                method: "GET",
+                                url: endpoint,
+                                success: function (data) {
+                                    plotData = data.footprint;
+                                    footprintPlot({{ achievement.quiz.carbon_value_total }}, plotData[0]);
+                                    // use the same data to title the card
+                                    let title = document.getElementById("new-footprint");
+                                    title.innerText = plotData[0] + " kilograms CO2"
+                                    // let text = document.createTextNode(" kilograms CO2");
+                                },
+                                error: function (error_data) {
+                                    console.log(error_data)
+                                }
+                            })
+                        })
+                    </script>
+                </div>
+                <!-- Motivational Fact -->
+                <div class="row">
+                    <div class="justify-content-center" style="text-align: center">
+                        <div class="carbon0-button-mission" style="color: #e91d1d; font-weight: lighter; font-size: large;">
+                            Human-caused emissions of carbon dioxide (CO2) <br> need to be reduced by about 45% by 2030!
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

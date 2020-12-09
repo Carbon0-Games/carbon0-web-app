@@ -165,7 +165,7 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_URL = "accounts:login"
 LOGOUT_URL = "logout"
-LOGIN_REDIRECT_URL = "accounts:settings"
+LOGIN_REDIRECT_URL = "accounts:profile"
 
 # SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
@@ -194,11 +194,11 @@ SOCIAL_AUTH_PIPELINE = (
 
 # Configure the Sentry SDK\
 sentry_sdk.init(
-    dsn='https://659d3a6e256b4d36ae93fd3370426251@o486906.ingest.sentry.io/5544891',
+    dsn="https://659d3a6e256b4d36ae93fd3370426251@o486906.ingest.sentry.io/5544891",
     integrations=[DjangoIntegration()],
     traces_sample_rate=1.0,
-    # associate users to errors 
-    send_default_pii=True
+    # associate users to errors
+    send_default_pii=True,
 )
 
 # Convert the DATABASE_URL environment variable into what Django understands

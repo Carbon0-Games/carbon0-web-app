@@ -88,9 +88,7 @@ class Profile(models.Model):
             self.utilities_level,
         ]
         # get a list of the category abbreivations
-        categories = [
-            abbreviation for abbreviation, full in Question.CATEGORIES
-        ]
+        categories = [abbreviation for abbreviation, full in Question.CATEGORIES]
         category_level = dict(zip(categories, levels))
         # return the level value for the given category parameter
         return category_level[category]

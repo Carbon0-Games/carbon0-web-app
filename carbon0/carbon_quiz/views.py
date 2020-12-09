@@ -90,15 +90,16 @@ def get_missions_for_journey(missions, player_level, category):
                     array. If provided, we need to provide Missions
                     in a specific category
 
-    Returns: list of Missions in that category, <= the priority level 
+    Returns: list of Missions in that category, <= the priority level
 
     """
     # get all Questions related to the category
     category_questions = Question.objects.filter(category=category)
     # keep only Missions related those Questions
     missions = [
-        m for m in missions if m.question in category_questions and
-        m.priority_level <= player_level
+        m
+        for m in missions
+        if m.question in category_questions and m.priority_level <= player_level
     ]
     # take the first 3 that meet the priority level, or progressively lower
     return nlargest(3, missions, key=lambda x: x.priority_level)
@@ -282,24 +283,24 @@ class MissionList(ListView):
         Returns: HttpResponse: the view of the QuizDetail template
 
         """
-        # get the Profile, and it's level in the category
-        profile = Profile.objects.get(id=pk)
-        player_level = profile.get_player_level(category)
         # get only the missions not yet completed by the user
         missions = filter_completed_missions(self.queryset, request.user)
-        # player has completed all Missions
-        if len(missions) == 0:
-            # make an Achievement, w/ the tree zeron 
-            new_achievement = Achievement.objects.create(
-                profile=profile,
-                zeron_image_url=settings.TREE_ZERON_PATHS
-            )
-            new_achievement.save()
-            # redirect to the AchievementDetail view
-            return HttpResponseRedirect(new_achievement.get_absolute_url())
-        # choose missions based on the player journey
-        elif player_level is not None and category is not None:
-            missions = get_missions_for_journey(missions, player_level, category)
+        # get the Profile, as well as it's level in the category
+        if pk is not None:
+            profile = Profile.objects.get(id=pk)
+            player_level = profile.get_player_level(category)
+            # player has completed all Missions - time for special Zeron!
+            if len(missions) == 0:
+                # make an Achievement, w/ the tree zeron
+                new_achievement = Achievement.objects.create(
+                    profile=profile, zeron_image_url=settings.TREE_ZERON_PATHS
+                )
+                new_achievement.save()
+                # redirect to the AchievementDetail view
+                return HttpResponseRedirect(new_achievement.get_absolute_url())
+            # choose missions based on the player journey
+            elif player_level is not None and category is not None:
+                missions = get_missions_for_journey(missions, player_level, category)
         # set the context
         context = {
             "missions": missions,
