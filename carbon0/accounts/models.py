@@ -119,14 +119,14 @@ class Profile(models.Model):
         """
         # list the profile's levels, order corresponds to Question categories
         levels = [
-            self.diet_missions_completed, self.diet_level,
-            self.transit_missions_completed, self.transit_level,
-            self.recycling_missions_completed, self.recycling_level,
-            self.offsets_missions_completed, self.offsets_level,
-            self.utilities_missions_completed, self.utilities_level,
+            (self.diet_missions_completed, self.diet_level),
+            (self.transit_missions_completed, self.transit_level),
+            (self.recycling_missions_completed, self.recycling_level),
+            (self.offset_missions_completed, self.offsets_level),
+            (self.utilities_missions_completed, self.utilities_level),
         ]
         # iterate over the categories until we hit a match
-        for index, question_category in Question.CATEGORIES:
+        for index, question_category in enumerate(Question.CATEGORIES):
             # get the no. of Missions and level the Profile currently has
             current_missions_complete, current_level = levels[index]
             if category == question_category:
