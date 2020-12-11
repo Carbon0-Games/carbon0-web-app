@@ -39,31 +39,30 @@
 </style>
 <!-- https://stackoverflow.com/questions/1621891/html-how-to-make-a-submit-button-with-text-image-in-it -->
 
-<button type="submit" class="mission_selection_button" href="#">
-    {% if item == "Offsets Journey" %}
-      <h3>
-        <a href="{% url 'carbon_quiz:mission_list' profile.id 'A' %}">{{ item }}</a>
-      </h3>
+{% if item == "Offsets Journey" %}
+    <a class="mission_selection_button" 
+       href="{% url 'carbon_quiz:mission_list' profile.id 'A' %}">
+      <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
       <img src="{% static 'icons/Flying.png' %}" alt="Image" style="max-height: 25vh"/>
-    {% elif item == "Diet Journey" %}
-      <h3>
-        <a href="{% url 'carbon_quiz:mission_list' profile.id 'D' %}">{{ item }}</a>
-      </h3>
-      <img src="{% static 'icons/Veggie_Bowl.png' %}" alt="Image" style="max-height: 25vh"/>
-    {% elif item == "Recycling Journey" %}
-      <h3>
-        <a href="{% url 'carbon_quiz:mission_list' profile.id 'R' %}">{{ item }}</a>
-      </h3>
-      <img src="{% static 'icons/Recycling.png' %}" alt="Image" style="max-height: 25vh"/>
-    {% elif item == "Utilities Journey" %}
-      <h3>
-        <a href="{% url 'carbon_quiz:mission_list' profile.id 'U' %}">{{ item }}</a>
-      </h3>
-      <img src="{% static 'icons/Solar_Panel.png' %}" alt="Image" style="max-height: 25vh"/>
-    {% elif item == "Transit Journey" %}
-      <h3>
-        <a href="{% url 'carbon_quiz:mission_list' profile.id 'T' %}">{{ item }}</a>
-      </h3>
-      <img src="{% static 'icons/Gasoline_Transport.png' %}" alt="Image" style="max-height: 25vh"/>
-    {% endif %}
-</button>
+    </a>
+{% elif item == "Diet Journey" %}
+    <a class="mission_selection_button" href="{% url 'carbon_quiz:mission_list' profile.id 'D' %}">
+      <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
+      <img src="{% static 'icons/Veggie_Bowl.png' %}" alt="Image" style="max-height: 25vh" />
+    </a>
+{% elif item == "Recycling Journey" %}
+    <a class="mission_selection_button" href="{% url 'carbon_quiz:mission_list' profile.id 'R' %}">
+      <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
+      <img src="{% static 'icons/Recycling.png' %}" alt="Image" style="max-height: 25vh" />
+    </a>
+{% elif item == "Utilities Journey" %}
+      <a class="mission_selection_button" href="{% url 'carbon_quiz:mission_list' profile.id 'U' %}">
+        <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
+        <img src="{% static 'icons/Solar_Panel.png' %}" alt="Image" style="max-height: 25vh" />
+      </a>
+{% elif item == "Transit Journey" %}
+      <a class="mission_selection_button" href="{% url 'carbon_quiz:mission_list' profile.id 'T' %}">
+        <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
+        <img src="{% static 'icons/Gasoline_Transport.png' %}" alt="Image" style="max-height: 25vh" />
+      </a>
+{% endif %}
