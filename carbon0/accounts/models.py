@@ -25,10 +25,18 @@ class Profile(models.Model):
             + " for this player."
         ),
     )
+    offset_missions_completed = models.IntegerField(
+        default=0, 
+        help_text="Used to decide when to increase Player's Offset Level."
+    )
     diet_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
         help_text=("Which level of Diet Missions to recommend" + " for this player."),
+    )
+    diet_missions_completed = models.IntegerField(
+        default=0, 
+        help_text="Used to decide when to increase Player's Diet Level."
     )
     transit_level = models.IntegerField(
         default=0,
@@ -37,6 +45,10 @@ class Profile(models.Model):
             "Which level of Transit Missions to recommend" + " for this player."
         ),
     )
+    transit_missions_completed = models.IntegerField(
+        default=0, 
+        help_text="Used to decide when to increase Player's Transit Level."
+    )
     recycling_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
@@ -44,12 +56,20 @@ class Profile(models.Model):
             "Which level of Recycling Missions to recommend" + " for this player."
         ),
     )
+    recycling_missions_completed = models.IntegerField(
+        default=0, 
+        help_text="Used to decide when to increase Player's Recycling Level."
+    )
     utilities_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
         help_text=(
             "Which level of Utilities Missions to recommend" + " for this player."
         ),
+    )
+    utilities_missions_completed = models.IntegerField(
+        default=0, 
+        help_text="Used to decide when to increase Player's Utilities Level."
     )
 
     def __str__(self):
@@ -99,18 +119,22 @@ class Profile(models.Model):
         """
         # list the profile's levels, order corresponds to Question categories
         levels = [
-            self.diet_level,
-            self.transit_level,
-            self.recycling_level,
-            self.offsets_level,
-            self.utilities_level,
+            (self.diet_missions_completed, self.diet_level),
+            (self.transit_missions_completed, self.transit_level),
+            (self.recycling_missions_completed, self.recycling_level),
+            (self.offset_missions_completed, self.offsets_level),
+            (self.utilities_missions_completed, self.utilities_level),
         ]
         # iterate over the categories until we hit a match
-        for index, question_category in Question.CATEGORIES:
+        for index, question_category in enumerate(Question.CATEGORIES):
+            # get the no. of Missions and level the Profile currently has
+            current_missions_complete, current_level = levels[index]
             if category == question_category:
-                # increment the level in that category if possible
-                if levels[index] < 3:
-                    levels[index] += 1
+                # increment number of missions completed for specific category
+                levels[index][0] = current_missions_complete + 1
+                # increment the category level for every 3 Achievements
+                if (current_missions_complete + 1) % 3 == 0:
+                    levels[index][1] = current_level + 1
                 # save and exit the function
                 self.save()
                 return None

@@ -319,7 +319,7 @@ class QuizDetailTests(DatabaseSetup):
         # the response is returned OK
         self.assertEqual(response.status_code, 200)
         # user is suggested missions randomly, because they're not logged in
-        self.assertContains(response, "we randomly generated 3 missions")
+        self.assertContains(response, "randomly chosen 3 Missions you may like.")
         return None
 
 
