@@ -6,42 +6,58 @@
 
 {% block content %}
     <style>
-        body { background-color:#143963;}
+        html,body { 
+            background-color:#143963;
+            height: 100%;
+            margin: 0;
+        }
         h1 { font-weight: 300}
+
+        #acc-auth-signup{
+            background-image: url("{% static 'images/Carbon0_Website_No_Logo1.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0%;
+            min-height: 95%;
+            height: 100vh;
+        }
     </style>
-    {% include 'partials/navbar.html' %}
-    <div class="container-fluid">
-        <strong><h1 class="display-3 mt-5 font-weight-bold">Sign up to Save Your Score,</h1></strong>
-        <strong><h1 class="display-3 font-weight-bold">and Receive More Missions!</h1></strong>
-    </div>
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="row align-items-center">
-                        {% for field in form %}
-                        <div class="col">
-                            <p>
-                                {{ field.label_tag }}<br>
-                                {{ field }}
-                                <!-- {% if field.help_text %}
-                                    <small style="color: grey">{{ field.help_text }}</small>
-                                {% endif %} -->
-                                {% for error in field.errors %}
-                                    <p style="color: red">{{ error }}</p>
-                                {% endfor %}
-                            </p>
+
+    <div id="acc-auth-signup">
+        <div class="container-fluid">
+            <strong><h1 class="display-3 mt-5 font-weight-bold">Sign up to Save Your Score,</h1></strong>
+            <strong><h1 class="display-3 font-weight-bold">and Receive More Missions!</h1></strong>
+        </div>
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row align-items-center">
+                            {% for field in form %}
+                            <div class="col">
+                                <p>
+                                    {{ field.label_tag }}<br>
+                                    {{ field }}
+                                    <!-- {% if field.help_text %}
+                                        <small style="color: grey">{{ field.help_text }}</small>
+                                    {% endif %} -->
+                                    {% for error in field.errors %}
+                                        <p style="color: red">{{ error }}</p>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            {% endfor %}
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary">Sign up</button>
+                            </div>
                         </div>
-                        {% endfor %}
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary">Sign up</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
+        <!-- Social Login with Facebook and Google -->
+        {% include 'partials/social_login.html' %}
     </div>
-    <!-- Social Login with Facebook and Google -->
-    {% include 'partials/social_login.html' %}
+    
 {% endblock %}

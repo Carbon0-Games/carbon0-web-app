@@ -54,14 +54,30 @@
     <meta name="theme-color" content="#ffffff">
     <!-- Additional Meta Data Goes Here -->
     {% block metadata %}{% endblock %}
+
 </head>
 <body class="site">
+    {# {% block background %} #}
+        <!-- <style>
+            body{
+                background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
+                background-size: cover;
+                background-repeat: no-repeat;
+                margin: 0%;
+                overflow: hidden;
+            }
+        </style> -->
+    {# {% endblock %} #}
+
     <!-- Facebook JS SDK -->
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=601522010515607&autoLogAppEvents=1"
         nonce="EPSGDahf"></script>
 
+    <!-- Navbar -->
+    {% include 'partials/navbar.html' %}
+    
     <!-- Template Block: Main Body -->
     {% block content %}
     {% endblock %}
@@ -70,11 +86,9 @@
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
+    <!-- Code Fonts -->
     <style>
-@import url('https://fonts.googleapis.com/css2?family=Coda:wght@400;800&display=swap');
-</style>
+        @import url("{% static 'css/coda-fonts.css' %}");
+    </style>
 </body>
 </html>

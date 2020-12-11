@@ -1,0 +1,84 @@
+<!-- carbon0/accounts/templates/accounts/auth/profile.html -->
+{% extends 'base.html' %}
+
+{% block metadata %}
+    <!-- Chart.js and Chartjs-Gauge -->
+    <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div style="background-color:#143963; padding-bottom: 20rem;">
+        <div class="container mb-5">
+            <!-- Profile Username with Logout Link -->
+            <div class="row mt-5 ml-3">
+              <h1 class="text-white">Profile for: {{ user.username }}
+                <small class="text-muted">
+                  <a class="text-white" href="{% url 'accounts:logout' %}">(logout)</a>
+                </small>
+              </h1>
+            </div>
+            <!-- Profile Info -->
+            <div class="row ml-4">
+              <div class="col-md-6">
+                <div class="row mr-auto">
+                  <ul class="list-group list-group-horizontal my-3">
+                    <!-- Email -->
+                    <li class="list-group-item text-dark">
+                      Email: {{ user.email }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row justify-content-center">
+                  <!-- Footprint Over Time -->
+                  <h2 class="text-white justify-content-center">Carbon Footprint Over Time</h2>
+                  {% include "partials/footprint-line-plot.html" %}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row justify-content-center my-3">
+                  <!-- Current Footprint -->
+                  <div class="carbon0-button">
+                    <p class="text-dark" style="font-size: 20px;">Current Footprint:</p>
+                    <!-- Show the value in different colors depending on its value-->
+                    {% if is_footprint_green %}
+                      <div class="text-success">
+                    {% else %}
+                      <div class="text-danger">
+                    {% endif %}
+                    {{ footprint }} kilograms</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Mission Recommendations -->
+          
+          <div class="container">
+              <h1 class="row mb-4 justify-content-center pt-3 ml-1" style="color:#3FC5F0; font-weight: 400; font-size: 50px; line-height: 45px;">
+                  Your Next Missions:
+              </h1>
+              <h1 class="row justify-content-center pt-1 ml-1" style="color:white; font-weight: 400; font-size: 20px; line-height: 45px;">
+                  There are 5 different journeys you can go on to reduce your footprint and help save the planet
+              </h1>
+              <div class="row">
+                {% for item in  categories %}
+                  <div class="col justify-content-center ">
+                      <div class="d-flex justify-content-center">
+                          {% include "partials/mission_button.html" %}
+                      </div>                       
+                  </div>
+                {% endfor %}
+              </div>
+              
+          </div>
+          
+        </div>
+    </div>
+
+{% endblock %}

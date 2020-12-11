@@ -1,6 +1,8 @@
 ![Brand image](https://i.postimg.cc/pTycYvPJ/Screen-Shot-2020-10-16-at-10-37-00-AM.png)
 
 # Carbon0 Games
+ [![Build Status](https://img.shields.io/travis/Carbon0-Games/carbon0-web-app.svg?style=flat)](https://travis-ci.com/github/Carbon0-Games/carbon0-web-app/)
+
 Carbon0 Games helps people create carbon negative lifestyles for themselves and their communities, through our web application.
 
 This repository contains the source code for Carbon0, a gamified solution to save the planet!
@@ -35,17 +37,35 @@ All while having fun!
 - [Django](https://www.djangoproject.com/) and [Django REST Framework](https://www.django-rest-framework.org/) - for programming the backend web server using Python 3
 - [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) - for building a mobile-friendly UI for web browsers
 - [Postgres.app](https://postgresapp.com/) - for installing PostgreSQL on your local machine, to use as a database for the project
-- [Git](https://git-scm.com/doc) and [Github](https://www.github.com) - for Version Control and Team Collaboration
+- [Git](https://git-scm.com/doc) and [GitHub](https://www.github.com) - for Version Control and Team Collaboration
 - [WebXR](https://developers.google.com/web/updates/2018/05/welcome-to-immersive) - for displaying AR characters in the browser, with no external hardware required
-- [Chart.js](https://www.chartjs.org/) - for making bar charts to visualize the carbon footprints of the players
+- [Chart.js](https://www.chartjs.org/) - for making visualizations the carbon footprints of the players
 
 <br /><br />
 
 ## How to Run Locally
 Please follow these steps to be able to run the project:
 
+### Option 1: Using Docker and Docker-Compose
 
-### __Initial Setup__
+#### Prerequisite:
+
+Make sure you have the latest version of [Docker](https://www.docker.com/get-started) installed. If you are not on macOS or experience any trouble installing Docker Compose, check out the [Docker documentation](https://docs.docker.com/compose/install/).
+
+#### Instructions
+
+1. Once you have done so and have also cloned the repository locally, you can run the project using `docker-compose` in the root directory:
+
+        docker-compose up --build
+
+2. Then you can view the project at [http://localhost:8000](http://localhost:8000).
+
+You can also open up Docker Desktop, and view the health of the `carbon0-web-app` container on a panel that will look something like below:
+
+![Screenshot from Docker Desktop](https://i.postimg.cc/wvGHhhD8/Screen-Shot-2020-11-20-at-10-27-24-AM.png)
+
+### Option 2: Using `virtualenv`: 
+#### __Initial Setup__
 
 1. In the folder of your choice, type `git clone https://github.com/Carbon0-Games/carbon0-web-app.git` into the command line.
 2. Setup the folder as you wish while following these instructions
@@ -57,34 +77,39 @@ Please follow these steps to be able to run the project:
     - Do any db migrations that might be needed, using `python manage.py migrate`
     - Also migrate the initial data for the database, using the `loaddata` command:
         ```
-        django-admin loaddata fixture carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json
+        python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json
         ```
 
 ### __Running Locally__
 
 1. Make sure all settings are installed and migrations completed, especially after pulling the latest version from master
-2. Once you've navigated to the application folder, run the command:
+2. Navigate to the application folder `carbon0/`, and run this command to set your `DJANGO_SETTINGS_MODULE` environment variable. This will tell Django to use the local settings while you work on the project. It only needs to be done once, on the first time before you run the project locally:
+
+        $ export DJANGO_SETTINGS_MODULE=carbon0.settings.local
+
+3. Now, you can use the command to run the project locally:
 
         $ python3 manage.py runserver
         
 
-3. Something similar to the following will be returned in the command prompt:
+4. Something similar to the following will be returned in the command prompt:
 
         Performing system checks...
 
         System check identified no issues (0 silenced).
 
         September 15, 2020 - 15:50:53
-        Django version 3.1, using settings 'mysite.settings'
+        Django version 3.1, using settings 'carbon0.settings.local'
         Starting development server at http://127.0.0.1:8000/
         Quit the server with CONTROL-C.
         
 
-4. You can then enter the url into your browser to navigate to the launched project.
+5. You can then enter the url into your browser to navigate to the launched project.
 
 
 ### __Creating a Pull Request__
 When you would like to contribute to the codebase, the following steps are key to keeping the code clean and functional.
+*Recommended*: when doing development work, use `virtualenv`, `Pipenv`, or some other tool for Python virtual environments as you run the code locally. Docker is great because it's easy to get up and running, but you may find it harder to do some things such as keeping track of the version numbers for new Python packages you install. 
 
 1. *Non-collaborators*: please first make a Fork of this repository, by clicking on the top left button on this page that says "Fork":
 ![Image of Fork button](https://i.postimg.cc/XJkWQtG1/Screen-Shot-2020-10-16-at-5-25-30-PM.png)

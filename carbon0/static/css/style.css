@@ -46,7 +46,13 @@
   content: none;
 }
 
+a.mission-link {
+  color: white;
+}
 
+a.mission-link:hover {
+  background-color: green;
+}
 
 
 
@@ -69,22 +75,24 @@
     h8,
     ol,
     ul,
+    label,
     span {
       font-family: "Coda", sans-serif;
       color: white;
     }
 
-    p {
+    label, p {
       font-size: 16px;
       line-height: 24px;
       color: white;
     }
 
     h1 {
-      font-size: 16px;
-      line-height: 24px;
-      font-weight: bold;
+      font-size: 35px;
+      line-height: 30px;
     }
+
+    
     @media only screen and (min-width: 600px) {
       h1 {
           font-size: 24px;
@@ -177,6 +185,31 @@
     }
 
 
+    /* https://stackoverflow.com/questions/16056591/font-scaling-based-on-width-of-container */
+    .carbon0-button-mission {
+      background-color: white;
+      padding: 5px 8px;
+      -webkit-appearance: none;
+      font-size: vi;
+      border-radius: 16px;
+      white-space: nowrap;
+      /* overflow: hidden; */
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      min-width: vmax;
+      font-family: "Coda", sans-serif;
+      outline: none;
+      border: 0px;
+    }
+    @media only screen and (min-width: 600px) {
+      .carbon0-button-mission {
+        padding: 6px 10px;
+        font-size: vi;
+      }
+    }
+
+
 
 
 
@@ -228,18 +261,17 @@ model-viewer {
 	margin-bottom: -30px;
 }
 
-  #error {
-    background-color: #ffffffdd;
-    border-radius: 16px;
-    padding: 16px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate3d(-50%, -50%, 0);
-    transition: opacity 0.3s;
+
+#chartdiv{
+  max-width: 100%;
+  max-height: 100%;
+  /* width: 450px; 
+  height: 260px; */
+}
+
+@media only screen and (min-width: 600px) {
+  #chartdiv {
+    width: 450px; 
+    height: 260px;
   }
-  #error.hide {
-    opacity: 0;
-    visibility: hidden;
-    transition: visibility 2s, opacity 1s 1s;
-  }
+}

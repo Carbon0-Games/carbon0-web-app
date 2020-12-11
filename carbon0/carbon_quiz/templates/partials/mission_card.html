@@ -1,14 +1,55 @@
 {% load static %}
-<div class="card" style="width: 13rem; background-color:  #143963; border: 1px solid transparent;">
-    <img src="{% static 'images/Carbon0_Logo_GDC.png' %}" class="card-img-top" alt="...">
-    <div class="card-body">
-        <p class="card-text">{{ mission.action }}</p>
-        <!-- form a different link based on the context -->
-        {% if quiz %}
-            <a href="{% url 'carbon_quiz:mission_detail' mission.pk quiz.slug %}" class="btn btn-primary">
-        {% else %}
-            <a href="{% url 'carbon_quiz:mission_detail' mission.pk %}" class="btn btn-primary">
-        {% endif %}
-        {{ mission.title }}</a>
+<style>
+    #card{
+        /*  */
+        background-color: rgba(20, 57, 99, 0);
+        /* background-color:  #143963; */
+        width: 13rem;
+        border: 1px solid transparent;
+    }
+</style>
+<div class="card" id="card">
+    <div class="row justify-content-center my-1">
+            {% include "partials/difficulty_label.html" %}
     </div>
+    <div class="d-flex justify-content-center">
+        
+        <div class="row">
+            {% if mission.question.category == 'A' %}
+                <img src="{% static 'icons/Flying.png' %}" class="card-img-top" alt="...">
+            {% elif mission.question.category == 'D' %}
+                <img src="{% static 'icons/Veggie_Bowl.png' %}" class="card-img-top" alt="...">
+            {% elif mission.question.category == 'T' %}
+                <img src="{% static 'icons/Gasoline_Transport.png' %}" class="card-img-top" alt="...">
+            {% elif mission.question.category == 'R' %}
+                <img src="{% static 'icons/Recycling.png' %}" class="card-img-top" alt="...">
+            {% elif mission.question.category == 'U' %}
+                <img src="{% static 'icons/Solar_Panel.png' %}" class="card-img-top" alt="...">
+            {% endif %}
+        </div>
+        
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="card-body">
+            <p class="card-text">{{ mission.action }}
+                <br>
+                <!-- Display if the mission is stationary or not -->
+                {% if mission.is_stationary %}
+                <div class="row ml-1">
+                    <img width="30rem" height="30rem" src="https://img.icons8.com/flat_round/64/000000/checkmark.png" />
+                    <div class="ml-1 text-info">At-Home Mission!</div>
+                </div>
+                {% endif %}
+            </p>
+            <!-- Link to AchievementCreate -->
+            {% if quiz %}
+                <!-- Need to use class = "carbon0-button", but change a few stylings btn btn-primary-->
+                <a href="{% url 'carbon_quiz:achievement_create' mission.id quiz.slug %}" class="carbon0-button-mission">
+            {% else %}
+                <a href="{% url 'carbon_quiz:achievement_create' mission.id %}" class="carbon0-button-mission">
+            {% endif %}
+            {{ mission.title }}</a>
+        </div>
+    </div>
+    
 </div>

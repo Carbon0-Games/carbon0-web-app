@@ -1,3 +1,4 @@
+from heapq import nlargest
 import random
 
 from django.conf import settings
@@ -14,6 +15,7 @@ from django.views.generic.edit import (
 from django.views.generic import ListView
 from mixpanel import Mixpanel, MixpanelException
 
+from .forms import AchievementForm, QuizForm
 from .models.link import Link
 from .models.mission import Mission
 from accounts.models import Profile
@@ -49,10 +51,9 @@ def track_achievement_creation(achievement, user):
         mp.track(
             properties["user"], event_name="createAchievement", properties=properties
         )
-    # TODO: figure out why Mixpanel throws an exception on some environments
+    # let Mixpanel fail silently in the dev environment
     except MixpanelException:
-        # log the error happened on the Terminal
-        print("MixpanelException occurred!")
+        pass
     return None
 
 
@@ -76,6 +77,32 @@ def filter_completed_missions(missions, user):
         # get only the missions not yet completed by the user
         missions = set(missions) - user_missions
     return missions
+
+
+def get_missions_for_journey(missions, player_level, category):
+    """
+    Given a profile and a category, return Missions appropiate for the player.
+
+    Parameters:
+    missions(QuerySet<Mission>): all non-completed missions
+    player_level(int): level of the player in one of the 5 cateogories
+    category(str): one of the choices in the Question.CATEGORIES
+                    array. If provided, we need to provide Missions
+                    in a specific category
+
+    Returns: list of Missions in that category, <= the priority level
+
+    """
+    # get all Questions related to the category
+    category_questions = Question.objects.filter(category=category)
+    # keep only Missions related those Questions
+    missions = [
+        m
+        for m in missions
+        if m.question in category_questions and m.priority_level <= player_level
+    ]
+    # take the first 3 that meet the priority level, or progressively lower
+    return nlargest(3, missions, key=lambda x: x.priority_level)
 
 
 class QuizCreate(CreateView):
@@ -110,11 +137,14 @@ class QuizCreate(CreateView):
         return super().form_valid(form)
 
 
-class QuizDetail(DetailView):
+class QuizDetail(UpdateView):
     """Displays questions on the quiz to answer, or the missions to complete."""
 
     model = Quiz
-    template_name = "carbon_quiz/quiz/detail.html"
+    quiz_template_name = "carbon_quiz/quiz/detail.html"
+    mission_template_name = "carbon_quiz/mission/results.html"
+    queryset = Quiz.objects.all()
+    form_class = QuizForm
 
     def get(self, request, slug, question_number):
         """
@@ -130,6 +160,49 @@ class QuizDetail(DetailView):
         HttpResponse: the view of the detail template for the Quiz
 
         """
+
+        def display_quiz_question(quiz):
+            """
+            Gets the current question to display on the quiz.
+            Return the name of the template for quiz questions.
+            """
+            # get the current Question
+            question_obj = quiz.get_current_question()
+            # set the addtional key value pairs to the context
+            key_value_pairs = [
+                ("question", question_obj),
+            ]
+            return key_value_pairs, self.quiz_template_name
+
+        def display_mission_results(user):
+            """
+            Gets Missions to best match the user's answers to the quiz.
+            Return the name of the template for resulting missions.
+            """
+            # set a bool for if Missions are random (decided based on auth)
+            is_random = False
+            missions = list()
+            # if the user is logged in, acculmulate their total footprint
+            if request.user.is_authenticated is True:
+                # get the User profile
+                profile = Profile.objects.get(user=user)
+                # update their profile's footprint
+                profile.increase_user_footprint(quiz)
+                # find the missions the user can choose
+                missions = quiz.get_related_missions(request.user.profile)
+            else:  # choose missions randomly for site visitors
+                # if no missions to suggest, give 3 randomly
+                missions = random.sample(set(Mission.objects.all()), 3)
+                is_random = True
+            # finally, take out missions completed before
+            missions = filter_completed_missions(missions, request.user)
+            # set the additional key value pairs
+            key_value_pairs = [
+                ("missions", missions),  # possible missions for the user
+                ("is_random", is_random),
+            ]
+            return key_value_pairs, self.mission_template_name
+
         # get the Quiz instance
         quiz = Quiz.objects.get(slug=slug)
         # set the context
@@ -139,46 +212,12 @@ class QuizDetail(DetailView):
         # if the next question needs to be shown
         if quiz.active_question < 5:
             # get the current Question
-            question_obj = quiz.get_current_question()
-            # set the addtional key value pairs to the context
-            additional_key_value_pairs = [
-                ("question", question_obj),
-            ]
+            additional_key_value_pairs, template_name = display_quiz_question(quiz)
         # otherwise show the mission start page
         else:  #  quiz.active_question == 5:
-            # if the user is logged in, acculmulate their total footprint
-            if request.user.is_authenticated is True:
-                # get the User profile
-                profile = Profile.objects.get(user=request.user)
-                # update their profile's footprint
-                profile.increase_user_footprint(quiz)
-            # find the missions the user can choose
-            missions = list()
-            # set a flag to tell if the Missions are random
-            is_random = False
-            # get the question id that each user actually interacted with
-            for question_id in quiz.questions:
-                # check if this question was answered no (needs a mission)
-                if question_id > 0:
-                    # get the question
-                    question_obj = Question.objects.get(id=question_id)
-                    # get a random Mission related to the Question
-                    related_missions = Mission.objects.filter(question=question_obj)
-                    mission_set = random.sample(set(related_missions), 1)
-                    mission = mission_set.pop()
-                    # add to the list of Missions
-                    missions.append(mission)
-            # if no missions to suggest, give 3 randomly
-            if len(missions) == 0:
-                missions = random.sample(set(Mission.objects.all()), 3)
-                is_random = True
-            # finally, take out missions completed before
-            missions = filter_completed_missions(missions, request.user)
-            # set the additional key value pairs
-            additional_key_value_pairs = [
-                ("missions", missions),  # possible missions for the user
-                ("is_random", is_random),
-            ]
+            additional_key_value_pairs, template_name = display_mission_results(
+                request.user
+            )
         # add the Mixpanel token
         additional_key_value_pairs.append(
             ("MP_PROJECT_TOKEN", settings.MP_PROJECT_TOKEN)
@@ -186,7 +225,41 @@ class QuizDetail(DetailView):
         # add additional key value pairs to the context
         context.update(additional_key_value_pairs)
         # return the response
-        return render(request, self.template_name, context)
+        return render(request, template_name, context)
+
+    def form_valid(self, form, slug):
+        # get the Quiz and current Question
+        quiz = Quiz.objects.get(slug=slug)
+        question_obj = quiz.get_current_question()
+        # increment the total carbon value of this quiz so far
+        quiz.increment_carbon_value(question_obj)
+        # increment the active_question for the next call
+        quiz.increment_active_question()
+        # add to the Quiz model's answers, and redirect to the next page
+        new_answer = form.cleaned_data["open_response_answers"][0]
+        quiz.open_response_answers.append(new_answer)
+        quiz.save()
+        return HttpResponseRedirect(quiz.get_absolute_url())
+
+    def post(self, request, slug, question_number):
+        """
+        Processes the response to an open response question,
+        and moves on to the next part of the quiz.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        slug(slug): unique slug value of the Quiz instance
+        question_number(int): the number of the question in the quiz
+
+        Returns:
+        HttpResponseRedirect: the view of the detail template for the Quiz
+
+        """
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            return self.form_valid(form, slug)
+        else:
+            return self.form_invalid(form)
 
 
 class MissionList(ListView):
@@ -197,24 +270,40 @@ class MissionList(ListView):
     # reuse the QuizDetail template, for when question is not in the context
     template_name = "carbon_quiz/mission/list.html"
 
-    def get(self, request):
-        """Return a view of all missions not yet completed, or
+    def get(self, request, pk=None, category=None):
+        """Return a view of missions the Player should complete next, or
         all of them if the user is not authenticated.
 
-        Parameters:
         request(HttpRequest): carries the user as a property
+        pk(int): id of a Profile
+        category(str): one of the choices in the Question.CATEGORIES
+                       array. If provided, we need to provide Missions
+                       in a specific category
 
         Returns: HttpResponse: the view of the QuizDetail template
 
         """
-        # start with all Missions in the queryset
-        missions = self.queryset
         # get only the missions not yet completed by the user
-        missions = filter_completed_missions(missions, request.user)
+        missions = filter_completed_missions(self.queryset, request.user)
+        # get the Profile, as well as it's level in the category
+        if pk is not None:
+            profile = Profile.objects.get(id=pk)
+            player_level = profile.get_player_level(category)
+            # player has completed all Missions - time for special Zeron!
+            if len(missions) == 0:
+                # make an Achievement, w/ the tree zeron
+                new_achievement = Achievement.objects.create(
+                    profile=profile, zeron_image_url=settings.TREE_ZERON_PATHS
+                )
+                new_achievement.save()
+                # redirect to the AchievementDetail view
+                return HttpResponseRedirect(new_achievement.get_absolute_url())
+            # choose missions based on the player journey
+            elif player_level is not None and category is not None:
+                missions = get_missions_for_journey(missions, player_level, category)
         # set the context
         context = {
             "missions": missions,
-            "is_random": False,
             "MP_PROJECT_TOKEN": settings.MP_PROJECT_TOKEN,
         }
         # return the response
@@ -256,19 +345,19 @@ class AchievementCreate(CreateView):
     """Creates the award the user gets for completing a mission."""
 
     model = Achievement
-    fields = []
+    # fields = ['mission_response']
+    form_class = AchievementForm
     template_name = "carbon_quiz/achievement/create.html"
     queryset = Achievement.objects.all()
 
-    def get(self, request, mission_id, chosen_link_id, quiz_slug=None):
+    def get(self, request, mission_id, quiz_slug=None):
         """
         Renders a page to show the question currently being asked.
+        Assume we only want the first link related to a mission.
 
         Parameters:
         request(HttpRequest): the GET request sent to the server
         mission_id(int): unique slug value of the Quiz instance
-        chosen_link_id(int): the id of the Link model we will use
-                             to complete the mission
 
         Returns:
         HttpResponse: the view of the detail template for the Achievement
@@ -277,10 +366,19 @@ class AchievementCreate(CreateView):
         """
         # get the mission object
         mission = Mission.objects.get(id=mission_id)
-        # get the links related to the mission
-        link = Link.objects.get(id=chosen_link_id)
-        # set the context
-        context = {"mission": mission, "link": link}
+        # init the context
+        context = {"mission": mission}
+        # add links, if that's what the mission needs
+        if mission.requires_answer is False:
+            # get the links related to the mission
+            link_descriptions, link_addresses = Link.get_mission_links(mission)
+            # add to the context
+            context.update(
+                [
+                    ("link_description", link_descriptions[0]),
+                    ("link_address", link_addresses[0]),
+                ]
+            )
         # return the response
         return render(request, self.template_name, context)
 
@@ -292,6 +390,9 @@ class AchievementCreate(CreateView):
         form.instance.mission = mission
         # set the url of the Zeron image field
         form.instance.zeron_image_url = Achievement.set_zeron_image_url(mission)
+        # set the answer to the mission, if present
+        if "mission_answer" in form:
+            form.instance.mission_response = form.cleaned_data["mission_answer"]
         # track the event in Mixpanel
         track_achievement_creation(form.instance, user)
         # if it's available, set the quiz relationship on the new instance
@@ -302,7 +403,7 @@ class AchievementCreate(CreateView):
             form.instance.quiz = quiz
         return super().form_valid(form)
 
-    def post(self, request, mission_id, chosen_link_id, quiz_slug=None):
+    def post(self, request, mission_id, quiz_slug=None):
         """
         Passes the id of the Mission the Achievement is for,
         as part of the POST request.
@@ -310,14 +411,12 @@ class AchievementCreate(CreateView):
         Parameters:
         request(HttpRequest): the GET request sent to the server
         mission_id(int): unique slug value of the Quiz instance
-        chosen_link_id(int): the id of the Link model we will use
-                             to complete the mission
 
         Returns:
         HttpResponseRedirect: the view of the detail template for the Achievement
         """
         # get form needed for Achievement model instantiation
-        form = self.get_form()
+        form = self.form_class(request.POST)
         # validate
         if form.is_valid():
             # if the user is logged in

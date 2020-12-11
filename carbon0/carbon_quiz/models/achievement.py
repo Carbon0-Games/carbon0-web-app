@@ -6,13 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
 from accounts.models import Profile
-from carbon0.settings import (
-    DIET_ZERON_PATHS,
-    TRANSIT_ZERON_PATHS,
-    RECYCLING_ZERON_PATHS,
-    AT_ZERON_PATHS,
-    UTIL_ZERON_PATHS,
-)
+from django.conf import settings
 from .mission import Mission
 from .question import Question
 from .quiz import Quiz
@@ -51,15 +45,17 @@ class Achievement(models.Model):
     # Zerons for Achievements: (img_url_paths: List[str], name_of_zeron: str)
     ZERONS = [
         # 1. Diet category Zeron
-        (DIET_ZERON_PATHS, "Nature's Model"),
+        (settings.DIET_ZERON_PATHS, "Nature's Model"),
         # 2. Transit category Zeron
-        (TRANSIT_ZERON_PATHS, "Wheel Model"),
+        (settings.TRANSIT_ZERON_PATHS, "Wheel Model"),
         # 3. Recycling category Zeron
-        (RECYCLING_ZERON_PATHS, "Bin Model"),
+        (settings.RECYCLING_ZERON_PATHS, "Bin Model"),
         # 4. Airline-Travel category Zeron
-        (AT_ZERON_PATHS, "Coin Model"),
+        (settings.AT_ZERON_PATHS, "Coin Model"),
         # 5. Utilities category Zeron
-        (UTIL_ZERON_PATHS, "Light Bulb Model"),
+        (settings.UTIL_ZERON_PATHS, "Light Bulb Model"),
+        # 6. Grand prize Zeron
+        (settings.TREE_ZERON_PATHS, "Tree Zeron"),
     ]
     zeron_image_url = ArrayField(
         models.CharField(
@@ -77,6 +73,12 @@ class Achievement(models.Model):
         null=True,
         blank=True,
         help_text="The badge that the user earns in this achievement.",
+    )
+    mission_response = models.CharField(
+        max_length=700,
+        null=True,
+        blank=True,
+        help_text="The text-answer which completed the mission.",
     )
 
     def __str__(self):
@@ -130,6 +132,17 @@ class Achievement(models.Model):
         zeron_img_paths, zeron_model_name = category_to_zerons[category]
         return zeron_img_paths
 
+    def reduce_footprint(self, current_footprint):
+        """Decrease the current footprint of a user as appropiate."""
+        #  compute the new footprint value, except when it's the Tree Zeron
+        new_footprint = 0
+        if self.mission is not None:
+            new_footprint = current_footprint - (
+                self.mission.percent_carbon_sequestration
+                * self.mission.question.carbon_value
+            )
+        return round(new_footprint, 4)
+
     def calculate_new_footprint(self, has_user=True):
         """
         Return the new carbon footprint, with the Achievement now won.
@@ -141,19 +154,14 @@ class Achievement(models.Model):
         Returns: float: new footprint value
 
         """
-        # get the Question related to this Achievement
-        related_question = self.mission.question
+        current_footprint = 0
         # calculate the new footprint for the user
         if has_user is True:
             current_footprint = self.profile.users_footprint
         # calculate the overall footprint for a quiz (unauthenticated user)
-        else:  # has_user is False
+        elif self.quiz is not None:  # achievement comes after a quiz
             current_footprint = self.quiz.carbon_value_total
-        # compute the new footprint value
-        new_footprint = current_footprint - (
-            self.mission.percent_carbon_sequestration * related_question.carbon_value
-        )
-        return round(new_footprint, 4)
+        return self.reduce_footprint(current_footprint)
 
     def save(self, user=None, *args, **kwargs):
         """Saves a new instance of the Achievement model.
@@ -195,11 +203,23 @@ class Achievement(models.Model):
             self.profile.save()
             return None
 
+        def update_player_level():
+            """
+            If the user has a profile, we use the new Achievement to increment
+            their level in the category of the Mission they completed.
+            """
+            # get the related Mission, and the Question category
+            category = self.mission.question.category
+            # increment the player's level in that category if possible
+            self.profile.increment_player_level(category)
+            return None
+
         # get the unique secret id, make it URL safe
         secret_id = slugify(generate_unique_id())
         # set it on the new model instance
         self.secret_id = secret_id
-        # update the impacted user's carbon footprint
+        # update the impacted user's carbon footprint, and their player level
         if self.profile is not None:
             update_profile_footprint()
+            update_player_level()
         return super(Achievement, self).save(*args, **kwargs)

@@ -6,12 +6,24 @@
 {% block content %}
 
     <style>
-        body { background-color:#143963;}
+        html,body { 
+            background-color:#143963;
+            height: 100%;
+            margin: 0;
+        }
         h1 { font-weight: 300}
 
         img[alt="CaptainJoy"] {
           height: 150px;
 
+        }
+        #acc-auth-login{
+            background-image: url("{% static 'images/Carbon0_Website_No_Logo1.png' %}"); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0%;
+            min-height: 95%;
+            height: 100vh;
         }
 
         @media only screen and (min-width: 600px) {
@@ -22,34 +34,36 @@
         }
     </style>
 
-    {% include 'partials/navbar.html' %}
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-6">
-                <img alt="CaptainJoy" src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}">
-            </div>
-            <div class="col-sm-12 col-md-6">
-                    <strong><h1 class="display-3 mt-5 font-weight-bold">Sign In</h1></strong>
-                <form method="post">
-                    {% csrf_token %}
-                    {% for field in form %}
+    <div id="acc-auth-login">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <img alt="CaptainJoy" src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}">
+                </div>
+                <div class="col-sm-12 col-md-6">
+                        <strong><h1 class="display-3 mt-5 font-weight-bold">Sign In</h1></strong>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="col">
+                                <p>
+                                    {{ field.label_tag }}<br>
+                                    {{ field }}
+                                    {% for error in field.errors %}
+                                        <p style="color: yellow">{{ error }}</p>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        {% endfor %}
                         <div class="col">
-                            <p>
-                                {{ field.label_tag }}<br>
-                                {{ field }}
-                                {% for error in field.errors %}
-                                    <p style="color: yellow">{{ error }}</p>
-                                {% endfor %}
-                            </p>
+                            <button type="submit" class="btn btn-primary">Sign In!</button>
                         </div>
-                    {% endfor %}
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">Sign In!</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
+        <!-- Social Login with Facebook and Google -->
+        {% include 'partials/social_login.html' %}
     </div>
-    <!-- Social Login with Facebook and Google -->
-    {% include 'partials/social_login.html' %}
+    
 {% endblock %}

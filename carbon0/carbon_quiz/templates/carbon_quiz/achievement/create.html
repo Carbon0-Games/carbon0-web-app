@@ -4,42 +4,71 @@
 {% load static %}
 
 {% block content %}
-<div style="background-color:#143963; height: 100vh;">
+
+<style>
+    #main {
+        background-image: url("{% static 'images/Carbon0_Website_back true.png' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin: 0%;
+        overflow: hidden;
+    }
+
+    @media only screen and (min-width: 600px) {
+      #mission-details {
+          font-size: 3vh;
+      }
+
+      /* #mission-title{
+          margin-top:
+      } */
+    }
+</style>
+
+<div style="background-color:#143963; min-height: 100vh;" id="main">
     <div class="container">
         <!-- Header -->
-        <h1 class="row mt-2" style="color:white;">
-            Complete Your Mission
+        <h1 class="row mt-2 mx-1" style="color:#3FC5F0; font-weight: 500; font-size: 50px; line-height: 45px;">
+            Complete Your Mission:
         </h1>
         <!-- Title of the Mission -->
-        <h3 class="row ml-2 text-white">{{ mission.title }}</h3>
+        <h3 id="mission-title" class="row my-3 mx-1 text-white" style="font-weight: 500; font-size: 45px; line-height: 40px;">{{ mission.title }}</h3>
+
         <!-- Web View of Mission Link -->
-        <div class="row text-white">
+        <div class="row mt-3">
             <div class="col-md-8">
-                <!-- Site Preview -->
-                <div class="row ml-2">
-                    <p>
-                        <strong>Action:</strong> {{ mission.action }}.<br>
-                        When you are finished on the website linked below, come back and 
+                <!-- Complete the Mission -->
+                <div class="row mx-3">
+                    <p id="mission-details">
+                        <strong style="color:#3FC5F0; font-weight: 500;">Action:</strong> {{ mission.action }}.<br>
+                        When you are finished on the website linked below, come back and
                         select "Mission Completed" so we can give you your prize! <br>
-                        <a class="link-overview text-white" href="{{ link.address }}" target="_blank">
-                            Preview Link: {{ link.description }}
+                        <a class="link-overview mission-link" href="{{ link_address }}" target="_blank">
+                            Preview Link: {{ link_description }}
                         </a>
-                        <!-- Link Preview -->
-                        <iframe src="{{ link.address }}" width=500rem height=500rem></iframe>
                     </p>
                 </div>
-                <!-- Mission Complete Button -->
-                <div class="row ml-2">
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-success" value="Mission Completed">
-                    </form>
+               
+            </div>
+            <div class="col-md-4">
+                <!-- Link Preview -->
+                <div class="embed-responsive embed-responsive-1by1 my-2">
+                    <iframe class="embed-responsive-item" src="{{ link_address }}" id="iframe-size"></iframe>
                 </div>
             </div>
-            <!-- Capt. Joy Image -->
-            <div class="col-md-4">
-                {% include "partials/captain_joy_image.html" %}
-            </div>
+        </div>
+        <div class="row justify-content-center">
+            <!-- Mission that Require Users to go to a Link -->
+            {% if mission.requires_answer is False %}
+            <!-- Mission Complete Button -->
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" class="carbon0-button" value="Mission Completed">
+            </form>
+            {% else %}
+                {% include "partials/answer_mission.html" %}
+            {% endif %}
+            <!-- Mission that Require Users to Enter Text -->
         </div>
     </div>
 </div>

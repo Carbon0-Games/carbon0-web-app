@@ -1,49 +1,76 @@
-<!-- QuizDetail template -->
+<!-- QuizDetail template: User is viewing a Question -->
 <!-- carbon0/carbon_quiz/templates/carbon_quiz/quiz/detail.html -->
 {% extends "base.html" %}
 {% load static %}
 
 {% block metadata %}
-<!-- Mixpanel JS SDK -->
-<script>(function (c, a) {
-        if (!a.__SV) {
-            var b = window; try { var d, m, j, k = b.location, f = k.hash; d = function (a, b) { return (m = a.match(RegExp(b + "=([^&]*)"))) ? m[1] : null }; f && d(f, "state") && (j = JSON.parse(decodeURIComponent(d(f, "state"))), "mpeditor" === j.action && (b.sessionStorage.setItem("_mpcehash", f), history.replaceState(j.desiredHash || "", c.title, k.pathname + k.search))) } catch (n) { } var l, h; window.mixpanel = a; a._i = []; a.init = function (b, d, g) {
-                function c(b, i) {
-                    var a = i.split("."); 2 == a.length && (b = b[a[0]], i = a[1]); b[i] = function () {
-                        b.push([i].concat(Array.prototype.slice.call(arguments,
-                            0)))
-                    }
-                } var e = a; "undefined" !== typeof g ? e = a[g] = [] : g = "mixpanel"; e.people = e.people || []; e.toString = function (b) { var a = "mixpanel"; "mixpanel" !== g && (a += "." + g); b || (a += " (stub)"); return a }; e.people.toString = function () { return e.toString(1) + ".people (stub)" }; l = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
-                for (h = 0; h < l.length; h++)c(e, l[h]); var f = "set set_once union unset remove delete".split(" "); e.get_group = function () { function a(c) { b[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); e.push([d, call2]) } } for (var b = {}, d = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < f.length; c++)a(f[c]); return b }; a._i.push([b, d, g])
-            }; a.__SV = 1.2; b = c.createElement("script"); b.type = "text/javascript"; b.async = !0; b.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ?
-                MIXPANEL_CUSTOM_LIB_URL : "file:" === c.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; d = c.getElementsByTagName("script")[0]; d.parentNode.insertBefore(b, d)
-        }
-    })(document, window.mixpanel || []);
-    // initialize the Mixpanel tracker
-    mixpanel.init("{{ MP_PROJECT_TOKEN }}", { batch_requests: true })
-</script>
+    <!-- Mixpanel JS SDK -->
+    <script>(function (c, a) {
+            if (!a.__SV) {
+                var b = window; try { var d, m, j, k = b.location, f = k.hash; d = function (a, b) { return (m = a.match(RegExp(b + "=([^&]*)"))) ? m[1] : null }; f && d(f, "state") && (j = JSON.parse(decodeURIComponent(d(f, "state"))), "mpeditor" === j.action && (b.sessionStorage.setItem("_mpcehash", f), history.replaceState(j.desiredHash || "", c.title, k.pathname + k.search))) } catch (n) { } var l, h; window.mixpanel = a; a._i = []; a.init = function (b, d, g) {
+                    function c(b, i) {
+                        var a = i.split("."); 2 == a.length && (b = b[a[0]], i = a[1]); b[i] = function () {
+                            b.push([i].concat(Array.prototype.slice.call(arguments,
+                                0)))
+                        }
+                    } var e = a; "undefined" !== typeof g ? e = a[g] = [] : g = "mixpanel"; e.people = e.people || []; e.toString = function (b) { var a = "mixpanel"; "mixpanel" !== g && (a += "." + g); b || (a += " (stub)"); return a }; e.people.toString = function () { return e.toString(1) + ".people (stub)" }; l = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
+                    for (h = 0; h < l.length; h++)c(e, l[h]); var f = "set set_once union unset remove delete".split(" "); e.get_group = function () { function a(c) { b[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); e.push([d, call2]) } } for (var b = {}, d = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < f.length; c++)a(f[c]); return b }; a._i.push([b, d, g])
+                }; a.__SV = 1.2; b = c.createElement("script"); b.type = "text/javascript"; b.async = !0; b.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ?
+                    MIXPANEL_CUSTOM_LIB_URL : "file:" === c.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; d = c.getElementsByTagName("script")[0]; d.parentNode.insertBefore(b, d)
+            }
+        })(document, window.mixpanel || []);
+        // initialize the Mixpanel tracker
+        mixpanel.init("{{ MP_PROJECT_TOKEN }}", { batch_requests: true })
+    </script>
+
+    <!-- Chart.js and Chartjs-Gauge -->
+    <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+    <script src="https://unpkg.com/chartjs-gauge@0.2.0/dist/chartjs-gauge.js"></script>
+    <!-- Data Labels Plug-in for Chart.js -->
+    <script src="https://unpkg.com/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.js"></script>
+
+
+    <!-- Am Chart js-->
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
 {% endblock %}
 
 {% block content %}
-    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;">
+    <style>
+        #quiz-detail-main {
+            background-image: url("{% static 'images/Carbon0_Website_No_Logo1.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0%;
+        }
+    </style>
+
+    <div style="background-color:#143963; min-height: 100vh; overflow: hidden;" id="quiz-detail-main">
         <div class="container pb-5">
-            <!-- if User is viewing a Question -->
-            {% if question %}
-                <!-- Header -->
-                <h1 class="row">
-                    <h1 class="mt-2" style="color:white;">Carbon Calculator</h1>
-                </h1>
-                <!-- Ask the Question -->
-                <div class="row mt-3">
-                    <p class="text-white ml-5 mr-5">
-                        {{ question.question_text }}
+            <!-- Header -->
+            <h1 class="mt-2" style="color:#3FC5F0; font-weight: 500; font-size: 7vh; line-height: 6vh">Carbon Calculator</h1>
+            <!-- Show Instructions for the Quiz (first question only) -->
+            {% if quiz.active_question == 0 %}
+                <div class="row ml-2">
+                    <h2 class="ml-2 text-white" style="font-weight: 500; color:#00c711; font-size: 3vh">Please Read:</h2>
+                    <p class="ml-2 text-white">Let's get to know you. <br>
+                        I'll ask 5 questions to figure out how much CO2 you emit per year. <br>
+                        This is called your <i>carbon footprint</i>.
                     </p>
                 </div>
-                <!-- Show the buzzers, Capt Joy, and info box -->
-                <div class="row">
-                    <!-- buzzers and info -->
-                    <div class="col-md-8">
-                        <div class="row">
+            {% endif %}
+            <!-- Ask the Question -->
+            <h2 class="text-white mx-5" style="font-weight: 500; font-size: 30px;">{{ question.question_text }}</h2>
+           
+
+            <div class="row justify-content-center">
+                <!-- Show the buzzers and info box -->
+                <div class="row justify-content-center" style="width: 100%;">
+                    {% if question.improvement_response != -1 %}
+                        <!-- Answer Section for Yes/No Questions -->
+                        <div class="row justify-content-center">
                             <!-- JS function to go to the next quiz question -->
                             {% include 'partials/next_question_script.html' %}
                             <!-- Yes and No Buzzers-->
@@ -56,40 +83,27 @@
                                         class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">NO</button>
                             </div>
                         </div>
-
-                        <div class="row justify-content-center">
-                                <!-- Carbon Value Card -->
-                                {% include "partials/quiz_footprint.html" %}
-                        </div>
-                    </div>
-                    <div class="col-md-4 justify-content-center">
-                        <!-- Captain Joy -->
-                        {% include "partials/captain_joy_image.html" %}
-                    </div>
+                    {% else %}
+                        <!-- Answer Section for Open Response Questions -->
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="text-white" for="openAnswer">Answer Here</label>
+                                <input type="text" class="form-control"
+                                    name="open_response_answers" id="openAnswer" 
+                                    aria-describedby="answerField"
+                                    placeholder="Enter your response here" style="width:100%;">
+                                <small id="answerHelp" class="form-text text-white">We'll use this to personalize your missions!</small>
+                            </div>
+                            <input type="submit" value="Submit Answer" class="carbon0-button" style="margin-bottom: 20px; margin-top: 50px;">
+                        </form>
+                    {% endif %}
                 </div>
-            <!-- if User is viewing their Missions -->
-            {% else %}
-                {% if is_random is False %}
-                    {% include "partials/missions_suggested.html" %}
-                <!-- if no missions for the user -->
-                {% else %}
-                    {% include "partials/missions_not_suggested.html" %}
-                {% endif %}
-                <div class="row">
-                    <!-- List links for Mission Details -->
-                    {% for mission in missions %}
-                    <div class="col justify-content-center">
-                        <div class="d-flex justify-content-center">
-                            {% include "partials/mission_card.html" %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="row pt-4 justify-content-center">
-                    <!-- Carbon Value Card -->
-                    {% include "partials/quiz_footprint.html" %}
-                </div>
-            {% endif %}
+            </div>
+            <div class="row justify-content-center">
+                <!-- Carbon Value Card -->
+                {% include "partials/quiz_footprint.html" %}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
+from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question
 
 
@@ -34,8 +35,13 @@ class Quiz(models.Model):
     carbon_value_total = models.FloatField(
         blank=True,
         default=1000,
-        help_text="Total metric tons of carbon that the user can eliminate.",
+        help_text="Total kilograms of carbon that the user can eliminate.",
     )
+    open_response_answers = ArrayField(
+        models.TextField(null=True, blank=True, help_text="User's response."),
+        default=list,
+    )
+    previous_carbon_value = models.FloatField(blank=True, default=1, editable=False)
 
     def __str__(self):
         """Returns human-readable name of the Quiz."""
@@ -87,3 +93,47 @@ class Quiz(models.Model):
         question_id = self.questions[self.active_question]
         question_obj = Question.objects.get(id=question_id)
         return question_obj
+
+    def get_related_missions(self, profile):
+        """Return Missions related to the Questions on a Quiz.
+        Assume that the user is logged in, so we can use their
+        category levels.
+
+        Parameter:
+        profile (Profile): instance of the profile model related
+                           to the requesting user; has priority levels
+
+        Returns: List[Mission] at the priority level of categories
+                 which the user said they need to improve in, or lower
+
+        """
+        missions = list()
+        # get the question id that each user actually interacted with
+        for question_id in self.questions:
+            # check if this question was answered no (needs a mission)
+            if question_id > 0:
+                # get a mission related to the Question
+                question_obj = Question.objects.get(id=question_id)
+                # get the priority level of the user in the question category
+                level_threshold = profile.get_player_level(question_obj.category)
+                # search for a mission in that category and <= to the player level
+                mission = Mission.objects.filter(
+                    question=question_obj, priority_level__lte=level_threshold
+                ).first()
+                # add it to the list of Missions
+                missions.append(mission)
+        return missions
+
+    def get_unrelated_missions(self):
+        """
+        Return Missions related to the Question for which the user
+        does not necessarily need to improve.
+        """
+        # get all the ids of all Questions, removing affirmative ones
+        not_improvement_questions = Question.objects.exclude(pk__in=self.questions)
+        # randomly sample missions
+        missions = list()
+        for question_obj in not_improvement_questions:
+            mission = Mission.get_related_mission(question_obj)
+            missions.append(mission)
+        return missions

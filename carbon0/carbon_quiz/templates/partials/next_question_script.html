@@ -21,6 +21,11 @@
                     // Track when user has completed a Quiz
                     mixpanel.track("completeQuiz", {});
                 }
+                // Mixpanel also tracks which Question they completed
+                let evt = "completeQuestion";
+                mixpanel.track(evt, {
+                    "questionNum": currentQuestionNum
+                });
                 // update the url the user is requesting, top show the next Question
                 let startURL = "/carbon-quiz/{{ quiz.slug }}/answer-question/";
                 let completedURL = startURL.concat(nextQuestionNum, "/");

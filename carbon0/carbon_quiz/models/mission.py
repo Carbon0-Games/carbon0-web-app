@@ -1,3 +1,4 @@
+import random
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
@@ -32,7 +33,37 @@ class Mission(models.Model):
             + "e.g. if the value entered here is 0.97, that means 97%."
         ),
     )
+    is_stationary = models.BooleanField(
+        default=False,
+        help_text=(
+            "Does the player need to get off the " + "couch to complete the mission?"
+        ),
+    )
+    is_paid = models.BooleanField(
+        default=False,
+        help_text=("Does it cost anything for the player " + "to complete the mission"),
+    )
+    requires_answer = models.BooleanField(
+        default=False, help_text="Does this mission need a text answer?"
+    )
+    PRIORITIES = [
+        (0, "Beginner Level"),
+        (1, "Intermediate Level"),
+        (2, "Advanced Level"),
+        (3, "Expert Level"),
+    ]
+    priority_level = models.IntegerField(
+        default=0, help_text="The stage at which a player is ready for this mission."
+    )
 
     def __str__(self):
         """Returns human-readable name of the Mission."""
         return f"{self.title}"
+
+    @classmethod
+    def get_related_mission(cls, question_obj):
+        """Given a Question instance, return a related Mission randomly."""
+        related_missions = Mission.objects.filter(question=question_obj)
+        mission_set = random.sample(set(related_missions), 1)
+        mission = mission_set.pop()
+        return mission

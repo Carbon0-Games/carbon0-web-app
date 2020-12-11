@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import first from "../../../../static/images/Present-_Tree.png";
-import second from "../../../../static/images/3D_Carrot.png";
-import thrid from "../../../../static/images/Present-_LED.png";
+// Note: the following three lines are commented out in order to simplify the DockerfileNode image, 
+// and because they are unused
+// import first from "../../../../static/images/Present-_Tree.png";
+// import second from "../../../../static/images/3D_Carrot.png";
+// import thrid from "../../../../static/images/Present-_LED.png";
 
 const api = axios.create({
   // baseURL: `https://carbon0.herokuapp.com`

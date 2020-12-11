@@ -1,6 +1,7 @@
 language: python
 python:
   - "3.8"
+  - "3.9"
 # adding PostgreSQL
 services:
   - postgresql
@@ -10,11 +11,9 @@ before_script:
 install:
   - cd carbon0/
   - pip install -r requirements.txt
-# add the enivronment variables
-env:
-  - AT_GLB=assets/glb-files/coin180.glb AT_USDZ=assets/usdz-files/coin180.usdz DIET_GLB=assets/glb-files/carrot180.glb  DIET_USDZ=assets/usdz-files/carrot180.usdz UTIL_GLB=assets/glb-files/bulb180.glb UTIL_USDZ=assets/usdz-files/bulb180.usdz RECYCLING_GLB=assets/glb-files/bin180.glb RECYCLING_USDZ=assets/usdz-files/bin180.usdz TRANSIT_GLB=assets/glb-files/wheel180.glb TRANSIT_USDZ=assets/usdz-files/wheel180.usdz
 # command to run tests
 script:
+  - export DJANGO_SETTINGS_MODULE=carbon0.settings.local
   - python manage.py collectstatic --noinput
   - python manage.py migrate
   - python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json  
