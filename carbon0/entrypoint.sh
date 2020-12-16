@@ -22,4 +22,5 @@ export DJANGO_SETTINGS_MODULE=carbon0.settings.local
 python manage.py collectstatic --noinput
 python manage.py migrate --noinput
 python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json
-python manage.py runserver 0.0.0.0:8000
+# python manage.py runserver 0.0.0.0:8000
+gunicorn carbon0.wsgi:application --bind 0.0.0.0:8000
