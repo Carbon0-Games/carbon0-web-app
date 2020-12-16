@@ -1,7 +1,7 @@
 ![Brand image](https://i.postimg.cc/pTycYvPJ/Screen-Shot-2020-10-16-at-10-37-00-AM.png)
 
 # Carbon0 Games
- [![Build Status](https://img.shields.io/travis/Carbon0-Games/carbon0-web-app.svg?style=flat)](https://travis-ci.com/github/Carbon0-Games/carbon0-web-app/)
+ [![Build Status](https://img.shields.io/travis/Carbon0-Games/carbon0-web-app.svg?style=flat)](https://travis-ci.com/github/Carbon0-Games/carbon0-web-app/) ![Website Status](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fcarbon0.herokuapp.com)
 
 Carbon0 Games helps people create carbon negative lifestyles for themselves and their communities, through our web application.
 
