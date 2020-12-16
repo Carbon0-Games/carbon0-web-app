@@ -36,7 +36,7 @@ All while having fun!
 ## Tech Stack
 - [Django](https://www.djangoproject.com/) and [Django REST Framework](https://www.django-rest-framework.org/) - for programming the backend web server using Python 3
 - [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) - for building a mobile-friendly UI for web browsers
-- [Postgres.app](https://postgresapp.com/) - for installing PostgreSQL on your local machine, to use as a database for the project
+- [PostgreSQL](https://www.postgresql.org/) - for installing PostgreSQL on your local machine. Please use [Postgres.app](https://postgresapp.com/) for macOS, or check here for [Windows installers](https://www.postgresql.org/download/windows/) of PostgreSQL.
 - [Git](https://git-scm.com/doc) and [GitHub](https://www.github.com) - for Version Control and Team Collaboration
 - [WebXR](https://developers.google.com/web/updates/2018/05/welcome-to-immersive) - for displaying AR characters in the browser, with no external hardware required
 - [Chart.js](https://www.chartjs.org/) - for making visualizations the carbon footprints of the players
