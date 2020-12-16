@@ -1,7 +1,7 @@
 ![Brand image](https://i.postimg.cc/pTycYvPJ/Screen-Shot-2020-10-16-at-10-37-00-AM.png)
 
 # Carbon0 Games
- [![Build Status](https://img.shields.io/travis/Carbon0-Games/carbon0-web-app.svg?style=flat)](https://travis-ci.com/github/Carbon0-Games/carbon0-web-app/) ![Website Status](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fcarbon0.herokuapp.com)
+ [![Build Status](https://img.shields.io/travis/Carbon0-Games/carbon0-web-app.svg?style=flat)](https://travis-ci.com/github/Carbon0-Games/carbon0-web-app/) ![Website Status](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fcarbon0.herokuapp.com) ![Django Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/zainrazatheupstart/carbon0-web-app_django_1?label=Django%20Build%20Size) ![React Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/zainrazatheupstart/carbon0-web-app_react_1?label=React%20Build%20Size) ![PostgreSQL Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/zainrazatheupstart/carbon0-web-app_postgresdb?label=PostgreSQL%20Build%20Size) ![NGINX Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/zainrazatheupstart/carbon0-web-app_nginx_1?label=NGINX%20%20Build%20Size)
 
 Carbon0 Games helps people create carbon negative lifestyles for themselves and their communities, through our web application.
 
