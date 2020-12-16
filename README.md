@@ -56,11 +56,23 @@ Make sure you have the latest version of [Docker](https://www.docker.com/get-sta
 
 1. Once you have done so and have also cloned the repository locally, you can run the project using `docker-compose` in the root directory:
 
-        docker-compose up --build
+        docker-compose up
 
 2. Then you can view the project at [http://localhost:8000](http://localhost:8000).
 
-You can also open up Docker Desktop, and view the health of the `carbon0-web-app` container on a panel that will look something like below:
+3. If you ever want to run the automated Django tests from within the Docker container, first go to the `carbon0/entrypoint.sh` file, and uncomment the tests command on line 27:
+```
+        # python manage.py test  # remove the first "#" to uncomment this line
+```
+Then you may run the Docker containers again, using the command below to clear out the old versions of the containers on your machine:
+
+```
+        docker-compose down
+```
+
+With that, feel free to run the command in Step 1 once more!
+
+4. At any time you can also open up Docker Desktop, and view the health of the `carbon0-web-app` container on a panel that will look something like below:
 
 ![Screenshot from Docker Desktop](https://i.postimg.cc/wvGHhhD8/Screen-Shot-2020-11-20-at-10-27-24-AM.png)
 
