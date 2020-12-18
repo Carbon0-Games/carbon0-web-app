@@ -22,7 +22,23 @@ export DJANGO_SETTINGS_MODULE=carbon0.settings.local
 python manage.py collectstatic --noinput
 python manage.py migrate --noinput
 python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json
+
+# Make a superuser account if not already available, and add a Profile for it
+echo "
+from django.contrib.auth import get_user_model
+from accounts.models import Profile
+admin_objs = get_user_model().objects.filter(email='$DJANGO_ADMIN_EMAIL')
+if len(admin_objs) == 0:
+  admin_obj = get_user_model().objects.create_superuser(
+    '$DJANGO_ADMIN_USER', 
+    '$DJANGO_ADMIN_EMAIL', 
+    '$DJANGO_ADMIN_PASSWORD',
+  )
+  Profile.objects.get_or_create(user=admin_obj)" | python manage.py shell
+
 # The test command has been commented out - turn it back on whenever you specifically want
 # to run the tests within Docker!
 # python manage.py test
+
+# run the Django project
 gunicorn carbon0.wsgi:application --bind 0.0.0.0:8000

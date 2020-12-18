@@ -11,6 +11,7 @@ SECRET_KEY = "84#be86m-0ud#g$m&#6^)hd!$qyhl6mw73nm11$)=jufb-cw+4"
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
+    "0.0.0.0",
 ]
 
 # File paths for the Zeron model files
