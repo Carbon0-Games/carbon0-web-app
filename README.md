@@ -128,14 +128,15 @@ When you would like to contribute to the codebase, the following steps are key t
 2. Once you have pull the code onto your local machine, use the command `git checkout -b name_of_your_branch` (this both creates your branch and 'moves'; you to that branch to work on. Make sure that when coding that you are working on your branch. You can see which branch your on in the terminal, depending on your terminal setup with oh-my-zsh. You can also see it in the lower left corner in VSCode and lower right Atom)
     - To travel between branches simply use `git checkout branch_name`
 3. code as usual
-4. When your commits are made, use `git push origin name_of_your_branch` to make sure to push to your branch.
-5. Occasionally check on other peoples branch as well in github by clicking the branch:master button under the commit count in the repo and you can switch branches and see others branches 
+4. If you require access to the Django Admin site while developing locally, you can create a superuser account using `python manage.py createsuperuser` (if using a Python virtual environment). Alternatively if you are running the project using Docker, don't worry - this step is already done for you! All you need to do now is access the Admin site at http://localhost:8000/admin, and log in by using the credentials listed in `.env.sample`, specificallly for the `DJANGO_ADMIN_USER` and `DJANGO_ADMIN_PASSWORD` (look to the right of the `=` sign).
+5. When your commits are made, use `git push origin name_of_your_branch` to make sure to push to your branch.
+6. Occasionally check on other peoples branch as well in github by clicking the branch:master button under the commit count in the repo and you can switch branches and see others branches 
 On GitHub, navigate to the main page of the repository.
-6. In the "Branch" menu, choose the branch that contains your commits.
-7. Above the list of files, click  __Pull request__.
-8. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
-9. Type a title and description for your pull request.
-10. To create a pull request that is ready for review, click **Create Pull Request.**
+7. In the "Branch" menu, choose the branch that contains your commits.
+8. Above the list of files, click  __Pull request__.
+9. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
+10. Type a title and description for your pull request.
+11. To create a pull request that is ready for review, click **Create Pull Request.**
 ![Pull Request button](https://docs.github.com/assets/images/help/pull_requests/pull-request-start-review-button.png)
 
 *From [Creating a Pull Request via Github](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
