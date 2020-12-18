@@ -76,6 +76,8 @@ With that, feel free to run the command in Step 1 once more!
 
 ![Screenshot from Docker Desktop](https://i.postimg.cc/wvGHhhD8/Screen-Shot-2020-11-20-at-10-27-24-AM.png)
 
+5. If you choose to run the project using Docker Compose, most of your changes can be seen with live reload. Notable exceptions to this are the files in the `static` and `staticfiles` directories, which is one of the [issues](https://docs.djangoproject.com/en/3.1/ref/contrib/staticfiles/#django-admin-collectstatic) we are currently working to improve upon.
+
 ### Option 2: Using `virtualenv`: 
 #### __Initial Setup__
 
