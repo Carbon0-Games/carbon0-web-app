@@ -29,6 +29,10 @@ class Profile(models.Model):
         default=0, 
         help_text="Used to decide when to increase Player's Offset Level."
     )
+    offsets_sign_photo = models.ImageField(
+        upload_to="images/", null=True, blank=True, 
+        help_text="User's sign for their Airline-Utilities Missions."
+    )
     diet_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
@@ -37,6 +41,10 @@ class Profile(models.Model):
     diet_missions_completed = models.IntegerField(
         default=0, 
         help_text="Used to decide when to increase Player's Diet Level."
+    )
+    diet_sign_photo = models.ImageField(
+        upload_to="images/", null=True, blank=True, 
+        help_text="User's sign for their Diet Missions."
     )
     transit_level = models.IntegerField(
         default=0,
@@ -49,6 +57,10 @@ class Profile(models.Model):
         default=0, 
         help_text="Used to decide when to increase Player's Transit Level."
     )
+    transit_sign_photo = models.ImageField(
+        upload_to="images/", null=True, blank=True, 
+        help_text="User's sign for their Transit Missions."
+    )
     recycling_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
@@ -60,6 +72,10 @@ class Profile(models.Model):
         default=0, 
         help_text="Used to decide when to increase Player's Recycling Level."
     )
+    recycling_sign_photo = models.ImageField(
+        upload_to="images/", null=True, blank=True, 
+        help_text="User's sign for their Recycling Missions."
+    )
     utilities_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
@@ -70,6 +86,16 @@ class Profile(models.Model):
     utilities_missions_completed = models.IntegerField(
         default=0, 
         help_text="Used to decide when to increase Player's Utilities Level."
+    )
+    utilities_sign_photo = models.ImageField(
+        upload_to="images/", null=True, blank=True, 
+        help_text="User's sign for their Utilities Missions."
+    )
+    photos_are_accurate = models.BooleanField(
+        default=False, help_text=(
+            "Whether or not the signs the player has " +
+            "are valid."
+        )
     )
 
     def __str__(self):
