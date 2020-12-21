@@ -1,5 +1,6 @@
 from heapq import nlargest
 import random
+from typing import Any, Dict
 
 from django.conf import settings
 from django.db.models import F
@@ -10,9 +11,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
     CreateView,
     UpdateView,
-    DeleteView,
 )
 from django.views.generic import ListView
+from django.views.generic.base import TemplateView
 from mixpanel import Mixpanel, MixpanelException
 
 from .forms import AchievementForm, QuizForm
@@ -477,3 +478,32 @@ class AchievementDetail(DetailView):
             context["quiz"] = achievement.quiz
         # return the response
         return render(request, self.template_name, context)
+
+
+class MissionTracker(TemplateView):
+    """
+    Where the player is redirected once they enter a tracking mission,
+    to specific which mission category they are going to track.
+    """
+
+    template_name = "carbon_quiz/mission/tracker.html"
+
+    def get_context_data(self, mission_id: int, **kwargs: Any) -> Dict[str, Any]:
+        """
+        Display a series of links to the form, where the user can track their
+        Mission (based on the category it is in).
+
+        Parameters:
+        mission_id(int): the id field of the tracking Mission instance (which)
+                         requires the player to make a sign
+        
+        Returns: HttpResponse: a view of the template
+
+        """
+        # init the context
+        context = super().get_context_data(**kwargs)
+        # add the mission_id, and the category types
+        context["mission_id"] = mission_id
+        context["categories"] = Mission.CATEGORIES
+        # return the context
+        return context
