@@ -23,12 +23,13 @@ class Profile(models.Model):
         help_text=("Which level of Diet Missions to recommend" + " for this player."),
     )
     diet_missions_completed = models.IntegerField(
-        default=0, 
-        help_text="Used to decide when to increase Player's Diet Level."
+        default=0, help_text="Used to decide when to increase Player's Diet Level."
     )
     diet_sign_photo = models.ImageField(
-        upload_to="images/", null=True, blank=True, 
-        help_text="User's sign for their Diet Missions."
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="User's sign for their Diet Missions.",
     )
     transit_level = models.IntegerField(
         default=0,
@@ -38,12 +39,13 @@ class Profile(models.Model):
         ),
     )
     transit_missions_completed = models.IntegerField(
-        default=0, 
-        help_text="Used to decide when to increase Player's Transit Level."
+        default=0, help_text="Used to decide when to increase Player's Transit Level."
     )
     transit_sign_photo = models.ImageField(
-        upload_to="images/", null=True, blank=True, 
-        help_text="User's sign for their Transit Missions."
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="User's sign for their Transit Missions.",
     )
     recycling_level = models.IntegerField(
         default=0,
@@ -53,12 +55,13 @@ class Profile(models.Model):
         ),
     )
     recycling_missions_completed = models.IntegerField(
-        default=0, 
-        help_text="Used to decide when to increase Player's Recycling Level."
+        default=0, help_text="Used to decide when to increase Player's Recycling Level."
     )
     recycling_sign_photo = models.ImageField(
-        upload_to="images/", null=True, blank=True, 
-        help_text="User's sign for their Recycling Missions."
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="User's sign for their Recycling Missions.",
     )
     offsets_level = models.IntegerField(
         default=0,
@@ -69,12 +72,13 @@ class Profile(models.Model):
         ),
     )
     offset_missions_completed = models.IntegerField(
-        default=0, 
-        help_text="Used to decide when to increase Player's Offset Level."
+        default=0, help_text="Used to decide when to increase Player's Offset Level."
     )
     offsets_sign_photo = models.ImageField(
-        upload_to="images/", null=True, blank=True, 
-        help_text="User's sign for their Airline-Utilities Missions."
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="User's sign for their Airline-Utilities Missions.",
     )
     utilities_level = models.IntegerField(
         default=0,
@@ -84,18 +88,17 @@ class Profile(models.Model):
         ),
     )
     utilities_missions_completed = models.IntegerField(
-        default=0, 
-        help_text="Used to decide when to increase Player's Utilities Level."
+        default=0, help_text="Used to decide when to increase Player's Utilities Level."
     )
     utilities_sign_photo = models.ImageField(
-        upload_to="images/", null=True, blank=True, 
-        help_text="User's sign for their Utilities Missions."
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="User's sign for their Utilities Missions.",
     )
     photos_are_accurate = models.BooleanField(
-        default=False, help_text=(
-            "Whether or not the signs the player has " +
-            "are valid."
-        )
+        default=False,
+        help_text=("Whether or not the signs the player has " + "are valid."),
     )
 
     def __str__(self):
@@ -168,8 +171,8 @@ class Profile(models.Model):
     @classmethod
     def get_fields_to_track_mission(cls, mission):
         """Return the fields the MissionTracker view (accounts.views) needs
-        to include on the form, so it's specific to whatever is the category 
-        of the Mission. 
+        to include on the form, so it's specific to whatever is the category
+        of the Mission.
 
         Parameters:
         mission(Mission): the mission being tracked
@@ -179,20 +182,20 @@ class Profile(models.Model):
         """
         # map the fields needed in the form, in order by Question categories
         form_fields = [
-            'diet_sign_photo',
-            'transit_sign_photo',
-            'recycling_sign_photo',
-            'offsets_sign_photo',
-            'utilities_sign_photo',
+            "diet_sign_photo",
+            "transit_sign_photo",
+            "recycling_sign_photo",
+            "offsets_sign_photo",
+            "utilities_sign_photo",
         ]
         categories = [
-            category_abbreviation for category_abbreviation, full_name
-            in Question.CATEGORIES
+            category_abbreviation
+            for category_abbreviation, full_name in Question.CATEGORIES
         ]
         category_form_fields = dict(zip(categories, form_fields))
         # use the mission category to figure out which fields go in the form
         fields = [
-            'photos_are_accurate',
-            category_form_fields[mission.question.category]
+            "photos_are_accurate",
+            category_form_fields[mission.question.category],
         ]
         return fields

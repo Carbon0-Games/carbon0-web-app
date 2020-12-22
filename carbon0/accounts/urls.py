@@ -30,7 +30,9 @@ urlpatterns = [
         TemplateView.as_view(template_name="leaderboard/leaderboard.html"),
         name="leaderboard",
     ),
-    path('profile/<int:pk>/<int:mission_id>/',
-         MissionTracker.as_view(), name="mission_tracker"
-    )
+    path(
+        "profile/<int:pk>/<int:mission_id>/",
+        MissionTracker.as_view(),
+        name="mission_tracker",
+    ),
 ]

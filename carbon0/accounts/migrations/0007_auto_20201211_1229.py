@@ -6,33 +6,48 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0006_auto_20201205_1351'),
+        ("accounts", "0006_auto_20201205_1351"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='diet_missions_completed',
-            field=models.IntegerField(default=0, help_text="Used to decide when to increase Player's Diet Level."),
+            model_name="profile",
+            name="diet_missions_completed",
+            field=models.IntegerField(
+                default=0,
+                help_text="Used to decide when to increase Player's Diet Level.",
+            ),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='offset_missions_completed',
-            field=models.IntegerField(default=0, help_text="Used to decide when to increase Player's Offset Level."),
+            model_name="profile",
+            name="offset_missions_completed",
+            field=models.IntegerField(
+                default=0,
+                help_text="Used to decide when to increase Player's Offset Level.",
+            ),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='recycling_missions_completed',
-            field=models.IntegerField(default=0, help_text="Used to decide when to increase Player's Recycling Level."),
+            model_name="profile",
+            name="recycling_missions_completed",
+            field=models.IntegerField(
+                default=0,
+                help_text="Used to decide when to increase Player's Recycling Level.",
+            ),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='transit_missions_completed',
-            field=models.IntegerField(default=0, help_text="Used to decide when to increase Player's Transit Level."),
+            model_name="profile",
+            name="transit_missions_completed",
+            field=models.IntegerField(
+                default=0,
+                help_text="Used to decide when to increase Player's Transit Level.",
+            ),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='utilities_missions_completed',
-            field=models.IntegerField(default=0, help_text="Used to decide when to increase Player's Utilities Level."),
+            model_name="profile",
+            name="utilities_missions_completed",
+            field=models.IntegerField(
+                default=0,
+                help_text="Used to decide when to increase Player's Utilities Level.",
+            ),
         ),
     ]

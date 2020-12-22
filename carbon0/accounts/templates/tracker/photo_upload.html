@@ -12,7 +12,11 @@
             style="color:#3FC5F0; font-weight: 400; font-size: 50px; line-height: 45px;">
             Choose a Mission Category
         </h1>
-        {{ form.as_p }}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Update">
+        </form>
     </div>
 </div>
 

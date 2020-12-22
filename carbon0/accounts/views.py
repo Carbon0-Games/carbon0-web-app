@@ -14,7 +14,7 @@ from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question
 import carbon_quiz.views as cqv
 from .models import Profile
-from .forms import UserSignUpForm
+from .forms import TrackerForm, UserSignUpForm
 
 
 # Social Auth
@@ -268,9 +268,11 @@ class MissionTracker(UpdateView):
     """
     Player uploads a photo of their sign in order to earn points.
     """
+
     model = Profile
-    fields = ['photos_are_accurate']
-    template_name = 'tracker/photo_upload.html'
+    # fields = ['photos_are_accurate']
+    form_class = TrackerForm
+    template_name = "tracker/photo_upload.html"
     queryset = Profile.objects.all()
 
     def get(self, request, pk, mission_id):
@@ -281,7 +283,7 @@ class MissionTracker(UpdateView):
         Parameters:
         request(HttpRequest): the GET request sent to the server
         pk(int): the id of the Profile belonging to the user
-        mission_id(int): the id of the mission that the player is tracking 
+        mission_id(int): the id of the mission that the player is tracking
                          progress on.
 
         Returns: HttpResponse: a view of the template
@@ -291,7 +293,12 @@ class MissionTracker(UpdateView):
         mission = Mission.objects.get(id=mission_id)
         profile = Profile.objects.get(id=pk)
         # use the mission category to figure out which fields go in the form
-        self.fields = Profile.get_fields_to_track_mission(mission)
+        """
+        self.form_class.Meta.fields = (
+            Profile.get_fields_to_track_mission(mission)
+        )
+        print(f'Fields: {self.form_class.Meta.fields}')
+        """
         # set the context variables
         context = {
             "mission": mission,

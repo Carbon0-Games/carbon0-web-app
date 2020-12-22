@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0008_auto_20201221_1737'),
+        ("accounts", "0008_auto_20201221_1737"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='photos_are_accurate',
-            field=models.BooleanField(default=False, help_text='Whether or not the signs the player has are valid.'),
+            model_name="profile",
+            name="photos_are_accurate",
+            field=models.BooleanField(
+                default=False,
+                help_text="Whether or not the signs the player has are valid.",
+            ),
         ),
     ]

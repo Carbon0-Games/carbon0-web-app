@@ -39,3 +39,13 @@ class ProfileForm(forms.ModelForm):
             "mugshot",
             "phone",
         ]
+
+
+class TrackerForm(forms.ModelForm):
+    """
+    A form for the player to track how many times they completed the mission.
+    """
+
+    class Meta:
+        model = Profile
+        fields = ["photos_are_accurate"]
