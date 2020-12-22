@@ -14,7 +14,9 @@
         </h1>
         <form method="post" enctype="multipart/form-data" class="ml-2">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
             <input class="btn btn-success" type="submit" value="Update">
         </form>
     </div>

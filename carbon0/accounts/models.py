@@ -29,7 +29,7 @@ class Profile(models.Model):
         upload_to="images/",
         null=True,
         blank=True,
-        help_text="User's sign for their Diet Missions.",
+        help_text="Your sign for Diet Missions.",
     )
     transit_level = models.IntegerField(
         default=0,
@@ -45,7 +45,7 @@ class Profile(models.Model):
         upload_to="images/",
         null=True,
         blank=True,
-        help_text="User's sign for their Transit Missions.",
+        help_text="Your sign for Transit Missions.",
     )
     recycling_level = models.IntegerField(
         default=0,
@@ -61,7 +61,7 @@ class Profile(models.Model):
         upload_to="images/",
         null=True,
         blank=True,
-        help_text="User's sign for their Recycling Missions.",
+        help_text="Your sign for Recycling Missions.",
     )
     offsets_level = models.IntegerField(
         default=0,
@@ -78,7 +78,7 @@ class Profile(models.Model):
         upload_to="images/",
         null=True,
         blank=True,
-        help_text="User's sign for their Airline-Utilities Missions.",
+        help_text="Your sign for Airline-Utilities Missions.",
     )
     utilities_level = models.IntegerField(
         default=0,
@@ -94,7 +94,7 @@ class Profile(models.Model):
         upload_to="images/",
         null=True,
         blank=True,
-        help_text="User's sign for their Utilities Missions.",
+        help_text="Your sign for Utilities Missions.",
     )
     photos_are_accurate = models.BooleanField(
         null=True, blank=True,
