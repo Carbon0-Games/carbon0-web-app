@@ -270,7 +270,7 @@ class MissionTracker(UpdateView):
     """
     model = Profile
     fields = ['photos_are_accurate']
-    template_name = 'accounts/tracker/photo_upload.html'
+    template_name = 'tracker/photo_upload.html'
     queryset = Profile.objects.all()
 
     def get(self, request, pk, mission_id):

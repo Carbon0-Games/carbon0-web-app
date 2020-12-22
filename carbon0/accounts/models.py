@@ -175,7 +175,7 @@ class Profile(models.Model):
         mission(Mission): the mission being tracked
 
         Returns: List: the fields needed on the form
-        
+
         """
         # map the fields needed in the form, in order by Question categories
         form_fields = [
@@ -185,7 +185,11 @@ class Profile(models.Model):
             'offsets_sign_photo',
             'utilities_sign_photo',
         ]
-        category_form_fields = dict(zip(Question.CATEGORIES, form_fields))
+        categories = [
+            category_abbreviation for category_abbreviation, full_name
+            in Question.CATEGORIES
+        ]
+        category_form_fields = dict(zip(categories, form_fields))
         # use the mission category to figure out which fields go in the form
         fields = [
             'photos_are_accurate',

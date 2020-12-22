@@ -12,19 +12,7 @@
             style="color:#3FC5F0; font-weight: 400; font-size: 50px; line-height: 45px;">
             Choose a Mission Category
         </h1>
-        <h1 class="row justify-content-center pt-1 ml-1"
-            style="color:white; font-weight: 400; font-size: 20px; line-height: 45px;">
-            Select the Mission category of the sign you've used to become more green!
-        </h1>
-        <div class="row">
-            {% for item in categories %}
-            <div class="col justify-content-center ">
-                <div class="d-flex justify-content-center">
-                    {% include "partials/mission_category_link.html" %}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+        {{ form.as_p }}
     </div>
 </div>
 
