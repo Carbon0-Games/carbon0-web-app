@@ -17,22 +17,6 @@ class Profile(models.Model):
         default=0,
         help_text="The total carbon footprint of the User across all quizzes.",
     )
-    offsets_level = models.IntegerField(
-        default=0,
-        choices=Mission.PRIORITIES,
-        help_text=(
-            "Which level of Airlines-Utilities Missions to recommend"
-            + " for this player."
-        ),
-    )
-    offset_missions_completed = models.IntegerField(
-        default=0, 
-        help_text="Used to decide when to increase Player's Offset Level."
-    )
-    offsets_sign_photo = models.ImageField(
-        upload_to="images/", null=True, blank=True, 
-        help_text="User's sign for their Airline-Utilities Missions."
-    )
     diet_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
@@ -75,6 +59,22 @@ class Profile(models.Model):
     recycling_sign_photo = models.ImageField(
         upload_to="images/", null=True, blank=True, 
         help_text="User's sign for their Recycling Missions."
+    )
+    offsets_level = models.IntegerField(
+        default=0,
+        choices=Mission.PRIORITIES,
+        help_text=(
+            "Which level of Airlines-Utilities Missions to recommend"
+            + " for this player."
+        ),
+    )
+    offset_missions_completed = models.IntegerField(
+        default=0, 
+        help_text="Used to decide when to increase Player's Offset Level."
+    )
+    offsets_sign_photo = models.ImageField(
+        upload_to="images/", null=True, blank=True, 
+        help_text="User's sign for their Airline-Utilities Missions."
     )
     utilities_level = models.IntegerField(
         default=0,
@@ -164,3 +164,31 @@ class Profile(models.Model):
                 # save and exit the function
                 self.save()
                 return None
+
+    @classmethod
+    def get_fields_to_track_mission(cls, mission):
+        """Return the fields the MissionTracker view (accounts.views) needs
+        to include on the form, so it's specific to whatever is the category 
+        of the Mission. 
+
+        Parameters:
+        mission(Mission): the mission being tracked
+
+        Returns: List: the fields needed on the form
+        
+        """
+        # map the fields needed in the form, in order by Question categories
+        form_fields = [
+            'diet_sign_photo',
+            'transit_sign_photo',
+            'recycling_sign_photo',
+            'offsets_sign_photo',
+            'utilities_sign_photo',
+        ]
+        category_form_fields = dict(zip(Question.CATEGORIES, form_fields))
+        # use the mission category to figure out which fields go in the form
+        fields = [
+            'photos_are_accurate',
+            category_form_fields[mission.question.category]
+        ]
+        return fields

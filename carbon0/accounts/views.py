@@ -11,6 +11,7 @@ from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
 import carbon_quiz.views as cqv
 from .models import Profile
 from .forms import UserSignUpForm
@@ -270,6 +271,31 @@ class MissionTracker(UpdateView):
     model = Profile
     fields = ['photos_are_accurate']
     template_name = 'accounts/tracker/photo_upload.html'
+    queryset = Profile.objects.all()
 
     def get(self, request, pk, mission_id):
-        pass
+        """
+        Display a form for the user to upload the piecture of their sign,
+        and include a checkbox so they can confirm its accurate
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(int): the id of the Profile belonging to the user
+        mission_id(int): the id of the mission that the player is tracking 
+                         progress on.
+
+        Returns: HttpResponse: a view of the template
+
+        """
+        # get the related Mission and Profile instances
+        mission = Mission.objects.get(id=mission_id)
+        profile = Profile.objects.get(id=pk)
+        # use the mission category to figure out which fields go in the form
+        self.fields = Profile.get_fields_to_track_mission(mission)
+        # set the context variables
+        context = {
+            "mission": mission,
+            "profile": profile,
+        }
+        # return the response
+        return render(request, self.template_name, context)
