@@ -1,4 +1,3 @@
-from carbon_quiz.models.question import Question
 import datetime as dt
 import random
 from typing import Any, Dict
@@ -6,6 +5,7 @@ from typing import Any, Dict
 from django.conf import settings
 import django.contrib.auth.views as auth_views
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
@@ -13,6 +13,7 @@ from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
 import carbon_quiz.views as cqv
 from .models import Profile
 from .forms import (
@@ -334,3 +335,49 @@ class MissionTracker(UpdateView):
         return self.render_to_response(
             self.get_context_data(pk=pk, mission_id=mission_id)
         )
+
+    def form_valid(self, form, pk, mission_id):
+        """Redirect to a new Achievement for the player, 
+        if their photo uploads successfully.
+
+        """
+        # update the Profile object
+        self.object = form.save()
+        # make a new Achievement
+        profile = Profile.objects.get(id=pk)
+        mission = Mission.objects.get(id=mission_id)
+        achievement = Achievement.objects.create(
+            profile=profile,
+            mission=mission,
+            zeron_image_url = Achievement.set_zeron_image_url(mission)
+        )
+        # save the achievement
+        achievement.save()
+        # redirect to the Achievement page
+        return HttpResponseRedirect(
+            achievement.get_absolute_url()
+        )
+        
+
+    def post(self, request, pk, mission_id):
+        """
+        Display a form for the user to upload the piecture of their sign,
+        and include a checkbox so they can confirm its accurate
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(int): the id of the Profile belonging to the user
+        mission_id(int): the id of the mission that the player is tracking
+                         progress on.
+
+        Returns: HttpResponse: a view of the template
+        """
+        # get the Profile being updated
+        self.object = self.get_object()
+        # get the form that was POSTed
+        form = self.get_form()
+        # validate and process the form
+        if form.is_valid():
+            return self.form_valid(form, pk, mission_id)
+        else:
+            return self.form_invalid(form)

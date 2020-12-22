@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
@@ -41,7 +42,34 @@ class ProfileForm(forms.ModelForm):
         ]
 
 
-class DietTrackerForm(forms.ModelForm):
+class BaseTrackerForm(forms.ModelForm):
+    """Defines the common attributes of all 
+    the TrackerForm classes below, which are used
+    for the Mission Tracking feature. To be clear,
+    this is when a player uploads a photo of the sign 
+    related to one of their missions, so they can check in
+    and let the game know they're making progress.
+    
+    """
+
+
+    class Meta:
+        model = Profile
+        fields = ["photos_are_accurate"]
+
+    def clean(self):
+        """Validate that the photos are accurate."""
+        cleaned_data = super().clean()
+        is_accurate = cleaned_data.get("photos_are_accurate")
+
+        if is_accurate is False:
+            raise ValidationError(
+                "Did you check to make sure your photo is of a sign?" +
+                "Don't cheat the yourself out of becoming the next eco-hero!"
+            )
+
+
+class DietTrackerForm(BaseTrackerForm):
     """
     A form for the player to track how many times 
     they completed the Diet mission.
@@ -55,7 +83,7 @@ class DietTrackerForm(forms.ModelForm):
         ]
 
 
-class TransitTrackerForm(forms.ModelForm):
+class TransitTrackerForm(BaseTrackerForm):
     """
     A form for the player to track how many times 
     they completed the Transit mission.
@@ -69,7 +97,7 @@ class TransitTrackerForm(forms.ModelForm):
         ]
 
 
-class RecyclingTrackerForm(forms.ModelForm):
+class RecyclingTrackerForm(BaseTrackerForm):
     """
     A form for the player to track how many times 
     they completed the Recycling mission.
@@ -83,7 +111,7 @@ class RecyclingTrackerForm(forms.ModelForm):
         ]
 
 
-class OffsetsTrackerForm(forms.ModelForm):
+class OffsetsTrackerForm(BaseTrackerForm):
     """
     A form for the player to track how many times 
     they completed the Offsets mission.
@@ -97,7 +125,7 @@ class OffsetsTrackerForm(forms.ModelForm):
         ]
 
 
-class UtilitiesTrackerForm(forms.ModelForm):
+class UtilitiesTrackerForm(BaseTrackerForm):
     """
     A form for the player to track how many times 
     they completed the Utilities mission.
