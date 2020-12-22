@@ -6,7 +6,7 @@ import django.contrib.auth.views as auth_views
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
@@ -261,3 +261,15 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
         else:  # user signed up with social, but not after earning Achievement
             # track the signup in Mixpanel
             track_successful_signup(user, None)
+
+
+class MissionTrackerComplete(UpdateView):
+    """
+    Player uploads a photo of their sign in order to earn points.
+    """
+    model = Profile
+    fields = ['photos_are_accurate']
+    template_name = 'accounts/tracker/photo_upload.html'
+
+    def get(self, request, pk, mission_id, category):
+        pass

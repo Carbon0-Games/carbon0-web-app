@@ -480,7 +480,7 @@ class AchievementDetail(DetailView):
         return render(request, self.template_name, context)
 
 
-class MissionTracker(TemplateView):
+class MissionTrackerCategory(TemplateView):
     """
     Where the player is redirected once they enter a tracking mission,
     to specific which mission category they are going to track.
