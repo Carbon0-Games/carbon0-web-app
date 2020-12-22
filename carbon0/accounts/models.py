@@ -97,8 +97,10 @@ class Profile(models.Model):
         help_text="User's sign for their Utilities Missions.",
     )
     photos_are_accurate = models.BooleanField(
-        default=False,
-        help_text=("Whether or not the signs the player has " + "are valid."),
+        null=True, blank=True,
+        help_text=(
+            "We can only save the planet if your image is actually of a sign!"
+        )
     )
 
     def __str__(self):
@@ -169,7 +171,7 @@ class Profile(models.Model):
                 return None
 
     @classmethod
-    def get_fields_to_track_mission(cls, mission):
+    def get_field_to_track_mission(cls, mission):
         """Return the fields the MissionTracker view (accounts.views) needs
         to include on the form, so it's specific to whatever is the category
         of the Mission.
@@ -188,14 +190,8 @@ class Profile(models.Model):
             "offsets_sign_photo",
             "utilities_sign_photo",
         ]
-        categories = [
-            category_abbreviation
-            for category_abbreviation, full_name in Question.CATEGORIES
-        ]
+        categories = Question.get_category_abbreviations()
         category_form_fields = dict(zip(categories, form_fields))
-        # use the mission category to figure out which fields go in the form
-        fields = [
-            "photos_are_accurate",
-            category_form_fields[mission.question.category],
-        ]
-        return fields
+        # use the mission category to figure out which image field goes
+        field = category_form_fields[mission.question.category]
+        return field

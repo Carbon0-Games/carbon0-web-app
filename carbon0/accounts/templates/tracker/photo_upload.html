@@ -8,14 +8,14 @@
 
 <div class="starry-background">
     <div class="container">
-        <h1 class="row mb-4 justify-content-center pt-3 ml-1"
+        <h1 class="mb-4 justify-content-center pt-3"
             style="color:#3FC5F0; font-weight: 400; font-size: 50px; line-height: 45px;">
             Choose a Mission Category
         </h1>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" class="ml-2">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Update">
+            <input class="btn btn-success" type="submit" value="Update">
         </form>
     </div>
 </div>

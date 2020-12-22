@@ -49,3 +49,12 @@ class Question(models.Model):
     def __str__(self):
         """Returns the category of the Question, and it's id."""
         return f"Question {self.category} {self.id}"
+
+    @classmethod
+    def get_category_abbreviations(cls):
+        """Returns a list of just abbreviations for Question categories."""
+        categories = [
+            category_abbreviation
+            for category_abbreviation, full_name in Question.CATEGORIES
+        ]
+        return categories

@@ -1,5 +1,7 @@
+from carbon_quiz.models.question import Question
 import datetime as dt
 import random
+from typing import Any, Dict
 
 from django.conf import settings
 import django.contrib.auth.views as auth_views
@@ -11,10 +13,16 @@ from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.mission import Mission
-from carbon_quiz.models.question import Question
 import carbon_quiz.views as cqv
 from .models import Profile
-from .forms import TrackerForm, UserSignUpForm
+from .forms import (
+    DietTrackerForm,
+    OffsetsTrackerForm,
+    RecyclingTrackerForm,
+    TransitTrackerForm,
+    UserSignUpForm,
+    UtilitiesTrackerForm,
+)
 
 
 # Social Auth
@@ -270,10 +278,43 @@ class MissionTracker(UpdateView):
     """
 
     model = Profile
-    # fields = ['photos_are_accurate']
-    form_class = TrackerForm
+    # provide an inital value for the form_class
+    form_class = DietTrackerForm
     template_name = "tracker/photo_upload.html"
     queryset = Profile.objects.all()
+
+    def get_form_tracker(self, mission, *args, **kwargs):
+        # make a list of just the abbreviated Question categories
+        categories = Question.get_category_abbreviations()
+        # make a list of the tracker forms, in order by Question categories
+        TRACKER_FORMS = [
+            DietTrackerForm,
+            TransitTrackerForm,
+            RecyclingTrackerForm,
+            OffsetsTrackerForm,
+            UtilitiesTrackerForm,
+        ]
+        # map all the mission categories to the type of tracker forms
+        category_forms = dict(
+            zip(categories, TRACKER_FORMS)
+        )
+        # pick the appropiate form class, given the Mission
+        return category_forms[mission.question.category]
+
+    def get_context_data(self, *args, **kwargs: Any) -> Dict[str, Any]:
+        """Add the form, Mission, and Profile to the context."""
+        # A: add the Mission and Profile instances to the context
+        mission = Mission.objects.get(id=kwargs['mission_id'])
+        profile = Profile.objects.get(id=kwargs['pk'])
+        context = {
+            "mission": mission,
+            "profile": profile,
+        }
+        # B: add the form
+        if 'form' not in kwargs:
+            kwargs['form'] = self.get_form(form_class=self.get_form_tracker(mission))
+        # context['accepted_field'] = Profile.get_field_to_track_mission(mission)
+        return super().get_context_data(**context)
 
     def get(self, request, pk, mission_id):
         """
@@ -289,20 +330,7 @@ class MissionTracker(UpdateView):
         Returns: HttpResponse: a view of the template
 
         """
-        # get the related Mission and Profile instances
-        mission = Mission.objects.get(id=mission_id)
-        profile = Profile.objects.get(id=pk)
-        # use the mission category to figure out which fields go in the form
-        """
-        self.form_class.Meta.fields = (
-            Profile.get_fields_to_track_mission(mission)
+        self.object = self.get_object()
+        return self.render_to_response(
+            self.get_context_data(pk=pk, mission_id=mission_id)
         )
-        print(f'Fields: {self.form_class.Meta.fields}')
-        """
-        # set the context variables
-        context = {
-            "mission": mission,
-            "profile": profile,
-        }
-        # return the response
-        return render(request, self.template_name, context)

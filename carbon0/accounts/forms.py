@@ -41,11 +41,71 @@ class ProfileForm(forms.ModelForm):
         ]
 
 
-class TrackerForm(forms.ModelForm):
+class DietTrackerForm(forms.ModelForm):
     """
-    A form for the player to track how many times they completed the mission.
+    A form for the player to track how many times 
+    they completed the Diet mission.
     """
 
     class Meta:
         model = Profile
-        fields = ["photos_are_accurate"]
+        fields = [
+            "diet_sign_photo",
+            "photos_are_accurate",
+        ]
+
+
+class TransitTrackerForm(forms.ModelForm):
+    """
+    A form for the player to track how many times 
+    they completed the Transit mission.
+    """
+
+    class Meta:
+        model = Profile
+        fields = [
+            "transit_sign_photo",
+            "photos_are_accurate",
+        ]
+
+
+class RecyclingTrackerForm(forms.ModelForm):
+    """
+    A form for the player to track how many times 
+    they completed the Recycling mission.
+    """
+
+    class Meta:
+        model = Profile
+        fields = [
+            "recycling_sign_photo",
+            "photos_are_accurate",
+        ]
+
+
+class OffsetsTrackerForm(forms.ModelForm):
+    """
+    A form for the player to track how many times 
+    they completed the Offsets mission.
+    """
+
+    class Meta:
+        model = Profile
+        fields = [
+            "offsets_sign_photo",
+            "photos_are_accurate",
+        ]
+
+
+class UtilitiesTrackerForm(forms.ModelForm):
+    """
+    A form for the player to track how many times 
+    they completed the Utilities mission.
+    """
+
+    class Meta:
+        model = Profile
+        fields = [
+            "utilities_sign_photo",
+            "photos_are_accurate",
+        ]
