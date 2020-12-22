@@ -263,7 +263,7 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
             track_successful_signup(user, None)
 
 
-class MissionTrackerComplete(UpdateView):
+class MissionTracker(UpdateView):
     """
     Player uploads a photo of their sign in order to earn points.
     """
@@ -271,5 +271,5 @@ class MissionTrackerComplete(UpdateView):
     fields = ['photos_are_accurate']
     template_name = 'accounts/tracker/photo_upload.html'
 
-    def get(self, request, pk, mission_id, category):
+    def get(self, request, pk, mission_id):
         pass

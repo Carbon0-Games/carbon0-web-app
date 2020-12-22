@@ -5,7 +5,6 @@ from .views import (
     AchievementDetail,
     MissionDetail,
     MissionList,
-    MissionTrackerCategory,
     QuizCreate,
     QuizDetail,
 )
@@ -29,8 +28,6 @@ urlpatterns = [
         name="mission_detail",
     ),
     path("mission/<int:pk>/", MissionDetail.as_view(), name="mission_detail"),
-    path("track-mission/<int:mission_id>/", MissionTrackerCategory.as_view(), 
-         name="mission_tracker_category"),
     path(
         "achievement/create/<int:mission_id>/<slug:quiz_slug>/",
         AchievementCreate.as_view(),
