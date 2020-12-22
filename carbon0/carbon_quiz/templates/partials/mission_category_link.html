@@ -40,27 +40,32 @@
 <!-- https://stackoverflow.com/questions/1621891/html-how-to-make-a-submit-button-with-text-image-in-it -->
 
 {% if item == "Offsets Journey" %}
-<a class="mission_selection_button" href="'A'">
+<a class="mission_selection_button" 
+    href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'A' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Flying.png' %}" alt="Image" style="max-height: 25vh" />
 </a>
 {% elif item == "Diet Journey" %}
-<a class="mission_selection_button" href="'D'">
+<a class="mission_selection_button" 
+   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'D' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Veggie_Bowl.png' %}" alt="Image" style="max-height: 25vh" />
 </a>
 {% elif item == "Recycling Journey" %}
-<a class="mission_selection_button" href="'R'">
+<a class="mission_selection_button" 
+   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'R' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Recycling.png' %}" alt="Image" style="max-height: 25vh" />
 </a>
 {% elif item == "Utilities Journey" %}
-<a class="mission_selection_button" href="'U'">
+<a class="mission_selection_button"
+   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'U' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Solar_Panel.png' %}" alt="Image" style="max-height: 25vh" />
 </a>
 {% elif item == "Transit Journey" %}
-<a class="mission_selection_button" href="'T'">
+<a class="mission_selection_button"
+   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'T' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Gasoline_Transport.png' %}" alt="Image" style="max-height: 25vh" />
 </a>
