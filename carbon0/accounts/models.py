@@ -97,10 +97,9 @@ class Profile(models.Model):
         help_text="Your sign for Utilities Missions.",
     )
     photos_are_accurate = models.BooleanField(
-        null=True, blank=True,
-        help_text=(
-            "We can only save the planet if your image is actually of a sign!"
-        )
+        null=True,
+        blank=True,
+        help_text=("We can only save the planet if your image is actually of a sign!"),
     )
 
     def __str__(self):

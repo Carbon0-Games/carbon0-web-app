@@ -6,33 +6,58 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0010_auto_20201222_1234'),
+        ("accounts", "0010_auto_20201222_1234"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='diet_sign_photo',
-            field=models.ImageField(blank=True, help_text='Your sign for Diet Missions.', null=True, upload_to='images/'),
+            model_name="profile",
+            name="diet_sign_photo",
+            field=models.ImageField(
+                blank=True,
+                help_text="Your sign for Diet Missions.",
+                null=True,
+                upload_to="images/",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='offsets_sign_photo',
-            field=models.ImageField(blank=True, help_text='Your sign for Airline-Utilities Missions.', null=True, upload_to='images/'),
+            model_name="profile",
+            name="offsets_sign_photo",
+            field=models.ImageField(
+                blank=True,
+                help_text="Your sign for Airline-Utilities Missions.",
+                null=True,
+                upload_to="images/",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='recycling_sign_photo',
-            field=models.ImageField(blank=True, help_text='Your sign for Recycling Missions.', null=True, upload_to='images/'),
+            model_name="profile",
+            name="recycling_sign_photo",
+            field=models.ImageField(
+                blank=True,
+                help_text="Your sign for Recycling Missions.",
+                null=True,
+                upload_to="images/",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='transit_sign_photo',
-            field=models.ImageField(blank=True, help_text='Your sign for Transit Missions.', null=True, upload_to='images/'),
+            model_name="profile",
+            name="transit_sign_photo",
+            field=models.ImageField(
+                blank=True,
+                help_text="Your sign for Transit Missions.",
+                null=True,
+                upload_to="images/",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='utilities_sign_photo',
-            field=models.ImageField(blank=True, help_text='Your sign for Utilities Missions.', null=True, upload_to='images/'),
+            model_name="profile",
+            name="utilities_sign_photo",
+            field=models.ImageField(
+                blank=True,
+                help_text="Your sign for Utilities Missions.",
+                null=True,
+                upload_to="images/",
+            ),
         ),
     ]

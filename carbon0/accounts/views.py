@@ -201,7 +201,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
                 missions = cqv.filter_completed_missions(missions, user)
             return missions
 
-        # TODO: refactor suggest missions based on priority levels
         # grab the most recent Achievement
         user_achievements = Achievement.objects.filter(profile=user.profile)
         latest_achievement = user_achievements.order_by("id").last()
@@ -296,9 +295,7 @@ class MissionTrackerComplete(UpdateView):
             UtilitiesTrackerForm,
         ]
         # map all the mission categories to the type of tracker forms
-        category_forms = dict(
-            zip(categories, TRACKER_FORMS)
-        )
+        category_forms = dict(zip(categories, TRACKER_FORMS))
         # pick the appropiate form class, given the Mission
         return category_forms[mission.question.category]
 
@@ -306,19 +303,20 @@ class MissionTrackerComplete(UpdateView):
         """Add the form, Mission, and Profile to the context."""
         # A: add the Mission to the context
         photo_missions = Mission.objects.filter(
-            needs_auth=True, needs_photo=True,
-            question__category=kwargs['mission_category']
+            needs_auth=True,
+            needs_photo=True,
+            question__category=kwargs["mission_category"],
         )
         mission = photo_missions[0]
         # add the Profile to the context
-        profile = Profile.objects.get(id=kwargs['pk'])
+        profile = Profile.objects.get(id=kwargs["pk"])
         context = {
             "mission": mission,
             "profile": profile,
         }
         # B: add the form
-        if 'form' not in kwargs:
-            kwargs['form'] = self.get_form(form_class=self.get_form_tracker(mission))
+        if "form" not in kwargs:
+            kwargs["form"] = self.get_form(form_class=self.get_form_tracker(mission))
         # context['accepted_field'] = Profile.get_field_to_track_mission(mission)
         return super().get_context_data(**context)
 
@@ -338,13 +336,11 @@ class MissionTrackerComplete(UpdateView):
         """
         self.object = self.get_object()
         return self.render_to_response(
-            self.get_context_data(
-                pk=pk, mission_category=mission_category
-            )
+            self.get_context_data(pk=pk, mission_category=mission_category)
         )
 
     def form_valid(self, form, pk, mission_category):
-        """Redirect to a new Achievement for the player, 
+        """Redirect to a new Achievement for the player,
         if their photo uploads successfully.
 
         """
@@ -353,22 +349,18 @@ class MissionTrackerComplete(UpdateView):
         # make a new Achievement
         profile = Profile.objects.get(id=pk)
         photo_missions = Mission.objects.filter(
-            needs_auth=True, needs_photo=True,
-            question__category=mission_category
+            needs_auth=True, needs_photo=True, question__category=mission_category
         )
         mission = photo_missions[0]
         achievement = Achievement.objects.create(
             profile=profile,
             mission=mission,
-            zeron_image_url = Achievement.set_zeron_image_url(mission)
+            zeron_image_url=Achievement.set_zeron_image_url(mission),
         )
         # save the achievement
         achievement.save()
         # redirect to the Achievement page
-        return HttpResponseRedirect(
-            achievement.get_absolute_url()
-        )
-        
+        return HttpResponseRedirect(achievement.get_absolute_url())
 
     def post(self, request, pk, mission_category):
         """
@@ -380,7 +372,7 @@ class MissionTrackerComplete(UpdateView):
         pk(int): the id of the Profile belonging to the user
         mission_category(str): the category of the Mission
                                we are tracking
-    
+
         Returns: HttpResponse: a view of the template
         """
         # get the Profile being updated

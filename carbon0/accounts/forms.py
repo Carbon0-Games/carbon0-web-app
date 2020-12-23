@@ -43,15 +43,14 @@ class ProfileForm(forms.ModelForm):
 
 
 class BaseTrackerForm(forms.ModelForm):
-    """Defines the common attributes of all 
+    """Defines the common attributes of all
     the TrackerForm classes below, which are used
     for the Mission Tracking feature. To be clear,
-    this is when a player uploads a photo of the sign 
+    this is when a player uploads a photo of the sign
     related to one of their missions, so they can check in
     and let the game know they're making progress.
-    
-    """
 
+    """
 
     class Meta:
         model = Profile
@@ -64,14 +63,14 @@ class BaseTrackerForm(forms.ModelForm):
 
         if is_accurate is False:
             raise ValidationError(
-                "Did you check to make sure your photo is of a sign? " +
-                "Don't cheat the yourself out of becoming the next eco-hero!"
+                "Did you check to make sure your photo is of a sign? "
+                + "Don't cheat the yourself out of becoming the next eco-hero!"
             )
 
 
 class DietTrackerForm(BaseTrackerForm):
     """
-    A form for the player to track how many times 
+    A form for the player to track how many times
     they completed the Diet mission.
     """
 
@@ -85,7 +84,7 @@ class DietTrackerForm(BaseTrackerForm):
 
 class TransitTrackerForm(BaseTrackerForm):
     """
-    A form for the player to track how many times 
+    A form for the player to track how many times
     they completed the Transit mission.
     """
 
@@ -99,7 +98,7 @@ class TransitTrackerForm(BaseTrackerForm):
 
 class RecyclingTrackerForm(BaseTrackerForm):
     """
-    A form for the player to track how many times 
+    A form for the player to track how many times
     they completed the Recycling mission.
     """
 
@@ -113,7 +112,7 @@ class RecyclingTrackerForm(BaseTrackerForm):
 
 class OffsetsTrackerForm(BaseTrackerForm):
     """
-    A form for the player to track how many times 
+    A form for the player to track how many times
     they completed the Offsets mission.
     """
 
@@ -127,7 +126,7 @@ class OffsetsTrackerForm(BaseTrackerForm):
 
 class UtilitiesTrackerForm(BaseTrackerForm):
     """
-    A form for the player to track how many times 
+    A form for the player to track how many times
     they completed the Utilities mission.
     """
 

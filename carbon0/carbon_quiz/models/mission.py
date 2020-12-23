@@ -63,12 +63,10 @@ class Mission(models.Model):
         "Transit Journey",
     ]
     needs_auth = models.BooleanField(
-        default=False, 
-        help_text="Is the mission available to unauthenticated players."
+        default=False, help_text="Is the mission available to unauthenticated players."
     )
     needs_photo = models.BooleanField(
-        default=False, 
-        help_text="Is the mission completed by taking a photo."
+        default=False, help_text="Is the mission completed by taking a photo."
     )
 
     def __str__(self):

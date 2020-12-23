@@ -50,6 +50,9 @@ urlpatterns = [
         name="mission_list",
     ),
     path("mission/list/", MissionList.as_view(), name="mission_list"),
-    path("track-mission/", MissionTrackerCategory.as_view(), 
-         name="mission_tracker_category"),
+    path(
+        "track-mission/",
+        MissionTrackerCategory.as_view(),
+        name="mission_tracker_category",
+    ),
 ]

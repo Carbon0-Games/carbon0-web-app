@@ -192,8 +192,9 @@ class QuizDetail(UpdateView):
                 # find the missions the user can choose
                 missions = quiz.get_related_missions(request.user.profile)
             else:  # choose missions randomly for site visitors
-                # if no missions to suggest, give 3 randomly
-                missions = random.sample(set(Mission.objects.all()), 3)
+                # if no missions to suggest, give 3 randomly (don't require auth)
+                missions = Mission.objects.filter(needs_auth=False)
+                missions = random.sample(set(missions), 3)
                 is_random = True
             # finally, take out missions completed before
             missions = filter_completed_missions(missions, request.user)
@@ -492,12 +493,12 @@ class MissionTrackerCategory(TemplateView):
         """
         Display a series of links to the form, where the user can track their
         Mission (based on the category it is in).
-        
+
         Parameters:
         **kwargs(Any): a dict containing any and all variables
                       passed to the view, that may need to be
                       a part of the context
-        
+
         Returns: HttpResponse: a view of the template
         """
         # init the context

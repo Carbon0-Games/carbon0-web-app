@@ -6,18 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0085_auto_20201203_1215'),
+        ("carbon_quiz", "0085_auto_20201203_1215"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='mission',
-            name='needs_auth',
-            field=models.BooleanField(default=False, help_text='Is the mission available to unauthenticated players.'),
+            model_name="mission",
+            name="needs_auth",
+            field=models.BooleanField(
+                default=False,
+                help_text="Is the mission available to unauthenticated players.",
+            ),
         ),
         migrations.AddField(
-            model_name='mission',
-            name='needs_photo',
-            field=models.BooleanField(default=False, help_text='Is the mission completed by taking a photo.'),
+            model_name="mission",
+            name="needs_photo",
+            field=models.BooleanField(
+                default=False, help_text="Is the mission completed by taking a photo."
+            ),
         ),
     ]
