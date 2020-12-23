@@ -310,7 +310,6 @@ class MissionTrackerComplete(UpdateView):
             question__category=kwargs['mission_category']
         )
         mission = photo_missions[0]
-        print(f"Mission id: {mission.pk}")
         # add the Profile to the context
         profile = Profile.objects.get(id=kwargs['pk'])
         context = {
@@ -392,4 +391,9 @@ class MissionTrackerComplete(UpdateView):
         if form.is_valid():
             return self.form_valid(form, pk, mission_category)
         else:
-            return self.form_invalid(form)
+            # If the form is invalid, render the invalid form.
+            return self.render_to_response(
+                self.get_context_data(
+                    form=form, pk=pk, mission_category=mission_category
+                )
+            )

@@ -18,13 +18,20 @@
               </h1>
             </div>
             <!-- Profile Info -->
-            <div class="row ml-4">
+            <div class="row justify-content-center">
               <div class="col-md-6">
-                <div class="row mr-auto">
+                <div class="row justify-content-center">
                   <ul class="list-group list-group-horizontal my-3">
                     <!-- Email -->
-                    <li class="list-group-item text-dark">
+                    <li class="list-group-item text-dark mr-2">
                       Email: {{ user.email }}
+                    </li>
+                    <!-- Link to Mission Tracking Flow -->
+                    <li class="list-group-item text-dark ml-auto">
+                      <!-- All Uncompleted Missions -->
+                      <a class="carbon0-button" href="{% url 'carbon_quiz:mission_tracker_category'%}">
+                        TRACK MISSION
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -43,7 +50,7 @@
               <div class="col-md-6">
                 <div class="row justify-content-center my-3">
                   <!-- Current Footprint -->
-                  <div class="carbon0-button">
+                  <div class="carbon0-button my-3">
                     <p class="text-dark" style="font-size: 20px;">Current Footprint:</p>
                     <!-- Show the value in different colors depending on its value-->
                     {% if is_footprint_green %}

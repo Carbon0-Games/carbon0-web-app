@@ -64,7 +64,7 @@ class BaseTrackerForm(forms.ModelForm):
 
         if is_accurate is False:
             raise ValidationError(
-                "Did you check to make sure your photo is of a sign?" +
+                "Did you check to make sure your photo is of a sign? " +
                 "Don't cheat the yourself out of becoming the next eco-hero!"
             )
 
