@@ -172,7 +172,7 @@ class Profile(models.Model):
 
     @classmethod
     def get_field_to_track_mission(cls, mission):
-        """Return the fields the MissionTracker view (accounts.views) needs
+        """Return the fields the MissionTrackerComplete view (accounts.views) needs
         to include on the form, so it's specific to whatever is the category
         of the Mission.
 

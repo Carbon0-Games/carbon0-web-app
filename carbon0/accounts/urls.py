@@ -6,7 +6,7 @@ from .views import (
     UserCreate,
     ProfileView,
     LoginView,
-    MissionTracker,
+    MissionTrackerComplete,
 )
 
 app_name = "accounts"
@@ -32,7 +32,7 @@ urlpatterns = [
     ),
     path(
         "profile/<int:pk>/<int:mission_id>/",
-        MissionTracker.as_view(),
+        MissionTrackerComplete.as_view(),
         name="mission_tracker",
     ),
 ]

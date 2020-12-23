@@ -478,3 +478,31 @@ class AchievementDetail(DetailView):
             context["quiz"] = achievement.quiz
         # return the response
         return render(request, self.template_name, context)
+
+
+class MissionTrackerCategory(TemplateView):
+    """
+    Where the player is sent to once they enter a tracking mission,
+    to specific which mission category they are going to track.
+    """
+
+    template_name = "carbon_quiz/mission/tracker.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        """
+        Display a series of links to the form, where the user can track their
+        Mission (based on the category it is in).
+        
+        Parameters:
+        **kwargs(Any): a dict containing any and all variables
+                      passed to the view, that may need to be
+                      a part of the context
+        
+        Returns: HttpResponse: a view of the template
+        """
+        # init the context
+        context = super().get_context_data(**kwargs)
+        # add the category types to the context
+        context["categories"] = Mission.CATEGORIES
+        # return the context
+        return context
