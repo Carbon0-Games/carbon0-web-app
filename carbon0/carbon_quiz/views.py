@@ -368,17 +368,15 @@ class AchievementCreate(CreateView):
         mission = Mission.objects.get(id=mission_id)
         # init the context
         context = {"mission": mission}
-        # add links, if that's what the mission needs
-        if mission.requires_answer is False:
-            # get the links related to the mission
-            link_descriptions, link_addresses = Link.get_mission_links(mission)
+        # add links (URL address), if that's what the mission needs
+        link_descriptions, link_addresses = Link.get_mission_links(mission)
+        if len(link_addresses) > 0:
             # add to the context
-            context.update(
-                [
-                    ("link_description", link_descriptions[0]),
-                    ("link_address", link_addresses[0]),
-                ]
-            )
+            context["link_address"] = link_addresses[0]
+        # do the same for the link descriptions
+        if len(link_descriptions) > 0:
+            # add to the context
+            context["link_description"] = link_descriptions[0]
         # return the response
         return render(request, self.template_name, context)
 
