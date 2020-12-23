@@ -41,31 +41,31 @@
 
 {% if item == "Offsets Journey" %}
 <a class="mission_selection_button" 
-    href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'A' %}">
+    href="{% url 'accounts:mission_tracker_complete' request.user.profile.id 'A' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Flying.png' %}" alt="Image" style="max-height: 25vh" />
 </a>
 {% elif item == "Diet Journey" %}
 <a class="mission_selection_button" 
-   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'D' %}">
+   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id 'D' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Veggie_Bowl.png' %}" alt="Image" style="max-height: 25vh" />
 </a>
 {% elif item == "Recycling Journey" %}
 <a class="mission_selection_button" 
-   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'R' %}">
+   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id 'R' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Recycling.png' %}" alt="Image" style="max-height: 25vh" />
 </a>
 {% elif item == "Utilities Journey" %}
 <a class="mission_selection_button"
-   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'U' %}">
+   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id 'U' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Solar_Panel.png' %}" alt="Image" style="max-height: 25vh" />
 </a>
 {% elif item == "Transit Journey" %}
 <a class="mission_selection_button"
-   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id mission_id 'T' %}">
+   href="{% url 'accounts:mission_tracker_complete' request.user.profile.id 'T' %}">
     <h3 style="color: rgb(0, 130, 174)">{{ item }}</h3>
     <img src="{% static 'icons/Gasoline_Transport.png' %}" alt="Image" style="max-height: 25vh" />
 </a>

@@ -31,8 +31,8 @@ urlpatterns = [
         name="leaderboard",
     ),
     path(
-        "profile/<int:pk>/<int:mission_id>/",
+        "profile/<int:pk>/<slug:mission_category>/",
         MissionTrackerComplete.as_view(),
-        name="mission_tracker",
+        name="mission_tracker_complete",
     ),
 ]

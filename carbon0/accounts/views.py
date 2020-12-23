@@ -304,8 +304,14 @@ class MissionTrackerComplete(UpdateView):
 
     def get_context_data(self, *args, **kwargs: Any) -> Dict[str, Any]:
         """Add the form, Mission, and Profile to the context."""
-        # A: add the Mission and Profile instances to the context
-        mission = Mission.objects.get(id=kwargs['mission_id'])
+        # A: add the Mission to the context
+        photo_missions = Mission.objects.filter(
+            needs_auth=True, needs_photo=True,
+            question__category=kwargs['mission_category']
+        )
+        mission = photo_missions[0]
+        print(f"Mission id: {mission.pk}")
+        # add the Profile to the context
         profile = Profile.objects.get(id=kwargs['pk'])
         context = {
             "mission": mission,
@@ -317,7 +323,7 @@ class MissionTrackerComplete(UpdateView):
         # context['accepted_field'] = Profile.get_field_to_track_mission(mission)
         return super().get_context_data(**context)
 
-    def get(self, request, pk, mission_id):
+    def get(self, request, pk, mission_category):
         """
         Display a form for the user to upload the piecture of their sign,
         and include a checkbox so they can confirm its accurate
@@ -325,18 +331,20 @@ class MissionTrackerComplete(UpdateView):
         Parameters:
         request(HttpRequest): the GET request sent to the server
         pk(int): the id of the Profile belonging to the user
-        mission_id(int): the id of the mission that the player is tracking
-                         progress on.
+        mission_category(str): the category of the Mission
+                               we are tracking
 
         Returns: HttpResponse: a view of the template
 
         """
         self.object = self.get_object()
         return self.render_to_response(
-            self.get_context_data(pk=pk, mission_id=mission_id)
+            self.get_context_data(
+                pk=pk, mission_category=mission_category
+            )
         )
 
-    def form_valid(self, form, pk, mission_id):
+    def form_valid(self, form, pk, mission_category):
         """Redirect to a new Achievement for the player, 
         if their photo uploads successfully.
 
@@ -345,7 +353,11 @@ class MissionTrackerComplete(UpdateView):
         self.object = form.save()
         # make a new Achievement
         profile = Profile.objects.get(id=pk)
-        mission = Mission.objects.get(id=mission_id)
+        photo_missions = Mission.objects.filter(
+            needs_auth=True, needs_photo=True,
+            question__category=mission_category
+        )
+        mission = photo_missions[0]
         achievement = Achievement.objects.create(
             profile=profile,
             mission=mission,
@@ -359,7 +371,7 @@ class MissionTrackerComplete(UpdateView):
         )
         
 
-    def post(self, request, pk, mission_id):
+    def post(self, request, pk, mission_category):
         """
         Display a form for the user to upload the piecture of their sign,
         and include a checkbox so they can confirm its accurate
@@ -367,9 +379,9 @@ class MissionTrackerComplete(UpdateView):
         Parameters:
         request(HttpRequest): the GET request sent to the server
         pk(int): the id of the Profile belonging to the user
-        mission_id(int): the id of the mission that the player is tracking
-                         progress on.
-
+        mission_category(str): the category of the Mission
+                               we are tracking
+    
         Returns: HttpResponse: a view of the template
         """
         # get the Profile being updated
@@ -378,6 +390,6 @@ class MissionTrackerComplete(UpdateView):
         form = self.get_form()
         # validate and process the form
         if form.is_valid():
-            return self.form_valid(form, pk, mission_id)
+            return self.form_valid(form, pk, mission_category)
         else:
             return self.form_invalid(form)

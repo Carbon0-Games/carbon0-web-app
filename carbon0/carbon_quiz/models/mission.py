@@ -62,6 +62,14 @@ class Mission(models.Model):
         "Utilities Journey",
         "Transit Journey",
     ]
+    needs_auth = models.BooleanField(
+        default=False, 
+        help_text="Is the mission available to unauthenticated players."
+    )
+    needs_photo = models.BooleanField(
+        default=False, 
+        help_text="Is the mission completed by taking a photo."
+    )
 
     def __str__(self):
         """Returns human-readable name of the Mission."""
