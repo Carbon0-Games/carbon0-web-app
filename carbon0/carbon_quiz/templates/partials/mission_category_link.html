@@ -41,26 +41,28 @@
 <!-- https://stackoverflow.com/questions/1621891/html-how-to-make-a-submit-button-with-text-image-in-it -->
 <!-- Downloadable Mission Sign -->
 <div class="mission_selection_button">
-    {% if item == "Offsets Category" %}
-        <img 
+    {% if item == "Offsets-Category" %}
+        <img id="{{item}}-Sign"
          src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={% url 'api:mission_tracking_achievement' request.user.profile.id 'A' %}&color=0-150-4&format=svg" 
          alt="Image" style="max-height: 25vh" class="mx-2 mt-2" />
-    {% elif item == "Diet Category" %}
-        <img 
+    {% elif item == "Diet-Category" %}
+        <img id="{{item}}-Sign"
          src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={% url 'api:mission_tracking_achievement' request.user.profile.id 'D' %}&color=0-150-4&format=svg"
          alt="Image" style="max-height: 25vh" class="mx-2 mt-2" />
-    {% elif item == "Recycling Category" %}
-        <img 
-         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={% url 'api:mission_tracking_achievement' request.user.profile.id 'R' %}&color=0-150-4&format=svg"
+    {% elif item == "Recycling-Category" %}
+        <img id="{{item}}-Sign"
+         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://curvy-catfish-78.loca.lt/{% url 'api:mission_tracking_achievement' request.user.profile.id 'R' %}&color=0-150-4&format=svg"
          alt="Image" style="max-height: 25vh" class="mx-2 mt-2" />
-    {% elif item == "Utilities Category" %}
-        <img 
+    {% elif item == "Utilities-Category" %}
+        <img id="{{item}}-Sign"
          src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={% url 'api:mission_tracking_achievement' request.user.profile.id 'U' %}&color=0-150-4&format=svg"
          alt="Image" style="max-height: 25vh" class="mx-2 mt-2" />
-    {% elif item == "Transit Category" %}
-        <img 
+    {% elif item == "Transit-Category" %}
+        <img id="{{item}}-Sign"
          src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={% url 'api:mission_tracking_achievement' request.user.profile.id 'T' %}&color=0-150-4&format=svg"
          alt="Image" style="max-height: 25vh" class="mx-2 mt-2" />
     {% endif %}
-    <h3 class="mt-2" style="color: rgb(0, 130, 174)">{{ item }} Sign [DOWNLOAD]</h3>
+    <h3 onclick="createPDF('{{item}}-Sign')" class="mt-2" style="color: rgb(0, 130, 174)">
+        {{ item }} Sign [DOWNLOAD]
+    </h3>
 </div>
