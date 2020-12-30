@@ -201,3 +201,57 @@ class AchievementCreateLink(APIView):
         # form and return the path
         path = reverse("carbon_quiz:achievement_create", args=arguments)
         return path
+
+
+class MissionTrackingAchievement(APIView):
+    def get(self, request, pk, mission_category):
+        """
+        Responds to a user scanning a QR code, in order
+        to track a Mission and earn an Achievement
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(int): the id of a Profile belonging to a player
+        mission_category(str): the category of the Mission
+                               they are tracking
+
+        Returns: 
+        HttpResponseRedirect: redirects the request to the POST 
+                              handler for this endpoint
+        
+        """
+        return self.post(request, pk, mission_category)
+
+    def post(self, request, pk, mission_category):
+        """
+        Completes the flow of a player scanning a new 
+        QR Code, by redirecting to a new Achievement.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(int): the id of a Profile belonging to a player
+        mission_category(str): the category of the Mission
+                               they are tracking
+
+        Returns: 
+        HttpResponseRedirect: view of the AchievementDetail
+                              template, with the new Achievement
+        
+        """
+        # A: get the player's Profile
+        profile = Profile.objects.get(id=pk)
+        # B: get the mission they're tracking
+        photo_missions = Mission.objects.filter(
+            needs_auth=True, needs_photo=True, 
+            question__category=mission_category
+        )
+        mission = photo_missions[0]
+        # C: create and save a new Achievement
+        achievement = Achievement.objects.create(
+            profile=profile,
+            mission=mission,
+            zeron_image_url=Achievement.set_zeron_image_url(mission),
+        )
+        achievement.save()
+        # D: redirect to show the player their new Achievement
+        return HttpResponseRedirect(achievement.get_absolute_url())

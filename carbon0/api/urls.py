@@ -3,6 +3,7 @@ from django.urls import path
 from api.views import (
     AchievementCreateLink,
     AchievementData,
+    MissionTrackingAchievement,
     ProfileData,
     FootprintOverTime,
     QuizUpdate,
@@ -46,5 +47,11 @@ urlpatterns = [
         "footprint-change/<int:pk>/",
         FootprintOverTime.as_view(),
         name="footprint_change",
+    ),
+    # URLs for Mission Tracking
+    path(
+        "track-achievement/<int:pk>/<slug:mission_category>/", 
+        MissionTrackingAchievement.as_view(),
+        name="mission_tracking_achievement"
     ),
 ]
