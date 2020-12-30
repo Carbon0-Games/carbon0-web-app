@@ -56,11 +56,11 @@ class Mission(models.Model):
         default=0, help_text="The stage at which a player is ready for this mission."
     )
     CATEGORIES = [
-        "Offsets Journey",
-        "Diet Journey",
-        "Recycling Journey",
-        "Utilities Journey",
-        "Transit Journey",
+        "Offsets Category",
+        "Diet Category",
+        "Recycling Category",
+        "Utilities Category",
+        "Transit Category",
     ]
     needs_auth = models.BooleanField(
         default=False, help_text="Is the mission available to unauthenticated players."
