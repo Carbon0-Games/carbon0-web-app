@@ -12,7 +12,6 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "0.0.0.0",
-    "curvy-catfish-78.loca.lt",  # added when using localtunnel
 ]
 
 # File paths for the Zeron model files

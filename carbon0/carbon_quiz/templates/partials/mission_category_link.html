@@ -46,6 +46,7 @@
 <!-- Downloadable Mission Sign -->
 
 <div class="mission_selection_button">
+    <!-- The "src" attribute of the images below is set to request from the QR Code Generator API: http://goqr.me/api/doc/create-qr-code/#quickstart -->
     {% if item == "Offsets-Category" %}
         <img id="{{item}}-Sign"
          src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://curvy-catfish-78.loca.lt/{% url 'api:mission_tracking_achievement' request.user.profile.id 'A' %}&color=0-150-4&format=png" 
