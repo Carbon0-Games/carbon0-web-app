@@ -6,6 +6,7 @@ from .views import (
     UserCreate,
     ProfileView,
     LoginView,
+    MissionTrackerComplete,
 )
 
 app_name = "accounts"
@@ -28,5 +29,10 @@ urlpatterns = [
         "leaderboard/",
         TemplateView.as_view(template_name="leaderboard/leaderboard.html"),
         name="leaderboard",
+    ),
+    path(
+        "profile/<int:pk>/<slug:mission_category>/",
+        MissionTrackerComplete.as_view(),
+        name="mission_tracker_complete",
     ),
 ]

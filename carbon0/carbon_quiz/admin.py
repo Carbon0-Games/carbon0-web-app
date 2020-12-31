@@ -28,6 +28,8 @@ class MissionAdmin(admin.ModelAdmin):
                     "is_stationary",
                     "priority_level",
                     "requires_answer",
+                    "needs_auth",
+                    "needs_photo",
                 ]
             },
         ),

@@ -1,12 +1,13 @@
 from django.urls import path
 
 from .views import (
-    QuizCreate,
-    QuizDetail,
-    MissionDetail,
-    MissionList,
     AchievementCreate,
     AchievementDetail,
+    MissionDetail,
+    MissionList,
+    MissionTrackerCategory,
+    QuizCreate,
+    QuizDetail,
 )
 
 app_name = "carbon_quiz"
@@ -49,4 +50,9 @@ urlpatterns = [
         name="mission_list",
     ),
     path("mission/list/", MissionList.as_view(), name="mission_list"),
+    path(
+        "track-mission/",
+        MissionTrackerCategory.as_view(),
+        name="mission_tracker_category",
+    ),
 ]

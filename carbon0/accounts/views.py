@@ -1,19 +1,29 @@
 import datetime as dt
 import random
+from typing import Any, Dict
 
 from django.conf import settings
 import django.contrib.auth.views as auth_views
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
 import carbon_quiz.views as cqv
 from .models import Profile
-from .forms import UserSignUpForm
+from .forms import (
+    DietTrackerForm,
+    OffsetsTrackerForm,
+    RecyclingTrackerForm,
+    TransitTrackerForm,
+    UserSignUpForm,
+    UtilitiesTrackerForm,
+)
 
 
 # Social Auth
@@ -191,7 +201,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
                 missions = cqv.filter_completed_missions(missions, user)
             return missions
 
-        # TODO: refactor suggest missions based on priority levels
         # grab the most recent Achievement
         user_achievements = Achievement.objects.filter(profile=user.profile)
         latest_achievement = user_achievements.order_by("id").last()
@@ -221,14 +230,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             is_footprint_green = True  # green means "Good"
         # grab missions for the context
         is_random, missions = self._suggest_missions(user)
-        # List of Mission Categories
-        categories = [
-            "Offsets Journey",
-            "Diet Journey",
-            "Recycling Journey",
-            "Utilities Journey",
-            "Transit Journey",
-        ]
         # define the template context
         context = {
             "is_footprint_green": is_footprint_green,
@@ -236,7 +237,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             "profile": user.profile,
             "is_random": is_random,
             "missions": missions,
-            "categories": categories,
+            "categories": Mission.CATEGORIES,
         }
         return render(request, self.template_name, context)
 
@@ -269,3 +270,122 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
         else:  # user signed up with social, but not after earning Achievement
             # track the signup in Mixpanel
             track_successful_signup(user, None)
+
+
+class MissionTrackerComplete(UpdateView):
+    """
+    Player uploads a photo of their sign in order to earn points.
+    """
+
+    model = Profile
+    # provide an inital value for the form_class
+    form_class = DietTrackerForm
+    template_name = "tracker/photo_upload.html"
+    queryset = Profile.objects.all()
+
+    def get_form_tracker(self, mission, *args, **kwargs):
+        # make a list of just the abbreviated Question categories
+        categories = Question.get_category_abbreviations()
+        # make a list of the tracker forms, in order by Question categories
+        TRACKER_FORMS = [
+            DietTrackerForm,
+            TransitTrackerForm,
+            RecyclingTrackerForm,
+            OffsetsTrackerForm,
+            UtilitiesTrackerForm,
+        ]
+        # map all the mission categories to the type of tracker forms
+        category_forms = dict(zip(categories, TRACKER_FORMS))
+        # pick the appropiate form class, given the Mission
+        return category_forms[mission.question.category]
+
+    def get_context_data(self, *args, **kwargs: Any) -> Dict[str, Any]:
+        """Add the form, Mission, and Profile to the context."""
+        # A: add the Mission to the context
+        photo_missions = Mission.objects.filter(
+            needs_auth=True,
+            needs_photo=True,
+            question__category=kwargs["mission_category"],
+        )
+        mission = photo_missions[0]
+        # add the Profile to the context
+        profile = Profile.objects.get(id=kwargs["pk"])
+        context = {
+            "mission": mission,
+            "profile": profile,
+        }
+        # B: add the form
+        if "form" not in kwargs:
+            kwargs["form"] = self.get_form(form_class=self.get_form_tracker(mission))
+        # context['accepted_field'] = Profile.get_field_to_track_mission(mission)
+        return super().get_context_data(**context)
+
+    def get(self, request, pk, mission_category):
+        """
+        Display a form for the user to upload the piecture of their sign,
+        and include a checkbox so they can confirm its accurate
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(int): the id of the Profile belonging to the user
+        mission_category(str): the category of the Mission
+                               we are tracking
+
+        Returns: HttpResponse: a view of the template
+
+        """
+        self.object = self.get_object()
+        return self.render_to_response(
+            self.get_context_data(pk=pk, mission_category=mission_category)
+        )
+
+    def form_valid(self, form, pk, mission_category):
+        """Redirect to a new Achievement for the player,
+        if their photo uploads successfully.
+
+        """
+        # update the Profile object
+        self.object = form.save()
+        # make a new Achievement
+        profile = Profile.objects.get(id=pk)
+        photo_missions = Mission.objects.filter(
+            needs_auth=True, needs_photo=True, question__category=mission_category
+        )
+        mission = photo_missions[0]
+        achievement = Achievement.objects.create(
+            profile=profile,
+            mission=mission,
+            zeron_image_url=Achievement.set_zeron_image_url(mission),
+        )
+        # save the achievement
+        achievement.save()
+        # redirect to the Achievement page
+        return HttpResponseRedirect(achievement.get_absolute_url())
+
+    def post(self, request, pk, mission_category):
+        """
+        Display a form for the user to upload the piecture of their sign,
+        and include a checkbox so they can confirm its accurate
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        pk(int): the id of the Profile belonging to the user
+        mission_category(str): the category of the Mission
+                               we are tracking
+
+        Returns: HttpResponse: a view of the template
+        """
+        # get the Profile being updated
+        self.object = self.get_object()
+        # get the form that was POSTed
+        form = self.get_form()
+        # validate and process the form
+        if form.is_valid():
+            return self.form_valid(form, pk, mission_category)
+        else:
+            # If the form is invalid, render the invalid form.
+            return self.render_to_response(
+                self.get_context_data(
+                    form=form, pk=pk, mission_category=mission_category
+                )
+            )

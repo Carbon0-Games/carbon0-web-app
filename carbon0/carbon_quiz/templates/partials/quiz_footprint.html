@@ -18,7 +18,7 @@
                 <div class="row">
                     <div id="chartdiv" style="width: 450px; height: 260px;"></div>
                     <script type="module">
-                        import { footprintPlot } from "{% static 'js/amGuageChart.js' %}";
+                        import { footprintPlot } from "{% static 'js/amGaugeChart.js' %}";
                         footprintPlot({{ quiz.previous_carbon_value }}, {{ quiz.carbon_value_total }})
                     </script>
                 </div>

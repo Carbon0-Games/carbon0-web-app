@@ -55,6 +55,19 @@ class Mission(models.Model):
     priority_level = models.IntegerField(
         default=0, help_text="The stage at which a player is ready for this mission."
     )
+    CATEGORIES = [
+        "Offsets-Category",
+        "Diet-Category",
+        "Recycling-Category",
+        "Utilities-Category",
+        "Transit-Category",
+    ]
+    needs_auth = models.BooleanField(
+        default=False, help_text="Is the mission available to unauthenticated players."
+    )
+    needs_photo = models.BooleanField(
+        default=False, help_text="Is the mission completed by taking a photo."
+    )
 
     def __str__(self):
         """Returns human-readable name of the Mission."""

@@ -1,5 +1,6 @@
 from heapq import nlargest
 import random
+from typing import Any, Dict
 
 from django.conf import settings
 from django.db.models import F
@@ -10,9 +11,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
     CreateView,
     UpdateView,
-    DeleteView,
 )
 from django.views.generic import ListView
+from django.views.generic.base import View
 from mixpanel import Mixpanel, MixpanelException
 
 from .forms import AchievementForm, QuizForm
@@ -191,8 +192,9 @@ class QuizDetail(UpdateView):
                 # find the missions the user can choose
                 missions = quiz.get_related_missions(request.user.profile)
             else:  # choose missions randomly for site visitors
-                # if no missions to suggest, give 3 randomly
-                missions = random.sample(set(Mission.objects.all()), 3)
+                # if no missions to suggest, give 3 randomly (don't require auth)
+                missions = Mission.objects.filter(needs_auth=False)
+                missions = random.sample(set(missions), 3)
                 is_random = True
             # finally, take out missions completed before
             missions = filter_completed_missions(missions, request.user)
@@ -474,4 +476,38 @@ class AchievementDetail(DetailView):
         else:  # user requesting the view is not logged in
             context["quiz"] = achievement.quiz
         # return the response
+        return render(request, self.template_name, context)
+
+
+class MissionTrackerCategory(View):
+    """
+    Where the player is sent to once they enter a tracking mission,
+    to specific which mission category they are going to track.
+    """
+
+    template_name = "carbon_quiz/mission/tracker.html"
+
+    def get(self, request):
+        """
+        Display a series of links to the form, where the user can track their
+        Mission (based on the category it is in).
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+
+        Returns: HttpResponse: a view of the template
+        """
+        # init the context
+        context = dict()
+        # add the category types to the context
+        context["categories"] = Mission.CATEGORIES
+        # add the host domain to the context
+        domain = request.META['HTTP_HOST']
+        # prepend the domain with the application protocol
+        if 'localhost' in settings.ALLOWED_HOSTS:
+            domain = f"http://{domain}"
+        else:  # using a prod server
+            domain = f"https://{domain}"
+        context['domain'] = domain
+        # return the context
         return render(request, self.template_name, context)
