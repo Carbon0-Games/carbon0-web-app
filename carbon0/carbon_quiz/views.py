@@ -13,7 +13,7 @@ from django.views.generic.edit import (
     UpdateView,
 )
 from django.views.generic import ListView
-from django.views.generic.base import TemplateView
+from django.views.generic.base import View
 from mixpanel import Mixpanel, MixpanelException
 
 from .forms import AchievementForm, QuizForm
@@ -481,7 +481,7 @@ class AchievementDetail(DetailView):
         return render(request, self.template_name, context)
 
 
-class MissionTrackerCategory(TemplateView):
+class MissionTrackerCategory(View):
     """
     Where the player is sent to once they enter a tracking mission,
     to specific which mission category they are going to track.
@@ -489,21 +489,27 @@ class MissionTrackerCategory(TemplateView):
 
     template_name = "carbon_quiz/mission/tracker.html"
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get(self, request):
         """
         Display a series of links to the form, where the user can track their
         Mission (based on the category it is in).
 
         Parameters:
-        **kwargs(Any): a dict containing any and all variables
-                      passed to the view, that may need to be
-                      a part of the context
+        request(HttpRequest): the GET request sent to the server
 
         Returns: HttpResponse: a view of the template
         """
         # init the context
-        context = super().get_context_data(**kwargs)
+        context = dict()
         # add the category types to the context
         context["categories"] = Mission.CATEGORIES
+        # add the host domain to the context
+        domain = request.META['HTTP_HOST']
+        # prepend the domain with the application protocol
+        if 'localhost' in settings.ALLOWED_HOSTS:
+            domain = f"http://{domain}"
+        else:  # using a prod server
+            domain = f"https://{domain}"
+        context['domain'] = domain
         # return the context
-        return context
+        return render(request, self.template_name, context)
