@@ -3,6 +3,7 @@ const createPDF = qrCodeID => {
     const element = document.getElementById(qrCodeID);
 
     // convert the HTML to a PDF in the browser
-    const worker = html2pdf();
-    worker.from(element).save(qrCodeID);
+   let pdf = new jsPDF();
+   pdf.addImage(element, format='PNG', x=0, y=0);
+   pdf.save(qrCodeID);
 }
