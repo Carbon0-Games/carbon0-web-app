@@ -18,7 +18,7 @@
     <div class="container">
         <h1 class="row mb-4 justify-content-center pt-3 ml-1"
             style="color:#3FC5F0; font-weight: 400; font-size: 50px; line-height: 45px;">
-            Download Your QR Code
+            Select a Mission Category
         </h1>
         <div class="row justify-content-center">
             <!-- Demo Image -->
@@ -36,9 +36,10 @@
                         <ol class="list-group">
                             <li class="list-group-item">
                                 <p class="lead text-dark">
-                                    1. Print out the QR codes below. <br>
-                                    Choose the Mission categories <br>
-                                    you find most compelling.
+                                    1. Select a category below. <br>
+                                    We'll show you QR codes that <br> 
+                                    you can use to track your <br>
+                                    your progress in that category!
                                 </p>
                             </li>
                             <li class="list-group-item text-dark">
@@ -70,7 +71,7 @@
             {% for item in categories %}
             <div class="col justify-content-center ">
                 <div class="d-flex justify-content-center">
-                    {% include "partials/mission_category_link.html" %}
+                    {% include "partials/tracking_category_link.html" %}
                 </div>
             </div>
             {% endfor %}
