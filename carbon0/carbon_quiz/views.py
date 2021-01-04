@@ -487,6 +487,35 @@ class MissionTrackerCategory(View):
 
     template_name = "carbon_quiz/mission/tracker.html"
 
+    def get_tracking_categories(self):
+        """
+        Returns a list of the Mission category types 
+        which currently have tracking missions.
+        """
+        # A: init the output
+        tracking_categories = list()
+        # B: map the Question categories to the Mission categories
+        categories = dict(zip(
+           Question.get_category_abbreviations(),
+           Mission.CATEGORIES
+        ))
+        # C: filter all the tracking Missions
+        tracking_missions = Mission.objects.filter(
+            needs_auth=True, needs_photo=True
+        )
+        # D: see which Mission categories have tracking missions
+        for question_category in categories.keys():
+            # look up tracking missions in this cateogory
+            missions = tracking_missions.filter(
+                question__category=question_category
+            )
+            # if they are found, add the category
+            if len(missions) > 0:
+                mission_category = categories[question_category]
+                tracking_categories.append(mission_category)
+        # E: return the categories
+        return tracking_categories
+
     def get(self, request):
         """
         Display a series of links to the form, where the user can track their
@@ -499,8 +528,7 @@ class MissionTrackerCategory(View):
         """
         # init the context
         context = dict()
-        # add the category types to the context
-        context["categories"] = Mission.CATEGORIES
+        context["categories"] = self.get_tracking_categories()
         # add the host domain to the context
         domain = request.META["HTTP_HOST"]
         # prepend the domain with the application protocol

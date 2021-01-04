@@ -56,17 +56,17 @@ class Mission(models.Model):
         default=0, help_text="The stage at which a player is ready for this mission."
     )
     CATEGORIES = [
-        "Offsets-Category",
         "Diet-Category",
-        "Recycling-Category",
-        "Utilities-Category",
         "Transit-Category",
+        "Recycling-Category",
+        "Offsets-Category",
+        "Utilities-Category",
     ]
     needs_auth = models.BooleanField(
         default=False, help_text="Is the mission available to unauthenticated players."
     )
     needs_photo = models.BooleanField(
-        default=False, help_text="Is the mission completed by taking a photo."
+        default=False, help_text="Is the mission completed by scanning a QR code."
     )
 
     def __str__(self):
