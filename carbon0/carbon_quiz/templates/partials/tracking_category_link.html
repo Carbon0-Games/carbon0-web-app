@@ -48,27 +48,27 @@
 <div class="mission_selection_button">
     <!-- The "src" attribute of the images below is set to request from the QR Code Generator API: http://goqr.me/api/doc/create-qr-code/#quickstart -->
     {% if item == "Offsets-Category" %}
-        <a class="mission_selection_button" href="{% url 'accounts:mission_tracker_complete' request.user.profile.id 'A' %}">
+        <a class="mission_selection_button" href="{% url 'accounts:mission_tracker_complete' 'A' %}">
             <h3 style="color: rgb(0, 130, 174)">Track Offsets Missions</h3>
             <img src="{% static 'icons/Flying.png' %}" alt="Image" style="max-height: 25vh" />
         </a>
     {% elif item == "Diet-Category" %}
-        <a class="mission_selection_button" href="{% url 'accounts:mission_tracker_complete' request.user.profile.id 'D' %}">
+        <a class="mission_selection_button" href="{% url 'accounts:mission_tracker_complete' 'D' %}">
             <h3 style="color: rgb(0, 130, 174)">Track Dieting Missions</h3>
             <img src="{% static 'icons/Veggie_Bowl.png' %}" alt="Image" style="max-height: 25vh" />
         </a>
     {% elif item == "Recycling-Category" %}
-        <a class="mission_selection_button" href="{% url 'account:mission_tracker_complete' request.user.profile.id 'R' %}">
+        <a class="mission_selection_button" href="{% url 'account:mission_tracker_complete' 'R' %}">
             <h3 style="color: rgb(0, 130, 174)">Track Recycling Missions</h3>
             <img src="{% static 'icons/Recycling.png' %}" alt="Image" style="max-height: 25vh" />
         </a>
     {% elif item == "Utilities-Category" %}
-        <a class="mission_selection_button" href="{% url 'accounts:mission_tracker_complete' request.user.profile.id 'U' %}">
+        <a class="mission_selection_button" href="{% url 'accounts:mission_tracker_complete' 'U' %}">
             <h3 style="color: rgb(0, 130, 174)">Track Utilities Missions</h3>
             <img src="{% static 'icons/Solar_Panel.png' %}" alt="Image" style="max-height: 25vh" />
         </a>
     {% elif item == "Transit-Category" %}
-        <a class="mission_selection_button" href="{% url 'accounts:mission_tracker_complete' request.user.profile.id 'T' %}">
+        <a class="mission_selection_button" href="{% url 'accounts:mission_tracker_complete' 'T' %}">
             <h3 style="color: rgb(0, 130, 174)">Track Transit Missions</h3>
             <img src="{% static 'icons/Gasoline_Transport.png' %}" alt="Image" style="max-height: 25vh" />
         </a>
