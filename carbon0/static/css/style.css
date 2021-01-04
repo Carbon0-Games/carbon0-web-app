@@ -54,172 +54,186 @@ a.mission-link:hover {
   background-color: green;
 }
 
-
-
-
-
-
-
-
-
-
-
-    p,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    h7,
-    h8,
-    ol,
-    ul,
-    label,
-    span {
-      font-family: "Coda", sans-serif;
-      color: white;
-    }
-
-    label, p {
-      font-size: 16px;
-      line-height: 24px;
-      color: white;
-    }
-
-    h1 {
-      font-size: 35px;
-      line-height: 30px;
-    }
-
+.mission_selection_button{
+  margin-top: 1vh;
+  margin-bottom: 3vh;
+  background-color: white;
+  padding: 5px 8px;
+  -webkit-appearance: none;
+  font-size: vi;
+  border-radius: 16px;
+  white-space: nowrap;
+  /* overflow: hidden; */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  min-width: vmax;
+  font-family: "Coda", sans-serif;
+  outline: none;
+  border: 0px;
+  font-weight: 500;
     
-    @media only screen and (min-width: 600px) {
-      h1 {
-          font-size: 24px;
-          line-height: 28px;
-          font-weight: bold;
-      }
-    }
+}
 
-    h2 {
+@media only screen and (min-width: 600px) {
+  .mission_selection_button {
+    padding: 6px 10px;
+    font-size: vi;
+  }
+}
+
+h3{
+  font-weight: 500;
+}
+
+a {
+  color: #0ed60b
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7,
+h8,
+ol,
+ul,
+label,
+span {
+  font-family: "Coda", sans-serif;
+  color: white;
+}
+
+label, p {
+  font-size: 16px;
+  line-height: 24px;
+  color: white;
+}
+
+h1 {
+  font-size: 35px;
+  line-height: 30px;
+}
+
+
+@media only screen and (min-width: 600px) {
+  h1 {
+      font-size: 24px;
+      line-height: 28px;
+      font-weight: bold;
+  }
+}
+
+h2 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: bold;
+}
+@media only screen and (min-width: 600px) {
+  h2 {
       font-size: 16px;
       line-height: 24px;
       font-weight: bold;
-    }
-    @media only screen and (min-width: 600px) {
-      h2 {
-          font-size: 16px;
-          line-height: 24px;
-          font-weight: bold;
-      }
-    }
+  }
+}
 
-    h3 {
+h3 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: bold;
+}
+@media only screen and (min-width: 600px) {
+  h3 {
       font-size: 16px;
       line-height: 24px;
       font-weight: bold;
-    }
-    @media only screen and (min-width: 600px) {
-      h3 {
-          font-size: 16px;
-          line-height: 24px;
-          font-weight: bold;
-      }
-    }
+  }
+}
 
-    h4 {
+h4 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: bold;
+}
+@media only screen and (min-width: 600px) {
+  h4 {
       font-size: 16px;
       line-height: 24px;
       font-weight: bold;
-    }
-    @media only screen and (min-width: 600px) {
-      h4 {
-          font-size: 16px;
-          line-height: 24px;
-          font-weight: bold;
-      }
-    }
+  }
+}
 
-    h5 {
+h5 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: bold;
+}
+@media only screen and (min-width: 600px) {
+  h5 {
       font-size: 16px;
       line-height: 24px;
       font-weight: bold;
-    }
-    @media only screen and (min-width: 600px) {
-      h5 {
-          font-size: 16px;
-          line-height: 24px;
-          font-weight: bold;
-      }
-    }
+  }
+}
 
-    input, textarea {
-      -webkit-appearance: none;
-    }
+input, textarea {
+  -webkit-appearance: none;
+}
 
-    #foot {
-        background-color: #445C3C;
-    }
+#foot {
+    background-color: #445C3C;
+}
 
-    .carbon0-button {
-      background-color: white;
-      padding: 10px 16px;
-      -webkit-appearance: none;
-      font-size: 16px;
-      border-radius: 16px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      min-width: 150px;
-      font-family: "Coda", sans-serif;
-      outline: none;
-      border: 0px;
-    }
-    @media only screen and (min-width: 600px) {
-      .carbon0-button {
-        padding: 12px 20px;
-        font-size: 26px;
-      }
-    }
+.carbon0-button {
+  background-color: white;
+  padding: 10px 16px;
+  -webkit-appearance: none;
+  font-size: 16px;
+  border-radius: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  min-width: 150px;
+  font-family: "Coda", sans-serif;
+  outline: none;
+  border: 0px;
+}
+@media only screen and (min-width: 600px) {
+  .carbon0-button {
+    padding: 12px 20px;
+    font-size: 26px;
+  }
+}
 
 
-    /* https://stackoverflow.com/questions/16056591/font-scaling-based-on-width-of-container */
-    .carbon0-button-mission {
-      background-color: white;
-      padding: 5px 8px;
-      -webkit-appearance: none;
-      font-size: vi;
-      border-radius: 16px;
-      white-space: nowrap;
-      /* overflow: hidden; */
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      min-width: vmax;
-      font-family: "Coda", sans-serif;
-      outline: none;
-      border: 0px;
-    }
-    @media only screen and (min-width: 600px) {
-      .carbon0-button-mission {
-        padding: 6px 10px;
-        font-size: vi;
-      }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
+/* https://stackoverflow.com/questions/16056591/font-scaling-based-on-width-of-container */
+.carbon0-button-mission {
+  background-color: white;
+  padding: 5px 8px;
+  -webkit-appearance: none;
+  font-size: vi;
+  border-radius: 16px;
+  white-space: nowrap;
+  /* overflow: hidden; */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  min-width: vmax;
+  font-family: "Coda", sans-serif;
+  outline: none;
+  border: 0px;
+}
+@media only screen and (min-width: 600px) {
+  .carbon0-button-mission {
+    padding: 6px 10px;
+    font-size: vi;
+  }
+}
 
 .link-overview:hover + .box,.box:hover{
     display: block;
@@ -276,11 +290,11 @@ model-viewer {
 }
 
 .starry-background {
-      background-image: url("../images/Carbon0_Website_No_Logo1.png");
-      background-size: cover;
-      background-repeat: no-repeat;
-      margin: 0%;
-      overflow: hidden;
-      background-color:#143963; 
-      min-height: 100vh;
+  background-image: url("../images/Carbon0_Website_No_Logo1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0%;
+  overflow: hidden;
+  background-color:#143963; 
+  min-height: 100vh;
 }
