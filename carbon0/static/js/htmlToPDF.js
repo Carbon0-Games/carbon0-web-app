@@ -1,9 +1,9 @@
-const createPDF = qrCodeID => {
-    // get the DOM element needed to make the PDF
-    const element = document.getElementById(qrCodeID);
-
-    // convert the HTML to a PDF in the browser
-   let pdf = new jsPDF();
-   pdf.addImage(element, format='PNG', x=0, y=0);
-   pdf.save(qrCodeID);
+const createPDF = (qrCodeImage, missionAction) => {
+    // get the DOM elements needed to make the PDF
+    const image = document.getElementById(qrCodeImage);
+    // Create and save a new PDF on the client machine
+    let pdf = new jsPDF();
+    pdf.addImage(image, format='PNG', x=0, y=0);
+    pdf.text(missionAction, x=3, y=45);
+    pdf.save(qrCodeImage);
 }

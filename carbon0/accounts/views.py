@@ -299,6 +299,14 @@ class MissionTrackerComplete(View):
 
         """
         context = dict()
+        # add the host domain to the context
+        domain = request.META["HTTP_HOST"]
+        # prepend the domain with the application protocol
+        if "localhost" in settings.ALLOWED_HOSTS:
+            domain = f"http://{domain}"
+        else:  # using a prod server
+            domain = f"https://{domain}"
+        context["domain"] = domain
         # Add the Missions and their category to the context
         context["category"] = (
             Mission.get_corresponding_mission_category(category)

@@ -66,18 +66,12 @@
             style="color:white; font-weight: 400; font-size: 20px; line-height: 45px;">
             Download the sign of the Mission you'll use to become more green!
         </h1>
-        <div class="row">
-            {% for mission in missions %}
-            <div class="col justify-content-center ">
-                <div class="d-flex justify-content-center">
-                    <div class="card-columns">
-                        {% for mission in missions %}
-                            {% include "partials/tracking_mission_link.html" %}
-                        {% endfor %}
-                    </div>
-                </div>
+        <div class="row justify-content-center">
+            <div class="card-columns">
+                {% for mission in missions %}
+                    {% include "partials/tracking_mission_link.html" %}
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>

@@ -524,13 +524,5 @@ class MissionTrackerCategory(View):
         # init the context
         context = dict()
         context["categories"] = self.get_tracking_categories()
-        # add the host domain to the context
-        domain = request.META["HTTP_HOST"]
-        # prepend the domain with the application protocol
-        if "localhost" in settings.ALLOWED_HOSTS:
-            domain = f"http://{domain}"
-        else:  # using a prod server
-            domain = f"https://{domain}"
-        context["domain"] = domain
         # return the context
         return render(request, self.template_name, context)

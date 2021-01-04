@@ -1,7 +1,5 @@
-<!-- carbon0/accounts/templates/partials/mission_button.html -->
+<!-- carbon0/accounts/templates/partials/tracking_mission_link.html -->
 {% load static %}
-
-
 
 <!-- CSS used on this template -->
 <style>
@@ -48,12 +46,12 @@
 <div class="mission_selection_button ">
     <!-- The "src" attribute of the images below is set to request from the QR Code Generator API: http://goqr.me/api/doc/create-qr-code/#quickstart -->
     <div class="card-img-top">
-        <img id="{{category}}-Sign-{{mission.id}}"
-            src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ domain }}/{% url 'api:mission_tracking_achievement' request.user.profile.id 'A' %}&color=0-150-4&format=png"
+        <img id="{{category}}-Sign-{{mission.id}}-image"
+            src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ domain }}{% url 'api:qr_code_receiver' mission.id %}&color=0-150-4&format=png"
             alt="A sign for tracking {{ category }} missions" style="max-height: 25vh" class="mt-2 px-2" />
     </div>
     <div class="card-title mt-2">
-        <h3 class="text-dark">{{ mission.action }}</h3>
+        <h3 id="{{category}}-Sign-{{mission.id}}-id" class="text-dark">{{ mission.action }}</h3>
     </div>
     <div>
         <!-- Display if the mission is stationary or not -->
@@ -67,7 +65,8 @@
         </div>
         <!-- Download Link -->
         <a href="#" class="row justify-content-center mt-1">
-            <h3 onclick="createPDF('{{category}}-Sign-{{mission.id}}')" style="color: rgb(0, 130, 174)">
+            <h3 onclick="createPDF('{{category}}-Sign-{{mission.id}}-image', '{{ mission.title }}')" 
+                style="color: rgb(0, 130, 174)">
                 DOWNLOAD the QR Code
             </h3>
         </a>
