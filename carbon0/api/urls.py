@@ -50,12 +50,14 @@ urlpatterns = [
         name="footprint_change",
     ),
     # URLs for Mission Tracking
-    path("receive-qr-code/<int:mission_id>/", QRCodeReceiver.as_view(), 
-         name="qr_code_receiver"
+    path(
+        "receive-qr-code/<int:mission_id>/",
+        QRCodeReceiver.as_view(),
+        name="qr_code_receiver",
     ),
     path(
-        "track-achievement/<int:pk>/<slug:mission_id>/", 
+        "track-achievement/<int:pk>/<slug:mission_id>/",
         MissionTrackingAchievement.as_view(),
-        name="mission_tracking_achievement"
+        name="mission_tracking_achievement",
     ),
 ]

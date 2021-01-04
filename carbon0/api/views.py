@@ -207,34 +207,32 @@ class QRCodeReceiver(APIView):
     def get(self, request, mission_id):
         """
         Decides what destination the player scanning a QR code will have.
-        If the player has an account, we send them to complete tracking 
+        If the player has an account, we send them to complete tracking
         the mission.
 
         Otherwise, we send them to the landing page of the website.
 
         Parameters:
         request(HttpRequest): the GET request sent to the server.
-                              Encapsulates the user making the request, 
+                              Encapsulates the user making the request,
                               so we can tell if they have a Profile or not.
         mission_id(int): if the player does have an account, we will have them
                          complete the Mission with this id.
 
-        Returns: HttpResponse to either 1) the 'landing_page' view, or 
+        Returns: HttpResponse to either 1) the 'landing_page' view, or
                  2) the MissionTrackingAchievement view below.
 
         """
         # A: see if there's a unique Profile associated with the player
-        profiles= Profile.objects.filter(user=request.user)
+        profiles = Profile.objects.filter(user=request.user)
         # B: if not, then send the player along to the landing page
         if len(profiles) != 1:
-            return render(reverse("landing_page")) 
+            return render(reverse("landing_page"))
         elif len(profiles) == 1:  # there is an associated account
             # send the user along to earn the Achievement
             pk = profiles[0].id
-            return HttpResponse(reverse(
-                'api:mission_tracking_achievement',
-                args=[pk, mission_id]
-                )
+            return HttpResponse(
+                reverse("api:mission_tracking_achievement", args=[pk, mission_id])
             )
 
 
@@ -249,16 +247,16 @@ class MissionTrackingAchievement(APIView):
         pk(int): the id of a Profile belonging to a player
         mission_id(int): the Mission with this id is being completed
 
-        Returns: 
-        HttpResponseRedirect: redirects the request to the POST 
+        Returns:
+        HttpResponseRedirect: redirects the request to the POST
                               handler for this endpoint
-        
+
         """
         return self.post(request, pk, mission_id)
 
     def post(self, request, pk, mission_id):
         """
-        Completes the flow of a player scanning a new 
+        Completes the flow of a player scanning a new
         QR Code, by redirecting to a new Achievement.
 
         Parameters:
@@ -266,10 +264,10 @@ class MissionTrackingAchievement(APIView):
         pk(int): the id of a Profile belonging to a player
         mission_id(int): the Mission with this id is being completed
 
-        Returns: 
+        Returns:
         HttpResponseRedirect: view of the AchievementDetail
                               template, with the new Achievement
-        
+
         """
         # A: get the player's Profile
         profile = Profile.objects.get(id=pk)
