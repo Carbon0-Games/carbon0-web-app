@@ -65,7 +65,7 @@ class Mission(models.Model):
     needs_auth = models.BooleanField(
         default=False, help_text="Is the mission available to unauthenticated players."
     )
-    needs_photo = models.BooleanField(
+    needs_scan = models.BooleanField(
         default=False, help_text="Is the mission completed by scanning a QR code."
     )
 

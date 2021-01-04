@@ -489,26 +489,21 @@ class MissionTrackerCategory(View):
 
     def get_tracking_categories(self):
         """
-        Returns a list of the Mission category types 
+        Returns a list of the Mission category types
         which currently have tracking missions.
         """
         # A: init the output
         tracking_categories = list()
         # B: map the Question categories to the Mission categories
-        categories = dict(zip(
-           Question.get_category_abbreviations(),
-           Mission.CATEGORIES
-        ))
-        # C: filter all the tracking Missions
-        tracking_missions = Mission.objects.filter(
-            needs_auth=True, needs_photo=True
+        categories = dict(
+            zip(Question.get_category_abbreviations(), Mission.CATEGORIES)
         )
+        # C: filter all the tracking Missions
+        tracking_missions = Mission.objects.filter(needs_auth=True, needs_scan=True)
         # D: see which Mission categories have tracking missions
         for question_category in categories.keys():
             # look up tracking missions in this cateogory
-            missions = tracking_missions.filter(
-                question__category=question_category
-            )
+            missions = tracking_missions.filter(question__category=question_category)
             # if they are found, add the category
             if len(missions) > 0:
                 mission_category = categories[question_category]

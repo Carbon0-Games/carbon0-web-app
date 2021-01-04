@@ -304,7 +304,7 @@ class MissionTrackerComplete(UpdateView):
         # A: add the Mission to the context
         photo_missions = Mission.objects.filter(
             needs_auth=True,
-            needs_photo=True,
+            needs_scan=True,
             question__category=kwargs["mission_category"],
         )
         mission = photo_missions[0]
@@ -349,7 +349,7 @@ class MissionTrackerComplete(UpdateView):
         # make a new Achievement
         profile = Profile.objects.get(id=pk)
         photo_missions = Mission.objects.filter(
-            needs_auth=True, needs_photo=True, question__category=mission_category
+            needs_auth=True, needs_scan=True, question__category=mission_category
         )
         mission = photo_missions[0]
         achievement = Achievement.objects.create(
