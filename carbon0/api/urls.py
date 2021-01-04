@@ -6,6 +6,7 @@ from api.views import (
     MissionTrackingAchievement,
     ProfileData,
     FootprintOverTime,
+    QRCodeReceiver,
     QuizUpdate,
     QuizData,
     UserFootPrintData,
@@ -49,8 +50,11 @@ urlpatterns = [
         name="footprint_change",
     ),
     # URLs for Mission Tracking
+    path("receive-qr-code/<int:mission_id>/", QRCodeReceiver.as_view(), 
+         name="qr_code_receiver"
+    ),
     path(
-        "track-achievement/<int:pk>/<slug:mission_category>/", 
+        "track-achievement/<int:pk>/<slug:mission_id>/", 
         MissionTrackingAchievement.as_view(),
         name="mission_tracking_achievement"
     ),
