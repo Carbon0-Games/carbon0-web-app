@@ -5,25 +5,16 @@ from typing import Any, Dict
 from django.conf import settings
 import django.contrib.auth.views as auth_views
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView
 from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.mission import Mission
-from carbon_quiz.models.question import Question
 import carbon_quiz.views as cqv
+from .forms import UserSignUpForm
 from .models import Profile
-from .forms import (
-    DietTrackerForm,
-    OffsetsTrackerForm,
-    RecyclingTrackerForm,
-    TransitTrackerForm,
-    UserSignUpForm,
-    UtilitiesTrackerForm,
-)
 
 
 # Social Auth
@@ -288,7 +279,7 @@ class MissionTrackerComplete(View):
             # B: filter all the tracking Missions
             tracking_missions = Mission.objects.filter(
                 needs_auth=True, needs_scan=True, 
-                question__category=[category]
+                question__category=category
             )
             # C: return the missions
             return tracking_missions
@@ -308,5 +299,10 @@ class MissionTrackerComplete(View):
 
         """
         context = dict()
+        # Add the Missions and their category to the context
+        context["category"] = (
+            Mission.get_corresponding_mission_category(category)
+        )
         context['missions'] = self.get_tracking_missions(category)
+        # send the player to the template
         return render(request, self.template_name, context)

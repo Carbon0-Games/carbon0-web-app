@@ -19,28 +19,19 @@
     <div class="container">
         <h1 class="row mb-4 justify-content-center pt-3 ml-1"
             style="color:#3FC5F0; font-weight: 400; font-size: 50px; line-height: 45px;">
-            Select a Mission Category
+            Download Your QR Codes
         </h1>
         <div class="row justify-content-center">
-            <!-- Demo Image -->
-            <div class="col-md-6">
-                <div class="row justify-content-center mb-4">
-                    <img src="{% static 'images/Mission_Tracking_Sample.png' %}" alt="Example Mission Tracking Sign"
-                        width=70% height=100%>
-                </div>
-            </div>
             <!-- Instructions as Text -->
             <div class="col-md-6">
                 <div class="row justify-content-center">
-                    <div class="carbon0-button">
+                    <div class="carbon0-button mb-3">
                         <h1 class="text-dark" style="font-weight: 400;">INSTRUCTIONS</h1>
                         <ol class="list-group">
                             <li class="list-group-item">
                                 <p class="lead text-dark">
-                                    1. Select a category below. <br>
-                                    We'll show you QR codes that <br>
-                                    you can use to track your <br>
-                                    your progress in that category!
+                                    1. Select a mission below. <br>
+                                    Select the DOWNLOAD link.
                                 </p>
                             </li>
                             <li class="list-group-item text-dark">
@@ -51,12 +42,19 @@
                             </li>
                             <li class="list-group-item text-dark">
                                 <p class="lead text-dark">
-                                    3. Scan the code when you do <br>
-                                    the action, to earn Zerons!
+                                    3. Scan the code (see example) <br>
+                                    when you do the action, to earn Zerons!
                                 </p>
                             </li>
                         </ol>
                     </div>
+                </div>
+            </div>
+            <!-- Demo Image -->
+            <div class="col-md-6">
+                <div class="row justify-content-center mb-4">
+                    <img src="{% static 'images/Mission_Tracking_Sample.png' %}" alt="Example Mission Tracking Sign" width=70%
+                        height=100%>
                 </div>
             </div>
         </div>
@@ -66,13 +64,17 @@
     <div class="container">
         <h1 class="row justify-content-center pt-1 ml-1"
             style="color:white; font-weight: 400; font-size: 20px; line-height: 45px;">
-            Download the sign of Mission category you'll use to become more green!
+            Download the sign of the Mission you'll use to become more green!
         </h1>
         <div class="row">
-            {% for item in categories %}
+            {% for mission in missions %}
             <div class="col justify-content-center ">
                 <div class="d-flex justify-content-center">
-                    {% include "partials/tracking_category_link.html" %}
+                    <div class="card-columns">
+                        {% for mission in missions %}
+                            {% include "partials/tracking_mission_link.html" %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             {% endfor %}

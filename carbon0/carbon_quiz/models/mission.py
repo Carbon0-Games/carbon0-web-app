@@ -80,3 +80,16 @@ class Mission(models.Model):
         mission_set = random.sample(set(related_missions), 1)
         mission = mission_set.pop()
         return mission
+
+    @classmethod
+    def get_corresponding_mission_category(cls, question_category):
+        """
+        Gives the Mission cateogry to corresponds to one of the 
+        abbreviations in Question.CATEGORIES.
+        """
+        # use a mapping between Question and Mission categories
+        question_mission_categories = dict(zip(
+            Question.get_category_abbreviations(),
+            Mission.CATEGORIES
+        ))
+        return question_mission_categories[question_category]
