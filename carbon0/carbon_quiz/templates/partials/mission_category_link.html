@@ -49,11 +49,11 @@
     <!-- The "src" attribute of the images below is set to request from the QR Code Generator API: http://goqr.me/api/doc/create-qr-code/#quickstart -->
     {% if item == "Offsets-Category" %}
         <img id="{{item}}-Sign"
-         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ domain }}/{% url 'api:mission_tracking_achievement' request.user.profile.id 'A' %}&color=0-150-4&format=png" 
+         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ domain }}{% url 'api:mission_tracking_achievement' request.user.profile.id 'A' %}&color=0-150-4&format=png" 
          alt="Sign for tracking Airline-Utilities missions" style="max-height: 25vh" class="mx-2 mt-2" />
     {% elif item == "Diet-Category" %}
         <img id="{{item}}-Sign"
-         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ domain }}/{% url 'api:mission_tracking_achievement' request.user.profile.id 'D' %}&color=0-150-4&format=png"
+         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ domain }}{% url 'api:mission_tracking_achievement' request.user.profile.id 'D' %}&color=0-150-4&format=png"
          alt="Sign for tracking Diet missions" style="max-height: 25vh" class="mx-2 mt-2" />
     {% elif item == "Recycling-Category" %}
         <img id="{{item}}-Sign"
@@ -61,11 +61,11 @@
          alt="Sign for tracking Recycling missions" style="max-height: 25vh" class="mx-2 mt-2" />
     {% elif item == "Utilities-Category" %}
         <img id="{{item}}-Sign"
-         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ domain }}/{% url 'api:mission_tracking_achievement' request.user.profile.id 'U' %}&color=0-150-4&format=png"
+         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ domain }}{% url 'api:mission_tracking_achievement' request.user.profile.id 'U' %}&color=0-150-4&format=png"
          alt="Sign for tracking Utilities missions" style="max-height: 25vh" class="mx-2 mt-2" />
     {% elif item == "Transit-Category" %}
         <img id="{{item}}-Sign"
-         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ domain }}/{% url 'api:mission_tracking_achievement' request.user.profile.id 'T' %}&color=0-150-4&format=png"
+         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ domain }}{% url 'api:mission_tracking_achievement' request.user.profile.id 'T' %}&color=0-150-4&format=png"
          alt="Sign for tracking Transit missions" style="max-height: 25vh" class="mx-2 mt-2" />
     {% endif %}
     <a href="#">
