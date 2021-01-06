@@ -235,7 +235,8 @@ class MissionTrackingAchievement(APIView):
 
         Returns: 
         HttpResponseRedirect: view of the AchievementDetail
-                              template, with the new Achievement
+                              template with the new Achievement,
+                              or to the home page
         
         """
         # A: get the player's Profile
@@ -245,13 +246,18 @@ class MissionTrackingAchievement(APIView):
             needs_auth=True, needs_photo=True, 
             question__category=mission_category
         )
-        mission = photo_missions[0]
-        # C: create and save a new Achievement
-        achievement = Achievement.objects.create(
-            profile=profile,
-            mission=mission,
-            zeron_image_url=Achievement.set_zeron_image_url(mission),
-        )
-        achievement.save()
-        # D: redirect to show the player their new Achievement
-        return HttpResponseRedirect(achievement.get_absolute_url())
+        # if the mission is available, then the player completes the mission
+        if len(photo_missions) > 0:
+            mission = photo_missions[0]
+            # C: create and save a new Achievement
+            achievement = Achievement.objects.create(
+                profile=profile,
+                mission=mission,
+                zeron_image_url=Achievement.set_zeron_image_url(mission),
+            )
+            achievement.save()
+            # D: redirect to show the player their new Achievement
+            return HttpResponseRedirect(achievement.get_absolute_url())
+        else:  # no tracking missions found
+            # send the player to the home page
+            return HttpResponseRedirect(reverse("landing_page"))
