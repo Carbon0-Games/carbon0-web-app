@@ -223,62 +223,72 @@ class QRCodeReceiver(APIView):
                  2) the MissionTrackingAchievement view below.
 
         """
-        # A: see if there's a unique Profile associated with the player
-        profiles = Profile.objects.filter(user=request.user)
-        # B: if not, then send the player along to the landing page
-        if len(profiles) != 1:
-            return render(reverse("landing_page"))
-        elif len(profiles) == 1:  # there is an associated account
-            # send the user along to earn the Achievement
-            pk = profiles[0].id
-            return HttpResponse(
-                reverse("api:mission_tracking_achievement", args=[pk, mission_id])
-            )
+        # A: init the primary key of the Profile to be anonymous
+        pk = None
+        # B: check to see if the user is authenticated or not 
+        if user.is_authenticated:
+            # see if there's a unique Profile associated with the player
+            profiles = Profile.objects.filter(user=request.user)
+            # if not, send the user to the landing page (maybe there's an error)
+            if len(profiles) != 1:
+                return render(reverse("landing_page"))
+            elif len(profiles) == 1:  # there is an associated account
+            # otherwise set the primary key
+                pk = profiles[0].id
+        # C: regardless, send the user along to earn the Achievement
+        return HttpResponse(
+            reverse("api:mission_tracking_achievement", args=[mission_id, pk])
+        )
 
 
 class MissionTrackingAchievement(APIView):
-    def get(self, request, pk, mission_id):
+    def get(self, request, mission_id, pk=None):
         """
         Responds to a user scanning a QR code, in order
         to track a Mission and earn an Achievement
 
         Parameters:
         request(HttpRequest): the GET request sent to the server
-        pk(int): the id of a Profile belonging to a player
         mission_id(int): the Mission with this id is being completed
+        pk(int): the id of a Profile belonging to a player
 
         Returns:
         HttpResponseRedirect: redirects the request to the POST
                               handler for this endpoint
 
         """
-        return self.post(request, pk, mission_id)
+        return self.post(request, mission_id, pk)
 
-    def post(self, request, pk, mission_id):
+    def post(self, request, mission_id, pk=None):
         """
         Completes the flow of a player scanning a new
         QR Code, by redirecting to a new Achievement.
 
         Parameters:
         request(HttpRequest): the GET request sent to the server
-        pk(int): the id of a Profile belonging to a player
         mission_id(int): the Mission with this id is being completed
+        pk(int): the id of a Profile belonging to a player
 
         Returns:
         HttpResponseRedirect: view of the AchievementDetail
                               template, with the new Achievement
 
         """
-        # A: get the player's Profile
-        profile = Profile.objects.get(id=pk)
-        # B: get the mission they're tracking
+        # A: get the mission they're tracking
         mission = Mission.objects.get(id=mission_id)
-        # C: create and save a new Achievement
+        # B: Create and Save the new Achievement
         achievement = Achievement.objects.create(
-            profile=profile,
             mission=mission,
             zeron_image_url=Achievement.set_zeron_image_url(mission),
         )
         achievement.save()
-        # D: redirect to show the player their new Achievement
-        return HttpResponseRedirect(achievement.get_absolute_url())
+        # C: Check if we can send the player to the AchievementDetail now
+        if pk is not None:
+            # get the player's Profile, and connect it with the Achievement
+            profile = Profile.objects.get(id=pk)
+            achievement.profile = profile
+            achievement.save()
+            # redirect to show the player their new Achievement
+            return HttpResponseRedirect(achievement.get_absolute_url())
+        else:  # no pk, so send the user and Achievement to LoginView
+            pass

@@ -56,7 +56,7 @@ urlpatterns = [
         name="qr_code_receiver",
     ),
     path(
-        "track-achievement/<int:pk>/<slug:mission_id>/",
+        "track-achievement/<slug:mission_id>/<int:pk>/",
         MissionTrackingAchievement.as_view(),
         name="mission_tracking_achievement",
     ),
