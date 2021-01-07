@@ -412,9 +412,11 @@ class LeaderboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         # B: find the top 10 players
         profiles = Profile.objects.order_by("users_footprint")[:10]
-        # C: make lists for the each of the positions, username, and footprints
-        context["positions"] = [(position + 1) for position in range(10)]
-        context["players"] = [profile.user.username for profile in profiles]
-        context["footprints"] = [profile.users_footprint for profile in profiles]
+        # C: make lists for the each of the usernames and footprints
+        context["players"] = [
+            [profile.user.username, profile.users_footprint] 
+            for profile in profiles
+        ]
+
         # D: return the context
         return context

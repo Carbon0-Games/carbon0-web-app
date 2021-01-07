@@ -298,3 +298,15 @@ model-viewer {
   background-color:#143963; 
   min-height: 100vh;
 }
+
+.blue-header {
+  color:#3FC5F0; 
+  font-weight: 500; 
+  font-size: 7vh; 
+  line-height: 6vh;
+}
+
+.leaderboard-value {
+  font-family: "Coda", sans-serif;
+  font-weight: 500;  
+}
