@@ -5,6 +5,7 @@ from typing import Any, Dict
 from django.conf import settings
 import django.contrib.auth.views as auth_views
 from django.contrib.auth import login
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -154,12 +155,18 @@ class UserCreate(SuccessMessageMixin, CreateView):
 class LoginView(auth_views.LoginView):
     """Subclass of LoginView."""
 
-    def get_redirect_view(self, secret_id=None) -> str:
+    def get_redirect_view(self, request, secret_id=None) -> HttpResponseRedirect:
         '''Sends the user to AchievementDetail, or to the dashboard.'''
         if secret_id is not None:
             # sending user to AchievementDetail
             achievement = Achievement.objects.get(secret_id=secret_id)
-            return HttpResponseRedirect(achievement.get_absolute_url())
+            url = achievement.get_absolute_url()
+            # add a message as well
+            messages.add_message(
+                request, messages.SUCCESS, 
+                "Congratulations - you've earned a new Zeron!"
+            )
+            return HttpResponseRedirect(url)
         else:  # send to the dashboard
             return HttpResponseRedirect(self.get_success_url())
 
@@ -176,7 +183,7 @@ class LoginView(auth_views.LoginView):
         # D: log the user in
         login(request, user)
         # E: decide where to send the user next
-        return self.get_redirect_view(secret_id)
+        return self.get_redirect_view(request, secret_id)
 
     def post(self, request, secret_id=None):
         """

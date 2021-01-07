@@ -35,6 +35,14 @@
     </style>
 
     <div id="acc-auth-login">
+        <!-- Display Success Message, if user just signed up -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }} alert alert-success" {% endif %}>{{ message }}</p>
+                    {% endfor %}
+            </div>
+        {% endif %}
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-6">
