@@ -29,7 +29,7 @@ class MissionAdmin(admin.ModelAdmin):
                     "priority_level",
                     "requires_answer",
                     "needs_auth",
-                    "needs_photo",
+                    "needs_scan",
                 ]
             },
         ),

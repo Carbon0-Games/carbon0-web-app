@@ -29,7 +29,7 @@
                     <!-- Link to Mission Tracking Flow -->
                     <li class="list-group-item text-dark ml-auto">
                       <!-- All Uncompleted Missions -->
-                      <a class="carbon0-button" href="{% url 'carbon_quiz:mission_tracker_category'%}">
+                      <a class="carbon0-button" href="{% url 'carbon_quiz:mission_tracker' %}">
                         TRACK MISSION
                       </a>
                     </li>
@@ -74,7 +74,7 @@
                   There are 5 different journeys you can go on to reduce your footprint and help save the planet
               </h1>
               <div class="row">
-                {% for item in  categories %}
+                {% for item in categories %}
                   <div class="col justify-content-center ">
                       <div class="d-flex justify-content-center">
                           {% include "partials/mission_button.html" %}

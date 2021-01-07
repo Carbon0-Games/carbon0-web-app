@@ -2,14 +2,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-<!-- Include the JS needed to make PDFs in the browser -->
-{% block metadata %}
-    <!-- jsPDF CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
-        integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
-    <script src="{% static 'js/htmlToPDF.js' %}"></script>
-{% endblock %}'
-
 <!-- Player Selects which Category their about to Track their progress on -->
 {% block content %}
 
@@ -18,59 +10,31 @@
     <div class="container">
         <h1 class="row mb-4 justify-content-center pt-3 ml-1"
             style="color:#3FC5F0; font-weight: 400; font-size: 50px; line-height: 45px;">
-            Download Your QR Code
+            Select a Mission Category
         </h1>
         <div class="row justify-content-center">
-            <!-- Demo Image -->
-            <div class="col-md-6">
-                <div class="row justify-content-center mb-4">
-                    <img src="{% static 'images/Mission_Tracking_Sample.png' %}" 
-                         alt="Example Mission Tracking Sign" width=70% height=100%>
-                </div>
-            </div>
             <!-- Instructions as Text -->
-            <div class="col-md-6">
                 <div class="row justify-content-center">
-                    <div class="carbon0-button">
+                    <div class="carbon0-button my-3">
                         <h1 class="text-dark" style="font-weight: 400;">INSTRUCTIONS</h1>
-                        <ol class="list-group">
-                            <li class="list-group-item">
-                                <p class="lead text-dark">
-                                    1. Print out the QR codes below. <br>
-                                    Choose the Mission categories <br>
-                                    you find most compelling.
-                                </p>
-                            </li>
-                            <li class="list-group-item text-dark">
-                                <p class="lead text-dark">
-                                    2. Place it where it will remind you <br>
-                                    to do your Mission, e.g. recycling!
-                                </p>
-                            </li>
-                            <li class="list-group-item text-dark">
-                                <p class="lead text-dark">
-                                    3. Scan the code when you do <br>
-                                    the action, to earn Zerons!
-                                </p>
-                            </li>
-                        </ol>
+                        <p class="lead text-dark">
+                            Select a category below. <br>
+                            We'll show you QR codes that you can <br>
+                            use to track your
+                            your progress in that category!
+                        </p>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 
     <!-- QR Codes for each Mission Categories -->
     <div class="container">
-        <h1 class="row justify-content-center pt-1 ml-1"
-            style="color:white; font-weight: 400; font-size: 20px; line-height: 45px;">
-            Download the sign of Mission category you'll use to become more green!
-        </h1>
         <div class="row">
             {% for item in categories %}
             <div class="col justify-content-center ">
                 <div class="d-flex justify-content-center">
-                    {% include "partials/mission_category_link.html" %}
+                    {% include "partials/tracking_category_link.html" %}
                 </div>
             </div>
             {% endfor %}

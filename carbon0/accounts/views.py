@@ -4,34 +4,42 @@ from typing import Any, Dict
 
 from django.conf import settings
 import django.contrib.auth.views as auth_views
+from django.contrib.auth import login
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView
 from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.mission import Mission
-from carbon_quiz.models.question import Question
 import carbon_quiz.views as cqv
+from .forms import UserSignUpForm
 from .models import Profile
-from .forms import (
-    DietTrackerForm,
-    OffsetsTrackerForm,
-    RecyclingTrackerForm,
-    TransitTrackerForm,
-    UserSignUpForm,
-    UtilitiesTrackerForm,
-)
 
 
-# Social Auth
-from django.views.generic import TemplateView
+# Social Auth and Leaderboard
+from django.views.generic import TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib.auth.views import LoginView
 from social_django.models import UserSocialAuth
+
+
+def get_domain(request: HttpRequest) -> str:
+    """
+    Uses meta data about the request to tell us what the domain
+    of the server is, and whether we are using HTTP/HTTPS.
+    """
+    domain = request.META["HTTP_HOST"]
+    # prepend the domain with the application protocol
+    if "localhost" in settings.ALLOWED_HOSTS:
+        domain = f"http://{domain}"
+    else:  # using a prod server
+        domain = f"https://{domain}"
+    return domain
 
 
 def track_successful_signup(user, secret_id):
@@ -91,7 +99,30 @@ def track_login_event(user):
     return None
 
 
-class UserCreate(SuccessMessageMixin, CreateView):
+def connect_profile_achievement(secret_id, profile, request=None):
+    """Finds an Achievement by using the secret_id (passed to the URL),
+    then connects the model with the appropiate Profile instance.
+
+    Parameters:
+    secret_id(str): an identifier for a unique Achievement instance
+    profile(Profile): connect with one of the players in the database
+    request(HttpRequest): in sign ups we also pass in the user of the
+                          request, as per the args needed by the scoring
+                          algorithm (see Achievement.save more details).
+
+    Returns: None
+
+    """
+    if secret_id is not None:
+        achievement = Achievement.objects.get(secret_id=secret_id)
+        achievement.profile = profile
+        # when request is passed in, let the save algorithm know it's a signup
+        if request is not None:
+            achievement.save(user=request.user)
+    return None
+
+
+class UserCreate(CreateView):
     """Display form where user can create a new account."""
 
     form_class = UserSignUpForm
@@ -109,11 +140,14 @@ class UserCreate(SuccessMessageMixin, CreateView):
         profile = Profile.objects.create(user=self.object)
         profile.save()
         # connect this profile to the achievement, if applicable
+        connect_profile_achievement(secret_id, profile, request=request)
+        # send the user to the Login View with a message
+        messages.add_message(request, messages.SUCCESS, self.success_message)
+        # redirect with or without the secret id
         if secret_id is not None:
-            achievement = Achievement.objects.get(secret_id=secret_id)
-            achievement.profile = profile
-            achievement.save(user=request.user)
-        return super().form_valid(form)
+            return HttpResponseRedirect(reverse("accounts:login", args=[secret_id]))
+        else:
+            return HttpResponseRedirect(reverse("accounts:login"))
 
     def post(self, request, secret_id=None):
         """
@@ -141,13 +175,59 @@ class UserCreate(SuccessMessageMixin, CreateView):
 class LoginView(auth_views.LoginView):
     """Subclass of LoginView."""
 
-    def form_valid(self, form):
+    def get_redirect_view(self, request, secret_id=None) -> HttpResponseRedirect:
+        """Sends the user to AchievementDetail, or to the dashboard."""
+        if secret_id is not None:
+            # sending user to AchievementDetail
+            achievement = Achievement.objects.get(secret_id=secret_id)
+            url = achievement.get_absolute_url()
+            # add a message as well
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                "Congratulations - you've earned a new Zeron!",
+            )
+            return HttpResponseRedirect(url)
+        else:  # send to the dashboard
+            return HttpResponseRedirect(self.get_success_url())
+
+    def form_valid(self, request, form, secret_id):
         """Tracks login events in Mixpanel, after security checks."""
-        # get the user
+        # A: get the user
         user = form.get_user()
-        # track the login in Mixpanel
+        # B: track the login in Mixpanel
         track_login_event(user)
-        return super().form_valid(form)
+        # C: get the profile, and connect it with the Achievement
+        profile = Profile.objects.get(user=user)
+        connect_profile_achievement(secret_id, profile)
+        # D: log the user in
+        login(request, user)
+        # E: decide where to send the user next
+        return self.get_redirect_view(request, secret_id)
+
+    def post(self, request, secret_id=None):
+        """
+        Passes the id of the Achievement the profile should include, if any.
+
+        Parameters:
+        request(HttpRequest): the POST request sent to the server
+        secret_id(str): unique value on one of the Achievement instances
+
+        Returns:
+        HttpResponseRedirect: the view of:
+                             1) the ProfileView, if there's no secret_id
+                             2) the AchievementDetail, if there is
+                             3) the Login template if form validation fails
+
+        """
+        # get form needed for user authentication
+        form = self.get_form()
+        # validate, then create
+        if form.is_valid():
+            return self.form_valid(request, form, secret_id)
+        # or redirect back to the form
+        else:
+            return super().form_invalid(form)
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
@@ -272,120 +352,71 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
             track_successful_signup(user, None)
 
 
-class MissionTrackerComplete(UpdateView):
+class MissionTrackerComplete(View):
     """
-    Player uploads a photo of their sign in order to earn points.
+    DEPRECATED - this view's functionality has been
+    moved to carbon_quiz.views.MissionTracker.
+    -----------------------------------------------------
+    Display the QR codes for all tracking missions in the
+    specified category. PDF download link included as well.
+    -------------------------------------------------------
     """
 
-    model = Profile
-    # provide an inital value for the form_class
-    form_class = DietTrackerForm
-    template_name = "tracker/photo_upload.html"
-    queryset = Profile.objects.all()
+    template_name = "tracker/print_qr_codes.html"
 
-    def get_form_tracker(self, mission, *args, **kwargs):
-        # make a list of just the abbreviated Question categories
-        categories = Question.get_category_abbreviations()
-        # make a list of the tracker forms, in order by Question categories
-        TRACKER_FORMS = [
-            DietTrackerForm,
-            TransitTrackerForm,
-            RecyclingTrackerForm,
-            OffsetsTrackerForm,
-            UtilitiesTrackerForm,
+    def get_tracking_missions(self, category):
+        """
+        Returns a list of the tracking missions in this category.
+        """
+        # A: init the output
+        tracking_missions = list()
+        # B: filter all the tracking Missions
+        tracking_missions = Mission.objects.filter(
+            needs_auth=True, needs_scan=True, question__category=category
+        )
+        # C: return the missions
+        return tracking_missions
+
+    def get(self, request, category):
+        """
+        Get the tracking missions in the category, to
+        show them on the template comntext.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        category(str): the specific category of tracking Missions.
+                       NOTE: This value an abbreviations of one
+                       of the Question.CATEGORIES.
+
+        Returns: HttpResponse: the view of the template
+
+        """
+        context = dict()
+        # add the host domain to the context
+        context["domain"] = get_domain(request)
+        # Add the Missions and their category to the context
+        context["category"] = Mission.get_corresponding_mission_category(category)
+        context["missions"] = self.get_tracking_missions(category)
+        # send the player to the template
+        return render(request, self.template_name, context)
+
+
+class LeaderboardView(TemplateView):
+    """Displays up to the 10 lowest players and their carbon footprints."""
+
+    template_name = "leaderboard/leaderboard.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        """Add the top 10 players to the context."""
+        # A: init the context
+        context = super().get_context_data(**kwargs)
+        # B: find the top 10 players
+        profiles = Profile.objects.order_by("users_footprint")[:10]
+        # C: make lists for the each of the usernames and footprints
+        context["players"] = [
+            [profile.user.username, profile.users_footprint] 
+            for profile in profiles
         ]
-        # map all the mission categories to the type of tracker forms
-        category_forms = dict(zip(categories, TRACKER_FORMS))
-        # pick the appropiate form class, given the Mission
-        return category_forms[mission.question.category]
 
-    def get_context_data(self, *args, **kwargs: Any) -> Dict[str, Any]:
-        """Add the form, Mission, and Profile to the context."""
-        # A: add the Mission to the context
-        photo_missions = Mission.objects.filter(
-            needs_auth=True,
-            needs_photo=True,
-            question__category=kwargs["mission_category"],
-        )
-        mission = photo_missions[0]
-        # add the Profile to the context
-        profile = Profile.objects.get(id=kwargs["pk"])
-        context = {
-            "mission": mission,
-            "profile": profile,
-        }
-        # B: add the form
-        if "form" not in kwargs:
-            kwargs["form"] = self.get_form(form_class=self.get_form_tracker(mission))
-        # context['accepted_field'] = Profile.get_field_to_track_mission(mission)
-        return super().get_context_data(**context)
-
-    def get(self, request, pk, mission_category):
-        """
-        Display a form for the user to upload the piecture of their sign,
-        and include a checkbox so they can confirm its accurate
-
-        Parameters:
-        request(HttpRequest): the GET request sent to the server
-        pk(int): the id of the Profile belonging to the user
-        mission_category(str): the category of the Mission
-                               we are tracking
-
-        Returns: HttpResponse: a view of the template
-
-        """
-        self.object = self.get_object()
-        return self.render_to_response(
-            self.get_context_data(pk=pk, mission_category=mission_category)
-        )
-
-    def form_valid(self, form, pk, mission_category):
-        """Redirect to a new Achievement for the player,
-        if their photo uploads successfully.
-
-        """
-        # update the Profile object
-        self.object = form.save()
-        # make a new Achievement
-        profile = Profile.objects.get(id=pk)
-        photo_missions = Mission.objects.filter(
-            needs_auth=True, needs_photo=True, question__category=mission_category
-        )
-        mission = photo_missions[0]
-        achievement = Achievement.objects.create(
-            profile=profile,
-            mission=mission,
-            zeron_image_url=Achievement.set_zeron_image_url(mission),
-        )
-        # save the achievement
-        achievement.save()
-        # redirect to the Achievement page
-        return HttpResponseRedirect(achievement.get_absolute_url())
-
-    def post(self, request, pk, mission_category):
-        """
-        Display a form for the user to upload the piecture of their sign,
-        and include a checkbox so they can confirm its accurate
-
-        Parameters:
-        request(HttpRequest): the GET request sent to the server
-        pk(int): the id of the Profile belonging to the user
-        mission_category(str): the category of the Mission
-                               we are tracking
-
-        Returns: HttpResponse: a view of the template
-        """
-        # get the Profile being updated
-        self.object = self.get_object()
-        # get the form that was POSTed
-        form = self.get_form()
-        # validate and process the form
-        if form.is_valid():
-            return self.form_valid(form, pk, mission_category)
-        else:
-            # If the form is invalid, render the invalid form.
-            return self.render_to_response(
-                self.get_context_data(
-                    form=form, pk=pk, mission_category=mission_category
-                )
-            )
+        # D: return the context
+        return context

@@ -3,12 +3,12 @@
     "model": "carbon_quiz.question",
     "pk": 1,
     "fields": {
-        "question_text": "Do you recycle at least once daily?",
-        "question_info": "Regular recycling not only reduces your footprint, it also reduces the the amount of waste in our landfills",
-        "carbon_value": 45.0,
+        "question_text": "Do you recycle regularly?",
+        "question_info": "Regular recycling not only reduces your footprint, it also reduces the the amount of waste in our landfills.",
+        "carbon_value": 914.0,
         "category": "R",
-        "learn_more_link": "https://www.epa.gov/recycle/recycling-basics",
-        "learn_image": "images/Present-_Recycle_WJqaG6m.png",
+        "learn_more_link": null,
+        "learn_image": "images/Rubbishbin4.png",
         "improvement_response": 0
     }
 },
@@ -16,12 +16,12 @@
     "model": "carbon_quiz.question",
     "pk": 2,
     "fields": {
-        "question_text": "Do you avoid driving to school/work by driving when possible?",
+        "question_text": "Do you mostly use public transport/bicycles?",
         "question_info": "Using your bike, a scooter, or even just plain old carpooling is a great alternative to make your daily commute less harmful to the environment!",
-        "carbon_value": 100.0,
+        "carbon_value": 4600.0,
         "category": "T",
-        "learn_more_link": "https://www.nationalgeographic.com/environment/green-guide/buying-guides/car/environmental-impact/",
-        "learn_image": "images/Human_Characters_1_NlFKNM0.png",
+        "learn_more_link": null,
+        "learn_image": "images/Wheel3.png",
         "improvement_response": 0
     }
 },
@@ -29,12 +29,12 @@
     "model": "carbon_quiz.question",
     "pk": 3,
     "fields": {
-        "question_text": "Do you eat vegan at least twice a week?",
-        "question_info": "The vegan diet - one that is based wholly on consuming non-animal based products - has been shown to work wonders on our environment.",
-        "carbon_value": 25.0,
+        "question_text": "Does most of your food come from plants?",
+        "question_info": "There have been many advancements in food technology that let us eat healthy tasty food that is also healthier for the planet.",
+        "carbon_value": 4673.0,
         "category": "D",
-        "learn_more_link": "https://www.independent.co.uk/life-style/health-and-families/veganism-environmental-impact-planet-reduced-plant-based-diet-humans-study-a8378631.html",
-        "learn_image": "images/3D_Carrot_RLbc9fG.png",
+        "learn_more_link": null,
+        "learn_image": "images/Carrot3.png",
         "improvement_response": 0
     }
 },
@@ -42,12 +42,12 @@
     "model": "carbon_quiz.question",
     "pk": 4,
     "fields": {
-        "question_text": "Do you travel on planes more than once a year?",
-        "question_info": "Paying down your carbon offsets from air travel is one of the most powerful ways to reduce your carbon footprint.",
-        "carbon_value": 700.0,
+        "question_text": "Do you use carbon offsets to offset your air travel?",
+        "question_info": "Carbon Offsets let you donate to companies that reduce the planet's carbon footprint.",
+        "carbon_value": 600.0,
         "category": "A",
-        "learn_more_link": "https://github.com/protea-earth/carbon_footprint/blob/master/footprint_report.pdf",
-        "learn_image": "images/Present-_Tree_U7kvvzF.png",
+        "learn_more_link": null,
+        "learn_image": "images/Untitled-4.png",
         "improvement_response": 0
     }
 },
@@ -57,10 +57,10 @@
     "fields": {
         "question_text": "Does your home currently use solar panels for electricity?",
         "question_info": "Solar energy is at least 20X better than the environment than coal!",
-        "carbon_value": 13.0,
+        "carbon_value": 8056.0,
         "category": "U",
-        "learn_more_link": "https://www.treehugger.com/how-much-co-does-one-solar-panel-create-4868753",
-        "learn_image": "images/Present-_LED_2_5hIwzLa.png",
+        "learn_more_link": null,
+        "learn_image": "images/Lightbulb4.png",
         "improvement_response": 0
     }
 }
