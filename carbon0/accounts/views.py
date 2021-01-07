@@ -121,7 +121,7 @@ def connect_profile_achievement(secret_id, profile, request=None):
     return None
 
 
-class UserCreate(SuccessMessageMixin, CreateView):
+class UserCreate(CreateView):
     """Display form where user can create a new account."""
 
     form_class = UserSignUpForm
@@ -140,7 +140,15 @@ class UserCreate(SuccessMessageMixin, CreateView):
         profile.save()
         # connect this profile to the achievement, if applicable
         connect_profile_achievement(secret_id, profile, request=request)
-        return super().form_valid(form)
+        # send the user to the Login View with a message
+        messages.add_message(request, messages.SUCCESS, self.success_message)
+        # redirect with or without the secret id
+        if secret_id is not None:
+            return HttpResponseRedirect(
+                reverse("accounts:login", args=[secret_id])
+            )
+        else: 
+            return HttpResponseRedirect(reverse("accounts:login"))
 
     def post(self, request, secret_id=None):
         """

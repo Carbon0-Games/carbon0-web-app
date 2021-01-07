@@ -63,8 +63,18 @@
                                 </p>
                             </div>
                         {% endfor %}
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary">Sign In!</button>
+                        <div class="row justify-content-left">
+                            <div class="col-md-2 ml-3 mr-2 mb-2">
+                                <input type="submit" value="Sign In!" class="btn btn-primary">
+                            </div>
+                            <div class="col-md-4 ml-3">
+                                <!-- Display Link to Sign Up -->
+                                {% if secret_id is not None %}
+                                    <a href="{% url 'accounts:signup' secret_id %}" class="btn btn-success">New Player?</a>
+                                {% else %}
+                                    <a href="{% url 'accounts:signup' %}" class="btn btn-success">New Player?</a>
+                                {% endif %}
+                            </div>
                         </div>
                     </form>
                 </div>
