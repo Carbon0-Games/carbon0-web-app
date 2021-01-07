@@ -479,13 +479,13 @@ class AchievementDetail(DetailView):
         return render(request, self.template_name, context)
 
 
-class MissionTrackerCategory(View):
+class MissionTracker(View):
     """
-    Where the player is sent to once they enter a tracking mission,
-    to specific which mission category they are going to track.
+    Where the player is sent to once they enter the "Track Mission" feature, 
+    to find the QR codes of different tracking missions.
     """
 
-    template_name = "carbon_quiz/mission/tracker.html"
+    template_name = "tracker/print_qr_codes.html"
 
     def get_tracking_categories(self):
         """
@@ -514,7 +514,7 @@ class MissionTrackerCategory(View):
     def get(self, request):
         """
         Display a series of links to the form, where the user can track their
-        Mission (based on the category it is in).
+        Mission.
 
         Parameters:
         request(HttpRequest): the GET request sent to the server
@@ -523,6 +523,8 @@ class MissionTrackerCategory(View):
         """
         # init the context
         context = dict()
-        context["categories"] = self.get_tracking_categories()
+        context["missions"] = (
+            Mission.objects.filter(needs_scan=True, needs_auth=True)
+        )
         # return the context
         return render(request, self.template_name, context)

@@ -355,8 +355,12 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
 
 class MissionTrackerComplete(View):
     """
+    DEPRECATED - this view's functionality has been 
+    moved to carbon_quiz.views.MissionTracker.
+    -----------------------------------------------------
     Display the QR codes for all tracking missions in the
     specified category. PDF download link included as well.
+    -------------------------------------------------------
     """
     template_name = "tracker/print_qr_codes.html"
 
