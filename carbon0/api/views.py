@@ -203,9 +203,10 @@ class AchievementCreateLink(APIView):
         return path
 
 
+"""
 class QRCodeReceiver(APIView):
     def get(self, request, mission_id):
-        """
+        '''
         Decides what destination the player scanning a QR code will have.
         If the player has an account, we send them to complete tracking
         the mission.
@@ -222,9 +223,9 @@ class QRCodeReceiver(APIView):
         Returns: HttpResponse to either 1) the 'landing_page' view, or
                  2) the MissionTrackingAchievement view below.
 
-        """
+        '''
         # A: init the primary key of the Profile to be anonymous
-        pk = None
+        pk = 0
         # B: check to see if the user is authenticated or not 
         if request.user.is_authenticated:
             # see if there's a unique Profile associated with the player
@@ -236,13 +237,16 @@ class QRCodeReceiver(APIView):
             # otherwise set the primary key
                 pk = profiles[0].id
         # C: regardless, send the user along to earn the Achievement
-        return HttpResponse(
-            reverse("api:mission_tracking_achievement", args=[mission_id, pk])
-        )
+        host = request.META["HTTP_HOST"]
+        path = reverse("api:mission_tracking_achievement", args=[mission_id, pk])
+        url = ''.join([host, path])
+        print(url)
+        return HttpResponse(url)
+"""
 
 
 class MissionTrackingAchievement(APIView):
-    def get(self, request, mission_id, pk=None):
+    def get(self, request, mission_id, pk=0):
         """
         Responds to a user scanning a QR code, in order
         to track a Mission and earn an Achievement
@@ -257,9 +261,22 @@ class MissionTrackingAchievement(APIView):
                               handler for this endpoint
 
         """
+        # A: init the primary key of the Profile to be anonymous
+        pk = 0
+        # B: check to see if the user is authenticated or not 
+        if request.user.is_authenticated:
+            # see if there's a unique Profile associated with the player
+            profiles = Profile.objects.filter(user=request.user)
+            # if not, send the user to the landing page (maybe there's an error)
+            if len(profiles) != 1:
+                return render(reverse("landing_page"))
+            elif len(profiles) == 1:  # there is an associated account
+            # otherwise set the primary key
+                pk = profiles[0].id
+        # C: regardless, send the user along to earn the Achievement
         return self.post(request, mission_id, pk)
 
-    def post(self, request, mission_id, pk=None):
+    def post(self, request, mission_id, pk=0):
         """
         Completes the flow of a player scanning a new
         QR Code, by redirecting to a new Achievement.
@@ -283,7 +300,7 @@ class MissionTrackingAchievement(APIView):
         )
         achievement.save()
         # C: Check if we can send the player to the AchievementDetail now
-        if pk is not None:
+        if pk > 0:
             # get the player's Profile, and connect it with the Achievement
             profile = Profile.objects.get(id=pk)
             achievement.profile = profile
@@ -291,4 +308,6 @@ class MissionTrackingAchievement(APIView):
             # redirect to show the player their new Achievement
             return HttpResponseRedirect(achievement.get_absolute_url())
         else:  # no pk, so send the user and Achievement to LoginView
-            pass
+            return HttpResponseRedirect(
+                reverse("accounts:login", args=[achievement.secret_id])
+            )
