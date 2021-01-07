@@ -63,7 +63,6 @@ class Question(models.Model):
     def get_category_fullnames(cls):
         """Returns a list of just abbreviations for Question categories."""
         categories = [
-            full_name
-            for category_abbreviation, full_name in Question.CATEGORIES
+            full_name for category_abbreviation, full_name in Question.CATEGORIES
         ]
         return categories

@@ -481,7 +481,7 @@ class AchievementDetail(DetailView):
 
 class MissionTracker(View):
     """
-    Where the player is sent to once they enter the "Track Mission" feature, 
+    Where the player is sent to once they enter the "Track Mission" feature,
     to find the QR codes of different tracking missions.
     """
 
@@ -523,8 +523,6 @@ class MissionTracker(View):
         """
         # init the context
         context = dict()
-        context["missions"] = (
-            Mission.objects.filter(needs_scan=True, needs_auth=True)
-        )
+        context["missions"] = Mission.objects.filter(needs_scan=True, needs_auth=True)
         # return the context
         return render(request, self.template_name, context)

@@ -41,6 +41,7 @@ def get_domain(request: HttpRequest) -> str:
         domain = f"https://{domain}"
     return domain
 
+
 def track_successful_signup(user, secret_id):
     """Logs whenever a User successfully signs up on Mixpanel.
 
@@ -105,7 +106,7 @@ def connect_profile_achievement(secret_id, profile, request=None):
     Parameters:
     secret_id(str): an identifier for a unique Achievement instance
     profile(Profile): connect with one of the players in the database
-    request(HttpRequest): in sign ups we also pass in the user of the 
+    request(HttpRequest): in sign ups we also pass in the user of the
                           request, as per the args needed by the scoring
                           algorithm (see Achievement.save more details).
 
@@ -144,10 +145,8 @@ class UserCreate(CreateView):
         messages.add_message(request, messages.SUCCESS, self.success_message)
         # redirect with or without the secret id
         if secret_id is not None:
-            return HttpResponseRedirect(
-                reverse("accounts:login", args=[secret_id])
-            )
-        else: 
+            return HttpResponseRedirect(reverse("accounts:login", args=[secret_id]))
+        else:
             return HttpResponseRedirect(reverse("accounts:login"))
 
     def post(self, request, secret_id=None):
@@ -177,20 +176,20 @@ class LoginView(auth_views.LoginView):
     """Subclass of LoginView."""
 
     def get_redirect_view(self, request, secret_id=None) -> HttpResponseRedirect:
-        '''Sends the user to AchievementDetail, or to the dashboard.'''
+        """Sends the user to AchievementDetail, or to the dashboard."""
         if secret_id is not None:
             # sending user to AchievementDetail
             achievement = Achievement.objects.get(secret_id=secret_id)
             url = achievement.get_absolute_url()
             # add a message as well
             messages.add_message(
-                request, messages.SUCCESS, 
-                "Congratulations - you've earned a new Zeron!"
+                request,
+                messages.SUCCESS,
+                "Congratulations - you've earned a new Zeron!",
             )
             return HttpResponseRedirect(url)
         else:  # send to the dashboard
             return HttpResponseRedirect(self.get_success_url())
-
 
     def form_valid(self, request, form, secret_id):
         """Tracks login events in Mixpanel, after security checks."""
@@ -355,38 +354,38 @@ def create_social_user_with_achievement(request, user, response, *args, **kwargs
 
 class MissionTrackerComplete(View):
     """
-    DEPRECATED - this view's functionality has been 
+    DEPRECATED - this view's functionality has been
     moved to carbon_quiz.views.MissionTracker.
     -----------------------------------------------------
     Display the QR codes for all tracking missions in the
     specified category. PDF download link included as well.
     -------------------------------------------------------
     """
+
     template_name = "tracker/print_qr_codes.html"
 
     def get_tracking_missions(self, category):
-            """
-            Returns a list of the tracking missions in this category.
-            """
-            # A: init the output
-            tracking_missions = list()
-            # B: filter all the tracking Missions
-            tracking_missions = Mission.objects.filter(
-                needs_auth=True, needs_scan=True, 
-                question__category=category
-            )
-            # C: return the missions
-            return tracking_missions
+        """
+        Returns a list of the tracking missions in this category.
+        """
+        # A: init the output
+        tracking_missions = list()
+        # B: filter all the tracking Missions
+        tracking_missions = Mission.objects.filter(
+            needs_auth=True, needs_scan=True, question__category=category
+        )
+        # C: return the missions
+        return tracking_missions
 
     def get(self, request, category):
         """
-        Get the tracking missions in the category, to 
+        Get the tracking missions in the category, to
         show them on the template comntext.
 
         Parameters:
         request(HttpRequest): the GET request sent to the server
         category(str): the specific category of tracking Missions.
-                       NOTE: This value an abbreviations of one 
+                       NOTE: This value an abbreviations of one
                        of the Question.CATEGORIES.
 
         Returns: HttpResponse: the view of the template
@@ -396,10 +395,8 @@ class MissionTrackerComplete(View):
         # add the host domain to the context
         context["domain"] = get_domain(request)
         # Add the Missions and their category to the context
-        context["category"] = (
-            Mission.get_corresponding_mission_category(category)
-        )
-        context['missions'] = self.get_tracking_missions(category)
+        context["category"] = Mission.get_corresponding_mission_category(category)
+        context["missions"] = self.get_tracking_missions(category)
         # send the player to the template
         return render(request, self.template_name, context)
 
@@ -410,7 +407,7 @@ class LeaderboardView(TemplateView):
     template_name = "leaderboard/leaderboard.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        '''Add the top 10 players to the context.'''
+        """Add the top 10 players to the context."""
         # A: init the context
         context = super().get_context_data(**kwargs)
         # B: find the top 10 players

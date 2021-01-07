@@ -223,7 +223,7 @@ class MissionTrackingAchievement(APIView):
         """
         # A: init the primary key of the Profile to be anonymous
         pk = 0
-        # B: check to see if the user is authenticated or not 
+        # B: check to see if the user is authenticated or not
         if request.user.is_authenticated:
             # see if there's a unique Profile associated with the player
             profiles = Profile.objects.filter(user=request.user)
@@ -231,7 +231,7 @@ class MissionTrackingAchievement(APIView):
             if len(profiles) != 1:
                 return render(reverse("landing_page"))
             elif len(profiles) == 1:  # there is an associated account
-            # otherwise set the primary key
+                # otherwise set the primary key
                 pk = profiles[0].id
         # C: regardless, send the user along to earn the Achievement
         return self.post(request, mission_id, pk)
@@ -267,13 +267,14 @@ class MissionTrackingAchievement(APIView):
             achievement.save()
             # add a message as well
             messages.add_message(
-                request, messages.SUCCESS,
-                "Congratulations - you've earned a new Zeron!"
+                request,
+                messages.SUCCESS,
+                "Congratulations - you've earned a new Zeron!",
             )
             # redirect to show the player their new Achievement
             return HttpResponseRedirect(achievement.get_absolute_url())
         else:  # no pk, so send the user and Achievement to LoginView
             domain = av.get_domain(request)
             path = reverse("accounts:login", args=[achievement.secret_id])
-            url = ''.join([domain, path])
+            url = "".join([domain, path])
             return HttpResponseRedirect(url)
