@@ -1,0 +1,74 @@
+<!-- carbon0/accounts/templates/partials/tracking_mission_link.html -->
+{% load static %}
+
+<!-- CSS used on this template -->
+<style>
+    .mission_selection_button {
+        margin-top: 1vh;
+        margin-bottom: 3vh;
+        background-color: white;
+        padding: 5px 8px;
+        -webkit-appearance: none;
+        font-size: vi;
+        border-radius: 16px;
+        white-space: nowrap;
+        /* overflow: hidden; */
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        min-width: vmax;
+        font-family: "Coda", sans-serif;
+        outline: none;
+        border: 0px;
+        font-weight: 500;
+
+    }
+
+    @media only screen and (min-width: 600px) {
+        .mission_selection_button {
+            padding: 6px 10px;
+            font-size: vi;
+        }
+    }
+
+    h3 {
+        font-weight: 500;
+    }
+
+    a {
+        color: #0ed60b
+    }
+</style>
+
+<!-- https://stackoverflow.com/questions/1621891/html-how-to-make-a-submit-button-with-text-image-in-it -->
+
+<!-- Downloadable Mission Sign -->
+<div class="mission_selection_button ">
+    <!-- The "src" attribute of the images below is set to request from the QR Code Generator API: http://goqr.me/api/doc/create-qr-code/#quickstart -->
+    <div class="card-img-top">
+        <img id="{{category}}-Sign-{{mission.id}}-image"
+            src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ domain }}{% url 'api:mission_tracking_achievement' mission.id %}&color=0-150-4&format=png"
+            alt="A sign for tracking {{ category }} missions" style="max-height: 25vh" class="mt-2 px-2" />
+    </div>
+    <div class="card-title mt-2">
+        <h3 id="{{category}}-Sign-{{mission.id}}-id" class="text-dark">{{ mission.action }}</h3>
+    </div>
+    <div>
+        <!-- Display if the mission is stationary or not -->
+        <div class="row justify-content-center">
+            {% if mission.is_stationary %}
+                <div class="row ml-1">
+                    <img width="30rem" height="30rem" src="https://img.icons8.com/flat_round/64/000000/checkmark.png" />
+                    <div class="ml-1 text-info">At-Home Mission!</div>
+                </div>
+            {% endif %}
+        </div>
+        <!-- Download Link -->
+        <a href="#" class="row justify-content-center mt-1">
+            <h3 onclick="createPDF('{{category}}-Sign-{{mission.id}}-image', '{{ mission.title }}')" 
+                style="color: rgb(0, 130, 174)">
+                DOWNLOAD the QR Code
+            </h3>
+        </a>
+    </div>
+</div>

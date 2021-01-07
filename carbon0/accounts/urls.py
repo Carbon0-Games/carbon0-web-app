@@ -5,7 +5,9 @@ from django.views.generic import TemplateView
 from .views import (
     UserCreate,
     ProfileView,
+    LeaderboardView,
     LoginView,
+    MissionTrackerComplete,
 )
 
 app_name = "accounts"
@@ -16,6 +18,11 @@ urlpatterns = [
     path("signup/", UserCreate.as_view(), name="signup"),
     # paths to login and logout
     path(
+        "login/<slug:secret_id>/",
+        LoginView.as_view(template_name="accounts/auth/login.html"),
+        name="login",
+    ),
+    path(
         "login/",
         LoginView.as_view(template_name="accounts/auth/login.html"),
         name="login",
@@ -23,10 +30,10 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     # User profile page - 'settings' is the required view function name
     path("profile/", ProfileView.as_view(), name="profile"),
-    # path('logout_social/', logout_view, name='logout-social'),
+    path("leaderboard/", LeaderboardView.as_view(), name="leaderboard"),
     path(
-        "leaderboard/",
-        TemplateView.as_view(template_name="leaderboard/leaderboard.html"),
-        name="leaderboard",
+        "profile/<slug:category>/",
+        MissionTrackerComplete.as_view(),
+        name="mission_tracker_complete",
     ),
 ]

@@ -56,6 +56,14 @@
 </style>
 
     <div style="background-color:#143963; min-height: 100vh;" id="achieve-detail-main">
+        <!-- Display Success Message, if user just signed up -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }} alert alert-success" {% endif %}>{{ message }}</p>
+                    {% endfor %}
+            </div>
+        {% endif %}
         <div class="flex-container mx-1">
             <div class="row justify-content-center mx-1">
                 <!-- Image, Mission Complete Ribbon-->
@@ -76,31 +84,49 @@
 
             <!-- Body of Page -->
             <div class="row">
-                <!-- 1st Column -->
+                <!-- Show Zeron -->
                 <div class="col-md-6">
                     <div class="d-flex justify-content-center">
-                        <model-viewer src="{% static browser_model %}"
-                            ios-src="{% static ios_model %}"
-                            poster="PNG goes here"
-                            alt="3D model of a Zeron" shadow-intensity="1" camera-controls auto-rotate ar>
+                        <model-viewer src="{% static browser_model %}" 
+                                      ios-src="{% static ios_model %}" 
+                                      poster="PNG goes here"
+                                      alt="3D model of a Zeron" shadow-intensity="1" 
+                                      camera-controls auto-rotate ar>
+                            <!-- Mobile: Button to Enter AR Mode -->
+                            <button slot="ar-button"
+                                style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 16px; right: 16px; ">
+                                👋 Meet your Zeron
+                            </button>
                         </model-viewer>
+                        <!-- JS to handle AR errors https://modelviewer.dev/examples/augmentedreality/index.html#customButton -->
+                        <script>
+                            document.querySelector("#model-viewer").addEventListener('ar-status', (event) => {
+                                if (event.detail.status === 'failed') {
+                                    const error = document.querySelector("#error");
+                                    error.classList.remove('hide');
+                                    error.addEventListener('transitionend', (event) => {
+                                        error.classList.add('hide');
+                                    });
+                                }
+                            });
+                        </script>
                     </div>
                 </div>
-                <!-- 2nd Column -->
+                <!-- Share and Sign up-->
                 <div class="col-md-6">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
                                 <!-- Authenticated users: Show the new carbon footprint -->
                                 {% if profile %}
-                                {% include "partials/user_footprint.html" %}
+                                    {% include "partials/user_footprint.html" %}
                                 <!-- Un-authenticated users: Show the new carbon footprint -->
                                 {% else %}
                                     {% include "partials/footprint_after_achievement.html" %}
                                 {% endif %}
                             </div>
                             <div class="col-md-6 justify-content-center" style="text-align: center">
-                                <h2 class="mt-4" style="font-weight: 300; color:#3FC5F0; font-size: 30px;"> Lets Be Social! </h2>
+                                <h2 class="mt-4 carbon0-button" style="font-weight: 300; color:#3FC5F0; font-size: 30px;"> Lets Be Social! </h2>
 
                                 <div class="row my-1 justify-content-center" style="text-align: center;">
                                     <div class="d-flex justify-content-center">

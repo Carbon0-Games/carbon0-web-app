@@ -1,5 +1,6 @@
 from heapq import nlargest
 import random
+from typing import Any, Dict
 
 from django.conf import settings
 from django.db.models import F
@@ -10,9 +11,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
     CreateView,
     UpdateView,
-    DeleteView,
 )
 from django.views.generic import ListView
+from django.views.generic.base import View
 from mixpanel import Mixpanel, MixpanelException
 
 from .forms import AchievementForm, QuizForm
@@ -191,8 +192,9 @@ class QuizDetail(UpdateView):
                 # find the missions the user can choose
                 missions = quiz.get_related_missions(request.user.profile)
             else:  # choose missions randomly for site visitors
-                # if no missions to suggest, give 3 randomly
-                missions = random.sample(set(Mission.objects.all()), 3)
+                # if no missions to suggest, give 3 randomly (don't require auth)
+                missions = Mission.objects.filter(needs_auth=False)
+                missions = random.sample(set(missions), 3)
                 is_random = True
             # finally, take out missions completed before
             missions = filter_completed_missions(missions, request.user)
@@ -368,17 +370,15 @@ class AchievementCreate(CreateView):
         mission = Mission.objects.get(id=mission_id)
         # init the context
         context = {"mission": mission}
-        # add links, if that's what the mission needs
-        if mission.requires_answer is False:
-            # get the links related to the mission
-            link_descriptions, link_addresses = Link.get_mission_links(mission)
+        # add links (URL address), if that's what the mission needs
+        link_descriptions, link_addresses = Link.get_mission_links(mission)
+        if len(link_addresses) > 0:
             # add to the context
-            context.update(
-                [
-                    ("link_description", link_descriptions[0]),
-                    ("link_address", link_addresses[0]),
-                ]
-            )
+            context["link_address"] = link_addresses[0]
+        # do the same for the link descriptions
+        if len(link_descriptions) > 0:
+            # add to the context
+            context["link_description"] = link_descriptions[0]
         # return the response
         return render(request, self.template_name, context)
 
@@ -476,4 +476,53 @@ class AchievementDetail(DetailView):
         else:  # user requesting the view is not logged in
             context["quiz"] = achievement.quiz
         # return the response
+        return render(request, self.template_name, context)
+
+
+class MissionTracker(View):
+    """
+    Where the player is sent to once they enter the "Track Mission" feature,
+    to find the QR codes of different tracking missions.
+    """
+
+    template_name = "tracker/print_qr_codes.html"
+
+    def get_tracking_categories(self):
+        """
+        Returns a list of the Mission category types
+        which currently have tracking missions.
+        """
+        # A: init the output
+        tracking_categories = list()
+        # B: map the Question categories to the Mission categories
+        categories = dict(
+            zip(Question.get_category_abbreviations(), Mission.CATEGORIES)
+        )
+        # C: filter all the tracking Missions
+        tracking_missions = Mission.objects.filter(needs_auth=True, needs_scan=True)
+        # D: see which Mission categories have tracking missions
+        for question_category in categories.keys():
+            # look up tracking missions in this cateogory
+            missions = tracking_missions.filter(question__category=question_category)
+            # if they are found, add the category
+            if len(missions) > 0:
+                mission_category = categories[question_category]
+                tracking_categories.append(mission_category)
+        # E: return the categories
+        return tracking_categories
+
+    def get(self, request):
+        """
+        Display a series of links to the form, where the user can track their
+        Mission.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+
+        Returns: HttpResponse: a view of the template
+        """
+        # init the context
+        context = dict()
+        context["missions"] = Mission.objects.filter(needs_scan=True, needs_auth=True)
+        # return the context
         return render(request, self.template_name, context)

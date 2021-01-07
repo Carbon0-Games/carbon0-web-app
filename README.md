@@ -1,7 +1,7 @@
 ![Brand image](https://i.postimg.cc/pTycYvPJ/Screen-Shot-2020-10-16-at-10-37-00-AM.png)
 
 # Carbon0 Games
- [![Build Status](https://img.shields.io/travis/Carbon0-Games/carbon0-web-app.svg?style=flat)](https://travis-ci.com/github/Carbon0-Games/carbon0-web-app/)
+ [![Build Status](https://img.shields.io/travis/Carbon0-Games/carbon0-web-app.svg?style=flat)](https://travis-ci.com/github/Carbon0-Games/carbon0-web-app/) ![Website Status](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fcarbon0.herokuapp.com) ![Django Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/zainrazatheupstart/carbon0-web-app_django_1?label=Django%20Build%20Size) ![React Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/zainrazatheupstart/carbon0-web-app_react_1?label=React%20Build%20Size) ![PostgreSQL Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/zainrazatheupstart/carbon0-web-app_postgresdb?label=PostgreSQL%20Build%20Size) ![NGINX Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/zainrazatheupstart/carbon0-web-app_nginx_1?label=NGINX%20%20Build%20Size)
 
 Carbon0 Games helps people create carbon negative lifestyles for themselves and their communities, through our web application.
 
@@ -36,7 +36,7 @@ All while having fun!
 ## Tech Stack
 - [Django](https://www.djangoproject.com/) and [Django REST Framework](https://www.django-rest-framework.org/) - for programming the backend web server using Python 3
 - [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) - for building a mobile-friendly UI for web browsers
-- [Postgres.app](https://postgresapp.com/) - for installing PostgreSQL on your local machine, to use as a database for the project
+- [PostgreSQL](https://www.postgresql.org/) - for installing PostgreSQL on your local machine. Please use [Postgres.app](https://postgresapp.com/) for macOS, or check here for [Windows installers](https://www.postgresql.org/download/windows/) of PostgreSQL.
 - [Git](https://git-scm.com/doc) and [GitHub](https://www.github.com) - for Version Control and Team Collaboration
 - [WebXR](https://developers.google.com/web/updates/2018/05/welcome-to-immersive) - for displaying AR characters in the browser, with no external hardware required
 - [Chart.js](https://www.chartjs.org/) - for making visualizations the carbon footprints of the players
@@ -56,13 +56,27 @@ Make sure you have the latest version of [Docker](https://www.docker.com/get-sta
 
 1. Once you have done so and have also cloned the repository locally, you can run the project using `docker-compose` in the root directory:
 
-        docker-compose up --build
+        docker-compose up
 
 2. Then you can view the project at [http://localhost:8000](http://localhost:8000).
 
-You can also open up Docker Desktop, and view the health of the `carbon0-web-app` container on a panel that will look something like below:
+3. If you ever want to run the automated Django tests from within the Docker container, first go to the `carbon0/entrypoint.sh` file, and uncomment the tests command on line 27:
+```
+        # python manage.py test  # remove the first "#" to uncomment this line
+```
+Then you may run the Docker containers again, using the command below to clear out the old versions of the containers on your machine:
+
+```
+        docker-compose down
+```
+
+With that, feel free to run the command in Step 1 once more!
+
+4. At any time you can also open up Docker Desktop, and view the health of the `carbon0-web-app` container on a panel that will look something like below:
 
 ![Screenshot from Docker Desktop](https://i.postimg.cc/wvGHhhD8/Screen-Shot-2020-11-20-at-10-27-24-AM.png)
+
+5. If you choose to run the project using Docker Compose, most of your changes can be seen with live reload. Notable exceptions to this are the files in the `static` and `staticfiles` directories, which is one of the [issues](https://docs.djangoproject.com/en/3.1/ref/contrib/staticfiles/#django-admin-collectstatic) we are currently working to improve upon.
 
 ### Option 2: Using `virtualenv`: 
 #### __Initial Setup__
@@ -116,14 +130,15 @@ When you would like to contribute to the codebase, the following steps are key t
 2. Once you have pull the code onto your local machine, use the command `git checkout -b name_of_your_branch` (this both creates your branch and 'moves'; you to that branch to work on. Make sure that when coding that you are working on your branch. You can see which branch your on in the terminal, depending on your terminal setup with oh-my-zsh. You can also see it in the lower left corner in VSCode and lower right Atom)
     - To travel between branches simply use `git checkout branch_name`
 3. code as usual
-4. When your commits are made, use `git push origin name_of_your_branch` to make sure to push to your branch.
-5. Occasionally check on other peoples branch as well in github by clicking the branch:master button under the commit count in the repo and you can switch branches and see others branches 
+4. If you require access to the Django Admin site while developing locally, you can create a superuser account using `python manage.py createsuperuser` (if using a Python virtual environment). Alternatively if you are running the project using Docker, don't worry - this step is already done for you! All you need to do now is access the Admin site at http://localhost:8000/admin, and log in by using the credentials listed in `.env.sample`, specificallly for the `DJANGO_ADMIN_USER` and `DJANGO_ADMIN_PASSWORD` (look to the right of the `=` sign).
+5. When your commits are made, use `git push origin name_of_your_branch` to make sure to push to your branch.
+6. Occasionally check on other peoples branch as well in github by clicking the branch:master button under the commit count in the repo and you can switch branches and see others branches 
 On GitHub, navigate to the main page of the repository.
-6. In the "Branch" menu, choose the branch that contains your commits.
-7. Above the list of files, click  __Pull request__.
-8. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
-9. Type a title and description for your pull request.
-10. To create a pull request that is ready for review, click **Create Pull Request.**
+7. In the "Branch" menu, choose the branch that contains your commits.
+8. Above the list of files, click  __Pull request__.
+9. Use the base branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
+10. Type a title and description for your pull request.
+11. To create a pull request that is ready for review, click **Create Pull Request.**
 ![Pull Request button](https://docs.github.com/assets/images/help/pull_requests/pull-request-start-review-button.png)
 
 *From [Creating a Pull Request via Github](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)

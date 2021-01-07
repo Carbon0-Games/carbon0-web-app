@@ -5,8 +5,12 @@ services:
     build:
       context: ./carbon0
       dockerfile: DockerfilePython
-    volumes:
-      - django_static_volume:/usr/src/app/static
+    volumes:  # this allows live reload
+      - ./carbon0/accounts:/usr/src/app/accounts
+      - ./carbon0/api:/usr/src/app/api
+      - ./carbon0/carbon0:/usr/src/app/carbon0
+      - ./carbon0/carbon_quiz:/usr/src/app/carbon_quiz
+      - ./carbon0/templates:/usr/src/app/templates
     expose:
       - 8000
     ports:
@@ -24,7 +28,7 @@ services:
       context: ./carbon0
       dockerfile: DockerfileNode
     volumes:
-      - react_static_volume:/usr/src/app/build/static
+      - react_static_volume:/usr/src/app/react_leaderboard
     expose:
       - 3000
     command: serve -s build -l 3000
@@ -35,8 +39,7 @@ services:
     restart: always
     build: ./carbon0/nginx
     volumes:
-      - django_static_volume:/usr/src/app/django_files/static
-      - react_static_volume:/usr/src/app/react_files/static
+      - react_static_volume:/usr/src/app/react_leaderboard
     ports:
       - 8080:8080
     depends_on:
@@ -44,5 +47,5 @@ services:
 
 volumes:
   postgres_data:
-  django_static_volume:
+  # django_static_volume:
   react_static_volume:

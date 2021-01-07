@@ -1,0 +1,45 @@
+<!-- carbon0/carbon_quiz/templates/carbon_quiz/mission/tracker.html -->
+{% extends "base.html" %}
+{% load static %}
+
+<!-- Player Selects which Category their about to Track their progress on -->
+{% block content %}
+
+<!-- Instructions for Mission Tracking -->
+<div class="starry-background">
+    <div class="container">
+        <h1 class="row mb-4 justify-content-center pt-3 ml-1"
+            style="color:#3FC5F0; font-weight: 400; font-size: 50px; line-height: 45px;">
+            Select a Mission Category
+        </h1>
+        <div class="row justify-content-center">
+            <!-- Instructions as Text -->
+                <div class="row justify-content-center">
+                    <div class="carbon0-button my-3">
+                        <h1 class="text-dark" style="font-weight: 400;">INSTRUCTIONS</h1>
+                        <p class="lead text-dark">
+                            Select a category below. <br>
+                            We'll show you QR codes that you can <br>
+                            use to track your
+                            your progress in that category!
+                        </p>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <!-- QR Codes for each Mission Categories -->
+    <div class="container">
+        <div class="row">
+            {% for item in categories %}
+            <div class="col justify-content-center ">
+                <div class="d-flex justify-content-center">
+                    {% include "partials/tracking_category_link.html" %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

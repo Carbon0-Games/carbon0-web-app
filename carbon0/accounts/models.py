@@ -17,18 +17,19 @@ class Profile(models.Model):
         default=0,
         help_text="The total carbon footprint of the User across all quizzes.",
     )
-    offsets_level = models.IntegerField(
-        default=0,
-        choices=Mission.PRIORITIES,
-        help_text=(
-            "Which level of Airlines-Utilities Missions to recommend"
-            + " for this player."
-        ),
-    )
     diet_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
         help_text=("Which level of Diet Missions to recommend" + " for this player."),
+    )
+    diet_missions_completed = models.IntegerField(
+        default=0, help_text="Used to decide when to increase Player's Diet Level."
+    )
+    diet_sign_photo = models.ImageField(
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="Your sign for Diet Missions.",
     )
     transit_level = models.IntegerField(
         default=0,
@@ -37,6 +38,15 @@ class Profile(models.Model):
             "Which level of Transit Missions to recommend" + " for this player."
         ),
     )
+    transit_missions_completed = models.IntegerField(
+        default=0, help_text="Used to decide when to increase Player's Transit Level."
+    )
+    transit_sign_photo = models.ImageField(
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="Your sign for Transit Missions.",
+    )
     recycling_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
@@ -44,12 +54,52 @@ class Profile(models.Model):
             "Which level of Recycling Missions to recommend" + " for this player."
         ),
     )
+    recycling_missions_completed = models.IntegerField(
+        default=0, help_text="Used to decide when to increase Player's Recycling Level."
+    )
+    recycling_sign_photo = models.ImageField(
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="Your sign for Recycling Missions.",
+    )
+    offsets_level = models.IntegerField(
+        default=0,
+        choices=Mission.PRIORITIES,
+        help_text=(
+            "Which level of Airlines-Utilities Missions to recommend"
+            + " for this player."
+        ),
+    )
+    offset_missions_completed = models.IntegerField(
+        default=0, help_text="Used to decide when to increase Player's Offset Level."
+    )
+    offsets_sign_photo = models.ImageField(
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="Your sign for Airline-Utilities Missions.",
+    )
     utilities_level = models.IntegerField(
         default=0,
         choices=Mission.PRIORITIES,
         help_text=(
             "Which level of Utilities Missions to recommend" + " for this player."
         ),
+    )
+    utilities_missions_completed = models.IntegerField(
+        default=0, help_text="Used to decide when to increase Player's Utilities Level."
+    )
+    utilities_sign_photo = models.ImageField(
+        upload_to="images/",
+        null=True,
+        blank=True,
+        help_text="Your sign for Utilities Missions.",
+    )
+    photos_are_accurate = models.BooleanField(
+        null=True,
+        blank=True,
+        help_text=("We can only save the planet if your image is actually of a sign!"),
     )
 
     def __str__(self):
@@ -116,20 +166,48 @@ class Profile(models.Model):
             increase = True
         # list the profile's levels, order corresponds to Question categories
         levels = [
-            self.diet_level,
-            self.transit_level,
-            self.recycling_level,
-            self.offsets_level,
-            self.utilities_level,
+            (self.diet_missions_completed, self.diet_level),
+            (self.transit_missions_completed, self.transit_level),
+            (self.recycling_missions_completed, self.recycling_level),
+            (self.offset_missions_completed, self.offsets_level),
+            (self.utilities_missions_completed, self.utilities_level),
         ]
         # iterate over the categories until we hit a match
-        for index, question_category in Question.CATEGORIES:
+        for index, question_category in enumerate(Question.CATEGORIES):
+            # get the no. of Missions and level the Profile currently has
+            current_missions_complete, current_level = levels[index]
             if category == question_category:
-                # change the level in that category if possible
-                if levels[index] < 3 and increase is True:
-                    levels[index] += 1
-                elif levels[index] > 0 and increase is False:
-                    levels[index] -= 1
+                # increment number of missions completed for specific category
+                levels[index][0] = current_missions_complete + 1
+                # increment the category level for every 3 Achievements
+                if (current_missions_complete + 1) % 3 == 0:
+                    levels[index][1] = current_level + 1
                 # save and exit the function
                 self.save()
                 return None
+
+    @classmethod
+    def get_field_to_track_mission(cls, mission):
+        """Return the fields the MissionTrackerComplete view (accounts.views) needs
+        to include on the form, so it's specific to whatever is the category
+        of the Mission.
+
+        Parameters:
+        mission(Mission): the mission being tracked
+
+        Returns: List: the fields needed on the form
+
+        """
+        # map the fields needed in the form, in order by Question categories
+        form_fields = [
+            "diet_sign_photo",
+            "transit_sign_photo",
+            "recycling_sign_photo",
+            "offsets_sign_photo",
+            "utilities_sign_photo",
+        ]
+        categories = Question.get_category_abbreviations()
+        category_form_fields = dict(zip(categories, form_fields))
+        # use the mission category to figure out which image field goes
+        field = category_form_fields[mission.question.category]
+        return field
