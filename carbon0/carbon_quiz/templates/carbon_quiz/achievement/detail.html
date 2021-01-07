@@ -56,6 +56,14 @@
 </style>
 
     <div style="background-color:#143963; min-height: 100vh;" id="achieve-detail-main">
+        <!-- Display Success Message, if user just signed up -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }} alert alert-success" {% endif %}>{{ message }}</p>
+                    {% endfor %}
+            </div>
+        {% endif %}
         <div class="flex-container mx-1">
             <div class="row justify-content-center mx-1">
                 <!-- Image, Mission Complete Ribbon-->

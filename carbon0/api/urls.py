@@ -50,12 +50,12 @@ urlpatterns = [
     ),
     # URLs for Mission Tracking
     path(
-        "track-achievement/<slug:mission_id>/",
+        "track-achievement/<int:mission_id>/",
         MissionTrackingAchievement.as_view(),
         name="mission_tracking_achievement",
     ),
     path(
-        "track-achievement/<slug:mission_id>/<int:pk>/",
+        "track-achievement/<int:mission_id>/<int:pk>/",
         MissionTrackingAchievement.as_view(),
         name="mission_tracking_achievement",
     ),

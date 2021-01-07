@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
@@ -264,6 +265,11 @@ class MissionTrackingAchievement(APIView):
             profile = Profile.objects.get(id=pk)
             achievement.profile = profile
             achievement.save()
+            # add a message as well
+            messages.add_message(
+                request, messages.SUCCESS,
+                "Congratulations - you've earned a new Zeron!"
+            )
             # redirect to show the player their new Achievement
             return HttpResponseRedirect(achievement.get_absolute_url())
         else:  # no pk, so send the user and Achievement to LoginView
