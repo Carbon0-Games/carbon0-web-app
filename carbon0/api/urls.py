@@ -6,7 +6,6 @@ from api.views import (
     MissionTrackingAchievement,
     ProfileData,
     FootprintOverTime,
-    # QRCodeReceiver,
     QuizUpdate,
     QuizData,
     UserFootPrintData,

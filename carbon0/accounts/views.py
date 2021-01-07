@@ -7,7 +7,7 @@ import django.contrib.auth.views as auth_views
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView
@@ -27,6 +27,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from social_django.models import UserSocialAuth
 
+
+def get_domain(request: HttpRequest) -> str:
+    """
+    Uses meta data about the request to tell us what the domain
+    of the server is, and whether we are using HTTP/HTTPS.
+    """
+    domain = request.META["HTTP_HOST"]
+    # prepend the domain with the application protocol
+    if "localhost" in settings.ALLOWED_HOSTS:
+        domain = f"http://{domain}"
+    else:  # using a prod server
+        domain = f"https://{domain}"
+    return domain
 
 def track_successful_signup(user, secret_id):
     """Logs whenever a User successfully signs up on Mixpanel.
@@ -369,13 +382,7 @@ class MissionTrackerComplete(View):
         """
         context = dict()
         # add the host domain to the context
-        domain = request.META["HTTP_HOST"]
-        # prepend the domain with the application protocol
-        if "localhost" in settings.ALLOWED_HOSTS:
-            domain = f"http://{domain}"
-        else:  # using a prod server
-            domain = f"https://{domain}"
-        context["domain"] = domain
+        context["domain"] = get_domain(request)
         # Add the Missions and their category to the context
         context["category"] = (
             Mission.get_corresponding_mission_category(category)

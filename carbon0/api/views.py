@@ -4,6 +4,7 @@ from django.urls import reverse, reverse_lazy
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+import accounts.views as av
 from accounts.models import Profile
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.link import Link
@@ -203,48 +204,6 @@ class AchievementCreateLink(APIView):
         return path
 
 
-"""
-class QRCodeReceiver(APIView):
-    def get(self, request, mission_id):
-        '''
-        Decides what destination the player scanning a QR code will have.
-        If the player has an account, we send them to complete tracking
-        the mission.
-
-        Otherwise, we send them to the landing page of the website.
-
-        Parameters:
-        request(HttpRequest): the GET request sent to the server.
-                              Encapsulates the user making the request,
-                              so we can tell if they have a Profile or not.
-        mission_id(int): if the player does have an account, we will have them
-                         complete the Mission with this id.
-
-        Returns: HttpResponse to either 1) the 'landing_page' view, or
-                 2) the MissionTrackingAchievement view below.
-
-        '''
-        # A: init the primary key of the Profile to be anonymous
-        pk = 0
-        # B: check to see if the user is authenticated or not 
-        if request.user.is_authenticated:
-            # see if there's a unique Profile associated with the player
-            profiles = Profile.objects.filter(user=request.user)
-            # if not, send the user to the landing page (maybe there's an error)
-            if len(profiles) != 1:
-                return render(reverse("landing_page"))
-            elif len(profiles) == 1:  # there is an associated account
-            # otherwise set the primary key
-                pk = profiles[0].id
-        # C: regardless, send the user along to earn the Achievement
-        host = request.META["HTTP_HOST"]
-        path = reverse("api:mission_tracking_achievement", args=[mission_id, pk])
-        url = ''.join([host, path])
-        print(url)
-        return HttpResponse(url)
-"""
-
-
 class MissionTrackingAchievement(APIView):
     def get(self, request, mission_id, pk=0):
         """
@@ -308,6 +267,7 @@ class MissionTrackingAchievement(APIView):
             # redirect to show the player their new Achievement
             return HttpResponseRedirect(achievement.get_absolute_url())
         else:  # no pk, so send the user and Achievement to LoginView
-            return HttpResponseRedirect(
-                reverse("accounts:login", args=[achievement.secret_id])
-            )
+            domain = av.get_domain(request)
+            path = reverse("accounts:login", args=[achievement.secret_id])
+            url = ''.join([domain, path])
+            return HttpResponseRedirect(url)
