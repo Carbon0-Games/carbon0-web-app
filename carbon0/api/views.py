@@ -226,7 +226,7 @@ class QRCodeReceiver(APIView):
         # A: init the primary key of the Profile to be anonymous
         pk = None
         # B: check to see if the user is authenticated or not 
-        if user.is_authenticated:
+        if request.user.is_authenticated:
             # see if there's a unique Profile associated with the player
             profiles = Profile.objects.filter(user=request.user)
             # if not, send the user to the landing page (maybe there's an error)

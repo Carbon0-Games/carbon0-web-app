@@ -4,7 +4,9 @@ from typing import Any, Dict
 
 from django.conf import settings
 import django.contrib.auth.views as auth_views
+from django.contrib.auth import login
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView
@@ -82,6 +84,29 @@ def track_login_event(user):
     return None
 
 
+def connect_profile_achievement(secret_id, profile, request=None):
+    """Finds an Achievement by using the secret_id (passed to the URL),
+    then connects the model with the appropiate Profile instance.
+
+    Parameters:
+    secret_id(str): an identifier for a unique Achievement instance
+    profile(Profile): connect with one of the players in the database
+    request(HttpRequest): in sign ups we also pass in the user of the 
+                          request, as per the args needed by the scoring
+                          algorithm (see Achievement.save more details).
+
+    Returns: None
+
+    """
+    if secret_id is not None:
+        achievement = Achievement.objects.get(secret_id=secret_id)
+        achievement.profile = profile
+        # when request is passed in, let the save algorithm know it's a signup
+        if request is not None:
+            achievement.save(user=request.user)
+    return None
+
+
 class UserCreate(SuccessMessageMixin, CreateView):
     """Display form where user can create a new account."""
 
@@ -100,10 +125,7 @@ class UserCreate(SuccessMessageMixin, CreateView):
         profile = Profile.objects.create(user=self.object)
         profile.save()
         # connect this profile to the achievement, if applicable
-        if secret_id is not None:
-            achievement = Achievement.objects.get(secret_id=secret_id)
-            achievement.profile = profile
-            achievement.save(user=request.user)
+        connect_profile_achievement(secret_id, profile, request=request)
         return super().form_valid(form)
 
     def post(self, request, secret_id=None):
@@ -132,13 +154,53 @@ class UserCreate(SuccessMessageMixin, CreateView):
 class LoginView(auth_views.LoginView):
     """Subclass of LoginView."""
 
-    def form_valid(self, form):
+    def get_redirect_view(self, secret_id=None) -> str:
+        '''Sends the user to AchievementDetail, or to the dashboard.'''
+        if secret_id is not None:
+            # sending user to AchievementDetail
+            achievement = Achievement.objects.get(secret_id=secret_id)
+            return HttpResponseRedirect(achievement.get_absolute_url())
+        else:  # send to the dashboard
+            return HttpResponseRedirect(self.get_success_url())
+
+
+    def form_valid(self, request, form, secret_id):
         """Tracks login events in Mixpanel, after security checks."""
-        # get the user
+        # A: get the user
         user = form.get_user()
-        # track the login in Mixpanel
+        # B: track the login in Mixpanel
         track_login_event(user)
-        return super().form_valid(form)
+        # C: get the profile, and connect it with the Achievement
+        profile = Profile.objects.get(user=user)
+        connect_profile_achievement(secret_id, profile)
+        # D: log the user in
+        login(request, user)
+        # E: decide where to send the user next
+        return self.get_redirect_view(secret_id)
+
+    def post(self, request, secret_id=None):
+        """
+        Passes the id of the Achievement the profile should include, if any.
+
+        Parameters:
+        request(HttpRequest): the POST request sent to the server
+        secret_id(str): unique value on one of the Achievement instances
+
+        Returns:
+        HttpResponseRedirect: the view of:
+                             1) the ProfileView, if there's no secret_id
+                             2) the AchievementDetail, if there is
+                             3) the Login template if form validation fails
+
+        """
+        # get form needed for user authentication
+        form = self.get_form()
+        # validate, then create
+        if form.is_valid():
+            return self.form_valid(request, form, secret_id)
+        # or redirect back to the form
+        else:
+            return super().form_invalid(form)
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
