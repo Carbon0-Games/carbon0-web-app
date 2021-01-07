@@ -20,7 +20,7 @@ from .forms import UserSignUpForm
 from .models import Profile
 
 
-# Social Auth
+# Social Auth and Leaderboard
 from django.views.generic import TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -402,3 +402,22 @@ class MissionTrackerComplete(View):
         context['missions'] = self.get_tracking_missions(category)
         # send the player to the template
         return render(request, self.template_name, context)
+
+
+class LeaderboardView(TemplateView):
+    """Displays up to the 10 lowest players and their carbon footprints."""
+
+    template_name = "leaderboard/leaderboard.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        '''Add the top 10 players to the context.'''
+        # A: init the context
+        context = super().get_context_data(**kwargs)
+        # B: find the top 10 players
+        profiles = Profile.objects.order_by("users_footprint")[:10]
+        # C: make lists for the each of the positions, username, and footprints
+        context["positions"] = [(position + 1) for position in range(10)]
+        context["players"] = [profile.user.username for profile in profiles]
+        context["footprints"] = [profile.users_footprint for profile in profiles]
+        # D: return the context
+        return context
