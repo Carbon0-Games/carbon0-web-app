@@ -152,15 +152,17 @@ def connect_profile_achievement(secret_id, profile, is_signup, request=None):
                 profile.save()
         return None
     # A: get the Achievement through the secret_id
-    achievement = Achievement.objects.get(secret_id=secret_id)
-    achievement.profile = profile
-    # B: when request is passed in, let the save algorithm know it's a signup
-    if request is not None:
-        achievement.save(user=request.user)
-    # C: when called on a sign up, then set the initial player levels
-    if is_signup is True and secret_id is not None:
-        set_initial_player_levels(achievement)
-    return None
+    if secret_id is not None:
+        achievement = Achievement.objects.get(secret_id=secret_id)
+        achievement.profile = profile
+        # B: when request is passed in, let the save algorithm know it's a signup
+        if request is not None:
+            achievement.save(user=request.user)
+        # C: when called on a sign up, then set the initial player levels
+        if is_signup is True and secret_id is not None:
+            set_initial_player_levels(achievement)
+        # return the new secret id of the Achievement
+        return achievement.secret_id
 
 
 class UserCreate(CreateView):
@@ -180,8 +182,8 @@ class UserCreate(CreateView):
         # save a new profile for the user
         profile = Profile.objects.create(user=self.object)
         profile.save()
-        # connect this profile to the achievement, if applicable
-        connect_profile_achievement(secret_id, profile, True, request)
+        # connect this profile to the achievement, update the secret id
+        secret_id = connect_profile_achievement(secret_id, profile, True, request)
         # send the user to the Login View with a message
         messages.add_message(request, messages.SUCCESS, self.success_message)
         # redirect with or without the secret id
