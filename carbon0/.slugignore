@@ -14,9 +14,3 @@ Docker*
 nginx/
 postgres/
 entrypoint.sh
-
-# Node JS stuff
-.babelrc
-package-lock.json
-package.json
-webpack.config.js
