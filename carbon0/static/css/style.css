@@ -102,12 +102,13 @@ h8,
 ol,
 ul,
 label,
-span,
-button,
-a, 
-input {
+span {
   font-family: "Coda", sans-serif;
   color: white;
+}
+
+input, button, a {
+    font-family: "Coda", sans-serif;
 }
 
 label, p {
