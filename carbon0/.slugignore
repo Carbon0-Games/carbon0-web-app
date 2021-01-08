@@ -1,0 +1,22 @@
+# GitHub stuff
+.github/
+
+# Static files 
+static/
+
+# React JS stuff
+react_files/
+react_leaderboard/
+
+# Docker containers
+Docker*
+.dockerignore
+nginx/
+postgres/
+entrypoint.sh
+
+# Node JS stuff
+.babelrc
+package-lock.json
+package.json
+webpack.config.js
