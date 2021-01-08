@@ -5,6 +5,8 @@
 static/
 
 # React JS stuff
+package.json
+package-lock.json
 webpack.config.js
 react_files/
 react_leaderboard/
