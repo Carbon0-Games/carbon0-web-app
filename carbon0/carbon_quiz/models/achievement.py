@@ -281,6 +281,8 @@ class Achievement(models.Model):
         self.secret_id = secret_id
         # update the impacted user's carbon footprint, and their player level
         if self.profile is not None:
-            update_profile_footprint()
-            update_player_level(self.profile)
+            # check to make sure the Achievement is not for a Learning Mission
+            if "learning" not in self.mission.title.lower():
+                update_profile_footprint()
+                update_player_level(self.profile)
         return super(Achievement, self).save(*args, **kwargs)
