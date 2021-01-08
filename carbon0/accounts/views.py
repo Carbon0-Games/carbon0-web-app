@@ -15,6 +15,7 @@ from mixpanel import Mixpanel, MixpanelException
 
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
 import carbon_quiz.views as cqv
 from .forms import UserSignUpForm
 from .models import Profile
@@ -99,13 +100,16 @@ def track_login_event(user):
     return None
 
 
-def connect_profile_achievement(secret_id, profile, request=None):
+def connect_profile_achievement(secret_id, profile, is_signup, request=None):
     """Finds an Achievement by using the secret_id (passed to the URL),
     then connects the model with the appropiate Profile instance.
 
     Parameters:
     secret_id(str): an identifier for a unique Achievement instance
     profile(Profile): connect with one of the players in the database
+    is_signup(bool): if called during a user's sign up, we will use
+                     the Achievement's Quiz to tell what catgories the player
+                     is already strong in
     request(HttpRequest): in sign ups we also pass in the user of the
                           request, as per the args needed by the scoring
                           algorithm (see Achievement.save more details).
@@ -113,12 +117,49 @@ def connect_profile_achievement(secret_id, profile, request=None):
     Returns: None
 
     """
-    if secret_id is not None:
-        achievement = Achievement.objects.get(secret_id=secret_id)
-        achievement.profile = profile
-        # when request is passed in, let the save algorithm know it's a signup
-        if request is not None:
-            achievement.save(user=request.user)
+    def set_initial_player_levels(achievement):
+        """
+        For any question the player answered well on, 
+        we set them to start out as an Expert (Level 3) 
+        in that category.
+        """
+        if achievement.quiz is not None:
+            # A: get the Question categories "not represented" on the quiz
+            improvement_questions = list()
+            for question_id in achievement.quiz.questions:
+                if question_id > 0:
+                    question = Question.objects.get(id=question_id)
+                    improvement_questions.append(question)
+            # B: map the Question categories to player attributes
+            attributes = [
+                'diet_level',
+                'transit_level',
+                'recycling_level',
+                'offsets_level',
+                'utilities_level',
+            ]
+            categories_attributes = dict(
+                zip(Question.get_category_abbreviations(), attributes)
+            )
+            # C: get the categories in which the player is already an Expert
+            category_set = set(Question.get_category_abbreviations())
+            # remove the categories represented by the improvement questions
+            for question in improvement_questions:
+                category_set.remove(question.category)
+            # D: level up the player on the remaining categories, and save
+            for expert_category in category_set:
+                setattr(profile, categories_attributes[expert_category], 3)
+                profile.save()
+        return None
+    # A: get the Achievement through the secret_id
+    achievement = Achievement.objects.get(secret_id=secret_id)
+    achievement.profile = profile
+    # B: when request is passed in, let the save algorithm know it's a signup
+    if request is not None:
+        achievement.save(user=request.user)
+    # C: when called on a sign up, then set the initial player levels
+    if is_signup is True and secret_id is not None:
+        set_initial_player_levels(achievement)
     return None
 
 
@@ -140,7 +181,7 @@ class UserCreate(CreateView):
         profile = Profile.objects.create(user=self.object)
         profile.save()
         # connect this profile to the achievement, if applicable
-        connect_profile_achievement(secret_id, profile, request=request)
+        connect_profile_achievement(secret_id, profile, True, request)
         # send the user to the Login View with a message
         messages.add_message(request, messages.SUCCESS, self.success_message)
         # redirect with or without the secret id
@@ -199,7 +240,7 @@ class LoginView(auth_views.LoginView):
         track_login_event(user)
         # C: get the profile, and connect it with the Achievement
         profile = Profile.objects.get(user=user)
-        connect_profile_achievement(secret_id, profile)
+        connect_profile_achievement(secret_id, profile, False)
         # D: log the user in
         login(request, user)
         # E: decide where to send the user next
