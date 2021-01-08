@@ -143,27 +143,10 @@ class Profile(models.Model):
         # return the level value for the given category parameter
         return category_level[category]
 
-    def change_level(self, category, lower_threshold, higher_threshold):
+    def increment_player_level(self, category):
         """
-        Update the Profile's current level for a certain Question category.
-
-        Parameters:
-        category(str): one of the 5 Question Categories
-        lower_threshold(float): the value at which the profile's level
-                                decrements 
-        higher_threshold(float): the value at which the profile's level
-                                 increases
-
-        Returns: None
+        Increase the Profile's current level for a certain Question category.
         """
-        # see if the level needs to change, based on current footprint
-        increase = None
-        if self.users_footprint < lower_threshold:
-            # we need to decrement the players level
-            increase = False
-        elif self.users_footprint > higher_threshold:
-            # we need to increase the player's level
-            increase = True
         # list the profile's levels, order corresponds to Question categories
         levels = [
             (self.diet_missions_completed, self.diet_level),

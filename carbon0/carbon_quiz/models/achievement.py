@@ -203,76 +203,15 @@ class Achievement(models.Model):
             self.profile.save()
             return None
 
-        def update_player_level(profile):
+        def update_player_level():
             """
             If the user has a profile, we use the new Achievement to increment
             their level in the category of the Mission they completed.
             """
-
-            def get_thresholds(quiz, profile):
-                """
-                Figure out which two thresholds the profile is between
-                for their current carbon footprint, and return their values.
-                
-                ** Explanation of the threshold calculation: **
-                We have implemented the expression on lines 252 and 256 based 
-                on the following conditions:
-
-                1. The Beginner Player threshold is at 100% of the Quiz's 
-                    total carbon footprint, and it has a numerical value of 0
-                    on the Profile.
-
-                2. The Intermediate Player threshold is at 80% of the Quiz's 
-                    total carbon footprint. It has a value of 1 on the Profile.
-
-                3. The Expert Player threshold is at 60% of the Quiz's 
-                    total carbon footprint. It has a value of 2.
-
-                4. The Expert Player threshold is at 40% of the Quiz's 
-                    total carbon footprint. It has a value of 3.
-
-                Therefore, the expression below (and on lines) takes advantage 
-                of the fact that all the threshold percentages share a
-                greatest common factor of 20%, and the absolute threshold value
-                can be calculated by 1) multiplying 0.2 by the player level, 
-                2) subtracting the product from 1, and 3) multiplying that 
-                difference (a float between 0-1) by the carbon footprint on 
-                the Quiz.
-
-                Note that if the conditions above change, then we'll need to 
-                change the expression on 252 and 256, and find another 
-                expression that works.
-                """
-                # get the player's current level for the specific category
-                category_level = profile.get_player_level(
-                    self.mission.question.category
-                )
-                # calculate the lower threshold
-                lower_threshold = (
-                    quiz.carbon_value_total * (1 - (0.2 * category_level))
-                )
-                # calculate the higher threshold
-                higher_threshold = (
-                    quiz.carbon_value_total * (1 - (0.2 * (category_level + 1)))
-                )
-                return lower_threshold, higher_threshold
-
-            # see if the newly updated footprint passes the threshold or falls
+            # get the related Mission, and the Question category
             category = self.mission.question.category
-            # get the first Quiz related to the profile, if any
-            profile_achievements = (
-                Achievement.objects.filter(profile=profile).order_by("id")
-            )
-            quiz = None
-            for achievement in profile_achievements:
-                if achievement.quiz is not None:
-                    quiz = achievement.quiz
-            # see what threshold this profile is above and below
-            if quiz is not None:
-                lower_threshold, higher_threshold = get_thresholds(quiz, profile)
-            else:  # no previous Quiz on the Profile
-                lower_threshold, higher_threshold = (float('-inf'), float('inf'))
-            profile.change_level(category, lower_threshold, higher_threshold)
+            # increment the player's level in that category if possible
+            self.profile.increment_player_level(category)
             return None
 
         # get the unique secret id, make it URL safe
@@ -284,5 +223,5 @@ class Achievement(models.Model):
             # check to make sure the Achievement is not for a Learning Mission
             if "learning" not in self.mission.title.lower():
                 update_profile_footprint()
-                update_player_level(self.profile)
+                update_player_level()
         return super(Achievement, self).save(*args, **kwargs)

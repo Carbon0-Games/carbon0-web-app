@@ -117,10 +117,11 @@ def connect_profile_achievement(secret_id, profile, is_signup, request=None):
     Returns: None
 
     """
+
     def set_initial_player_levels(achievement):
         """
-        For any question the player answered well on, 
-        we set them to start out as an Expert (Level 3) 
+        For any question the player answered well on,
+        we set them to start out as an Expert (Level 3)
         in that category.
         """
         if achievement.quiz is not None:
@@ -132,11 +133,11 @@ def connect_profile_achievement(secret_id, profile, is_signup, request=None):
                     improvement_questions.append(question)
             # B: map the Question categories to player attributes
             attributes = [
-                'diet_level',
-                'transit_level',
-                'recycling_level',
-                'offsets_level',
-                'utilities_level',
+                "diet_level",
+                "transit_level",
+                "recycling_level",
+                "offsets_level",
+                "utilities_level",
             ]
             categories_attributes = dict(
                 zip(Question.get_category_abbreviations(), attributes)
@@ -151,6 +152,7 @@ def connect_profile_achievement(secret_id, profile, is_signup, request=None):
                 setattr(profile, categories_attributes[expert_category], 3)
                 profile.save()
         return None
+
     # A: get the Achievement through the secret_id
     if secret_id is not None:
         achievement = Achievement.objects.get(secret_id=secret_id)
@@ -457,8 +459,7 @@ class LeaderboardView(TemplateView):
         profiles = Profile.objects.order_by("users_footprint")[:10]
         # C: make lists for the each of the usernames and footprints
         context["players"] = [
-            [profile.user.username, profile.users_footprint] 
-            for profile in profiles
+            [profile.user.username, profile.users_footprint] for profile in profiles
         ]
 
         # D: return the context
