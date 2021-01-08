@@ -5,6 +5,7 @@
 static/
 
 # React JS stuff
+webpack.config.js
 react_files/
 react_leaderboard/
 

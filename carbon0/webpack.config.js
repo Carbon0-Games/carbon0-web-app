@@ -1,6 +1,6 @@
 module.exports = {
     entry: {
-        frontend: './react_leaderboard/src/index.js',
+        // frontend: './react_leaderboard/src/index.js',
     },
     output: {
         path: __dirname + '/static/js/',
