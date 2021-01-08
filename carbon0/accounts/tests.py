@@ -45,7 +45,7 @@ class UserCreateTests(AchievementDetailTests):
         # the response is returned OK
         self.assertEquals(response.status_code, 200)
         # the response has the appropiate content
-        self.assertContains(response, "Sign up to Save Your Score,")
+        self.assertContains(response, "Sign Up to Save Progress")
         return None
 
     def test_user_signs_up_no_achievement(self):
