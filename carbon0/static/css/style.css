@@ -102,7 +102,10 @@ h8,
 ol,
 ul,
 label,
-span {
+span,
+button,
+a, 
+input {
   font-family: "Coda", sans-serif;
   color: white;
 }
@@ -303,6 +306,12 @@ model-viewer {
   color:#3FC5F0; 
   font-weight: 500; 
   font-size: 7vh; 
+  line-height: 6vh;
+}
+
+.white-header {
+  color: rgb(255, 255, 255); 
+  font-weight: 500; 
   line-height: 6vh;
 }
 

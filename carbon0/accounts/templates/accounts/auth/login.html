@@ -44,12 +44,14 @@
             </div>
         {% endif %}
         <div class="container">
+            <div class="row justify-content-center">
+                <h1 class="display-3 mt-5 white-header mb-4">Welcome Back</h1>
+            </div>
             <div class="row">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-md-6">
                     <img alt="CaptainJoy" src="{% static 'images/Captain_Joy_Solar_Panel_Transparent_background_(1).png' %}">
                 </div>
-                <div class="col-sm-12 col-md-6">
-                        <strong><h1 class="display-3 mt-5 font-weight-bold">Sign In</h1></strong>
+                <div class="col-md-6">
                     <form method="post">
                         {% csrf_token %}
                         {% for field in form %}
@@ -78,10 +80,12 @@
                         </div>
                     </form>
                 </div>
+                <div class="row">
+                    <!-- Social Login with Facebook and Google -->
+                    {% include 'partials/social_login.html' %}
+                </div>
             </div>
         </div>
-        <!-- Social Login with Facebook and Google -->
-        {% include 'partials/social_login.html' %}
     </div>
     
 {% endblock %}
