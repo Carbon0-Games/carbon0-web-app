@@ -8,6 +8,6 @@ These releases are tenatively scheduled. **Thank you for your patience** if some
 | ------------- |:-------------:| :-----|
 | 0.0.1         | Basic MVP |  Thursday October 22, 2020 |
 | 1.0.0         | MVP |  Monday October 26, 2020 |
-| 1.5.0         | Mission Tracking, Bug + UI Improvements |  Friday January 8, 2021 |
+| 2.0.0         | Mission Tracking, Scoring Updates, Bug + UI Improvements |  Friday January 8, 2021 |
 
 
