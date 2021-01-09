@@ -2,9 +2,9 @@
 .github/
 
 # Static files 
-static/images/
-static/assets/
-staticfiles/
+# static/images/
+# static/assets/
+# staticfiles/
 
 # React JS stuff
 package.json
