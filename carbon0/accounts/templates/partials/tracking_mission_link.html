@@ -16,7 +16,7 @@
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        min-width: vmax;
+        min-width: vmax; 
         font-family: "Coda", sans-serif;
         outline: none;
         border: 0px;
@@ -43,14 +43,14 @@
 <!-- https://stackoverflow.com/questions/1621891/html-how-to-make-a-submit-button-with-text-image-in-it -->
 
 <!-- Downloadable Mission Sign -->
-<div class="mission_selection_button ">
+<div class="card" style="border-radius: 16px;">
     <!-- The "src" attribute of the images below is set to request from the QR Code Generator API: http://goqr.me/api/doc/create-qr-code/#quickstart -->
-    <div class="card-img-top">
+    <div class="row justify-content-center card-img-top mt-1 mx-1">
         <img id="{{category}}-Sign-{{mission.id}}-image"
             src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ domain }}{% url 'api:mission_tracking_achievement' mission.id %}&color=0-150-4&format=png"
             alt="A sign for tracking {{ category }} missions" style="max-height: 25vh" class="mt-2 px-2" />
     </div>
-    <div class="card-title mt-2">
+    <div class="card-title mt-2 ml-2">
         <h3 id="{{category}}-Sign-{{mission.id}}-id" class="text-dark">{{ mission.action }}</h3>
     </div>
     <div>
