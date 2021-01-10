@@ -11,9 +11,9 @@
         <div class="container mb-5">
             <!-- Profile Username with Logout Link -->
             <div class="row mt-5 ml-3">
-              <h1 class="text-white">Profile for: {{ user.username }}
+              <h1 class="">Profile for: {{ user.username }}
                 <small class="text-muted">
-                  <a class="text-white" href="{% url 'accounts:logout' %}">(logout)</a>
+                  <a class="" href="{% url 'accounts:logout' %}">(logout)</a>
                 </small>
               </h1>
             </div>
@@ -23,14 +23,14 @@
                 <div class="row justify-content-center">
                   <ul class="list-group list-group-horizontal my-3">
                     <!-- Email -->
-                    <li class="list-group-item text-dark mr-2">
+                    <li class="list-group-item text-white mr-2 carbon0-button">
                       Email: {{ user.email }}
                     </li>
                     <!-- Link to Mission Tracking Flow -->
-                    <li class="list-group-item text-dark ml-auto">
+                    <li class="list-group-item text-dark ml-auto carbon0-button">
                       <!-- All Uncompleted Missions -->
-                      <a class="carbon0-button" href="{% url 'carbon_quiz:mission_tracker' %}">
-                        TRACK MISSION
+                      <a href="{% url 'carbon_quiz:mission_tracker' %}">
+                        START HERE
                       </a>
                     </li>
                   </ul>
@@ -51,7 +51,7 @@
                 <div class="row justify-content-center my-3">
                   <!-- Current Footprint -->
                   <div class="carbon0-button my-3">
-                    <p class="text-dark" style="font-size: 20px;">Current Footprint:</p>
+                    <p class="text-success" style="font-size: 20px;">Current Footprint:</p>
                     <!-- Show the value in different colors depending on its value-->
                     {% if is_footprint_green %}
                       <div class="text-success">

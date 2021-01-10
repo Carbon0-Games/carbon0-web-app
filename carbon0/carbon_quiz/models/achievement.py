@@ -218,10 +218,10 @@ class Achievement(models.Model):
         secret_id = slugify(generate_unique_id())
         # set it on the new model instance
         self.secret_id = secret_id
-        # update the impacted user's carbon footprint, and their player level
+        # update the player level
         if self.profile is not None:
-            # check to make sure the Achievement is not for a Learning Mission
+            update_player_level()
+            # also update the player' carbon footprint on some Achievements
             if "learning" not in self.mission.title.lower():
                 update_profile_footprint()
-                update_player_level()
         return super(Achievement, self).save(*args, **kwargs)
