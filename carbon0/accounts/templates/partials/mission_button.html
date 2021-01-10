@@ -6,27 +6,27 @@
 {% if item == "Offsets-Category" %}
     <a class="mission_selection_button" 
        href="{% url 'carbon_quiz:mission_list' profile.id 'A' %}">
-      <h3 style="color: rgb(0, 130, 174)">Offsets Journey</h3>
+      <h3 style="color: rgb(0, 174, 6);">Offsets Journey</h3>
       <img src="{% static 'icons/Flying.png' %}" alt="Image" style="max-height: 25vh"/>
     </a>
 {% elif item == "Diet-Category" %}
     <a class="mission_selection_button" href="{% url 'carbon_quiz:mission_list' profile.id 'D' %}">
-      <h3 style="color: rgb(0, 130, 174)">Diet Journey</h3>
+      <h3 style="color: rgb(0, 174, 6);">Diet Journey</h3>
       <img src="{% static 'icons/Veggie_Bowl.png' %}" alt="Image" style="max-height: 25vh" />
     </a>
 {% elif item == "Recycling-Category" %}
     <a class="mission_selection_button" href="{% url 'carbon_quiz:mission_list' profile.id 'R' %}">
-      <h3 style="color: rgb(0, 130, 174)">Recycling Journey</h3>
+      <h3 style="color: rgb(0, 174, 6);">Recycling Journey</h3>
       <img src="{% static 'icons/Recycling.png' %}" alt="Image" style="max-height: 25vh" />
     </a>
 {% elif item == "Utilities-Category" %}
       <a class="mission_selection_button" href="{% url 'carbon_quiz:mission_list' profile.id 'U' %}">
-        <h3 style="color: rgb(0, 130, 174)">Utilities Journey</h3>
+        <h3 style="color: rgb(0, 174, 6);">Utilities Journey</h3>
         <img src="{% static 'icons/Solar_Panel.png' %}" alt="Image" style="max-height: 25vh" />
       </a>
 {% elif item == "Transit-Category" %}
       <a class="mission_selection_button" href="{% url 'carbon_quiz:mission_list' profile.id 'T' %}">
-        <h3 style="color: rgb(0, 130, 174)">Transit Journey</h3>
+        <h3 style="color: rgb(0, 174, 6);">Transit Journey</h3>
         <img src="{% static 'icons/Gasoline_Transport.png' %}" alt="Image" style="max-height: 25vh" />
       </a>
 {% endif %}
