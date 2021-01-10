@@ -57,7 +57,7 @@ a.mission-link:hover {
 .mission_selection_button{
   margin-top: 1vh;
   margin-bottom: 3vh;
-  background-color: #143963;
+  background-color: white;
   padding: 5px 8px;
   -webkit-appearance: none;
   font-size: vi;
@@ -192,7 +192,7 @@ input, textarea {
 }
 
 .carbon0-button {
-  background-color: #143963;
+  background-color: white;
   padding: 10px 16px;
   -webkit-appearance: none;
   font-size: 16px;
