@@ -4,7 +4,7 @@
 # Static files 
 # static/images/
 # static/assets/
-# staticfiles/
+staticfiles/
 
 # React JS stuff
 package.json
