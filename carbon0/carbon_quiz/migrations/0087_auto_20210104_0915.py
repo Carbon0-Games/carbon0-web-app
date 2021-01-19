@@ -10,9 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-         migrations.RemoveField(
-           model_name="mission",
-           name="needs_scan",
+        migrations.RemoveField(
+            model_name="mission",
+            name="needs_scan",
         ),
         migrations.AddField(
             model_name="mission",

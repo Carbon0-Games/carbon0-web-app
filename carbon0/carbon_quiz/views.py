@@ -4,7 +4,7 @@ from typing import Any, Dict
 
 from django.conf import settings
 from django.db.models import F
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
@@ -78,6 +78,20 @@ def filter_completed_missions(missions, user):
         # get only the missions not yet completed by the user
         missions = set(missions) - user_missions
     return missions
+
+
+def get_domain(request: HttpRequest) -> str:
+    """
+    Uses meta data about the request to tell us what the domain
+    of the server is, and whether we are using HTTP/HTTPS.
+    """
+    domain = request.META["HTTP_HOST"]
+    # prepend the domain with the application protocol
+    if "localhost" in settings.ALLOWED_HOSTS:
+        domain = f"http://{domain}"
+    else:  # using a prod server
+        domain = f"https://{domain}"
+    return domain
 
 
 def get_missions_for_journey(missions, player_level, category):
@@ -485,7 +499,7 @@ class MissionTracker(View):
     to find the QR codes of different tracking missions.
     """
 
-    template_name = "tracker/print_qr_codes.html"
+    template_name = "carbon_quiz/tracker/print_qr_codes.html"
 
     def get_tracking_categories(self):
         """
@@ -523,6 +537,7 @@ class MissionTracker(View):
         """
         # init the context
         context = dict()
+        context["domain"] = get_domain(request)
         context["missions"] = Mission.objects.filter(needs_scan=True, needs_auth=True)
         # return the context
         return render(request, self.template_name, context)

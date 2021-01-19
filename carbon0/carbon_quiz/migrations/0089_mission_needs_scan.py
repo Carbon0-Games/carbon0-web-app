@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0088_remove_mission_needs_scan'),
+        ("carbon_quiz", "0088_remove_mission_needs_scan"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='mission',
-            name='needs_scan',
-            field=models.BooleanField(default=False, help_text='Is the mission completed by scanning a QR code.'),
+            model_name="mission",
+            name="needs_scan",
+            field=models.BooleanField(
+                default=False,
+                help_text="Is the mission completed by scanning a QR code.",
+            ),
         ),
     ]
