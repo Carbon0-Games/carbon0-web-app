@@ -499,7 +499,7 @@ class MissionTracker(View):
     to find the QR codes of different tracking missions.
     """
 
-    template_name = "tracker/print_qr_codes.html"
+    template_name = "carbon_quiz/tracker/print_qr_codes.html"
 
     def get_tracking_categories(self):
         """
