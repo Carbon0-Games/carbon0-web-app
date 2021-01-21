@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -311,7 +312,7 @@ class CategoryTrackerData(APIView):
         # B: return the corresponding image URL\
         mission = Mission.objects.get(id=pk)
         category = mission.question.category
-        img_url = "{% static " + f"'{category_img_urls[category]}'" + " %}"
+        img_url = f"{settings.STATIC_URL}{category_img_urls[category]}"
         # C: format the data, and return it
         data = {
             "category": category,

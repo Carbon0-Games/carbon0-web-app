@@ -65,10 +65,19 @@
         </div>
         <!-- Download Link -->
         <a href="#" class="row justify-content-center mt-1">
-            <h3 onclick="getPDFData('{% url 'api:category_tracker_data' mission.id %}')"
+            <h3 id="{{category}}-Sign-{{mission.id}}-Download"
                 style="color: rgb(0, 130, 174)">
                 DOWNLOAD the QR Code
             </h3>
         </a>
+        <script type="text/javascript" defer="defer">
+            // when the Download link is clicked, then make the PDF
+            document.getElementById("{{category}}-Sign-{{mission.id}}-Download").addEventListener(
+                "click", 
+                function () {
+                    getPDFData("{% url 'api:category_tracker_data' mission.id %}")
+                }
+            );
+        </script>
     </div>
 </div>

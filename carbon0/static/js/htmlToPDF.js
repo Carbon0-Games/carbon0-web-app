@@ -22,19 +22,21 @@ const getPDFData = (pdfDataEndpoint) => {
         })
     }
 
-const createPDF = (qrCodeImage, missionAction, categoryImgURL) => {
+const createPDF = (pdfFileName, missionAction, categoryImgURL) => {
     // get the DOM elements needed to make the PDF
-    const code = document.getElementById(qrCodeImage);
+    const code = document.getElementById(pdfFileName);
     // Create and save a new PDF on the client machine
     let pdf = new jsPDF();
     // make an image in HTML from the image URL
-    const categoryImg = document.createElement('img'); 
-    categoryImg.src =  categoryImgURL;
+    let categoryImg = document.createElement('img'); 
+    categoryImg.setAttribute('src', categoryImgURL);
+    console.log("Image: " + code);
     // add the sign for the mission to the PDF
-    pdf.addImage(categoryImg, format='PNG', x=0, y=0);
+    pdf.addImage(categoryImg, x=0, y=0);
     // add the QR code for the specific mission to PDF
     pdf.addImage(code, format='PNG', x=0, y=0);
     // title and save the PDF
     pdf.text(missionAction, x=3, y=45);
-    pdf.save(qrCodeImage);
+    pdf.save(pdfFileName);
+    }
 }
