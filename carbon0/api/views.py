@@ -302,7 +302,7 @@ class CategoryTrackerData(APIView):
         img_urls = [
             'images/Sticker_Diet.png',
             'images/Sticker_Transport.png',
-            'images/Sticker_Recycling.png',
+            'images/Sticker_Recycle.png',
             'No image',  # assuming none of the Offsets missions are tracked
             'images/Sticker_Utilities.png'
         ]
