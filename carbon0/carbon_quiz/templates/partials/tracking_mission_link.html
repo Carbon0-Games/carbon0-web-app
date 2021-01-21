@@ -46,12 +46,12 @@
 <div class="card" style="border-radius: 16px;">
     <!-- The "src" attribute of the images below is set to request from the QR Code Generator API: http://goqr.me/api/doc/create-qr-code/#quickstart -->
     <div class="row justify-content-center card-img-top mt-1 mx-1">
-        <img id="{{category}}-Sign-{{mission.id}}-image"
+        <img id="{{ mission.question.category }}-Sign-{{mission.id}}-image"
             src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ domain }}{% url 'api:mission_tracking_achievement' mission.id %}&color=0-150-4&format=png"
-            alt="A sign for tracking {{ category }} missions" style="max-height: 25vh" class="mt-2 px-2" />
+            alt="A sign for tracking {{mission.question.category }} missions" style="max-height: 25vh" class="mt-2 px-2" />
     </div>
     <div class="card-title mt-2 ml-2">
-        <h3 id="{{category}}-Sign-{{mission.id}}-id" class="text-dark">{{ mission.action }}</h3>
+        <h3 id="{mission.question.category}}-Sign-{{mission.id}}-id" class="text-dark">{{ mission.action }}</h3>
     </div>
     <div>
         <!-- Display if the mission is stationary or not -->
@@ -65,10 +65,19 @@
         </div>
         <!-- Download Link -->
         <a href="#" class="row justify-content-center mt-1">
-            <h3 onclick="createPDF('{{category}}-Sign-{{mission.id}}-image', '{{ mission.title }}')" 
+            <h3 id="{{mission.question.category}}-Sign-{{mission.id}}-Download"
                 style="color: rgb(0, 130, 174)">
                 DOWNLOAD the QR Code
             </h3>
         </a>
+        <script type="text/javascript" defer="defer">
+            // when the Download link is clicked, then make the PDF
+            document.getElementById("{{mission.question.category}}-Sign-{{mission.id}}-Download").addEventListener(
+                "click", 
+                function () {
+                    getPDFData("{% url 'api:category_tracker_data' mission.id %}")
+                }
+            );
+        </script>
     </div>
 </div>

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -10,6 +11,7 @@ from accounts.models import Profile
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.link import Link
 from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
 from carbon_quiz.models.quiz import Quiz
 
 
@@ -278,3 +280,44 @@ class MissionTrackingAchievement(APIView):
             path = reverse("accounts:login", args=[achievement.secret_id])
             url = "".join([domain, path])
             return HttpResponseRedirect(url)
+
+
+class CategoryTrackerData(APIView):
+    
+    def get(self, request, pk):
+        """
+        Given the id for a Mission, we return all the data needed to
+        create the PDF of the sign that
+        the player can use to track their progress.
+
+        Parameters:
+        request(HttpRequest): a GET request sent to the server
+        pk(int): id value of one of the Missions
+
+        Returns:
+        str: the relative URL for the sign image, within the STATIC_ROOT
+
+        """
+        # A: map the Question categories to the image URLs
+        img_urls = [
+            'images/Sticker_Diet.png',
+            'images/Sticker_Transport.png',
+            'images/Sticker_Recycle.png',
+            'No image',  # assuming none of the Offsets missions are tracked
+            'images/Sticker_Utilities.png'
+        ]
+        category_img_urls = dict(zip(
+            Question.get_category_abbreviations(), img_urls
+        ))
+        # B: return the corresponding image URL\
+        mission = Mission.objects.get(id=pk)
+        category = mission.question.category
+        img_url = f"{settings.STATIC_URL}{category_img_urls[category]}"
+        # C: format the data, and return it
+        data = {
+            "category": category,
+            "imageURL": img_url,
+            "missionTitle": mission.title,
+            "missionId": mission.id
+            }
+        return Response(data)

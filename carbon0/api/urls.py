@@ -3,6 +3,7 @@ from django.urls import path
 from api.views import (
     AchievementCreateLink,
     AchievementData,
+    CategoryTrackerData,
     MissionTrackingAchievement,
     ProfileData,
     FootprintOverTime,
@@ -30,6 +31,11 @@ urlpatterns = [
         "achievement-create-link/<int:mission_id>/",
         AchievementCreateLink.as_view(),
         name="achievement_create_link",
+    ),
+    path(
+        "tracking-category-image/<int:pk>/",
+        CategoryTrackerData.as_view(),
+        name="category_tracker_data"
     ),
     # Data for the Bar Charts
     path(
