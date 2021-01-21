@@ -1,17 +1,28 @@
-const createPDF = (qrCodeImage, missionAction, missionCategory) => {
+const getPDFData = (pdfTitle, missionTitle, categoryImageEndpoint) => {
+    // get the URL for the image needed on the tracking missions PDF
+    $(document).ready(function () {
+        // get the data on the carbon footprint from the API
+        let endpoint = categoryImageEndpoint;
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+                // if it all works, then go on to create the PDF
+                createPDF(pdfTitle, missionTitle, data.imageURL);
+            },
+            error: function (error_data) {
+                console.log(error_data)
+            }
+        })
+    })
+}
+
+const createPDF = (qrCodeImage, missionAction, categoryImgURL) => {
     // get the DOM elements needed to make the PDF
     const code = document.getElementById(qrCodeImage);
     // Create and save a new PDF on the client machine
     let pdf = new jsPDF();
-    // find the sign for trackers in this Mission's category
-    const categorySign = {
-        "R": "{% static 'images/Sticker_Recycling.png' %}",
-        "D": "{% static 'images/Sticker_Diet.png' %}",
-        "T": url('../images/Sticker_Transport.png'),
-        "U": url('images/Sticker_Utilities.png')
-    };
     // make an image in HTML from the image URL
-    const categoryImgURL = categorySign[missionCategory];
     const categoryImg = document.createElement('img'); 
     categoryImg.src =  categoryImgURL;
     // add the sign for the mission to the PDF

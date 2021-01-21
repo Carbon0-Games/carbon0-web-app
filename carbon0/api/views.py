@@ -311,4 +311,5 @@ class CategoryTrackerData(APIView):
             Question.get_category_abbreviations(), img_urls
         ))
         # B: return the corresponding image URL
-        return category_img_urls[category]
+        img_url = {"imageURL": category_img_urls[category]}
+        return Response(img_url)
