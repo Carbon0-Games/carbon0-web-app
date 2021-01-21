@@ -1,29 +1,31 @@
 
-const getPDFData = (pdfDataEndpoint) => {
-        // get the URL for the image needed on the tracking missions PDF
-        $(document).ready(function () {
-            // get the data on the carbon footprint from the API
-            let endpoint = pdfDataEndpoint;
-            $.ajax({
-                method: "GET",
-                url: endpoint,
-                success: function (data) {
-                    // if it all works, then go on to create the PDF
-                    createPDF(
-                        `${data.category}-Sign-${data.missionId}-image`,
-                        data.missionTitle, 
-                        data.imageURL
-                    );
-                },
-                error: function (error_data) {
-                    console.log(error_data)
-                }
-            })
+const getPDFData = pdfDataEndpoint => {
+    // get the URL for the image needed on the tracking missions PDF
+    $(document).ready(function () {
+        // get the data on the carbon footprint from the API
+        let endpoint = pdfDataEndpoint;
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+                // if it all works, then go on to create the PDF
+                createPDF(
+                    `${data.category}-Sign-${data.missionId}-image`,
+                    data.missionTitle, 
+                    data.imageURL
+                );
+            },
+            error: function (error_data) {
+                console.log(error_data)
+            }
         })
-    }
+    })
+    
+}
 
 const createPDF = (pdfFileName, missionAction, categoryImgURL) => {
     // get the DOM elements needed to make the PDF
+    console.log(pdfFileName);
     const code = document.getElementById(pdfFileName);
     // Create and save a new PDF on the client machine
     let pdf = new jsPDF();
@@ -38,5 +40,4 @@ const createPDF = (pdfFileName, missionAction, categoryImgURL) => {
     // title and save the PDF
     pdf.text(missionAction, x=3, y=45);
     pdf.save(pdfFileName);
-    }
 }
