@@ -33,7 +33,7 @@ urlpatterns = [
         name="achievement_create_link",
     ),
     path(
-        "tracking-category-image/<slug:category>/",
+        "tracking-category-image/<int:pk>/",
         CategoryTrackerData.as_view(),
         name="category_tracker_data"
     ),

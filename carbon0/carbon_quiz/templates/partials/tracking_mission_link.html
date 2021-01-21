@@ -65,11 +65,7 @@
         </div>
         <!-- Download Link -->
         <a href="#" class="row justify-content-center mt-1">
-            <h3 onclick=getPDFData(
-                    '{{category}}-Sign-{{mission.id}}-image', 
-                    '{{ mission.title }}',
-                    "{% url 'api:category_tracker_data' mission.question.category %}" 
-                ) 
+            <h3 onclick="getPDFData('{% url 'api:category_tracker_data' mission.id %}')"
                 style="color: rgb(0, 130, 174)">
                 DOWNLOAD the QR Code
             </h3>

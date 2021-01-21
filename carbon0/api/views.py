@@ -283,17 +283,15 @@ class MissionTrackingAchievement(APIView):
 
 class CategoryTrackerData(APIView):
     
-    def get(self, request, category):
+    def get(self, request, pk):
         """
-        Given the category that a Question for a tracking mission 
-        falls into, we return the image URL for the sign that
+        Given the id for a Mission, we return all the data needed to
+        create the PDF of the sign that
         the player can use to track their progress.
-
-        e.g. "R" as input --> "images/Sticker_Recycle.png" as output
 
         Parameters:
         request(HttpRequest): a GET request sent to the server
-        category(str): one of the values in Question.CATEGORIES
+        pk(int): id value of one of the Missions
 
         Returns:
         str: the relative URL for the sign image, within the STATIC_ROOT
@@ -310,6 +308,15 @@ class CategoryTrackerData(APIView):
         category_img_urls = dict(zip(
             Question.get_category_abbreviations(), img_urls
         ))
-        # B: return the corresponding image URL
-        img_url = {"imageURL": category_img_urls[category]}
-        return Response(img_url)
+        # B: return the corresponding image URL\
+        mission = Mission.objects.get(id=pk)
+        category = mission.question.category
+        img_url = "{% static " + f"'{category_img_urls[category]}'" + " %}"
+        # C: format the data, and return it
+        data = {
+            "category": category,
+            "imageURL": img_url,
+            "missionTitle": mission.title,
+            "missionId": mission.id
+            }
+        return Response(data)

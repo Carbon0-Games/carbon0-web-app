@@ -1,21 +1,26 @@
-const getPDFData = (pdfTitle, missionTitle, categoryImageEndpoint) => {
-    // get the URL for the image needed on the tracking missions PDF
-    $(document).ready(function () {
-        // get the data on the carbon footprint from the API
-        let endpoint = categoryImageEndpoint;
-        $.ajax({
-            method: "GET",
-            url: endpoint,
-            success: function (data) {
-                // if it all works, then go on to create the PDF
-                createPDF(pdfTitle, missionTitle, data.imageURL);
-            },
-            error: function (error_data) {
-                console.log(error_data)
-            }
+
+const getPDFData = (pdfDataEndpoint) => {
+        // get the URL for the image needed on the tracking missions PDF
+        $(document).ready(function () {
+            // get the data on the carbon footprint from the API
+            let endpoint = pdfDataEndpoint;
+            $.ajax({
+                method: "GET",
+                url: endpoint,
+                success: function (data) {
+                    // if it all works, then go on to create the PDF
+                    createPDF(
+                        `${data.category}-Sign-${data.missionId}-image`,
+                        data.missionTitle, 
+                        data.imageURL
+                    );
+                },
+                error: function (error_data) {
+                    console.log(error_data)
+                }
+            })
         })
-    })
-}
+    }
 
 const createPDF = (qrCodeImage, missionAction, categoryImgURL) => {
     // get the DOM elements needed to make the PDF
