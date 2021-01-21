@@ -35,7 +35,7 @@ urlpatterns = [
     path(
         "tracking-category-image/<int:pk>/",
         CategoryTrackerData.as_view(),
-        name="category_tracker_data"
+        name="category_tracker_data",
     ),
     # Data for the Bar Charts
     path(

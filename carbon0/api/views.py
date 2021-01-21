@@ -283,7 +283,6 @@ class MissionTrackingAchievement(APIView):
 
 
 class CategoryTrackerData(APIView):
-    
     def get(self, request, pk):
         """
         Given the id for a Mission, we return all the data needed to
@@ -300,15 +299,13 @@ class CategoryTrackerData(APIView):
         """
         # A: map the Question categories to the image URLs
         img_urls = [
-            'images/Sticker_Diet.png',
-            'images/Sticker_Transport.png',
-            'images/Sticker_Recycle.png',
-            'No image',  # assuming none of the Offsets missions are tracked
-            'images/Sticker_Utilities.png'
+            "images/Sticker_Diet.png",
+            "images/Sticker_Transport.png",
+            "images/Sticker_Recycle.png",
+            "No image",  # assuming none of the Offsets missions are tracked
+            "images/Sticker_Utilities.png",
         ]
-        category_img_urls = dict(zip(
-            Question.get_category_abbreviations(), img_urls
-        ))
+        category_img_urls = dict(zip(Question.get_category_abbreviations(), img_urls))
         # B: return the corresponding image URL\
         mission = Mission.objects.get(id=pk)
         category = mission.question.category
@@ -318,6 +315,6 @@ class CategoryTrackerData(APIView):
             "category": category,
             "imageURL": img_url,
             "missionTitle": mission.title,
-            "missionId": mission.id
-            }
+            "missionId": mission.id,
+        }
         return Response(data)
