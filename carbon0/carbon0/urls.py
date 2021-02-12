@@ -30,6 +30,8 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     # OAuth Lib-related URLs
     path("oauth/", include("social_django.urls", namespace="social")),
-    # API-related URLss
+    # API-related URLs
     path("api/", include("api.urls")),
+    # Garden-related URLs - used for "Plant Vision"
+    path("garden/", include("garden.urls")),
 ]
