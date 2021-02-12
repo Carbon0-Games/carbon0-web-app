@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
     "carbon_quiz.apps.CarbonQuizConfig",
+    "garden.apps.GardenConfig",
     "rest_framework",
     "storages",
     "social_django",  # Social Auth
