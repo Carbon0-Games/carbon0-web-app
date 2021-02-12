@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 import datetime
 
 from .views import QuizCreate, MissionDetail
-from accounts.models import Profile
+from accounts.models.profile import Profile
 from .models.link import Link
 from .models.question import Question
 from .models.mission import Mission

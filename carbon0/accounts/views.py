@@ -18,7 +18,7 @@ from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question
 import carbon_quiz.views as cqv
 from .forms import UserSignUpForm
-from .models import Profile
+from .models.profile import Profile
 
 
 # Social Auth and Leaderboard

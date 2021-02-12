@@ -5,7 +5,7 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
-from accounts.models import Profile
+from accounts.models.profile import Profile
 from django.conf import settings
 from .mission import Mission
 from .question import Question

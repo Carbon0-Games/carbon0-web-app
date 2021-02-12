@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from accounts.models import Profile
+from .models.profile import Profile
 
 # credit for subclassing forms.Form belongs to
 # https://overiq.com/django-1-10/django-creating-users-using-usercreationform/

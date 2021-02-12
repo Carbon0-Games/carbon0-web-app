@@ -11,7 +11,7 @@ from carbon_quiz.tests import (
     AchievementCreateTests,
     AchievementDetailTests,
 )
-from .models import Profile
+from .models.profile import Profile
 from .views import UserCreate, ProfileView
 
 

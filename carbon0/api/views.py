@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 import accounts.views as av
-from accounts.models import Profile
+from accounts.models.profile import Profile
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.link import Link
 from carbon_quiz.models.mission import Mission
