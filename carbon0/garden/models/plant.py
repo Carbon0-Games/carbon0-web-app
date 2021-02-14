@@ -21,4 +21,5 @@ class Plant(models.Model):
             condition your plant is in (because we care)!"
         )
     )
-     # TODO: use Trefle API to get image of the species via slug of common name
+    # TODO: connect the model with Profile, and the Leaf models
+    # TODO: use Trefle API to get image of the species via slug of common name
