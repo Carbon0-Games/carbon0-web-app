@@ -1,5 +1,5 @@
 from django.db import models
-import tensorflow.keras.models as keras_models
+import tensorflow.keras.models as keras_models  # need to use model_from_json
 
 
 class Vision(models.Model):
@@ -15,3 +15,7 @@ class Vision(models.Model):
         help_text="Hadoop instructions for what weights and biases \
                   to give the underlying neural network."
     )
+
+    def __str__(self):
+        '''Return a human-understandable name for the deep learning model.'''
+        return f"CNN with weights {self.weights}"

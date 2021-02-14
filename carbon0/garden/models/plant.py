@@ -33,3 +33,7 @@ class Plant(models.Model):
         help_text="Leaves of this plant.",
         on_delete=models.PROTECT,
     )
+
+    def __str__(self):
+        """Return a string representation, show relation to the Profile."""
+        return f"{self.profile.username}'s Plant {self.id}"

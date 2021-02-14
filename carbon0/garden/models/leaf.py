@@ -27,3 +27,7 @@ class Leaf(models.Model):
         default=(1 / settings.NUM_PREDICTION_LABELS),
         help_text="How confident the AI was in its prediction.",
     )
+
+    def __str__(self):
+        """Return a string representation, show relation to the Profile."""
+        return f"Leaf {self.id} for {self.profile.username}'s Plant {self.id}"
