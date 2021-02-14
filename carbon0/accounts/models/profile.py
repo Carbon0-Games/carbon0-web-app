@@ -1,8 +1,9 @@
 from django.db import models
+from django.utils import tree
 from carbon0 import settings
-from django.urls import reverse
 from django.conf import settings
 
+from garden.models.plant import Plant
 from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question
 
@@ -13,6 +14,10 @@ class Profile(models.Model):
         upload_to="images/", null=True, blank=True, help_text="User profile image"
     )
     phone = models.CharField(max_length=20, null=True, blank=True)
+    plant = models.ForeignKey(
+        Plant, null=True, blank=True, 
+        on_delete=models.PROTECT, help_text="The plants owned by this user."        
+    )
     users_footprint = models.FloatField(
         default=0,
         help_text="The total carbon footprint of the User across all quizzes.",
