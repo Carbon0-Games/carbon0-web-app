@@ -27,8 +27,9 @@ class Plant(models.Model):
         ),
     )
     leaf = models.ForeignKey(
-        Leaf, null=True, blank=True, help_text="Leaves of this plant.",
-        on_delete=models.PROTECT
+        Leaf,
+        null=True,
+        blank=True,
+        help_text="Leaves of this plant.",
+        on_delete=models.PROTECT,
     )
-
-    # TODO: use Trefle API to get image of the species via slug of common name

@@ -34,7 +34,10 @@ class Achievement(models.Model):
         null=True,
     )
     completion_date = models.DateTimeField(
-        help_text="Date mission was accomplished", null=True, blank=True, auto_now=True
+        help_text="Date mission was accomplished",
+        null=True,
+        blank=True,
+        auto_now_add=True,
     )
     secret_id = models.CharField(
         max_length=50,

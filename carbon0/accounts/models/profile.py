@@ -15,8 +15,11 @@ class Profile(models.Model):
     )
     phone = models.CharField(max_length=20, null=True, blank=True)
     plant = models.ForeignKey(
-        Plant, null=True, blank=True, 
-        on_delete=models.PROTECT, help_text="The plants owned by this user."        
+        Plant,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        help_text="The plants owned by this user.",
     )
     users_footprint = models.FloatField(
         default=0,
