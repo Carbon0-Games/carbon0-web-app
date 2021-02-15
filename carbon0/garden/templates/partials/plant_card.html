@@ -5,28 +5,33 @@
         <div class="col-md-8">
             <h3>{{ plant.nickname }}</h3>
         </div>
-        <!-- User also gets buttons to do an action, or delete-->
+        <!-- User also gets buttons to do an action -->
         <div class="col-md-4">
-            <div class="row justify-content-center">
-                <a href="#" class="btn btn-info">See More</a>
-            </div>
-            <div class="row justify-content-center">
-                <a href="#" class="btn btn-danger">Delete</a>
-            </div>
+             <a href="#" class="btn btn-info">See More</a>
         </div>
     </div>
     <div class="card-body border-dark">
-        <p class="card-text text-dark">
-            <ul>
-                <!-- fields in note -->
-                <li>Location: <strong>{{ airport.location }}</strong></li>
-            </ul>
-        </p>
-        <hr>
-        <div class="text-right">
-            <a href="{% url 'airports:airport_details' airport.slug %}" title="See More">See More</a>
+        <div class="row justify-content-center">
+            <!-- Display the Latest Health Status of the Plant -->
+            <div class="col-md-8">
+                <p class="card-text text-dark">
+                </p>
+            </div>
+            <!-- User can Delete the Plant -->
+            <div class="col-md-4">
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
         </div>
-    </div>
-    <div class="card-footer row">
+        <hr>
+        <!-- User sees an image of the plant -->
+        <div class="text-right">
+            {% if plant.is_edible is True %}
+                <img src="{% static 'icons/Veggie_Bowl.png' %}" 
+                class="card-img-top" alt="Edible plant image">
+            {% else %} <!-- the plant is helping sequester carbon dioxide -->
+                <img src="{% static 'icons/Flying.png' %}" 
+                class="card-img-top" alt="Plants helps us to sequester CO2!" />
+            {% endif %}
+        </div>
     </div>
 </div>
