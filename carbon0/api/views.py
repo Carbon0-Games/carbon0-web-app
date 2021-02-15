@@ -348,8 +348,12 @@ class PlantHealthPreview(APIView):
             last_leaf = leaves[-1]
             status = last_leaf.status
             updated = last_leaf.date_uploaded
+        # map the status to the human understandable version
+        status_abbreviation_full_names = Leaf.get_status_mapping()
+        status_full_name = status_abbreviation_full_names[status]
+        # form the data to go in the response
         response_data = {
-            "latestStatus": status,
+            "latestStatus": status_full_name,
             # get the local verision of the date
             "lastUpdated": updated.strftime("%x")
         }

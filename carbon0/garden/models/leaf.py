@@ -38,3 +38,12 @@ class Leaf(models.Model):
     def __str__(self):
         """Return a string representation, show relation to the Profile."""
         return f"Leaf {self.id} for {self.profile.username}'s Plant {self.id}"
+
+    @classmethod
+    def get_status_mapping(cls):
+        '''Maps each health abbreviation to the full name of the status.'''
+        abbreviations, full_names = list(), list()
+        for abbreviation, full_name in cls.STATUSES:
+            abbreviations.append(abbreviation)
+            full_names.append(full_name)
+        return dict(zip(abbreviations, full_names))
