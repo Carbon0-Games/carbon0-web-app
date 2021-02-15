@@ -1,5 +1,5 @@
 <!-- carbon0/garden/templates/partials/plant_card.html-->
-<div class="card border-info mb-3">
+<div class="carbon0-button card border-info mb-3">
     <div class="row card-header justify-content-center">
         <!-- Nickname is How the User Can identify their plants -->
         <div class="col-md-8">
@@ -12,10 +12,8 @@
     </div>
     <div class="card-body border-dark">
         <div class="row justify-content-center">
-            <!-- Display the Latest Health Status of the Plant -->
-            <div class="col-md-8">
-                <p class="card-text text-dark">
-                </p>
+            <!-- Display the Latest Updated of the Plant -->
+            <div id="health-preview-{{ plant.id }}" class="col-md-8">
             </div>
             <!-- User can Delete the Plant -->
             <div class="col-md-4">
@@ -35,3 +33,26 @@
         </div>
     </div>
 </div>
+
+<!-- JS to give the health preview -->
+<script type="module">
+    import { footprintPlot } from '../../../../static/js/footprintPlotFunction.js';
+    $(document).ready(function () {
+        // get the data on the carbon footprint from the API
+        let endpoint = "{% url 'api:footprint_change' profile.id %}"
+        let plotData = []
+        let plotLabels = [];
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+                plotLabels = data.Events
+                plotData = data.Footprint
+                footprintPlot(plotLabels, plotData)
+            },
+            error: function (error_data) {
+                console.log(error_data)
+            }
+        })
+    })
+</script>

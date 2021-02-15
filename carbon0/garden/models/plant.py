@@ -32,6 +32,7 @@ class Plant(models.Model):
         on_delete=models.SET_NULL,  
         help_text="The user who owns this plant."
     )
+    created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         """Return a string representation, show relation to the Profile."""
