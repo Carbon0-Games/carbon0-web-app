@@ -1,6 +1,6 @@
 from django.db import models
 
-from .leaf import Leaf
+from accounts.models.profile import Profile
 
 
 class Plant(models.Model):
@@ -26,12 +26,11 @@ class Plant(models.Model):
             condition your plant is in (because we care)!"
         ),
     )
-    leaf = models.ForeignKey(
-        Leaf,
-        null=True,
-        blank=True,
-        help_text="Leaves of this plant.",
-        on_delete=models.PROTECT,
+    profile = models.ForeignKey(
+        Profile, null=True,
+        # even if user leaves, we can train the AI on their images to improve 
+        on_delete=models.SET_NULL,  
+        help_text="The user who owns this plant."
     )
 
     def __str__(self):

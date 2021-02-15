@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 
+from .plant import Plant
+
 
 class Leaf(models.Model):
     date_uploaded = models.DateTimeField(
@@ -26,6 +28,11 @@ class Leaf(models.Model):
     confidence = models.FloatField(
         default=(1 / settings.NUM_PREDICTION_LABELS),
         help_text="How confident the AI was in its prediction.",
+    )
+    plant = models.ForeignKey(
+        Plant, on_delete=models.CASCADE,
+        null=True,
+        help_text="The plant that this leaf came from."
     )
 
     def __str__(self):
