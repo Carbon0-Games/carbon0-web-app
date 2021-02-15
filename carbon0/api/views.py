@@ -13,6 +13,8 @@ from carbon_quiz.models.link import Link
 from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question
 from carbon_quiz.models.quiz import Quiz
+from garden.models.leaf import Leaf
+from garden.models.plant import Plant
 
 
 class QuizUpdate(APIView):
@@ -318,3 +320,34 @@ class CategoryTrackerData(APIView):
             "missionId": mission.id,
         }
         return Response(data)
+
+
+class PlantHealthPreview(APIView):
+    def get(self, request, plant_id):
+        """
+        Get the last time that the plant was updated,
+        as well as the latest leaf health status.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        plant_id(int): the unique id of this Plant instance
+
+        Returns: Response
+        """
+        # get the plant
+        plant = Plant.objects.get(id=plant_id)
+        # get the latest leaf (if possible related to the plant)
+        leaves = Leaf.objects.filter(plant=plant).order_by("date_uploaded")
+        # return the response - init the values to return
+        status = "M"
+        updated = plant.created
+        # use the status and upload date of the last leaf
+        if len(leaves) > 0:
+            last_leaf = leaves[-1]
+            status = last_leaf.status
+            updated = last_leaf.date_uploaded
+        response_data = {
+            "latestStatus": status,
+            "lastUpdated": updated
+        }
+        return Response(response_data)
