@@ -36,19 +36,20 @@
 
 <!-- JS to give the health preview -->
 <script type="module">
-    import { footprintPlot } from '../../../../static/js/footprintPlotFunction.js';
+    import { displayHealthPreview } from '../../../../static/js/healthPreview.js';
     $(document).ready(function () {
-        // get the data on the carbon footprint from the API
-        let endpoint = "{% url 'api:footprint_change' profile.id %}"
-        let plotData = []
-        let plotLabels = [];
+        // get the data on the plant's current health
+        let endpoint = "{% url 'api:plant_healh_preview' plant.id %}"
+        let lastStatus = "";
+        let lastUpdated = "";
+        const elemID = "health-preview-{{ plant.id }}";
         $.ajax({
             method: "GET",
             url: endpoint,
             success: function (data) {
-                plotLabels = data.Events
-                plotData = data.Footprint
-                footprintPlot(plotLabels, plotData)
+                lastStatus = data.latestStatus;
+                lastUpdated = data.lastUpdated;
+                displayHealthPreview(elemID, lastStatus, lastUpdated);
             },
             error: function (error_data) {
                 console.log(error_data)

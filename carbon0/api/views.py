@@ -1,3 +1,5 @@
+import datetime as dt
+
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -348,6 +350,7 @@ class PlantHealthPreview(APIView):
             updated = last_leaf.date_uploaded
         response_data = {
             "latestStatus": status,
-            "lastUpdated": updated
+            # get the local verision of the date
+            "lastUpdated": updated.strftime("%x")
         }
         return Response(response_data)
