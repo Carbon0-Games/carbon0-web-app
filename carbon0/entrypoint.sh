@@ -26,7 +26,7 @@ python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_qui
 # Make a superuser account if not already available, and add a Profile for it
 echo "
 from django.contrib.auth import get_user_model
-from accounts.models import Profile
+from accounts.models.profile import Profile
 admin_objs = get_user_model().objects.filter(email='$DJANGO_ADMIN_EMAIL')
 if len(admin_objs) == 0:
   admin_obj = get_user_model().objects.create_superuser(

@@ -1,6 +1,6 @@
 from django.db import models
+from django.utils import tree
 from carbon0 import settings
-from django.urls import reverse
 from django.conf import settings
 
 from carbon_quiz.models.mission import Mission

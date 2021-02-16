@@ -1,3 +1,5 @@
+import datetime as dt
+
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -7,12 +9,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 import accounts.views as av
-from accounts.models import Profile
+from accounts.models.profile import Profile
 from carbon_quiz.models.achievement import Achievement
 from carbon_quiz.models.link import Link
 from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question
 from carbon_quiz.models.quiz import Quiz
+from garden.models.leaf import Leaf
+from garden.models.plant import Plant
 
 
 class QuizUpdate(APIView):
@@ -283,7 +287,6 @@ class MissionTrackingAchievement(APIView):
 
 
 class CategoryTrackerData(APIView):
-    
     def get(self, request, pk):
         """
         Given the id for a Mission, we return all the data needed to
@@ -300,15 +303,13 @@ class CategoryTrackerData(APIView):
         """
         # A: map the Question categories to the image URLs
         img_urls = [
-            'images/Sticker_Diet.png',
-            'images/Sticker_Transport.png',
-            'images/Sticker_Recycle.png',
-            'No image',  # assuming none of the Offsets missions are tracked
-            'images/Sticker_Utilities.png'
+            "images/Sticker_Diet.png",
+            "images/Sticker_Transport.png",
+            "images/Sticker_Recycle.png",
+            "No image",  # assuming none of the Offsets missions are tracked
+            "images/Sticker_Utilities.png",
         ]
-        category_img_urls = dict(zip(
-            Question.get_category_abbreviations(), img_urls
-        ))
+        category_img_urls = dict(zip(Question.get_category_abbreviations(), img_urls))
         # B: return the corresponding image URL\
         mission = Mission.objects.get(id=pk)
         category = mission.question.category
@@ -318,6 +319,42 @@ class CategoryTrackerData(APIView):
             "category": category,
             "imageURL": img_url,
             "missionTitle": mission.title,
-            "missionId": mission.id
-            }
+            "missionId": mission.id,
+        }
         return Response(data)
+
+
+class PlantHealthPreview(APIView):
+    def get(self, request, plant_id):
+        """
+        Get the last time that the plant was updated,
+        as well as the latest leaf health status.
+
+        Parameters:
+        request(HttpRequest): the GET request sent to the server
+        plant_id(int): the unique id of this Plant instance
+
+        Returns: Response
+        """
+        # get the plant
+        plant = Plant.objects.get(id=plant_id)
+        # get the latest leaf (if possible related to the plant)
+        leaves = Leaf.objects.filter(plant=plant).order_by("date_uploaded")
+        # return the response - init the values to return
+        status = "M"
+        updated = plant.created
+        # use the status and upload date of the last leaf
+        if len(leaves) > 0:
+            last_leaf = leaves[-1]
+            status = last_leaf.status
+            updated = last_leaf.date_uploaded
+        # map the status to the human understandable version
+        status_abbreviation_full_names = Leaf.get_status_mapping()
+        status_full_name = status_abbreviation_full_names[status]
+        # form the data to go in the response
+        response_data = {
+            "latestStatus": status_full_name,
+            # get the local verision of the date
+            "lastUpdated": updated.strftime("%x")
+        }
+        return Response(response_data)

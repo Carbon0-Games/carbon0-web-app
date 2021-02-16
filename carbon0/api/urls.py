@@ -1,12 +1,13 @@
 from django.urls import path
 
-from api.views import (
+from .views import (
     AchievementCreateLink,
     AchievementData,
     CategoryTrackerData,
     MissionTrackingAchievement,
-    ProfileData,
     FootprintOverTime,
+    PlantHealthPreview,
+    ProfileData,
     QuizUpdate,
     QuizData,
     UserFootPrintData,
@@ -35,7 +36,7 @@ urlpatterns = [
     path(
         "tracking-category-image/<int:pk>/",
         CategoryTrackerData.as_view(),
-        name="category_tracker_data"
+        name="category_tracker_data",
     ),
     # Data for the Bar Charts
     path(
@@ -65,4 +66,9 @@ urlpatterns = [
         MissionTrackingAchievement.as_view(),
         name="mission_tracking_achievement",
     ),
+    # Data for the Plant Health Preview
+    path(
+        "preview-plant/<int:plant_id>/",
+        PlantHealthPreview.as_view(), name="plant_health_preview"
+    )
 ]

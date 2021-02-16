@@ -19,7 +19,7 @@ from mixpanel import Mixpanel, MixpanelException
 from .forms import AchievementForm, QuizForm
 from .models.link import Link
 from .models.mission import Mission
-from accounts.models import Profile
+from accounts.models.profile import Profile
 from .models.question import Question
 from .models.quiz import Quiz
 from .models.achievement import Achievement

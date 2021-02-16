@@ -5,7 +5,7 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 
-from accounts.models import Profile
+from accounts.models.profile import Profile
 from django.conf import settings
 from .mission import Mission
 from .question import Question
@@ -34,7 +34,10 @@ class Achievement(models.Model):
         null=True,
     )
     completion_date = models.DateTimeField(
-        help_text="Date mission was accomplished", null=True, blank=True, auto_now=True
+        help_text="Date mission was accomplished",
+        null=True,
+        blank=True,
+        auto_now_add=True,
     )
     secret_id = models.CharField(
         max_length=50,

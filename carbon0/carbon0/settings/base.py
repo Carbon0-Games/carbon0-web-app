@@ -25,6 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Loads in environment variables from a .env file
 load_dotenv()
 
+# The total number of "labels" that the AI model can make on a leaf
+NUM_PREDICTION_LABELS = 38
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
     "carbon_quiz.apps.CarbonQuizConfig",
+    "garden.apps.GardenConfig",
     "rest_framework",
     "storages",
     "social_django",  # Social Auth
