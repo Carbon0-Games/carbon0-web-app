@@ -1,5 +1,11 @@
 from django.urls import path
+from .views import (
+    PlantList,
+)
 
 
-# define the URL paths for the views in this module
-urlpatterns = []
+app_name = "garden"
+
+urlpatterns = [
+    path("plant-list/", PlantList.as_view(), name="plant_list"),
+]
