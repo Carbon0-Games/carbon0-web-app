@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -6,7 +7,7 @@ from django.views.generic import ListView
 from .models.plant import Plant
 
 
-class PersonalPlantList(ListView):
+class PersonalPlantList(LoginRequiredMixin, ListView):
 
     model = Plant
     queryset = Plant.objects.all()
@@ -26,7 +27,7 @@ class PersonalPlantList(ListView):
         return render(request, self.template_name, context)
 
 
-class PlantDetail(DetailView):
+class PlantDetail(LoginRequiredMixin, DetailView):
     """Displays the details and leaves related a certain plant."""
     
     def get(self, request, pk):
