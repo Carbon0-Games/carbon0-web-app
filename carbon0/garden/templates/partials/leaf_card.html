@@ -1,0 +1,55 @@
+<!-- carbon0/garden/templates/partials/leaf_card.html-->
+<div class="carbon0-button card border-info mb-3">
+    <div class="row card-header justify-content-center">
+        <!-- Nickname is How the User Can identify their plants -->
+        <div class="col-md-8">
+            <h3>{{ plant.nickname }}</h3>
+        </div>
+    </div>
+    <div class="card-body border-dark">
+         <!-- Show the Date This Leaf Was Uploaded -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <p class="card-text">
+                    Date Uploaded: {{ leaf.date_uploaded|date:"SHORT_DATETIME_FORMAT" }}
+                </p>
+            </div>
+        </div>
+        <!-- Display the Health Check Status, w/ Confidence Level -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="row">
+                    <p class="col-md-6 card-text">Status:</p>
+                    <!-- Display the Status in Different Colors-->
+                    {% if leaf.status == "H" %}
+                        <p class="col-md-6 card-text text-success">
+                            Healthy
+                        </p>
+                    {% elif leaf.status == "U" %}
+                        <p class="col-md-6 card-text text-danger">
+                            Unhealthy
+                        </p>
+                    {% elif leaf.status == "M" %}
+                        <p class="col-md-6 card-text text-warning">
+                            Moderate
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p class="card-text">
+                    Confidence: {{ leaf.confidence }}
+                </p>
+            </div>
+        </div>
+        <hr>
+        <!-- User sees an image of the Leaf -->
+        <div class="row justify-content-center">
+            <img src="{{ leaf.image.url }}" class="card-img-top" alt="Leaf image">
+        </div>
+        <!-- Link to the Full Analysis -->
+        <div class="row justify-content-center">
+            <a href="#">Click here for more details!</a>
+        </div>
+    </div>
+</div>
