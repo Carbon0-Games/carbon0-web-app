@@ -6,7 +6,7 @@ from django.views.generic import ListView
 from .models.plant import Plant
 
 
-class PlantList(ListView):
+class PersonalPlantList(ListView):
 
     model = Plant
     queryset = Plant.objects.all()
