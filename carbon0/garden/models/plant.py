@@ -12,8 +12,11 @@ class Plant(models.Model):
         max_length=5000, help_text="What do you call this plant?"
     )
     slug = models.CharField(
-        max_length=500, unique=True, null=True, blank=True,
-        help_text="Unique parameter to specify the Plant in the URL path."
+        max_length=500,
+        unique=True,
+        null=True,
+        blank=True,
+        help_text="Unique parameter to specify the Plant in the URL path.",
     )
     common_name = models.CharField(
         max_length=5000,
@@ -33,10 +36,11 @@ class Plant(models.Model):
         ),
     )
     profile = models.ForeignKey(
-        Profile, null=True,
-        # even if user leaves, we can train the AI on their images to improve 
-        on_delete=models.SET_NULL,  
-        help_text="The user who owns this plant."
+        Profile,
+        null=True,
+        # even if user leaves, we can train the AI on their images to improve
+        on_delete=models.SET_NULL,
+        help_text="The user who owns this plant.",
     )
     created = models.DateTimeField(auto_now=True)
 
@@ -45,7 +49,7 @@ class Plant(models.Model):
         return f"{self.profile.username}'s Plant {self.id}"
 
     def get_absolute_url(self):
-        '''Returns a fully-qualified path to the PlantDetail view.'''
+        """Returns a fully-qualified path to the PlantDetail view."""
         path_components = {"slug": self.slug}
         return reverse("garden:plant_detail", kwargs=path_components)
 

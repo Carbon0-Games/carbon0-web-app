@@ -17,7 +17,7 @@ class PersonalPlantList(LoginRequiredMixin, ListView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Where the user can see all their registered plants.
-        
+
         Parameters:
         request(HttpRequest): the GET request sent by the client
 
@@ -31,7 +31,7 @@ class PersonalPlantList(LoginRequiredMixin, ListView):
 
 class PlantDetail(LoginRequiredMixin, DetailView):
     """Displays the details and leaves related a certain plant."""
-    
+
     model = Plant
     template_name = "garden/plant/detail.html"
 
@@ -50,14 +50,12 @@ class PlantDetail(LoginRequiredMixin, DetailView):
         # get the related leaves, sorted by date added
         leaves = Leaf.objects.filter(plant=plant)
         # define the context
-        context = {
-            "plant": plant,
-            "plant_leaves": leaves
-        }
+        context = {"plant": plant, "plant_leaves": leaves}
         # return the response
         return render(request, self.template_name, context)
 
 
 class PlantCreate(CreateView):
     """A view for the user to register plants."""
+
     pass

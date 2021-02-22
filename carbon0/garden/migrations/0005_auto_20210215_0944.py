@@ -7,23 +7,33 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0013_remove_profile_plant'),
-        ('garden', '0004_vision'),
+        ("accounts", "0013_remove_profile_plant"),
+        ("garden", "0004_vision"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='plant',
-            name='leaf',
+            model_name="plant",
+            name="leaf",
         ),
         migrations.AddField(
-            model_name='leaf',
-            name='plant',
-            field=models.ForeignKey(help_text='The plant that this leaf came from.', null=True, on_delete=django.db.models.deletion.CASCADE, to='garden.plant'),
+            model_name="leaf",
+            name="plant",
+            field=models.ForeignKey(
+                help_text="The plant that this leaf came from.",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="garden.plant",
+            ),
         ),
         migrations.AddField(
-            model_name='plant',
-            name='profile',
-            field=models.ForeignKey(help_text='The user who owns this plant.', null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.profile'),
+            model_name="plant",
+            name="profile",
+            field=models.ForeignKey(
+                help_text="The user who owns this plant.",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="accounts.profile",
+            ),
         ),
     ]

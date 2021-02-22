@@ -69,6 +69,7 @@ urlpatterns = [
     # Data for the Plant Health Preview
     path(
         "preview-plant/<int:plant_id>/",
-        PlantHealthPreview.as_view(), name="plant_health_preview"
-    )
+        PlantHealthPreview.as_view(),
+        name="plant_health_preview",
+    ),
 ]

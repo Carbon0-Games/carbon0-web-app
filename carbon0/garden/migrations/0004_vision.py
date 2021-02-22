@@ -6,16 +6,38 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('garden', '0003_auto_20210214_1356'),
+        ("garden", "0003_auto_20210214_1356"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Vision',
+            name="Vision",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('architecture', models.FileField(help_text='JSON instructions for how to constrcut                   the underlying neural network.', null=True, upload_to='neural_networks/architecture/')),
-                ('weights', models.FileField(help_text='Hadoop instructions for what weights and biases                   to give the underlying neural network.', null=True, upload_to='neural_networks/parameters/')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "architecture",
+                    models.FileField(
+                        help_text="JSON instructions for how to constrcut                   the underlying neural network.",
+                        null=True,
+                        upload_to="neural_networks/architecture/",
+                    ),
+                ),
+                (
+                    "weights",
+                    models.FileField(
+                        help_text="Hadoop instructions for what weights and biases                   to give the underlying neural network.",
+                        null=True,
+                        upload_to="neural_networks/parameters/",
+                    ),
+                ),
             ],
         ),
     ]

@@ -30,9 +30,10 @@ class Leaf(models.Model):
         help_text="How confident the AI was in its prediction.",
     )
     plant = models.ForeignKey(
-        Plant, on_delete=models.CASCADE,
+        Plant,
+        on_delete=models.CASCADE,
         null=True,
-        help_text="The plant that this leaf came from."
+        help_text="The plant that this leaf came from.",
     )
 
     def __str__(self):
@@ -41,7 +42,7 @@ class Leaf(models.Model):
 
     @classmethod
     def get_status_mapping(cls):
-        '''Maps each health abbreviation to the full name of the status.'''
+        """Maps each health abbreviation to the full name of the status."""
         abbreviations, full_names = list(), list()
         for abbreviation, full_name in cls.STATUSES:
             abbreviations.append(abbreviation)
