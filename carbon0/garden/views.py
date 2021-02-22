@@ -1,3 +1,4 @@
+from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView
@@ -23,3 +24,19 @@ class PlantList(ListView):
         context = {"plants": self.get_queryset()}
         # return the response
         return render(request, self.template_name, context)
+
+
+class PlantDetail(DetailView):
+    """Displays the details and leaves related a certain plant."""
+    
+    def get(self, request, pk):
+        """Renders the view of the Plant and its leaves.
+
+        Parameters:
+        request(HttpRequest): the GET request made by the client
+        pk(int): the unique id of a specific Plant instance
+
+        Returns:
+        HttpResponse: the view of the template
+        """
+        pass
