@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 
+from .forms import PlantForm
 from .models.leaf import Leaf
 from .models.plant import Plant
 
@@ -58,4 +59,13 @@ class PlantDetail(LoginRequiredMixin, DetailView):
 class PlantCreate(CreateView):
     """A view for the user to register plants."""
 
-    pass
+    model = Plant
+    form_class = PlantForm
+    template_name = "garden/plant/create.html"
+    queryset = Plant.objects.all()
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
