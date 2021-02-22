@@ -52,6 +52,7 @@ class Plant(models.Model):
     def save(self, *args, **kwargs):
         """Creates a URL safe slug automatically when a new Plant is saved."""
         if not self.pk:
-            self.slug = slugify(self.nickname, allow_unicode=True)
+            unique_str = f"{self.nickname}-{self.pk}"
+            self.slug = slugify(unique_str, allow_unicode=True)
         # call save on the superclass
         return super().save(*args, **kwargs)

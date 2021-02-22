@@ -4,6 +4,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView
 
+from .models.leaf import Leaf
 from .models.plant import Plant
 
 
@@ -30,6 +31,9 @@ class PersonalPlantList(LoginRequiredMixin, ListView):
 class PlantDetail(LoginRequiredMixin, DetailView):
     """Displays the details and leaves related a certain plant."""
     
+    model = Plant
+    template_name = "garden/plant/detail.html"
+
     def get(self, request, slug):
         """Renders the view of the Plant and its leaves.
 
@@ -40,4 +44,14 @@ class PlantDetail(LoginRequiredMixin, DetailView):
         Returns:
         HttpResponse: the view of the template
         """
-        pass
+        # get the Plant object via the slug
+        plant = Plant.objects.get(slug=slug)
+        # get the related leaves, sorted by date added
+        leaves = Leaf.objects.filter(plant=plant)
+        # define the context
+        context = {
+            "plant": plant,
+            "plant_leaves": leaves
+        }
+        # return the response
+        return render(request, self.template_name, context)
