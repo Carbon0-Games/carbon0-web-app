@@ -9,7 +9,7 @@ class PlantList(ListView):
 
     model = Plant
     queryset = Plant.objects.all()
-    template_name = "garden/plant_list.html"
+    template_name = "garden/plant/list.html"
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Where the user can see all their registered plants.
