@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 
 from .models.leaf import Leaf
@@ -55,3 +56,8 @@ class PlantDetail(LoginRequiredMixin, DetailView):
         }
         # return the response
         return render(request, self.template_name, context)
+
+
+class PlantCreate(CreateView):
+    """A view for the user to register plants."""
+    pass
