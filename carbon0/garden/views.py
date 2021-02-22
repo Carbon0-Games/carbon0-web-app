@@ -30,12 +30,12 @@ class PersonalPlantList(LoginRequiredMixin, ListView):
 class PlantDetail(LoginRequiredMixin, DetailView):
     """Displays the details and leaves related a certain plant."""
     
-    def get(self, request, pk):
+    def get(self, request, slug):
         """Renders the view of the Plant and its leaves.
 
         Parameters:
         request(HttpRequest): the GET request made by the client
-        pk(int): the unique id of a specific Plant instance
+        slug(str): the unique slug of a specific Plant instance
 
         Returns:
         HttpResponse: the view of the template

@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
 
 from accounts.models.profile import Profile
 
@@ -8,6 +10,10 @@ class Plant(models.Model):
 
     nickname = models.CharField(
         max_length=5000, help_text="What do you call this plant?"
+    )
+    slug = models.CharField(
+        max_length=500, unique=True, null=True, blank=True,
+        help_text="Unique parameter to specify the Plant in the URL path."
     )
     common_name = models.CharField(
         max_length=5000,
@@ -37,3 +43,15 @@ class Plant(models.Model):
     def __str__(self):
         """Return a string representation, show relation to the Profile."""
         return f"{self.profile.username}'s Plant {self.id}"
+
+    def get_absolute_url(self):
+        '''Returns a fully-qualified path to the PlantDetail view.'''
+        path_components = {"slug": self.slug}
+        return reverse("garden:plant_detail", kwargs=path_components)
+
+    def save(self, *args, **kwargs):
+        """Creates a URL safe slug automatically when a new Plant is saved."""
+        if not self.pk:
+            self.slug = slugify(self.nickname, allow_unicode=True)
+        # call save on the superclass
+        return super().save(*args, **kwargs)

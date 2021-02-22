@@ -81,7 +81,7 @@ class Quiz(models.Model):
         self.save()
 
     def save(self, *args, **kwargs):
-        """Creates a URL safe slug automatically when a new note is saved."""
+        """Creates a URL safe slug automatically when a new Quiz is saved."""
         if not self.pk:
             self.slug = slugify(self.title, allow_unicode=True)
 
