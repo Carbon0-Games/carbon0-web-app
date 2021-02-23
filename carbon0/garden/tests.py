@@ -53,8 +53,9 @@ class LeafCreateTests(TestCase):
     def test_user_posts_new_leaf(self):
         """A user submits the form to add a new Leaf to the db."""
         # init a test image
-        mock_image_path = os.path.join(
-            settings.BASE_DIR, "static/images/AppleCedarRust1.jpg"
+        mock_image_path = (
+            Path(__file__).resolve().parent / 
+            "static/garden/images/AppleCedarRust1.jpg"
         )
         mock_image = SimpleUploadedFile(
             name="test_image.jpg",
