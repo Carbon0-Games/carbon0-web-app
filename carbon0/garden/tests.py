@@ -1,4 +1,5 @@
 from io import BytesIO
+import os
 from pathlib import Path
 
 from django.contrib.auth import get_user_model
@@ -11,6 +12,7 @@ from accounts.models.profile import Profile
 from .models.leaf import Leaf
 from .models.ml import MachineLearning
 from .models.plant import Plant
+from django.conf import settings
 from .views import (
     LeafCreate,
     PlantCreate,
@@ -53,7 +55,9 @@ class LeafCreateTests(TestCase):
     def test_user_posts_new_leaf(self):
         """A user submits the form to add a new Leaf to the db."""
         # init a test image 
-        mock_image_path = "../static/images/AppleCedarRust1.JPG"
+        mock_image_path = os.path.join(
+            settings.BASE_DIR, "static/images/AppleCedarRust1.jpg"
+        )
         mock_image = SimpleUploadedFile(
             name='test_image.jpg', 
             content=open(mock_image_path, 'rb').read(), 
@@ -74,8 +78,8 @@ class LeafCreateTests(TestCase):
         num_leaves_after = len(Leaf.objects.all())
         self.assertEqual(num_leaves_before + 1, num_leaves_after)
         # the Leaf is connected to the Plant
-        new_leaf = Leaf.objects.get(image=mock_image)
-        self.assertEqual(new_leaf.plant, self.plant)
+        new_leaf = Leaf.objects.get(plant=self.plant)
+        self.assertTrue(new_leaf, not None)
 
 
 class PersonalPlantListTests(TestCase):
