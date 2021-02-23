@@ -1,6 +1,6 @@
 from django.db import models
-import tensorflow.keras.models as keras_models  # need to use model_from_json
-from .leaf import Leaf
+import tensorflow import keras
+import tensorflow as tf
 
 
 class MachineLearning(models.Model):
@@ -32,8 +32,13 @@ class MachineLearning(models.Model):
         return f"CNN with weights {self.weights}"
 
     def build(self):
-        """Uses the weights and architecture to instantiate a new CNN."""
-        pass
+        """Use the model fields to instantiate a neural network."""
+        # Load Architecture
+        with open(self.architecture, 'r') as f:
+            model = keras.models.model_from_json(f.read())
+            # Load Weights
+            model.load_weights(self.weights)
+            return model
 
     def predict_health(self, leaf):
         """Predicts the status and condition of a Leaf, returns the confidence
@@ -48,4 +53,11 @@ class MachineLearning(models.Model):
             - index 2: float: the percentage that the model thinks it's label
                        is correct.
         """
+        # build the model
+        # preprocess the image data
+        # predict on the image data
+        # decide the status
+        # decide the condition
+        # add the confidence to the output
+        # TODO: replace dummy output below
         return ["H", "No symptoms", 0.87]
