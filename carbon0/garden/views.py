@@ -18,12 +18,25 @@ class LeafCreate(LoginRequiredMixin, CreateView):
     queryset = Leaf.objects.all()
     template_name = "garden/leaf/create.html"
 
-    def get(self, request, plant_id):
+    def get(self, request: HttpRequest, plant_id: int):
+        """Renders the form to check the health of a plant leaf.
+
+        Parameters:
+        request(HttpRequest): the GET request sent by the client
+        plant_id(int): the unique id of the related Plant instance
+
+        Returns: HttpResponse: the view of the template
+        """
         # add the plant to the context
-        pass
+        plant = Plant.objects.get(id=plant_id)
+        # set the context
+        context = {"plant": plant}
+        # return the response
+        return render(request, self.template_name, context)
     
     def form_valid(form, plant_id):
         # set the plant attribute of the new leaf
+        plant = Plant.objects.get(id=plant_id)
         # TODO: get the vision model, and do the following two in a helper
         # make the prediction on the leaf health - status and confidence
         # identify the symptoms on the leaf - condition
@@ -31,7 +44,19 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         pass
 
     def post(self, request, plant_id):
-        pass
+        """Validates the form submitted by the user, and 
+        (depending on if the form passes) adds a new Leaf to the db.
+
+        Parameters:
+        request(HttpRequest): the GET request sent by the client
+        plant_id(int): the unique id of the related Plant instance
+
+        Returns: HttpResponseRedirect: the view of the LeafDetail
+        """
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form, plant_id)
+        return super().form_invalid()
 
     
 class PersonalPlantList(LoginRequiredMixin, ListView):
