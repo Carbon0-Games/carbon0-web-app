@@ -1,0 +1,30 @@
+<!-- carbon0/garden/templates/garden/leaf/create.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <!-- Header -->
+        <div class="row mt-5 mb-2 ml-3">
+            <h1 class="blue-header">Check Leaf Health</h1>
+        </div>
+        <!-- Plant Registration Form -->
+        <div class="card">
+            <div class="card-body">
+                <div class="card-text">
+                    Please upload an image of a leaf from your plant, {{ plant.nickname }}.
+                </div>
+                <div class="card-text">
+                    We'll let you know if it's healthy or not!
+                </div>
+            </div>
+            <form class="form-group" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="All Done!">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

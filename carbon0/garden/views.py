@@ -24,6 +24,10 @@ class LeafCreate(LoginRequiredMixin, CreateView):
     
     def form_valid(form, plant_id):
         # set the plant attribute of the new leaf
+        # TODO: get the vision model, and do the following two in a helper
+        # make the prediction on the leaf health - status and confidence
+        # identify the symptoms on the leaf - condition
+        # TODO: redirect to LeafDetail - for now go to PlantDetail
         pass
 
     def post(self, request, plant_id):
