@@ -10,13 +10,14 @@
             <h1 class="blue-header">Add a Plant</h1>
         </div>
         <!-- Plant Registration Form -->
-        <!-- TODO: put the form inside a card, add instructions -->
-        <form class="form-group" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="All Done!">
-        </form>
-
+        <div class="card">
+            <div class="card-title">Please fill out the form below.</div>
+            <form class="form-group" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="All Done!">
+            </form>
+        </div>
     </div>
 
 {% endblock %}
