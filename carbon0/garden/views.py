@@ -6,11 +6,29 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 
-from .forms import PlantForm
+from .forms import LeafForm, PlantForm
 from .models.leaf import Leaf
 from .models.plant import Plant
 
 
+class LeafCreate(LoginRequiredMixin, CreateView):
+
+    model = Leaf
+    form_class = LeafForm
+    queryset = Leaf.objects.all()
+    template_name = "garden/leaf/create.html"
+
+    def get(self, request, plant_id):
+        # add the plant to the context
+        pass
+    
+    def form_valid(form, plant_id):
+        pass
+
+    def post(self, request, plant_id):
+        pass
+
+    
 class PersonalPlantList(LoginRequiredMixin, ListView):
 
     model = Plant

@@ -6,6 +6,7 @@ from django.urls import reverse
 from accounts.models.profile import Profile
 from .models.plant import Plant
 from .views import (
+    LeafCreate,
     PlantCreate,
     PersonalPlantList,
     PlantDetail,
@@ -99,9 +100,9 @@ class PlantCreateTests(TestCase):
         # user fills out the form
         form_data = {
             "nickname": "Desk Plant",
-            "common_name": "Rose", 
+            "common_name": "Rose",
             "is_edible": True,
-            "description": "Doing all right at the moment!"
+            "description": "Doing all right at the moment!",
         }
         # store the number of Plant objects now - use this later
         num_plants_before = len(Plant.objects.all())
