@@ -1,5 +1,5 @@
 from django.db import models
-import tensorflow import keras
+from tensorflow import keras
 import tensorflow as tf
 
 
