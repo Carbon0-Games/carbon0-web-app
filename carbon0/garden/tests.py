@@ -6,6 +6,7 @@ from django.urls import reverse
 from accounts.models.profile import Profile
 from .models.plant import Plant
 from .views import (
+    PlantCreate,
     PersonalPlantList,
     PlantDetail,
 )
@@ -68,3 +69,48 @@ class PlantDetailTests(TestCase):
         # user gets a valid response
         response = PlantDetail.as_view()(request, slug=self.plant.slug)
         self.assertEquals(response.status_code, 200)
+
+
+class PlantCreateTests(TestCase):
+    def setUp(self) -> None:
+        """Initializes attributes used commonly in this test suite."""
+        self.factory = RequestFactory()
+        self.url = reverse("garden:plant_create")
+        self.user = get_user_model().objects.create_user(
+            "testing_user123",  # username
+            "test@email.com",  # email
+            "carbon0_ftw456",  # password
+        )
+        # make a profile for the user
+        self.profile = Profile.objects.create(user=self.user)
+        self.profile.save()
+
+    def test_get_create_form(self):
+        """A user visits the PlantCreate form and gets a response."""
+        # user visits the page
+        request = self.factory.get(self.url)
+        request.user = self.user
+        # the response is returned ok
+        response = PlantCreate.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_posts_new_plant(self):
+        """A user submits the form to add a new Plant to the db."""
+        # user fills out the form
+        form_data = {
+            "nickname": "Desk Plant",
+            "common_name": "Rose", 
+            "is_edible": True,
+            "description": "Doing all right at the moment!"
+        }
+        # store the number of Plant objects now - use this later
+        num_plants_before = len(Plant.objects.all())
+        # user submits the form
+        request = self.factory.post(self.url, form_data)
+        request.user = self.user
+        # user is redirected
+        response = PlantCreate.as_view()(request)
+        self.assertEqual(response.status_code, 302)
+        # a new Plant object is in the db
+        num_plants_after = len(Plant.objects.all())
+        self.assertEqual(num_plants_before + 1, num_plants_after)
