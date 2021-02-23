@@ -22,7 +22,7 @@
                 <!-- Health Check and Back Buttons -->
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <a href="#" class="btn btn-success">Add Health Check</a>
+                        <a href="{% url 'garden:leaf_create' plant.id %}" class="btn btn-success">Add Health Check</a>
                     </div>
                     <div class="col-md-6">
                         <a href="{% url 'garden:plant_list' %}" class="btn btn-info">

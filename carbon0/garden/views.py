@@ -23,6 +23,7 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         pass
     
     def form_valid(form, plant_id):
+        # set the plant attribute of the new leaf
         pass
 
     def post(self, request, plant_id):

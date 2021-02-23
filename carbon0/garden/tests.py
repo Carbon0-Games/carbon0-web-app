@@ -1,9 +1,12 @@
+from io import BytesIO
+
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.test.client import RequestFactory
 from django.urls import reverse
 
 from accounts.models.profile import Profile
+from .models.leaf import Leaf
 from .models.plant import Plant
 from .views import (
     LeafCreate,
@@ -11,6 +14,59 @@ from .views import (
     PersonalPlantList,
     PlantDetail,
 )
+
+
+class LeafCreateTests(TestCase):
+    def setUp(self) -> None:
+        """Initializes attributes used in this suite."""
+        self.factory = RequestFactory()
+        self.user = get_user_model().objects.create_user(
+            "testing_user687",  # username
+            "test@email.com",  # email
+            "carbon0_ftw153",  # password
+        )
+        # make a profile for the user
+        self.profile = Profile.objects.create(user=self.user)
+        self.profile.save()
+        # make a plant for the user
+        self.plant = Plant.objects.create(
+            nickname="Desk Plant", common_name="Rose", profile=self.user.profile
+        )
+        self.plant.save()  # gives the Plant a slug
+        self.url = reverse("garden:leaf_create", args=[self.plant.id])
+    
+    def test_get_create_form(self):
+        """A user visits the LeafCreate form and gets a response."""
+        # user visits the page
+        request = self.factory.get(self.url)
+        request.user = self.user
+        # the response is returned ok
+        response = LeafCreate.as_view()(request, plant_id=self.plant.id)
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_posts_new_leaf(self):
+        """A user submits the form to add a new Plant to the db."""
+        # init a test image 
+        mock_image = BytesIO(b"test binary data")
+        mock_image.name = "test_image.jpg"
+        # user fills out the form
+        form_data = {
+            "image": mock_image
+        }
+        # store the number of Leaf objects now - use this later
+        num_leaves_before = len(Leaf.objects.all())
+        # user submits the form
+        request = self.factory.post(self.url, form_data)
+        request.user = self.user
+        # user is redirected
+        response = LeafCreate.as_view()(request, plant_id=self.plant.id)
+        self.assertEqual(response.status_code, 302)
+        # a new Leaf object is in the db
+        num_leaves_after = len(Leaf.objects.all())
+        self.assertEqual(num_leaves_before + 1, num_leaves_after)
+        # the Leaf is connected to the Plant
+        new_leaf = Leaf.objects.get(image=mock_image)
+        self.assertEqual(new_leaf.plant, self.plant)
 
 
 class PersonalPlantListTests(TestCase):
