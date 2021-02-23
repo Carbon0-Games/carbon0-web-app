@@ -9,8 +9,10 @@ class MachineLearning(models.Model):
         ("L", "Natural Language Processing"),
     ]
     purpose = models.CharField(
-        max_length=1, help_text="Describe what the model does.",
-        default="V", choices=PURPOSES
+        max_length=1,
+        help_text="Describe what the model does.",
+        default="V",
+        choices=PURPOSES,
     )
     architecture = models.FileField(
         upload_to="neural_networks/architecture/",
@@ -41,10 +43,9 @@ class MachineLearning(models.Model):
         leaf(Leaf): encapsulates the image to predict on
 
         Returns: List: structured as follows:
-            - index 0: str: the status of the Leaf. 
+            - index 0: str: the status of the Leaf.
             - index 1: str: the symptoms found on the leaf
             - index 2: float: the percentage that the model thinks it's label
                        is correct.
         """
         return ["H", "No symptoms", 0.87]
-

@@ -22,7 +22,12 @@
             <form class="form-group" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" value="All Done!">
+                <div class="row justify-content-center">
+                    <input class="mr-auto" type="submit" value="All Done!">
+                    <a class="btn btn-warning" href="{% url 'garden:plant_detail' plant.slug %}">
+                        See My Plant
+                    </a>
+                </div>
             </form>
         </div>
     </div>

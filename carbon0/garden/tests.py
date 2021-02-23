@@ -39,10 +39,8 @@ class LeafCreateTests(TestCase):
         )
         self.plant.save()  # gives the Plant a slug
         self.url = reverse("garden:leaf_create", args=[self.plant.id])
-        self.cnn = MachineLearning.objects.create(
-            purpose="V"
-        )
-    
+        self.cnn = MachineLearning.objects.create(purpose="V")
+
     def test_get_create_form(self):
         """A user visits the LeafCreate form and gets a response."""
         # user visits the page
@@ -54,18 +52,17 @@ class LeafCreateTests(TestCase):
 
     def test_user_posts_new_leaf(self):
         """A user submits the form to add a new Leaf to the db."""
-        # init a test image 
+        # init a test image
         mock_image_path = os.path.join(
             settings.BASE_DIR, "static/images/AppleCedarRust1.jpg"
         )
         mock_image = SimpleUploadedFile(
-            name='test_image.jpg', 
-            content=open(mock_image_path, 'rb').read(), 
-            content_type='image/jpeg')
+            name="test_image.jpg",
+            content=open(mock_image_path, "rb").read(),
+            content_type="image/jpeg",
+        )
         # user fills out the form
-        form_data = {
-            "image": mock_image
-        }
+        form_data = {"image": mock_image}
         # store the number of Leaf objects now - use this later
         num_leaves_before = len(Leaf.objects.all())
         # user submits the form

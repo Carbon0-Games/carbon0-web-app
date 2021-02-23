@@ -6,20 +6,53 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('garden', '0007_plant_slug'),
+        ("garden", "0007_plant_slug"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='MachineLearning',
+            name="MachineLearning",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('purpose', models.CharField(choices=[('V', 'Computer Vision'), ('L', 'Natural Language Processing')], default='V', help_text='Describe what the model does.', max_length=1)),
-                ('architecture', models.FileField(help_text='JSON instructions for how to constrcut                   the underlying neural network.', null=True, upload_to='neural_networks/architecture/')),
-                ('weights', models.FileField(help_text='Hadoop instructions for what weights and biases                   to give the underlying neural network.', null=True, upload_to='neural_networks/parameters/')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "purpose",
+                    models.CharField(
+                        choices=[
+                            ("V", "Computer Vision"),
+                            ("L", "Natural Language Processing"),
+                        ],
+                        default="V",
+                        help_text="Describe what the model does.",
+                        max_length=1,
+                    ),
+                ),
+                (
+                    "architecture",
+                    models.FileField(
+                        help_text="JSON instructions for how to constrcut                   the underlying neural network.",
+                        null=True,
+                        upload_to="neural_networks/architecture/",
+                    ),
+                ),
+                (
+                    "weights",
+                    models.FileField(
+                        help_text="Hadoop instructions for what weights and biases                   to give the underlying neural network.",
+                        null=True,
+                        upload_to="neural_networks/parameters/",
+                    ),
+                ),
             ],
         ),
         migrations.DeleteModel(
-            name='Vision',
+            name="Vision",
         ),
     ]

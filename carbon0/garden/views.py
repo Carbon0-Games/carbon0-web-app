@@ -1,9 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import ModelForm
 from django.views.generic.detail import DetailView
-from django.http import (
-    HttpRequest, HttpResponse, HttpResponseRedirect
-)
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
@@ -41,7 +39,7 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         """TODO: redirect to the LeafDetail, instead of PlantDetail"""
         plant = Plant.objects.get(id=plant_id)
         return plant.get_absolute_url()
-    
+
     def form_valid(self, form, plant_id):
         """Sets the fields on the new Leaf, redirects to see its details."""
         # set the plant attribute of the new leaf
@@ -60,7 +58,7 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url(plant_id))
 
     def post(self, request, plant_id):
-        """Validates the form submitted by the user, and 
+        """Validates the form submitted by the user, and
         (depending on if the form passes) adds a new Leaf to the db.
 
         Parameters:
@@ -76,7 +74,7 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         print("Form is not valid")
         return super().form_invalid(form)
 
-    
+
 class PersonalPlantList(LoginRequiredMixin, ListView):
 
     model = Plant
