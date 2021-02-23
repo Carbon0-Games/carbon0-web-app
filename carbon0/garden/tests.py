@@ -1,12 +1,15 @@
 from io import BytesIO
+from pathlib import Path
 
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 from django.test.client import RequestFactory
 from django.urls import reverse
 
 from accounts.models.profile import Profile
 from .models.leaf import Leaf
+from .models.ml import MachineLearning
 from .models.plant import Plant
 from .views import (
     LeafCreate,
@@ -34,6 +37,9 @@ class LeafCreateTests(TestCase):
         )
         self.plant.save()  # gives the Plant a slug
         self.url = reverse("garden:leaf_create", args=[self.plant.id])
+        self.cnn = MachineLearning.objects.create(
+            purpose="V"
+        )
     
     def test_get_create_form(self):
         """A user visits the LeafCreate form and gets a response."""
@@ -45,10 +51,13 @@ class LeafCreateTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_user_posts_new_leaf(self):
-        """A user submits the form to add a new Plant to the db."""
+        """A user submits the form to add a new Leaf to the db."""
         # init a test image 
-        mock_image = BytesIO(b"test binary data")
-        mock_image.name = "test_image.jpg"
+        mock_image_path = "../static/images/AppleCedarRust1.JPG"
+        mock_image = SimpleUploadedFile(
+            name='test_image.jpg', 
+            content=open(mock_image_path, 'rb').read(), 
+            content_type='image/jpeg')
         # user fills out the form
         form_data = {
             "image": mock_image

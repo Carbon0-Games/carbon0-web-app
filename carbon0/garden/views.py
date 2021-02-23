@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import ModelForm
 from django.views.generic.detail import DetailView
-from django.http import HttpRequest, HttpResponse
+from django.http import (
+    HttpRequest, HttpResponse, HttpResponseRedirect
+)
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
@@ -9,6 +11,7 @@ from django.views.generic import ListView
 from .forms import LeafForm, PlantForm
 from .models.leaf import Leaf
 from .models.plant import Plant
+from .models.ml import MachineLearning
 
 
 class LeafCreate(LoginRequiredMixin, CreateView):
@@ -33,15 +36,28 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         context = {"plant": plant}
         # return the response
         return render(request, self.template_name, context)
+
+    def get_success_url(self, plant_id: int) -> str:
+        """TODO: redirect to the LeafDetail, instead of PlantDetail"""
+        plant = Plant.objects.get(id=plant_id)
+        return plant.get_absolute_url()
     
-    def form_valid(form, plant_id):
+    def form_valid(self, form, plant_id):
+        """Sets the fields on the new Leaf, redirects to see its details."""
         # set the plant attribute of the new leaf
         plant = Plant.objects.get(id=plant_id)
-        # TODO: get the vision model, and do the following two in a helper
-        # make the prediction on the leaf health - status and confidence
-        # identify the symptoms on the leaf - condition
-        # TODO: redirect to LeafDetail - for now go to PlantDetail
-        pass
+        # get the vision model to predict the leaf's health
+        cnn = MachineLearning.objects.get(purpose="V")
+        # make the prediction on the leaf health
+        status, condition, confidence = cnn.predict_health(form.instance)
+        # fill out the fields on the new Leaf, and save
+        form.instance.plant = plant
+        form.instance.status = status
+        form.instance.confidence = confidence
+        form.instance.condition = condition
+        form.save()
+        # TODO: replace below with super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url(plant_id))
 
     def post(self, request, plant_id):
         """Validates the form submitted by the user, and 
@@ -53,10 +69,12 @@ class LeafCreate(LoginRequiredMixin, CreateView):
 
         Returns: HttpResponseRedirect: the view of the LeafDetail
         """
+        self.object = None
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form, plant_id)
-        return super().form_invalid()
+        print("Form is not valid")
+        return super().form_invalid(form)
 
     
 class PersonalPlantList(LoginRequiredMixin, ListView):
