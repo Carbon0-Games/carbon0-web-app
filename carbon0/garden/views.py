@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import ModelForm
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -56,7 +57,7 @@ class PlantDetail(LoginRequiredMixin, DetailView):
         return render(request, self.template_name, context)
 
 
-class PlantCreate(CreateView):
+class PlantCreate(LoginRequiredMixin, CreateView):
     """A view for the user to register plants."""
 
     model = Plant
@@ -65,7 +66,17 @@ class PlantCreate(CreateView):
     queryset = Plant.objects.all()
 
     def get(self, request):
-        pass
+        """Returns a form the user can use to add a new Plant."""
+        return render(request, self.template_name)
 
-    def post(self, request):
-        pass
+    def form_valid(self, form: ModelForm, request: HttpRequest):
+        """Ensures the new Plant instance is connected to the user."""
+        form.instance.profile = request.user.profile
+        return super().form_valid(form)
+
+    def post(self, request: HttpRequest):
+        """Submits the new Plant instance to the db, if the form validates."""
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form, request)
+        return super().form_invalid(form)
