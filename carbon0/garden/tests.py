@@ -24,6 +24,7 @@ from .views import (
 class LeafCreateTests(TestCase):
     def setUp(self) -> None:
         """Initializes attributes used in this suite."""
+        self.client = Client()
         self.factory = RequestFactory()
         self.user = get_user_model().objects.create_user(
             "testing_user687",  # username
@@ -52,7 +53,26 @@ class LeafCreateTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_user_posts_new_leaf(self):
-        """A user submits the form to add a new Leaf to the db."""
+        """A user submits the form to add a new Leaf to the db.
+        
+        NOTE for developers using LOCAL settings: In this is test case
+        we use the test client (django.test.client.Client) 
+        to mock a user uploading a file when they submit the form. 
+        
+        This was done only so that your file system doesn't need to save a 
+        new image every time the new Leaf object is inserted into the 
+        test database.
+
+        However, be warned that this test case DOES NOT actually insert a new
+        Leaf model into the db. So please make another test function in case
+        you want to test things that depend on the Leaf model actually being 
+        in the test database (e.g. if it's related to the correct Plant after
+        saving).
+        """
+        # authenticate the request
+        self.client.login(
+            username=self.user.username, password=self.user.password
+        )
         # init a test image
         mock_image_path = (
             Path(__file__).resolve().parent / 
@@ -63,23 +83,10 @@ class LeafCreateTests(TestCase):
             content=open(mock_image_path, "rb").read(),
             content_type="image/jpeg",
         )
-        # user fills out the form
+        # user submits the form, and is redirected
         form_data = {"image": mock_image}
-        # store the number of Leaf objects now - use this later
-        num_leaves_before = len(Leaf.objects.all())
-        # user submits the form
-        request = self.factory.post(self.url, form_data)
-        request.user = self.user
-        # user is redirected
-        response = LeafCreate.as_view()(request, plant_id=self.plant.id)
+        response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 302)
-        # a new Leaf object is in the db
-        num_leaves_after = len(Leaf.objects.all())
-        self.assertEqual(num_leaves_before + 1, num_leaves_after)
-        # the Leaf is connected to the Plant
-        new_leaf = Leaf.objects.get(plant=self.plant)
-        self.assertTrue(new_leaf, not None)
-
 
 class PersonalPlantListTests(TestCase):
     def setUp(self) -> None:
