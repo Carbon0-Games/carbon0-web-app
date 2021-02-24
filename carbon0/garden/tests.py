@@ -40,6 +40,7 @@ class LeafCreateTests(TestCase):
         self.plant.save()  # gives the Plant a slug
         self.url = reverse("garden:leaf_create", args=[self.plant.id])
         self.cnn = MachineLearning.objects.create(purpose="V")
+        self.cnn.save()
 
     def test_get_create_form(self):
         """A user visits the LeafCreate form and gets a response."""

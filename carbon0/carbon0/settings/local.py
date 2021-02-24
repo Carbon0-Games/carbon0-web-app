@@ -41,3 +41,5 @@ UTIL_ZERON_PATHS = [
     "assets/glb-files/bulb180.glb",
     "assets/usdz-files/bulb180.usdz",
 ]
+
+DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
