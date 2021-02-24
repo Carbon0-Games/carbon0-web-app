@@ -14,4 +14,4 @@ These releases are tenatively scheduled. **Thank you for your patience** if some
 
 ## Release Notes
 
-1. *Plant Vision*: the convolutional neural network for this feature was developed using transfer learning. The full implementation is available [in this Google Colab notebook](https://colab.research.google.com/drive/1NXIpfOntcUG3iVcx3tWt0Wt7Hsf5PPV7).
+1. *PlantNet*: the convolutional neural network for this feature was developed using transfer learning. The full implementation is available [in this Jupyter notebook](https://github.com/UPstartDeveloper/DS-2.4-Advanced-Topics/blob/main/Notebooks/Computer_Vision/Plant_Vision.ipynb).
