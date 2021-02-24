@@ -1,3 +1,6 @@
+import os
+
+from django.conf import settings
 from django.db import models
 
 
@@ -30,8 +33,12 @@ class Question(models.Model):
         null=True,
         blank=True,
     )
+    # save static files related to this model in app subdirectory
+    UPLOAD_LOCATION = os.path.join(
+        "carbon_quiz", "static", "carbon_quiz", "images"
+    )
     learn_image = models.ImageField(
-        upload_to="images/",
+        upload_to=UPLOAD_LOCATION,
         null=True,
         blank=True,
         help_text="Symbolizes what user needs to work on.",

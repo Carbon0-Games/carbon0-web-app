@@ -1,3 +1,5 @@
+import os
+
 from django.conf import settings
 from django.db import models
 
@@ -8,8 +10,13 @@ class Leaf(models.Model):
     date_uploaded = models.DateTimeField(
         auto_now_add=True, help_text="When the leaf image was uploaded."
     )
+    # save static files related to this model in app subdirectory
+    UPLOAD_LOCATION = os.path.join(
+        "garden", "static", "garden", "images"
+    )
     image = models.ImageField(
-        upload_to="images/", null=True, blank=True, help_text="Image of the leaf."
+        upload_to=UPLOAD_LOCATION, 
+        null=True, blank=True, help_text="Image of the leaf."
     )
     STATUSES = [
         ("H", "Heathy"),

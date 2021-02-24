@@ -1,16 +1,21 @@
+import os
+
+from django.conf import settings
 from django.db import models
 from django.utils import tree
-from carbon0 import settings
-from django.conf import settings
 
 from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question
 
 
 class Profile(models.Model):
+    # save static files related to this model in app subdirectory
+    UPLOAD_LOCATION = os.path.join(
+        "accounts", "static", "accounts", "images"
+    )
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     mugshot = models.ImageField(
-        upload_to="images/", null=True, blank=True, help_text="User profile image"
+        upload_to=UPLOAD_LOCATION, null=True, blank=True, help_text="User profile image"
     )
     phone = models.CharField(max_length=20, null=True, blank=True)
     users_footprint = models.FloatField(
@@ -26,7 +31,7 @@ class Profile(models.Model):
         default=0, help_text="Used to decide when to increase Player's Diet Level."
     )
     diet_sign_photo = models.ImageField(
-        upload_to="images/",
+        upload_to=UPLOAD_LOCATION,
         null=True,
         blank=True,
         help_text="Your sign for Diet Missions.",
@@ -42,7 +47,7 @@ class Profile(models.Model):
         default=0, help_text="Used to decide when to increase Player's Transit Level."
     )
     transit_sign_photo = models.ImageField(
-        upload_to="images/",
+        upload_to=UPLOAD_LOCATION,
         null=True,
         blank=True,
         help_text="Your sign for Transit Missions.",
@@ -58,7 +63,7 @@ class Profile(models.Model):
         default=0, help_text="Used to decide when to increase Player's Recycling Level."
     )
     recycling_sign_photo = models.ImageField(
-        upload_to="images/",
+        upload_to=UPLOAD_LOCATION,
         null=True,
         blank=True,
         help_text="Your sign for Recycling Missions.",
@@ -75,7 +80,7 @@ class Profile(models.Model):
         default=0, help_text="Used to decide when to increase Player's Offset Level."
     )
     offsets_sign_photo = models.ImageField(
-        upload_to="images/",
+        upload_to=UPLOAD_LOCATION,
         null=True,
         blank=True,
         help_text="Your sign for Airline-Utilities Missions.",
@@ -91,7 +96,7 @@ class Profile(models.Model):
         default=0, help_text="Used to decide when to increase Player's Utilities Level."
     )
     utilities_sign_photo = models.ImageField(
-        upload_to="images/",
+        upload_to=UPLOAD_LOCATION,
         null=True,
         blank=True,
         help_text="Your sign for Utilities Missions.",
