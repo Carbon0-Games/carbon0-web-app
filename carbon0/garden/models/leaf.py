@@ -19,9 +19,9 @@ class Leaf(models.Model):
         null=True, blank=True, help_text="Image of the leaf."
     )
     STATUSES = [
+        ("M", "Moderate"),  # can also set this option when the model is unsure
         ("H", "Heathy"),
         ("U", "Unhealthy"),
-        ("M", "Moderate"),  # can also set this option when the model is unsure
     ]
     status = models.CharField(
         max_length=1,
@@ -55,3 +55,8 @@ class Leaf(models.Model):
             abbreviations.append(abbreviation)
             full_names.append(full_name)
         return dict(zip(abbreviations, full_names))
+
+    @classmethod
+    def get_status_abbreviations(cls):
+        '''Return a list of the abbreivated health statuses.'''
+        return [abbreviation for abbreviation, full in cls.STATUSES]
