@@ -321,6 +321,12 @@ model-viewer {
     line-height: 6vh;
 }
 
+h3.black-header {
+  color: rgb(39, 41, 39);
+  font-weight: normal;
+  font-size: 1.2em;
+
+}
 
 .leaderboard-value {
   font-family: "Coda", sans-serif;

@@ -130,8 +130,10 @@ class PlantCreate(LoginRequiredMixin, CreateView):
     queryset = Plant.objects.all()
 
     def form_valid(self, form: ModelForm, request: HttpRequest):
-        """Ensures the new Plant instance is connected to the user."""
+        """Ensures the new Plant instance is connected to the user,
+        and that the is_edible field is boolean."""
         form.instance.profile = request.user.profile
+        form.instance.is_edible = (form.instance.is_edible == True)
         return super().form_valid(form)
 
     def post(self, request: HttpRequest):

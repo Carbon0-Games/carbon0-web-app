@@ -3,50 +3,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-         <!-- Plant Title -->
-        <div class="row mt-5 mb-2 ml-3">
-            <h1 class="blue-header">{{ plant.nickname }}</h1>
-        </div>
-        <!-- Plant Conditions -->
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <p class="row">
-                    Type: {{ plant.common_name }}
-                </p>
-                <p class="row">Conditions:</p>
-                <p class="row">{{ plant.description }}</p>
+    <div class="main">
+        <div class="container">
+            <!-- Plant Title -->
+            <div class="row mt-5 mb-2 ml-3">
+                <h1 class="blue-header">{{ plant.nickname }}</h1>
             </div>
-            <!-- Actions for the Plant -->
-            <div class="col-md-6">
-                <!-- Health Check and Back Buttons -->
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <a href="{% url 'garden:leaf_create' plant.id %}" class="btn btn-success">Add Health Check</a>
-                    </div>
-                    <div class="col-md-6">
-                        <a href="{% url 'garden:plant_list' %}" class="btn btn-info">
-                            Back to Plant List
-                        </a>
-                    </div>
+            <!-- Plant Conditions -->
+            <div class="card carbon0-button row justify-content-start">
+                <div class="card-title ml-2">
+                    <h3 class="text-dark black-header">Plant Info:</h3>
                 </div>
-                <!-- Update and Delete Plant Buttons -->
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <!-- TODO -->
+                <div class="card-body ml-2 ">
+                        <p class="row text-dark">Type: {{ plant.common_name }}</p>
+                        <p class="row text-dark">Conditions: {{ plant.description }}</p>
+                    <div class="row justify-content-center">
+                        <!-- Health Check Button -->
+                        <div class="col-md-6">
+                            <a href="{% url 'garden:leaf_create' plant.id %}" class="btn btn-success mr-5">Add Health Check</a>
+                        </div>
+                        <!-- Back Buttons -->
+                        <div class="col-md-6">
+                            <a href="{% url 'garden:plant_list' %}" class="btn btn-info">
+                                Back to Plant List
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <!-- TODO -->
-                    </div>
+                    <!-- TODO: Update and Delete Plant Buttons -->
                 </div>
             </div>
-        </div>
-        <!-- Leaf Cards for this Plant -->
-        <div class="row justify-content-center">
-            <div class="card-columns">
-                {% for leaf in plant_leaves %}
-                    {% include "partials/leaf_card.html" %}}
-                {% endfor %}
+            <!-- Leaf Cards for this Plant -->
+            <div class="row justify-content-center">
+                <div class="card-columns">
+                    {% for leaf in plant_leaves %}
+                        {% include "partials/leaf_card.html" %}}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
