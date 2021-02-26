@@ -129,10 +129,6 @@ class PlantCreate(LoginRequiredMixin, CreateView):
     template_name = "garden/plant/create.html"
     queryset = Plant.objects.all()
 
-    def get(self, request):
-        """Returns a form the user can use to add a new Plant."""
-        return render(request, self.template_name)
-
     def form_valid(self, form: ModelForm, request: HttpRequest):
         """Ensures the new Plant instance is connected to the user."""
         form.instance.profile = request.user.profile
