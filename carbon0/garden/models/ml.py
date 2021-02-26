@@ -1,3 +1,5 @@
+import os 
+
 from django.db import models
 import numpy as np
 from tensorflow import keras
@@ -17,14 +19,21 @@ class MachineLearning(models.Model):
         default="V",
         choices=PURPOSES,
     )
+    # save static files related to this model in app subdirectory
+    ARCH_UPLOAD_LOCATION = os.path.join(
+        "garden", "static", "garden", "neural_networks", "architecture"
+    )
     architecture = models.FileField(
-        upload_to="neural_networks/architecture/",
+        upload_to=ARCH_UPLOAD_LOCATION,
         null=True,
         help_text="JSON instructions for how to constrcut \
                   the underlying neural network.",
     )
+    WEIGHTS_UPLOAD_LOCATION = os.path.join(
+        "garden", "static", "garden", "neural_networks", "parameters"
+    )
     weights = models.FileField(
-        upload_to="neural_networks/parameters/",
+        upload_to=WEIGHTS_UPLOAD_LOCATION,
         null=True,
         help_text="Hadoop instructions for what weights and biases \
                   to give the underlying neural network.",
