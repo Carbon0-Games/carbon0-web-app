@@ -1,34 +1,28 @@
 <!-- carbon0/garden/templates/partials/plant_card.html-->
-<div class="carbon0-button card border-info mb-3">
-    <div class="row card-header justify-content-center">
-        <!-- Nickname is How the User Can identify their plants -->
-        <div class="col-md-8">
-            <h3>{{ plant.nickname }}</h3>
-        </div>
-        <!-- User also gets buttons to do an action -->
-        <div class="col-md-4">
-             <a href="#" class="btn btn-info">See More</a>
-        </div>
+{% load static %}
+<div class="carbon0-card card mb-3">
+    <!-- Nickname is How the User Can identify their plants -->
+    <div class="card-header">
+        <h3 class="card-title black-header">{{ plant.nickname }}</h3>
     </div>
+     <!-- User also gets buttons to do an action -->
+        <div class="row justify-content-center mt-3">
+             <a href="{% url 'garden:plant_detail' plant.slug %}" class="btn btn-info">See More</a>
+        </div>
     <div class="card-body border-dark">
         <div class="row justify-content-center">
             <!-- Display the Latest Updated of the Plant -->
             <div id="health-preview-{{ plant.id }}" class="col-md-8">
             </div>
-            <!-- User can Delete the Plant -->
-            <div class="col-md-4">
-                <a href="#" class="btn btn-danger">Delete</a>
-            </div>
+            <!-- TODO: User can Delete the Plant -->
         </div>
         <hr>
-        <!-- User sees an image of the plant -->
-        <div class="text-right">
+        <!-- TODO: User sees an image of the plant -->
+        <div class="card-body">
             {% if plant.is_edible is True %}
-                <img src="{% static 'icons/Veggie_Bowl.png' %}" 
-                class="card-img-top" alt="Edible plant image">
+                <p class="text-dark">This plant counts towards your <strong>Diet</strong> level on Carbon0.</p>
             {% else %} <!-- the plant is helping sequester carbon dioxide -->
-                <img src="{% static 'icons/Flying.png' %}" 
-                class="card-img-top" alt="Plants helps us to sequester CO2!" />
+                <p class="text-dark">This plant counts towards your <strong>Offsets</strong> level on Carbon0.</p>
             {% endif %}
         </div>
     </div>
@@ -39,7 +33,7 @@
     import { displayHealthPreview } from '../../../../static/js/healthPreview.js';
     $(document).ready(function () {
         // get the data on the plant's current health
-        let endpoint = "{% url 'api:plant_healh_preview' plant.id %}"
+        let endpoint = "{% url 'api:plant_health_preview' plant.id %}";
         let lastStatus = "";
         let lastUpdated = "";
         const elemID = "health-preview-{{ plant.id }}";

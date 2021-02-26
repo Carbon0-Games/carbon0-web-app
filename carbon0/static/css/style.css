@@ -214,6 +214,22 @@ input, textarea {
   }
 }
 
+.carbon0-card {
+/* to be combined with Bootstrap card class */
+-webkit-appearance: none;
+font-size: 16px;
+border-radius: 16px;
+white-space: nowrap;
+overflow: hidden;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-family: "Coda", sans-serif;
+outline: none;
+border: 0;
+
+}
+
 
 /* https://stackoverflow.com/questions/16056591/font-scaling-based-on-width-of-container */
 .carbon0-button-mission {
@@ -321,9 +337,10 @@ model-viewer {
     line-height: 6vh;
 }
 
-h3.black-header {
+.black-header {
   color: rgb(39, 41, 39);
-  font-weight: normal;
+  /* set following properties to their defaults, unlike above h3 styles */
+  font-weight: normal; 
   font-size: 1.2em;
 
 }
