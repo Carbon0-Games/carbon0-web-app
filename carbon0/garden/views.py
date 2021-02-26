@@ -19,6 +19,20 @@ class LeafCreate(LoginRequiredMixin, CreateView):
     queryset = Leaf.objects.all()
     template_name = "garden/leaf/create.html"
 
+    def get_context_data(self, plant_id=None, **kwargs):
+        '''Insert the plant and new leaf into the context dict.'''
+        context = {}
+        if self.object:
+            context['object'] = self.object
+            context_object_name = self.get_context_object_name(self.object)
+            if context_object_name:
+                context[context_object_name] = self.object
+        context.update(kwargs)
+        # adding the plant to the context
+        if plant_id is not None:
+            context['plant'] = Plant.objects.get(id=plant_id)
+        return super().get_context_data(**context)
+
     def get(self, request: HttpRequest, plant_id: int):
         """Renders the form to check the health of a plant leaf.
 
@@ -28,17 +42,21 @@ class LeafCreate(LoginRequiredMixin, CreateView):
 
         Returns: HttpResponse: the view of the template
         """
-        # add the plant to the context
-        plant = Plant.objects.get(id=plant_id)
-        # set the context
-        context = {"plant": plant}
-        # return the response
-        return render(request, self.template_name, context)
+        self.object = None
+        return self.render_to_response(self.get_context_data(plant_id))
+          
 
     def get_success_url(self, plant_id: int) -> str:
         """TODO: redirect to the LeafDetail, instead of PlantDetail"""
         plant = Plant.objects.get(id=plant_id)
+        print("we're seeing", plant)
         return plant.get_absolute_url()
+
+    def form_invalid(self, form, plant_id):
+        """If the form is invalid, render the invalid form."""
+        return self.render_to_response(
+            self.get_context_data(plant_id, form=form)
+        )
 
     def form_valid(self, form, plant_id):
         """Sets the fields on the new Leaf, redirects to see its details."""
@@ -72,7 +90,8 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         if form.is_valid():
             return self.form_valid(form, plant_id)
         print("Form is not valid")
-        return super().form_invalid(form)
+        print(form.data)
+        return self.form_invalid(form, plant_id)
 
 
 class PersonalPlantList(LoginRequiredMixin, ListView):

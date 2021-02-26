@@ -48,7 +48,7 @@ class Plant(models.Model):
 
     def __str__(self):
         """Return a string representation, show relation to the Profile."""
-        return f"{self.profile.username}'s Plant {self.id}"
+        return f"{self.nickname}'s Plant {self.id}"
 
     def get_absolute_url(self):
         """Returns a fully-qualified path to the PlantDetail view."""
@@ -58,7 +58,8 @@ class Plant(models.Model):
     def save(self, *args, **kwargs):
         """Creates a URL safe slug automatically when a new Plant is saved."""
         if not self.pk:
-            unique_str = f"{self.nickname}-{self.pk}"
+            num_plants = len(Plant.objects.all())
+            unique_str = f"{self.nickname}-{num_plants + 1}"
             self.slug = slugify(unique_str, allow_unicode=True)
         # call save on the superclass
         return super().save(*args, **kwargs)
