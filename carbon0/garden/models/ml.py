@@ -1,5 +1,7 @@
 import os 
+from pathlib import Path
 
+from django.conf import settings
 from django.db import models
 import numpy as np
 from tensorflow import keras
@@ -87,11 +89,19 @@ class MachineLearning(models.Model):
 
     def build(self):
         """Use the model fields to instantiate a neural network."""
-        # Load Architecture
-        with open(self.architecture.url, 'r') as f:
+        # finding the architecture and parameters of the model
+        if settings.DEBUG is True:  # local filesystem
+            prefix = Path(__file__).resolve().parent.parent.parent
+            architecture_url = str(prefix) + self.architecture.url
+            params_url = str(prefix) + self.weights.url
+        else:  # find the URLs in the cloud
+            architecture_url = self.architecture.url
+            params_url = self.weights.url
+        print("URLS", prefix, architecture_url, params_url)
+        with open(architecture_url, 'r') as f:
             model = keras.models.model_from_json(f.read())
             # Load Weights
-            model.load_weights(self.weights.url)
+            model.load_weights(params_url)
             return model
 
     def diagnose(self, predictions):
@@ -161,8 +171,18 @@ class MachineLearning(models.Model):
         # build the model
         model = self.build()
         # preprocess the image data
-        img = tf.image.resize(leaf.image, [256, 256])
-        final_image = tf.keras.applications.inception_v3.preprocess_input(img)
+        if settings.DEBUG:  # local filesystem path
+            img_url =  (
+                str(settings.BASE_DIR) + "/" 
+                + Leaf.UPLOAD_LOCATION 
+                + leaf.image.url
+            )
+        else:
+            img_url = leaf.image.url  # URL in the cloud
+        image = keras.preprocessing.image.load_img(img_url)
+        tensor_image = keras.preprocessing.image.img_to_array(image)
+        resized_img = tf.image.resize(tensor_image, [256, 256])
+        final_image = tf.keras.applications.inception_v3.preprocess_input(resized_img)
         # predict on the image data
         prediction_probabilities = model.predict(final_image)
         # return the status, confidence, and condition
