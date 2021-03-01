@@ -1,3 +1,4 @@
+from operator import index
 import os 
 from pathlib import Path
 
@@ -138,7 +139,7 @@ class MachineLearning(models.Model):
         LOWER_THRESHOLD = 0.83333
         UPPER_THRESHOLD = 0.10000
         # A: get the prediction label
-        index_highest_proba = np.argmax(predictions)[0]
+        index_highest_proba = np.argmax(predictions)
         label = self.LEAF_LABELS[index_highest_proba]
         # B: get the prediction probability
         confidence = predictions[index_highest_proba]
@@ -183,7 +184,9 @@ class MachineLearning(models.Model):
         tensor_image = keras.preprocessing.image.img_to_array(image)
         resized_img = tf.image.resize(tensor_image, [256, 256])
         final_image = tf.keras.applications.inception_v3.preprocess_input(resized_img)
-        # predict on the image data
-        prediction_probabilities = model.predict(final_image)
-        # return the status, confidence, and condition
-        return self.diagnose(prediction_probabilities)
+        # make a 4D tensor before we're ready to predict
+        final_input = np.expand_dims(final_image, axis=0)
+        # predict on the image data - use an outer list to make a 4D Tensor
+        prediction_probabilities = model(final_input, training=False)
+        # return first array in output - these are predictions for that sample
+        return self.diagnose(prediction_probabilities[0])
