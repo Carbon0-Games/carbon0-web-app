@@ -45,7 +45,8 @@ class Leaf(models.Model):
 
     def __str__(self):
         """Return a string representation, show relation to the Profile."""
-        return f"Leaf {self.id} for {self.profile.username}'s Plant {self.id}"
+        return f"Leaf {self.id} \
+            for {self.plant.profile.user.username}'s Plant {self.id}"
 
     @classmethod
     def get_status_mapping(cls):
@@ -60,3 +61,9 @@ class Leaf(models.Model):
     def get_status_abbreviations(cls):
         '''Return a list of the abbreivated health statuses.'''
         return [abbreviation for abbreviation, full in cls.STATUSES]
+
+    def get_confidence(self):
+        '''Returns the confidence of the health check as a percentage.'''
+        if self.confidence is not None:
+            rounded = round(self.confidence, 3) * 100
+            return f"{rounded}%"

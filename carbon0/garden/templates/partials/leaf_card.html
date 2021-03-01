@@ -1,25 +1,26 @@
 <!-- carbon0/garden/templates/partials/leaf_card.html-->
-<div class="carbon0-button card border-info mb-3">
+<div class="carbon0-card card mb-3">
+    {% load static %}
     <div class="row card-header justify-content-center">
         <!-- Nickname is How the User Can identify their plants -->
-        <div class="col-md-8">
-            <h3>{{ plant.nickname }}</h3>
+        <div class="card-title col-md-8">
+            <h3 class="black-header">
+                Date: {{ leaf.date_uploaded }}
+            </h3>
         </div>
     </div>
     <div class="card-body border-dark">
          <!-- Show the Date This Leaf Was Uploaded -->
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-md-6">
-                <p class="card-text">
-                    Date Uploaded: {{ leaf.date_uploaded|date:"SHORT_DATETIME_FORMAT" }}
-                </p>
+                
             </div>
         </div>
         <!-- Display the Health Check Status, w/ Confidence Level -->
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-md-6">
                 <div class="row">
-                    <p class="col-md-6 card-text">Status:</p>
+                    <p class="col-md-6 text-dark card-text">Status:</p>
                     <!-- Display the Status in Different Colors-->
                     {% if leaf.status == "H" %}
                         <p class="col-md-6 card-text text-success">
@@ -36,16 +37,18 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-md-6">
-                <p class="card-text">
-                    Confidence: {{ leaf.confidence }}
-                </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="card-text text-dark">
+                        Confidence: {{ leaf.get_confidence }}
+                    </p>
+                </div>
             </div>
         </div>
         <hr>
         <!-- User sees an image of the Leaf -->
         <div class="row justify-content-center">
-            <img src="{{ leaf.image.url }}" class="card-img-top" alt="Leaf image">
+            <img src="{{ leaf.image.url }}" class="card-img-top" alt="{{ leaf.image.url }}">
         </div>
         <!-- TODO: Link to the Full Analysis (LeafDetail) -->
         <div class="row justify-content-center">

@@ -6,11 +6,11 @@
     <div class="main">
         <div class="container">
             <!-- Plant Title -->
-            <div class="row mt-5 mb-2 ml-3">
+            <div class="row mt-5 mb-2 m-3">
                 <h1 class="blue-header">{{ plant.nickname }}</h1>
             </div>
             <!-- Plant Conditions -->
-            <div class="card carbon0-button row justify-content-start">
+            <div class="card carbon0-button row justify-content-start mx-2">
                 <div class="card-title ml-2">
                     <h3 class="text-dark black-header">Plant Info:</h3>
                 </div>
@@ -33,7 +33,10 @@
                 </div>
             </div>
             <!-- Leaf Cards for this Plant -->
-            <div class="row justify-content-center">
+            <div class="row mt-3 ml-2">
+                <h2 class="white-header-smaller ml-2">
+                    Health Checks for {{ plant.nickname }}
+                </h2>
                 <div class="card-columns">
                     {% for leaf in plant_leaves %}
                         {% include "partials/leaf_card.html" %}}

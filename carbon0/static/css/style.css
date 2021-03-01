@@ -331,6 +331,15 @@ model-viewer {
   line-height: 6vh;
 }
 
+.white-header-smaller {
+    color: rgb(255, 255, 255);
+    font-weight: normal;
+    line-height: 6vh;
+    font-size: 1.4em;
+
+}
+
+
 .green-header {
     color: rgb(118, 228, 97);
     font-weight: 500;
