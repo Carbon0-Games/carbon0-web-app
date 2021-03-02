@@ -17,32 +17,34 @@
             </div>
         </div>
         <!-- Display the Health Check Status, w/ Confidence Level -->
-        <div class="row">
+        <div class="row justify-content-start">
             <div class="col-md-6">
-                <div class="row">
-                    <p class="col-md-6 text-dark card-text">Status:</p>
+                <div style="overflow: hidden;">
+                    <p class="card-text text-dark ml-3" style="float: left;">
+                        Status: 
+                    </p>
                     <!-- Display the Status in Different Colors-->
                     {% if leaf.status == "H" %}
-                        <p class="col-md-6 card-text text-success">
+                        <p class="card-text text-success ml-2" style="float: left;">
                             Healthy
                         </p>
                     {% elif leaf.status == "U" %}
-                        <p class="col-md-6 card-text text-danger">
+                        <p class="card-text text-danger ml-2" style="float: left;">
                             Unhealthy
                         </p>
                     {% elif leaf.status == "M" %}
-                        <p class="col-md-6 card-text text-warning">
+                        <p class="card-text text-warning ml-2" style="float: left;">
                             Moderate
                         </p>
                     {% endif %}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="card-text text-dark">
-                        Confidence: {{ leaf.get_confidence }}
-                    </p>
-                </div>
+        </div>
+        <div class="row justify-content-start" style="overflow: hidden;">
+            <div class="col-md-6">
+                 <p class="card-text text-dark ml-3" style="float: left;">
+                    Confidence: {{ leaf.get_confidence }}
+                </p>
             </div>
         </div>
         <hr>
