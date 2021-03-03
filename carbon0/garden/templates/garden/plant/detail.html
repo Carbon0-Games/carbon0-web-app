@@ -3,7 +3,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="main">
+    <div class="main-allow-scrolling">
         <div class="container">
             <!-- Plant Title -->
             <div class="row mt-5 mb-2 m-3">
@@ -40,7 +40,7 @@
                 </h2>
                 <div class="card-columns">
                     {% for leaf in plant_leaves %}
-                        {% include "partials/leaf_card.html" %}}
+                        {% include "partials/leaf_card.html" %}
                     {% endfor %}
                 </div>
             </div>

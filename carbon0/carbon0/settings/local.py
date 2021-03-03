@@ -1,3 +1,5 @@
+import os
+
 from carbon0.settings.base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -41,5 +43,3 @@ UTIL_ZERON_PATHS = [
     "assets/glb-files/bulb180.glb",
     "assets/usdz-files/bulb180.usdz",
 ]
-
-DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"

@@ -44,7 +44,26 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         """
         self.object = None
         return self.render_to_response(self.get_context_data(plant_id))
-          
+
+    def diagnose_plant(self, leaf_id):
+        """After the new Leaf saves, let the neural network
+        diagnose its health.
+
+        Parameter:
+        leaf_id(int): unique pk of the Leaf instance
+
+        Returns: HttpResponseRedirect: sends user to view results
+        """
+        leaf = Leaf.objects.get(id=leaf_id)
+        cnn = MachineLearning.objects.get(purpose="V")
+        # fill out the fields on the leaf model
+        status, condition, confidence = cnn.predict_health(leaf)
+        leaf.status = status
+        leaf.condition = condition
+        leaf.confidence = confidence
+        leaf.save()
+        # redirect
+        return self.get_success_url(leaf.plant.id)
 
     def get_success_url(self, plant_id: int) -> str:
         """TODO: redirect to the LeafDetail, instead of PlantDetail"""
@@ -64,9 +83,6 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         plant = Plant.objects.get(id=plant_id)
         # fill out the fields on the new Leaf, and save
         form.instance.plant = plant
-        form.instance.status = status
-        form.instance.confidence = confidence
-        form.instance.condition = condition
         form.save()
         # TODO: replace below with super().form_valid(form)
         return HttpResponseRedirect(self.get_success_url(plant_id))

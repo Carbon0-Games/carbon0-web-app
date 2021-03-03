@@ -26,7 +26,7 @@ class MachineLearning(models.Model):
     )
     # save static files related to this model in app subdirectory
     ARCH_UPLOAD_LOCATION = os.path.join(
-        "garden", "static", "garden", "neural_networks", "architecture"
+        "garden", "neural_networks", "architecture"
     )
     architecture = models.FileField(
         upload_to=ARCH_UPLOAD_LOCATION,
@@ -35,7 +35,7 @@ class MachineLearning(models.Model):
                   the underlying neural network.",
     )
     WEIGHTS_UPLOAD_LOCATION = os.path.join(
-        "garden", "static", "garden", "neural_networks", "parameters"
+        "garden", "neural_networks", "parameters"
     )
     weights = models.FileField(
         upload_to=WEIGHTS_UPLOAD_LOCATION,
@@ -174,14 +174,13 @@ class MachineLearning(models.Model):
         # build the model
         model = self.build()
         # preprocess the image data
-        if settings.DEBUG:  # local filesystem path
-            img_url =  (
-                str(settings.BASE_DIR) + "/" 
-                + Leaf.UPLOAD_LOCATION 
-                + leaf.image.url
-            )
-        else:
-            img_url = leaf.image.url  # URL in the cloud
+        img_url = leaf.image.url  # URL in the cloud
+        # if settings.DEBUG:  # TODO: make it work on a local filesystem path
+        #     img_url =  (
+        #         str(settings.BASE_DIR) + "/" 
+        #         + Leaf.UPLOAD_LOCATION 
+        #         + leaf.image.url
+        #     )
         image = keras.preprocessing.image.load_img(img_url)
         tensor_image = keras.preprocessing.image.img_to_array(image)
         resized_img = tf.image.resize(tensor_image, [256, 256])
