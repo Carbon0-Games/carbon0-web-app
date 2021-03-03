@@ -68,7 +68,6 @@ class LeafCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self, plant_id: int) -> str:
         """TODO: redirect to the LeafDetail, instead of PlantDetail"""
         plant = Plant.objects.get(id=plant_id)
-        print("we're seeing", plant)
         return plant.get_absolute_url()
 
     def form_invalid(self, form, plant_id):
@@ -85,7 +84,7 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         form.instance.plant = plant
         form.save()
         # TODO: replace below with super().form_valid(form)
-        return HttpResponseRedirect(self.get_success_url(plant_id))
+        return self.diagnose_plant(form.instance.id)
 
     def post(self, request, plant_id):
         """Validates the form submitted by the user, and

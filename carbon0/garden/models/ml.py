@@ -93,14 +93,13 @@ class MachineLearning(models.Model):
     def build(self):
         """Use the model fields to instantiate a neural network."""
         # finding the architecture and parameters of the model
-        if settings.DEBUG is True:  # local filesystem
-            prefix = Path(__file__).resolve().parent.parent.parent
-            architecture_url = str(prefix) + self.architecture.url
-            params_url = str(prefix) + self.weights.url
-        else:  # find the URLs in the cloud
-            architecture_url = self.architecture.url
-            params_url = self.weights.url
-        print("URLS", prefix, architecture_url, params_url)
+        architecture_url = self.architecture.url
+        params_url = self.weights.url
+        # if settings.DEBUG is True:  # TODO: work with local filesystem paths
+        #     prefix = Path(__file__).resolve().parent.parent.parent
+        #     architecture_url = str(prefix) + self.architecture.url
+        #     params_url = str(prefix) + self.weights.url
+        # print("URLS", prefix, architecture_url, params_url)
         with open(architecture_url, 'r') as f:
             model = keras.models.model_from_json(f.read())
             # Load Weights
@@ -145,17 +144,20 @@ class MachineLearning(models.Model):
         label = self.LEAF_LABELS[index_highest_proba]
         # B: get the prediction probability
         confidence = predictions[index_highest_proba]
+        print("confidence", confidence)
         # C: init the status at "Moderate", one of the values in Leaf.STATUSES
         statuses = Leaf.get_status_abbreviations()
         status = statuses[0]
         # D: decide the condition
         condition = label.split("_")[-1]
+        print("condition", label, condition)
         # E: change the status if necessary
         if confidence > UPPER_THRESHOLD:
             if condition == "healthy":
                 status = statuses[1]  # stands for "Healthy"
             else:  # the model has confidence that the plant is not healthy
                 status = statuses[2]
+        print("status", status)
         return [status, condition, confidence]        
 
     def predict_health(self, leaf):
