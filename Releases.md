@@ -15,3 +15,4 @@ These releases are tenatively scheduled. **Thank you for your patience** if some
 ## Release Notes
 
 1. *PlantNet*: the convolutional neural network for this feature was developed using transfer learning. The full implementation is available [in this Jupyter notebook](https://github.com/UPstartDeveloper/DS-2.4-Advanced-Topics/blob/main/Notebooks/Computer_Vision/Plant_Vision.ipynb).
+2. If you wish to access the weights and biases of the CNN used in production, you can download them [here](https://github.com/UPstartDeveloper/DS-2.4-Advanced-Topics/tree/main/Notebooks/Computer_Vision/checkpoint) (same repo as above). Look for the files that start with "inception".
