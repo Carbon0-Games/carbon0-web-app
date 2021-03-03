@@ -12,7 +12,7 @@ class Leaf(models.Model):
     )
     # save static files related to this model in app subdirectory
     UPLOAD_LOCATION = os.path.join(
-        "garden", "static", "garden", "images"
+        "garden", "static", "garden", "media"
     )
     image = models.ImageField(
         upload_to=UPLOAD_LOCATION, 

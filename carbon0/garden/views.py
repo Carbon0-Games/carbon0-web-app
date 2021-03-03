@@ -62,10 +62,6 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         """Sets the fields on the new Leaf, redirects to see its details."""
         # set the plant attribute of the new leaf
         plant = Plant.objects.get(id=plant_id)
-        # get the vision model to predict the leaf's health
-        cnn = MachineLearning.objects.get(purpose="V")
-        # make the prediction on the leaf health
-        status, condition, confidence = cnn.predict_health(form.instance)
         # fill out the fields on the new Leaf, and save
         form.instance.plant = plant
         form.instance.status = status

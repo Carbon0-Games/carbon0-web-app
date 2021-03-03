@@ -5,8 +5,10 @@ from pathlib import Path
 from django.conf import settings
 from django.db import models
 import numpy as np
+from PIL import Image
 from tensorflow import keras
 import tensorflow as tf
+from tensorflow.python.ops.gen_math_ops import Imag
 
 from .leaf import Leaf
 

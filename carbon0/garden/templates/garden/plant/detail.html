@@ -20,11 +20,11 @@
                         <p class="row text-dark">Conditions: {{ plant.description }}</p>
                     <div class="row justify-content-center">
                         <!-- Health Check Button -->
-                        <div class="col-md-6">
-                            <a href="{% url 'garden:leaf_create' plant.id %}" class="btn btn-success mr-5">Add Health Check</a>
+                        <div class="col-md-6 my-2">
+                            <a href="{% url 'garden:leaf_create' plant.id %}" class="btn btn-success">Add Health Check</a>
                         </div>
                         <!-- Back Buttons -->
-                        <div class="col-md-6">
+                        <div class="col-md-6 my-2">
                             <a href="{% url 'garden:plant_list' %}" class="btn btn-info">
                                 Back to Plant List
                             </a>
