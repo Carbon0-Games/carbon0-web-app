@@ -355,6 +355,6 @@ class PlantHealthPreview(APIView):
         response_data = {
             "latestStatus": status_full_name,
             # get the local verision of the date
-            "lastUpdated": updated.strftime("%x")
+            "lastUpdated": updated.strftime("%x"),
         }
         return Response(response_data)

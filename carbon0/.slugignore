@@ -5,6 +5,9 @@
 # static/images/
 # static/assets/
 staticfiles/
+carbon_quiz/static
+accounts/static
+garden/static
 
 # React JS stuff
 package.json

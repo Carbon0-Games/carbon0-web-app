@@ -1,0 +1,49 @@
+<!-- carbon0/garden/templates/garden/plant/detail.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="main-allow-scrolling">
+        <div class="container">
+            <!-- Plant Title -->
+            <div class="row mt-5 mb-2 m-3">
+                <h1 class="blue-header">{{ plant.nickname }}</h1>
+            </div>
+            <!-- Plant Conditions -->
+            <div class="card carbon0-button row justify-content-start mx-2">
+                <div class="card-title ml-2">
+                    <h3 class="text-dark black-header">Plant Info:</h3>
+                </div>
+                <div class="card-body ml-2 ">
+                        <p class="row text-dark">Date Added: {{ plant.created }}</p>
+                        <p class="row text-dark">Type: {{ plant.common_name }}</p>
+                        <p class="row text-dark">Conditions: {{ plant.description }}</p>
+                    <div class="row justify-content-center">
+                        <!-- Health Check Button -->
+                        <div class="col-md-6 my-2">
+                            <a href="{% url 'garden:leaf_create' plant.id %}" class="btn btn-success">Add Health Check</a>
+                        </div>
+                        <!-- Back Buttons -->
+                        <div class="col-md-6 my-2">
+                            <a href="{% url 'garden:plant_list' %}" class="btn btn-info">
+                                Back to Plant List
+                            </a>
+                        </div>
+                    </div>
+                    <!-- TODO: Update and Delete Plant Buttons -->
+                </div>
+            </div>
+            <!-- Leaf Cards for this Plant -->
+            <div class="row mt-3 ml-2">
+                <h2 class="white-header-smaller ml-2">
+                    Health Checks for {{ plant.nickname }}
+                </h2>
+                <div class="card-columns">
+                    {% for leaf in plant_leaves %}
+                        {% include "partials/leaf_card.html" %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

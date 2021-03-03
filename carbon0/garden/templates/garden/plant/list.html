@@ -1,0 +1,37 @@
+<!-- carbon0/garden/templates/garden/plant/list.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main">
+    <div class="container">
+        <!-- Header -->
+        <div class="row mt-5 mb-2 ml-3">
+            <h1 class="blue-header">Your Garden.</h1>
+            <h2 class="display-4 ml-2 green-header">Fresher than Ever.</h2>
+        </div>
+        <!-- Instructions -->
+        <div class="row ml-2">
+            <div class="col-md-10">
+                <p>Keep track of your plants’ health on Carbon0 - 
+                    because the better you care for them, the better the planet takes care of us :)</p>
+            </div>
+        <!-- Add a New Plant -->
+            <div class="col-md-2">
+                <div class="row justify-content-center mr-2">
+                    <a href="{% url 'garden:plant_create' %}" class="btn btn-success">Add Plant</a>
+                </div>
+            </div>
+        </div>
+        <!-- Plant Preview Cards -->
+        <div class="row mt-3">
+            <div class="justify-content-center">
+                <div class="card-columns">
+                    {% for plant in plants %}
+                        {% include "partials/plant_card.html" %}}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

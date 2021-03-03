@@ -4,7 +4,7 @@ export function displayHealthPreview(elemID, lastStatus, lastUpdated) {
     let parentElem = document.getElementById(elemID);
         // add an element for the latest health check
     let health = document.createElement("p");
-    const healthNode = document.createTextNode(lastStatus);
+    const healthNode = document.createTextNode("Last Health Check: " + lastStatus);
     health.appendChild(healthNode);
     // add Bootstrap classes to the time element
     let textColor = "";
@@ -12,10 +12,10 @@ export function displayHealthPreview(elemID, lastStatus, lastUpdated) {
         textColor = "text-success";
     } else if (lastStatus === "Unhealthy") {
         textColor = "text-danger";
-    } else if (lastStatus === "Unhealthy") {
+    } else if (lastStatus === "Moderate") {
         textColor = "text-warning";
     }
-    healt.classList.add("card-text");
+    health.classList.add("card-text");
     health.classList.add(textColor);
     // add the health to the HTML document
     parentElem.appendChild(health);
