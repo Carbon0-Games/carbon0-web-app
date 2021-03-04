@@ -1,8 +1,18 @@
 import os
+import sentry_sdk
 from carbon0.settings.base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+
+# Configure the Sentry SDK (this way we can still get error logs)
+sentry_sdk.init(
+    dsn=str(os.getenv("SENTRY_DSN")),
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+    # associate users to errors
+    send_default_pii=True,
+)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
