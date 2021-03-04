@@ -63,7 +63,7 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         leaf.confidence = confidence
         leaf.save()
         # redirect
-        return self.get_success_url(leaf.plant.id)
+        return HttpResponseRedirect(self.get_success_url(leaf.plant.id))
 
     def get_success_url(self, plant_id: int) -> str:
         """TODO: redirect to the LeafDetail, instead of PlantDetail"""

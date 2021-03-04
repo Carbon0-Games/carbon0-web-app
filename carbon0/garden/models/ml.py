@@ -6,6 +6,7 @@ import botocore
 from django.conf import settings
 from django.db import models
 import numpy as np
+from PIL import Image
 from tensorflow import keras
 import tensorflow as tf
 
@@ -89,29 +90,29 @@ class MachineLearning(models.Model):
         """Return a human-understandable name for the deep learning model."""
         return f"CNN with weights {self.weights}"
 
-    def download_weights(self):
-        """Downloads the neural network files from an AWS S3 bucket, 
-        and returns the file paths where they are saved locally.
-        """
-        # A: init AWS relevant information
-        s3 = boto3.resource('s3')
-        BUCKET = settings.AWS_STORAGE_BUCKET_NAME
-        # B: download the model weights
-        WEIGHTS_SOURCE = (
-            "garden/neural_networks/parameters/inception_model_weights.h5"
-        )  
-        WEIGHTS_DESTINATION = (
-            'weights.h5'
-        )
-         # C: download the model weights from AWS to local filesystem
-        try:
-            s3.Bucket(BUCKET).download_file(
-                WEIGHTS_SOURCE, WEIGHTS_DESTINATION
-            )
-        except botocore.exceptions.ClientError as e:
-            if e.response['Error']['Code'] == "404":
-                print("The weights file does not exist.")
-        return WEIGHTS_DESTINATION
+    # def download_weights(self):
+    #     """Downloads the neural network files from an AWS S3 bucket, 
+    #     and returns the file paths where they are saved locally.
+    #     """
+    #     # A: init AWS relevant information
+    #     s3 = boto3.resource('s3')
+    #     BUCKET = settings.AWS_STORAGE_BUCKET_NAME
+    #     # B: download the model weights
+    #     WEIGHTS_SOURCE = (
+    #         "garden/neural_networks/parameters/inception_model_weights.h5"
+    #     )  
+    #     WEIGHTS_DESTINATION = (
+    #         'weights.h5'
+    #     )
+    #      # C: download the model weights from AWS to local filesystem
+    #     try:
+    #         s3.Bucket(BUCKET).download_file(
+    #             WEIGHTS_SOURCE, WEIGHTS_DESTINATION
+    #         )
+    #     except botocore.exceptions.ClientError as e:
+    #         if e.response['Error']['Code'] == "404":
+    #             print("The weights file does not exist.")
+    #     return WEIGHTS_DESTINATION
 
     def build(self):
         """Use the model fields to instantiate a neural network."""
@@ -119,7 +120,9 @@ class MachineLearning(models.Model):
         architecture_file_path = (
             "static/neural_networks/architecture/inceptionModelArchitecture.json"
         )
-        params_file_path = 'weights.h5'
+        params_file_path = (
+            "static/neural_networks/parameters/inception_model_weights.h5"
+        )
         # Load the Achitecture
         with open(architecture_file_path, 'r') as f:
             model = keras.models.model_from_json(f.read())
@@ -179,7 +182,28 @@ class MachineLearning(models.Model):
             else:  # the model has confidence that the plant is not healthy
                 status = statuses[2]
         print("status", status)
-        return [status, condition, confidence]        
+        return [status, condition, confidence]  
+
+    def image_from_s3(self, img_url):
+        """Returns an image stored as an object on AWS S3, as a Tensor.
+
+        Parameter:
+        img_url(str): an HTTPS address where the leaf image was saved on S3
+
+        Returns: PIL.Image: representation of the image in Pillow  
+        """ 
+        # init AWS-relevant info
+        s3 = boto3.resource('s3')
+        bucket = s3.Bucket(settings.AWS_STORAGE_BUCKET_NAME)
+        # get the path to the image on S3, leaving out the rest
+        start_path = img_url.find("garden") 
+        end_path = img_url.find("?")
+        path = img_url[start_path:end_path]
+        # get the image data, and convert to PIL.Image
+        object = bucket.Object(path)
+        print("About to get image")
+        response = object.get()
+        return Image.open(response['Body']) 
 
     def predict_health(self, leaf):
         """Predicts the status and condition of a Leaf, returns the confidence
@@ -204,7 +228,8 @@ class MachineLearning(models.Model):
         #         + Leaf.UPLOAD_LOCATION 
         #         + leaf.image.url
         #     )
-        image = keras.preprocessing.image.load_img(img_url)
+        image = self.image_from_s3(img_url)
+        print("Got the image")
         tensor_image = keras.preprocessing.image.img_to_array(image)
         resized_img = tf.image.resize(tensor_image, [256, 256])
         final_image = tf.keras.applications.inception_v3.preprocess_input(resized_img)
