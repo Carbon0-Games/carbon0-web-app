@@ -1,14 +1,13 @@
-from operator import index
-import os 
+import os
 from pathlib import Path
 
+import boto3
+import botocore
 from django.conf import settings
 from django.db import models
 import numpy as np
-from PIL import Image
 from tensorflow import keras
 import tensorflow as tf
-from tensorflow.python.ops.gen_math_ops import Imag
 
 from .leaf import Leaf
 
@@ -25,24 +24,24 @@ class MachineLearning(models.Model):
         choices=PURPOSES,
     )
     # save static files related to this model in app subdirectory
-    ARCH_UPLOAD_LOCATION = os.path.join(
-        "garden", "neural_networks", "architecture"
-    )
-    architecture = models.FileField(
-        upload_to=ARCH_UPLOAD_LOCATION,
-        null=True,
-        help_text="JSON instructions for how to constrcut \
-                  the underlying neural network.",
-    )
-    WEIGHTS_UPLOAD_LOCATION = os.path.join(
-        "garden", "neural_networks", "parameters"
-    )
-    weights = models.FileField(
-        upload_to=WEIGHTS_UPLOAD_LOCATION,
-        null=True,
-        help_text="Hadoop instructions for what weights and biases \
-                  to give the underlying neural network.",
-    )
+    # ARCH_UPLOAD_LOCATION = os.path.join(
+    #     "garden", "neural_networks", "architecture"
+    # )
+    # WEIGHTS_UPLOAD_LOCATION = os.path.join(
+    #     "garden", "neural_networks", "parameters"
+    # )
+    # architecture = models.FileField(
+    #     upload_to=ARCH_UPLOAD_LOCATION,
+    #     null=True,
+    #     help_text="JSON instructions for how to constrcut \
+    #               the underlying neural network.",
+    # )
+    # weights = models.FileField(
+    #     upload_to=WEIGHTS_UPLOAD_LOCATION,
+    #     null=True,
+    #     help_text="Hadoop instructions for what weights and biases \
+    #               to give the underlying neural network.",
+    # )
     # Source: the "New Plant Diseases Dataset": https://tinyurl.com/dzav422a
     LEAF_LABELS = np.array([
         # entries MUST be formatted as "<species>_<condition>"
@@ -90,20 +89,42 @@ class MachineLearning(models.Model):
         """Return a human-understandable name for the deep learning model."""
         return f"CNN with weights {self.weights}"
 
+    def download_weights(self):
+        """Downloads the neural network files from an AWS S3 bucket, 
+        and returns the file paths where they are saved locally.
+        """
+        # A: init AWS relevant information
+        s3 = boto3.resource('s3')
+        BUCKET = settings.AWS_STORAGE_BUCKET_NAME
+        # B: download the model weights
+        WEIGHTS_SOURCE = (
+            "garden/neural_networks/parameters/inception_model_weights.h5"
+        )  
+        WEIGHTS_DESTINATION = (
+            'weights.h5'
+        )
+         # C: download the model weights from AWS to local filesystem
+        try:
+            s3.Bucket(BUCKET).download_file(
+                WEIGHTS_SOURCE, WEIGHTS_DESTINATION
+            )
+        except botocore.exceptions.ClientError as e:
+            if e.response['Error']['Code'] == "404":
+                print("The weights file does not exist.")
+        return WEIGHTS_DESTINATION
+
     def build(self):
         """Use the model fields to instantiate a neural network."""
-        # finding the architecture and parameters of the model
-        architecture_url = self.architecture.url
-        params_url = self.weights.url
-        # if settings.DEBUG is True:  # TODO: work with local filesystem paths
-        #     prefix = Path(__file__).resolve().parent.parent.parent
-        #     architecture_url = str(prefix) + self.architecture.url
-        #     params_url = str(prefix) + self.weights.url
-        # print("URLS", prefix, architecture_url, params_url)
-        with open(architecture_url, 'r') as f:
+        # get the model files locally and from S#
+        architecture_file_path = (
+            "static/neural_networks/architecture/inceptionModelArchitecture.json"
+        )
+        params_file_path = 'weights.h5'
+        # Load the Achitecture
+        with open(architecture_file_path, 'r') as f:
             model = keras.models.model_from_json(f.read())
             # Load Weights
-            model.load_weights(params_url)
+            model.load_weights(params_file_path)
             return model
 
     def diagnose(self, predictions):
