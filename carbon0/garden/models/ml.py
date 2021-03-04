@@ -90,30 +90,6 @@ class MachineLearning(models.Model):
         """Return a human-understandable name for the deep learning model."""
         return f"CNN with weights {self.weights}"
 
-    # def download_weights(self):
-    #     """Downloads the neural network files from an AWS S3 bucket, 
-    #     and returns the file paths where they are saved locally.
-    #     """
-    #     # A: init AWS relevant information
-    #     s3 = boto3.resource('s3')
-    #     BUCKET = settings.AWS_STORAGE_BUCKET_NAME
-    #     # B: download the model weights
-    #     WEIGHTS_SOURCE = (
-    #         "garden/neural_networks/parameters/inception_model_weights.h5"
-    #     )  
-    #     WEIGHTS_DESTINATION = (
-    #         'weights.h5'
-    #     )
-    #      # C: download the model weights from AWS to local filesystem
-    #     try:
-    #         s3.Bucket(BUCKET).download_file(
-    #             WEIGHTS_SOURCE, WEIGHTS_DESTINATION
-    #         )
-    #     except botocore.exceptions.ClientError as e:
-    #         if e.response['Error']['Code'] == "404":
-    #             print("The weights file does not exist.")
-    #     return WEIGHTS_DESTINATION
-
     def build(self):
         """Use the model fields to instantiate a neural network."""
         # get the model files locally and from S#
@@ -168,20 +144,17 @@ class MachineLearning(models.Model):
         label = self.LEAF_LABELS[index_highest_proba]
         # B: get the prediction probability
         confidence = predictions[index_highest_proba]
-        print("confidence", confidence)
         # C: init the status at "Moderate", one of the values in Leaf.STATUSES
         statuses = Leaf.get_status_abbreviations()
         status = statuses[0]
         # D: decide the condition
         condition = label.split("_")[-1]
-        print("condition", label, condition)
         # E: change the status if necessary
         if confidence > UPPER_THRESHOLD:
             if condition == "healthy":
                 status = statuses[1]  # stands for "Healthy"
             else:  # the model has confidence that the plant is not healthy
                 status = statuses[2]
-        print("status", status)
         return [status, condition, confidence]  
 
     def image_from_s3(self, img_url):
@@ -201,7 +174,6 @@ class MachineLearning(models.Model):
         path = img_url[start_path:end_path]
         # get the image data, and convert to PIL.Image
         object = bucket.Object(path)
-        print("About to get image")
         response = object.get()
         return Image.open(response['Body']) 
 
@@ -229,7 +201,6 @@ class MachineLearning(models.Model):
         #         + leaf.image.url
         #     )
         image = self.image_from_s3(img_url)
-        print("Got the image")
         tensor_image = keras.preprocessing.image.img_to_array(image)
         resized_img = tf.image.resize(tensor_image, [256, 256])
         final_image = tf.keras.applications.inception_v3.preprocess_input(resized_img)
