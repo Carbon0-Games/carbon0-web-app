@@ -345,7 +345,7 @@ class PlantHealthPreview(APIView):
         updated = plant.created
         # use the status and upload date of the last leaf
         if len(leaves) > 0:
-            last_leaf = leaves[-1]
+            last_leaf = leaves.last()
             status = last_leaf.status
             updated = last_leaf.date_uploaded
         # map the status to the human understandable version

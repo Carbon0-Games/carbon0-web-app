@@ -15,7 +15,6 @@ import django_heroku
 import dj_database_url
 import os
 from pathlib import Path
-import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 
@@ -194,15 +193,6 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.associate_user",
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
-)
-
-# Configure the Sentry SDK\
-sentry_sdk.init(
-    dsn=str(os.getenv("SENTRY_DSN")),
-    integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
-    # associate users to errors
-    send_default_pii=True,
 )
 
 # Convert the DATABASE_URL environment variable into what Django understands

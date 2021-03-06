@@ -1,14 +1,15 @@
-from operator import index
-import os 
-from pathlib import Path
+import json
+import os
+import requests
 
+import boto3
+import botocore
 from django.conf import settings
 from django.db import models
 import numpy as np
 from PIL import Image
 from tensorflow import keras
 import tensorflow as tf
-from tensorflow.python.ops.gen_math_ops import Imag
 
 from .leaf import Leaf
 
@@ -25,25 +26,25 @@ class MachineLearning(models.Model):
         choices=PURPOSES,
     )
     # save static files related to this model in app subdirectory
-    ARCH_UPLOAD_LOCATION = os.path.join(
-        "garden", "neural_networks", "architecture"
-    )
-    architecture = models.FileField(
-        upload_to=ARCH_UPLOAD_LOCATION,
-        null=True,
-        help_text="JSON instructions for how to constrcut \
-                  the underlying neural network.",
-    )
-    WEIGHTS_UPLOAD_LOCATION = os.path.join(
-        "garden", "neural_networks", "parameters"
-    )
-    weights = models.FileField(
-        upload_to=WEIGHTS_UPLOAD_LOCATION,
-        null=True,
-        help_text="Hadoop instructions for what weights and biases \
-                  to give the underlying neural network.",
-    )
-    # Source: the "New Plant Diseases Dataset": https://tinyurl.com/dzav422a
+    # ARCH_UPLOAD_LOCATION = os.path.join(
+    #     "garden", "neural_networks", "architecture"
+    # )
+    # WEIGHTS_UPLOAD_LOCATION = os.path.join(
+    #     "garden", "neural_networks", "parameters"
+    # )
+    # architecture = models.FileField(
+    #     upload_to=ARCH_UPLOAD_LOCATION,
+    #     null=True,
+    #     help_text="JSON instructions for how to constrcut \
+    #               the underlying neural network.",
+    # )
+    # weights = models.FileField(
+    #     upload_to=WEIGHTS_UPLOAD_LOCATION,
+    #     null=True,
+    #     help_text="Hadoop instructions for what weights and biases \
+    #               to give the underlying neural network.",
+    # )
+    # Labels for the leaf health: https://tinyurl.com/dzav422a
     LEAF_LABELS = np.array([
         # entries MUST be formatted as "<species>_<condition>"
         'Strawberry_healthy',
@@ -88,23 +89,45 @@ class MachineLearning(models.Model):
 
     def __str__(self):
         """Return a human-understandable name for the deep learning model."""
-        return f"CNN with weights {self.weights}"
+        return f"CNN {self.id}"
 
+    """
     def build(self):
-        """Use the model fields to instantiate a neural network."""
-        # finding the architecture and parameters of the model
-        architecture_url = self.architecture.url
-        params_url = self.weights.url
-        # if settings.DEBUG is True:  # TODO: work with local filesystem paths
-        #     prefix = Path(__file__).resolve().parent.parent.parent
-        #     architecture_url = str(prefix) + self.architecture.url
-        #     params_url = str(prefix) + self.weights.url
-        # print("URLS", prefix, architecture_url, params_url)
-        with open(architecture_url, 'r') as f:
+        '''Use the model fields to instantiate a neural network.'''
+        # get the model files locally and from S#
+        architecture_file_path = (
+            "static/neural_networks/architecture/inceptionModelArchitecture.json"
+        )
+        params_file_path = (
+            "static/neural_networks/parameters/inception_model_weights.h5"
+        )
+        # Load the Achitecture
+        with open(architecture_file_path, 'r') as f:
             model = keras.models.model_from_json(f.read())
             # Load Weights
-            model.load_weights(params_url)
+            model.load_weights(params_file_path)
             return model
+    """
+
+    def get_predictions(self, image):
+        # A: convert the image saved in the cloud into a bytes-like object
+        img_data = image.read()
+        img_bytes = bytearray(img_data)
+        files = {'image': img_bytes}
+        # B: get the predcitions from the Plant Vision API
+        url = "https://plantvision.herokuapp.com/Diagnosis/prediction"
+        response = requests.post(url, files=files)
+        # C: parse the response from str --> list of floating point nums
+        probabilities_str = json.loads(response.text)['prediction']
+        print("Response, ", probabilities_str)
+        prediction_probabilities = [
+            float(num) for num in probabilities_str[1:-1].split(", ")
+        ]
+        print("Length,", len(prediction_probabilities))
+        print("Parsed response: ", prediction_probabilities)
+        return prediction_probabilities
+        
+
 
     def diagnose(self, predictions):
         """Returns the model's label for a leaf image.
@@ -144,21 +167,39 @@ class MachineLearning(models.Model):
         label = self.LEAF_LABELS[index_highest_proba]
         # B: get the prediction probability
         confidence = predictions[index_highest_proba]
-        print("confidence", confidence)
         # C: init the status at "Moderate", one of the values in Leaf.STATUSES
         statuses = Leaf.get_status_abbreviations()
         status = statuses[0]
         # D: decide the condition
         condition = label.split("_")[-1]
-        print("condition", label, condition)
         # E: change the status if necessary
         if confidence > UPPER_THRESHOLD:
             if condition == "healthy":
                 status = statuses[1]  # stands for "Healthy"
             else:  # the model has confidence that the plant is not healthy
                 status = statuses[2]
-        print("status", status)
-        return [status, condition, confidence]        
+        return [status, condition, confidence]  
+
+    def image_from_s3(self, img_url):
+        """Returns an image stored as an object on AWS S3, as a Tensor.
+
+        Parameter:
+        img_url(str): an HTTPS address where the leaf image was saved on S3
+
+        Returns: PIL.Image: representation of the image in Pillow  
+        """ 
+        # init AWS-relevant info
+        s3 = boto3.resource('s3')
+        bucket = s3.Bucket(settings.AWS_STORAGE_BUCKET_NAME)
+        # get the path to the image on S3, leaving out the rest
+        start_path = img_url.find("garden") 
+        end_path = img_url.find("?")
+        path = img_url[start_path:end_path]
+        # get the image data, and convert to PIL.Image
+        object = bucket.Object(path)
+        response = object.get()
+        # return Image.open(response['Body']) 
+        return response['Body']
 
     def predict_health(self, leaf):
         """Predicts the status and condition of a Leaf, returns the confidence
@@ -174,7 +215,7 @@ class MachineLearning(models.Model):
                        is correct.
         """
         # build the model
-        model = self.build()
+        # model = self.build()
         # preprocess the image data
         img_url = leaf.image.url  # URL in the cloud
         # if settings.DEBUG:  # TODO: make it work on a local filesystem path
@@ -183,13 +224,13 @@ class MachineLearning(models.Model):
         #         + Leaf.UPLOAD_LOCATION 
         #         + leaf.image.url
         #     )
-        image = keras.preprocessing.image.load_img(img_url)
-        tensor_image = keras.preprocessing.image.img_to_array(image)
-        resized_img = tf.image.resize(tensor_image, [256, 256])
-        final_image = tf.keras.applications.inception_v3.preprocess_input(resized_img)
-        # make a 4D tensor before we're ready to predict
-        final_input = np.expand_dims(final_image, axis=0)
-        # predict on the image data - use an outer list to make a 4D Tensor
-        prediction_probabilities = model(final_input, training=False)
-        # return first array in output - these are predictions for that sample
-        return self.diagnose(prediction_probabilities[0])
+        image = self.image_from_s3(img_url)
+        # tensor_image = keras.preprocessing.image.img_to_array(image)
+        # resized_img = tf.image.resize(tensor_image, [256, 256])
+        # final_image = tf.keras.applications.inception_v3.preprocess_input(resized_img)
+        # # make a 4D tensor before we're ready to predict
+        # final_input = np.expand_dims(final_image, axis=0)
+        # predict on the image data - use the Plant Vision API
+        prediction_probabilities = self.get_predictions(image)
+        # process the predictions
+        return self.diagnose(prediction_probabilities)
