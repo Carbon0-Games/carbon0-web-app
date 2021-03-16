@@ -22,3 +22,11 @@ class PlantForm(forms.ModelForm):
             "is_edible",
             "description",
         ]
+
+
+class HarvestForm(forms.Form):
+    pounds_harvested = forms.FloatField(
+        help_text=
+        "How much produce did you harvest this \
+        season from your garden (in pounds)?"
+    )

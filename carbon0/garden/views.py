@@ -1,12 +1,17 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import ModelForm
+from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 
-from .forms import LeafForm, PlantForm
+from .forms import (
+    HarvestForm,
+    LeafForm, 
+    PlantForm,
+)
 from .models.leaf import Leaf
 from .models.plant import Plant
 from .models.ml import MachineLearning
@@ -170,3 +175,16 @@ class PlantCreate(LoginRequiredMixin, CreateView):
         if form.is_valid():
             return self.form_valid(form, request)
         return super().form_invalid(form)
+
+
+class HarvestView(LoginRequiredMixin, TemplateView):
+    """User is able to earn points for growing their own produce."""
+
+    form_class = HarvestForm
+    template_name = ''  # TODO: add a template
+
+    def get_context_data(self, **kwargs):
+        '''Adds the form to the context of the HTML template.'''
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class()
+        return context
