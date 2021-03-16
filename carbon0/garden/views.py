@@ -1,10 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import ModelForm
-from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import ListView
 
 from .forms import (
@@ -177,14 +176,8 @@ class PlantCreate(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class HarvestView(LoginRequiredMixin, TemplateView):
+class HarvestView(LoginRequiredMixin, UpdateView):
     """User is able to earn points for growing their own produce."""
 
     form_class = HarvestForm
     template_name = ''  # TODO: add a template
-
-    def get_context_data(self, **kwargs):
-        '''Adds the form to the context of the HTML template.'''
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form_class()
-        return context

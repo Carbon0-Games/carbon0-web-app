@@ -24,9 +24,11 @@ class PlantForm(forms.ModelForm):
         ]
 
 
-class HarvestForm(forms.Form):
-    pounds_harvested = forms.FloatField(
-        help_text=
-        "How much produce did you harvest this \
-        season from your garden (in pounds)?"
-    )
+class HarvestForm(forms.ModelForm):
+    """A form for the user to record the amount of produce they grew."""
+    class Meta:
+        model = Plant
+        fields = [
+            'measuring_unit',
+            'amount_harvested',
+        ]
