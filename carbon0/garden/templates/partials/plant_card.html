@@ -41,6 +41,7 @@
             method: "GET",
             url: endpoint,
             success: function (data) {
+                // show the user what the latest health status was on the preview
                 lastStatus = data.latestStatus;
                 lastUpdated = data.lastUpdated;
                 displayHealthPreview(elemID, lastStatus, lastUpdated);
