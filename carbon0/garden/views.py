@@ -20,17 +20,17 @@ class LeafCreate(LoginRequiredMixin, CreateView):
     template_name = "garden/leaf/create.html"
 
     def get_context_data(self, plant_id=None, **kwargs):
-        '''Insert the plant and new leaf into the context dict.'''
+        """Insert the plant and new leaf into the context dict."""
         context = {}
         if self.object:
-            context['object'] = self.object
+            context["object"] = self.object
             context_object_name = self.get_context_object_name(self.object)
             if context_object_name:
                 context[context_object_name] = self.object
         context.update(kwargs)
         # adding the plant to the context
         if plant_id is not None:
-            context['plant'] = Plant.objects.get(id=plant_id)
+            context["plant"] = Plant.objects.get(id=plant_id)
         return super().get_context_data(**context)
 
     def get(self, request: HttpRequest, plant_id: int):
@@ -72,9 +72,7 @@ class LeafCreate(LoginRequiredMixin, CreateView):
 
     def form_invalid(self, form, plant_id):
         """If the form is invalid, render the invalid form."""
-        return self.render_to_response(
-            self.get_context_data(plant_id, form=form)
-        )
+        return self.render_to_response(self.get_context_data(plant_id, form=form))
 
     def form_valid(self, form, plant_id):
         """Sets the fields on the new Leaf, redirects to see its details."""
@@ -163,7 +161,7 @@ class PlantCreate(LoginRequiredMixin, CreateView):
         """Ensures the new Plant instance is connected to the user,
         and that the is_edible field is boolean."""
         form.instance.profile = request.user.profile
-        form.instance.is_edible = (form.instance.is_edible == True)
+        form.instance.is_edible = form.instance.is_edible == True
         return super().form_valid(form)
 
     def post(self, request: HttpRequest):

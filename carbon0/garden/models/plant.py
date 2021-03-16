@@ -26,8 +26,8 @@ class Plant(models.Model):
     )
     is_edible = models.BooleanField(
         null=True,
-        default=False, 
-        help_text="Are you growing this plant to grow your own food?"
+        default=False,
+        help_text="Are you growing this plant to grow your own food?",
     )
     description = models.TextField(
         null=True,

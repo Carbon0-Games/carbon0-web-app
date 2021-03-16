@@ -13,8 +13,7 @@ class Leaf(models.Model):
     # save static files related to this model in app subdirectory
     UPLOAD_LOCATION = os.path.join("garden", "images")
     image = models.ImageField(
-        upload_to=UPLOAD_LOCATION, 
-        null=True, blank=True, help_text="Image of the leaf."
+        upload_to=UPLOAD_LOCATION, null=True, blank=True, help_text="Image of the leaf."
     )
     STATUSES = [
         ("M", "Moderate"),  # can also set this option when the model is unsure
@@ -57,11 +56,11 @@ class Leaf(models.Model):
 
     @classmethod
     def get_status_abbreviations(cls):
-        '''Return a list of the abbreivated health statuses.'''
+        """Return a list of the abbreivated health statuses."""
         return [abbreviation for abbreviation, full in cls.STATUSES]
 
     def get_confidence(self):
-        '''Returns the confidence of the health check as a percentage.'''
+        """Returns the confidence of the health check as a percentage."""
         if self.confidence is not None:
             rounded = round(self.confidence, 3) * 100
             return f"{rounded}%"

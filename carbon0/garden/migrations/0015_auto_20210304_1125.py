@@ -6,16 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('garden', '0014_auto_20210303_1104'),
+        ("garden", "0014_auto_20210303_1104"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='machinelearning',
-            name='architecture',
+            model_name="machinelearning",
+            name="architecture",
         ),
         migrations.RemoveField(
-            model_name='machinelearning',
-            name='weights',
+            model_name="machinelearning",
+            name="weights",
         ),
     ]
