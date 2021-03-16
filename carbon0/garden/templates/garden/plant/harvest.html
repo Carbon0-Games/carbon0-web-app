@@ -1,1 +1,41 @@
 <!-- carbon0/garden/templates/garden/plant/harvest.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    <style>
+        /* form fields are in black */
+        label, span {
+            color: black;
+        }
+    </style>
+    <div class="main">
+        <div class="container">
+            <!-- Header -->
+            <div class="row mt-5 mb-2 ml-3">
+                <h1 class="blue-header">Record Your Harvest</h1>
+            </div>
+            <!-- Harvest Form -->
+            <div class="card">
+                <div class="card-title">
+                    <p class="text-dark">
+                        Please fill out the form below.
+                    </p>
+                </div>
+                <form class="form-group card-body" method="post">
+                    {% csrf_token %}
+                    <div class="text-dark">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="row justify-content-center">
+                        <input class="mr-5" type="submit" value="Submit Harvest">
+                        <a class="btn btn-warning" href="{% url 'garden:plant_detail' plant.slug %}">
+                            Back to My Garden
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
