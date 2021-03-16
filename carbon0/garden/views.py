@@ -226,10 +226,11 @@ class HarvestView(LoginRequiredMixin, TemplateView):
         plant.save()
         user.users_footprint -= new_harvest_amount
         user.save()
-        # D: add a Achievement for the harvest
+        # D: add a Achievement for the harvest, give it the diet category
         new_achievement = Achievement.objects.create(
             profile=user, 
-            harvest_decrease=new_harvest_amount
+            harvest_decrease=new_harvest_amount,
+            zeron_image_url=Achievement.ZERONS[0][0]
         )
         new_achievement.save()
         # E: redirect to the PlantDetail view    
