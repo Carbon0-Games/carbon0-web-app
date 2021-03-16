@@ -83,6 +83,11 @@ class Achievement(models.Model):
         blank=True,
         help_text="The text-answer which completed the mission.",
     )
+    harvest_decrease = models.FloatField(
+        default=0, 
+        help_text="If the achievement is for a harvest, \
+            this is the amount of CO2 that was sequestered."
+    )
 
     def __str__(self):
         """Returns a human-readable name for the Achievement."""
@@ -144,6 +149,9 @@ class Achievement(models.Model):
                 self.mission.percent_carbon_sequestration
                 * self.mission.question.carbon_value
             )
+        # separate algorithm to use for when the user made a harvest
+        elif self.harvest_decrease is not None:
+            new_footprint = current_footprint - self.harvest_decrease
         return round(new_footprint, 4)
 
     def calculate_new_footprint(self, has_user=True):
@@ -211,11 +219,12 @@ class Achievement(models.Model):
             If the user has a profile, we use the new Achievement to increment
             their level in the category of the Mission they completed.
             """
-            # get the related Mission, and the Question category
-            category = self.mission.question.category
-            # increment the player's level in that category if possible
-            self.profile.increment_player_level(category)
-            return None
+            if self.mission is not None:
+                # get the related Mission, and the Question category
+                category = self.mission.question.category
+                # increment the player's level in that category if possible
+                self.profile.increment_player_level(category)
+                return None
 
         # get the unique secret id, make it URL safe
         secret_id = slugify(generate_unique_id())
@@ -225,6 +234,7 @@ class Achievement(models.Model):
         if self.profile is not None:
             update_player_level()
             # also update the player' carbon footprint on some Achievements
-            if "learning" not in self.mission.title.lower():
-                update_profile_footprint()
+            if self.mission is not None: 
+                if "learning" not in self.mission.title.lower():
+                    update_profile_footprint()
         return super(Achievement, self).save(*args, **kwargs)

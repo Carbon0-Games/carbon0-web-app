@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 
+from carbon_quiz.models.achievement import Achievement
 from .forms import (
     HarvestForm,
     LeafForm, 
@@ -225,7 +226,13 @@ class HarvestView(LoginRequiredMixin, TemplateView):
         plant.save()
         user.users_footprint -= new_harvest_amount
         user.save()
-        # D: redirect to the PlantDetail view    
+        # D: add a Achievement for the harvest
+        new_achievement = Achievement.objects.create(
+            profile=user, 
+            harvest_decrease=new_harvest_amount
+        )
+        new_achievement.save()
+        # E: redirect to the PlantDetail view    
         return HttpResponseRedirect(plant.get_absolute_url())
 
     def post(self, request, slug):
