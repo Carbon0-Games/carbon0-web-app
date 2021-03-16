@@ -178,6 +178,8 @@ class PlantCreate(LoginRequiredMixin, CreateView):
 
 class HarvestView(LoginRequiredMixin, UpdateView):
     """User is able to earn points for growing their own produce."""
-
+    
+    model = Plant
     form_class = HarvestForm
-    template_name = ''  # TODO: add a template
+    template_name = "garden/plant/harvest.html"
+    queryset = Plant.objects.filter(is_edible=True)
