@@ -5,6 +5,14 @@
 {% block content %}
     <div class="main">
         <div class="container">
+             <!-- if user has just recorded a harvest -->
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <p{% if message.tags %} class="{{ message.tags }} alert alert-success"{% endif %}>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <!-- Plant Title -->
             <div class="row mt-5 mb-2 m-3">
                 <h1 class="blue-header">{{ plant.nickname }}</h1>

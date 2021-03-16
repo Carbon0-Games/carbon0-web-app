@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.forms import ModelForm
-from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
@@ -176,14 +176,14 @@ class PlantCreate(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class HarvestView(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
+class HarvestView(LoginRequiredMixin, TemplateView):
     """User is able to earn points for growing their own produce."""
     
     model = Plant
     form_class = HarvestForm
     template_name = "garden/plant/harvest.html"
     queryset = Plant.objects.filter(is_edible=True)
-    success_message = "Huzzah! We've lowered your carbon  \
+    success_message = "Huzzah! Congrats, we've lowered your carbon  \
                       footprint in honor of your harvest."
 
     def get(self, request, slug):
@@ -225,7 +225,7 @@ class HarvestView(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
         plant.save()
         user.users_footprint -= new_harvest_amount
         user.save()
-        # D: redirect to the PlantDetail view        
+        # D: redirect to the PlantDetail view    
         return HttpResponseRedirect(plant.get_absolute_url())
 
     def post(self, request, slug):
@@ -242,8 +242,12 @@ class HarvestView(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
         """
         # A: instanitate the form
         form = self.form_class(request.POST)
-        # B: validate the form and process accordingly 
+        # B: validate the form 
         if form.is_valid():
+            # add a success message
+            messages.add_message(request, messages.SUCCESS, 
+                                 self.success_message)
+            # process the form as appropiate
             return self.form_valid(slug, form)
         return self.form_invalid(form)
 
