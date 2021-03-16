@@ -190,7 +190,7 @@ class HarvestView(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
                       footprint in honor of your harvest."
 
     def get(self, request, slug):
-        plant = self.queryset.filter(slug=slug)
+        plant = self.queryset.get(slug=slug)
         form = self.form_class()
         context = {
             "plant": plant,
