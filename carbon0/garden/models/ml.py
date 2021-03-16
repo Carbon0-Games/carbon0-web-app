@@ -21,10 +21,20 @@ class MachineLearning(models.Model):
     )    
 
     def __str__(self):
-        """Return a human-understandable name for the deep learning model."""
+        """Return a human-understandable name for a CNN model."""
         return f"CNN {self.id}"
 
     def get_prediction(self, image):
+        """Returns the label and confidence scored by the leaf image.
+
+        Parameter:
+        image(file-like): image data that can be converted to an array
+
+        Returns: List[str, float]: the label that was returned by the 
+                 Plant Vision API, and the confidence level of the model
+                 in its prediction (value between 0-1 inclusive).
+        
+        """
         # A: convert the image saved in the cloud into a bytes-like object
         img_data = image.read()
         img_bytes = bytearray(img_data)
@@ -70,7 +80,7 @@ class MachineLearning(models.Model):
         labelling a plant healthy just without having at least some certainty.
 
         """
-        LOWER_THRESHOLD = 0.83333
+        LOWER_THRESHOLD = 0.083333
         UPPER_THRESHOLD = 0.10000
         # A: get the prediction label and confidence
         label, confidence = prediction
@@ -93,7 +103,7 @@ class MachineLearning(models.Model):
         Parameter:
         img_url(str): an HTTPS address where the leaf image was saved on S3
 
-        Returns: PIL.Image: representation of the image in Pillow  
+        Returns: file-like object: the image stored in S3
         """ 
         # init AWS-relevant info
         s3 = boto3.resource('s3')
@@ -102,10 +112,9 @@ class MachineLearning(models.Model):
         start_path = img_url.find("garden") 
         end_path = img_url.find("?")
         path = img_url[start_path:end_path]
-        # get the image data, and convert to PIL.Image
+        # get the image data and return it
         object = bucket.Object(path)
         response = object.get()
-        # return Image.open(response['Body']) 
         return response['Body']
 
     def predict_health(self, leaf):

@@ -215,11 +215,9 @@ input, textarea {
 }
 
 .carbon0-card {
-/* to be combined with Bootstrap card class */
--webkit-appearance: none;
+/* to be combined with Bootstrap card class - especially care about the border radius */
 font-size: 16px;
-border-radius: 16px;
-white-space: nowrap;
+border-radius: 16px; 
 overflow: hidden;
 text-align: center;
 text-decoration: none;
