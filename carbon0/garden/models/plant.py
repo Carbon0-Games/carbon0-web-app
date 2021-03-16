@@ -48,7 +48,7 @@ class Plant(models.Model):
     amount_harvested_total = models.FloatField(
         default=0,
         help_text="How much produce did you harvest this \
-        season from your garden (in pounds)?"
+        season from your garden (in kilograms)? 1 kg = 2.20462262 lbs."
     )
 
 

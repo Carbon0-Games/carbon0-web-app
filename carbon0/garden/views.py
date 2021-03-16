@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import ModelForm
 from django.contrib.messages.views import SuccessMessageMixin
@@ -6,7 +5,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 
 from .forms import (
@@ -105,8 +104,6 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form, plant_id)
-        print("Form is not valid")
-        print(form.data)
         return self.form_invalid(form, plant_id)
 
 
@@ -190,6 +187,15 @@ class HarvestView(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
                       footprint in honor of your harvest."
 
     def get(self, request, slug):
+        """Renders the form where users record their harvest.
+
+        Parameters:
+        request(HttpRequest): the GET request sent by the client
+        slug(str): a unique id of the Plant being harvested
+
+        Returns: HttpResponse: the view of the template with the form
+
+        """
         plant = self.queryset.get(slug=slug)
         form = self.form_class()
         context = {
@@ -197,3 +203,49 @@ class HarvestView(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
             "form": form
         }
         return render(request, self.template_name, context)
+
+    def form_valid(self, slug, form) -> HttpResponseRedirect:
+        """Updates the database models for the plant and user.
+
+        Parameters:
+        slug(str): a unique id of the Plant being harvested
+        form(.forms.HarvestForm): holds relevant data about the harvest record
+
+        Returns: HttpResponseRedirect: the player goes back to
+                the view of the PlantDetail template
+
+        """
+        # A: get the plant and related user
+        plant = self.queryset.get(slug=slug)
+        user = plant.profile
+        # B: get the amount harvested in kg
+        new_harvest_amount = form.get_harvest()
+        # C: update the plant's total harvest amount and the user's footprint
+        plant.amount_harvested_total += new_harvest_amount
+        plant.save()
+        user.users_footprint -= new_harvest_amount
+        user.save()
+        # D: redirect to the PlantDetail view        
+        return HttpResponseRedirect(plant.get_absolute_url())
+
+    def post(self, request, slug):
+        """Processes the form submission and updates the 
+        Player and Plant profiles accordingly.
+
+        Parameters:
+        request(HttpRequest): the POST request sent by the client
+        slug(str): a unique id of the Plant being harvested
+
+        Returns: HttpResponseRedirect: the player goes back to
+                the view of the PlantDetail template
+
+        """
+        # A: instanitate the form
+        form = self.form_class(request.POST)
+        # B: validate the form and process accordingly 
+        if form.is_valid():
+            return self.form_valid(slug, form)
+        return self.form_invalid(form)
+
+
+

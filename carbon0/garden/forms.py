@@ -1,4 +1,6 @@
 from django import forms
+from django.conf import settings
+
 from .models.leaf import Leaf
 from .models.plant import Plant
 
@@ -38,3 +40,10 @@ class HarvestForm(forms.Form):
         help_text="How much produce did you harvest this \
         season from your garden (in pounds)?"
     )
+
+    def get_harvest(self):
+        '''Returns amount harvested in kg, taking care of any conversions.'''
+        amount = self.cleaned_data.get('amount_harvested')
+        if self.cleaned_data.get('measuring_unit') == "lbs":
+            amount = amount * settings.POUNDS_TO_KILOGRAMS
+        return amount
