@@ -1,12 +1,19 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.forms import ModelForm
+from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 
-from .forms import LeafForm, PlantForm
+from carbon_quiz.models.achievement import Achievement
+from .forms import (
+    HarvestForm,
+    LeafForm, 
+    PlantForm,
+)
 from .models.leaf import Leaf
 from .models.plant import Plant
 from .models.ml import MachineLearning
@@ -20,17 +27,17 @@ class LeafCreate(LoginRequiredMixin, CreateView):
     template_name = "garden/leaf/create.html"
 
     def get_context_data(self, plant_id=None, **kwargs):
-        '''Insert the plant and new leaf into the context dict.'''
+        """Insert the plant and new leaf into the context dict."""
         context = {}
         if self.object:
-            context['object'] = self.object
+            context["object"] = self.object
             context_object_name = self.get_context_object_name(self.object)
             if context_object_name:
                 context[context_object_name] = self.object
         context.update(kwargs)
         # adding the plant to the context
         if plant_id is not None:
-            context['plant'] = Plant.objects.get(id=plant_id)
+            context["plant"] = Plant.objects.get(id=plant_id)
         return super().get_context_data(**context)
 
     def get(self, request: HttpRequest, plant_id: int):
@@ -72,9 +79,7 @@ class LeafCreate(LoginRequiredMixin, CreateView):
 
     def form_invalid(self, form, plant_id):
         """If the form is invalid, render the invalid form."""
-        return self.render_to_response(
-            self.get_context_data(plant_id, form=form)
-        )
+        return self.render_to_response(self.get_context_data(plant_id, form=form))
 
     def form_valid(self, form, plant_id):
         """Sets the fields on the new Leaf, redirects to see its details."""
@@ -100,8 +105,6 @@ class LeafCreate(LoginRequiredMixin, CreateView):
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form, plant_id)
-        print("Form is not valid")
-        print(form.data)
         return self.form_invalid(form, plant_id)
 
 
@@ -163,7 +166,7 @@ class PlantCreate(LoginRequiredMixin, CreateView):
         """Ensures the new Plant instance is connected to the user,
         and that the is_edible field is boolean."""
         form.instance.profile = request.user.profile
-        form.instance.is_edible = (form.instance.is_edible == True)
+        form.instance.is_edible = form.instance.is_edible == True
         return super().form_valid(form)
 
     def post(self, request: HttpRequest):
@@ -172,3 +175,89 @@ class PlantCreate(LoginRequiredMixin, CreateView):
         if form.is_valid():
             return self.form_valid(form, request)
         return super().form_invalid(form)
+
+
+class HarvestView(LoginRequiredMixin, TemplateView):
+    """User is able to earn points for growing their own produce."""
+    
+    model = Plant
+    form_class = HarvestForm
+    template_name = "garden/plant/harvest.html"
+    queryset = Plant.objects.filter(is_edible=True)
+    success_message = "Huzzah! Congrats, we've lowered your carbon  \
+                      footprint in honor of your harvest."
+
+    def get(self, request, slug):
+        """Renders the form where users record their harvest.
+
+        Parameters:
+        request(HttpRequest): the GET request sent by the client
+        slug(str): a unique id of the Plant being harvested
+
+        Returns: HttpResponse: the view of the template with the form
+
+        """
+        plant = self.queryset.get(slug=slug)
+        form = self.form_class()
+        context = {
+            "plant": plant,
+            "form": form
+        }
+        return render(request, self.template_name, context)
+
+    def form_valid(self, slug, form) -> HttpResponseRedirect:
+        """Updates the database models for the plant and user.
+
+        Parameters:
+        slug(str): a unique id of the Plant being harvested
+        form(.forms.HarvestForm): holds relevant data about the harvest record
+
+        Returns: HttpResponseRedirect: the player goes back to
+                the view of the PlantDetail template
+
+        """
+        # A: get the plant and related user
+        plant = self.queryset.get(slug=slug)
+        user = plant.profile
+        # B: get the amount harvested in kg
+        new_harvest_amount = form.get_harvest()
+        # C: update the plant's total harvest amount and the user's footprint
+        plant.amount_harvested_total += new_harvest_amount
+        plant.save()
+        user.users_footprint -= new_harvest_amount
+        user.save()
+        # D: add a Achievement for the harvest, give it the diet category
+        new_achievement = Achievement.objects.create(
+            profile=user, 
+            harvest_decrease=new_harvest_amount,
+            zeron_image_url=Achievement.ZERONS[0][0]
+        )
+        new_achievement.save()
+        # E: redirect to the PlantDetail view    
+        return HttpResponseRedirect(plant.get_absolute_url())
+
+    def post(self, request, slug):
+        """Processes the form submission and updates the 
+        Player and Plant profiles accordingly.
+
+        Parameters:
+        request(HttpRequest): the POST request sent by the client
+        slug(str): a unique id of the Plant being harvested
+
+        Returns: HttpResponseRedirect: the player goes back to
+                the view of the PlantDetail template
+
+        """
+        # A: instanitate the form
+        form = self.form_class(request.POST)
+        # B: validate the form 
+        if form.is_valid():
+            # add a success message
+            messages.add_message(request, messages.SUCCESS, 
+                                 self.success_message)
+            # process the form as appropiate
+            return self.form_valid(slug, form)
+        return self.form_invalid(form)
+
+
+

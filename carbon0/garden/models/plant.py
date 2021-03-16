@@ -26,8 +26,8 @@ class Plant(models.Model):
     )
     is_edible = models.BooleanField(
         null=True,
-        default=False, 
-        help_text="Are you growing this plant to grow your own food?"
+        default=False,
+        help_text="Are you growing this plant to grow your own food?",
     )
     description = models.TextField(
         null=True,
@@ -45,6 +45,12 @@ class Plant(models.Model):
         help_text="The user who owns this plant.",
     )
     created = models.DateTimeField(auto_now=True)
+    amount_harvested_total = models.FloatField(
+        default=0,
+        help_text="How much produce did you harvest this \
+        season from your garden (in kilograms)? 1 kg = 2.20462262 lbs."
+    )
+
 
     def __str__(self):
         """Return a string representation, show relation to the Profile."""

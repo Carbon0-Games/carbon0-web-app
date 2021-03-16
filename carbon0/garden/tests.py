@@ -54,29 +54,26 @@ class LeafCreateTests(TestCase):
 
     def test_user_posts_new_leaf(self):
         """A user submits the form to add a new Leaf to the db.
-        
+
         NOTE for developers using LOCAL settings: In this is test case
-        we use the test client (django.test.client.Client) 
-        to mock a user uploading a file when they submit the form. 
-        
-        This was done only so that your file system doesn't need to save a 
-        new image every time the new Leaf object is inserted into the 
+        we use the test client (django.test.client.Client)
+        to mock a user uploading a file when they submit the form.
+
+        This was done only so that your file system doesn't need to save a
+        new image every time the new Leaf object is inserted into the
         test database.
 
         However, be warned that this test case DOES NOT actually insert a new
         Leaf model into the db. So please make another test function in case
-        you want to test things that depend on the Leaf model actually being 
+        you want to test things that depend on the Leaf model actually being
         in the test database (e.g. if it's related to the correct Plant after
         saving).
         """
         # authenticate the request
-        self.client.login(
-            username=self.user.username, password=self.user.password
-        )
+        self.client.login(username=self.user.username, password=self.user.password)
         # init a test image
         mock_image_path = (
-            Path(__file__).resolve().parent / 
-            "static/garden/images/AppleCedarRust1.jpg"
+            Path(__file__).resolve().parent / "static/garden/images/AppleCedarRust1.jpg"
         )
         mock_image = SimpleUploadedFile(
             name="test_image.jpg",
@@ -87,6 +84,7 @@ class LeafCreateTests(TestCase):
         form_data = {"image": mock_image}
         response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 302)
+
 
 class PersonalPlantListTests(TestCase):
     def setUp(self) -> None:

@@ -81,6 +81,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "carbon0.wsgi.application"
 
+# Conversion Factors for Measurement Calculations in garden app
+POUNDS_TO_KILOGRAMS = 0.45359237
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

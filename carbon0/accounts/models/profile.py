@@ -10,9 +10,7 @@ from carbon_quiz.models.question import Question
 
 class Profile(models.Model):
     # save static files related to this model in app subdirectory
-    UPLOAD_LOCATION = os.path.join(
-        "accounts", "static", "accounts", "images"
-    )
+    UPLOAD_LOCATION = os.path.join("accounts", "static", "accounts", "images")
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     mugshot = models.ImageField(
         upload_to=UPLOAD_LOCATION, null=True, blank=True, help_text="User profile image"

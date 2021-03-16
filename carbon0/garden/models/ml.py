@@ -18,7 +18,7 @@ class MachineLearning(models.Model):
         help_text="Describe what the model does.",
         default="V",
         choices=PURPOSES,
-    )    
+    )
 
     def __str__(self):
         """Return a human-understandable name for a CNN model."""
@@ -30,22 +30,22 @@ class MachineLearning(models.Model):
         Parameter:
         image(file-like): image data that can be converted to an array
 
-        Returns: List[str, float]: the label that was returned by the 
+        Returns: List[str, float]: the label that was returned by the
                  Plant Vision API, and the confidence level of the model
                  in its prediction (value between 0-1 inclusive).
-        
+
         """
         # A: convert the image saved in the cloud into a bytes-like object
         img_data = image.read()
         img_bytes = bytearray(img_data)
-        files = {'image': img_bytes}
+        files = {"image": img_bytes}
         # B: get the predcitions from the Plant Vision API
         url = "https://plantvision.herokuapp.com/Diagnosis/prediction"
         response = requests.post(url, files=files)
-        # C: parse the response 
+        # C: parse the response
         label, confidence = (
-            json.loads(response.text)['label'],
-            json.loads(response.text)['confidence'],
+            json.loads(response.text)["label"],
+            json.loads(response.text)["confidence"],
         )
         return [label, confidence]
 
@@ -53,7 +53,7 @@ class MachineLearning(models.Model):
         """Returns the model's label for a leaf image.
 
         Parameters:
-        prediction(List[str, float]): the label and confidence 
+        prediction(List[str, float]): the label and confidence
             that the Plant Vision API gave to our user's leaf image
 
         Returns:
@@ -68,11 +68,11 @@ class MachineLearning(models.Model):
         on the leaves, not the actual species (that is handled by the user).
 
         Since there are only about 12 distinct conditions the leaf can be in
-        (e.g. "healthy", "blight", "mold") in the labels listed above, we'll 
-        use 1/12 as the lower end of our threshold. This is the minimum 
-        confidence the model must have for one of the conditions above to 
-        take majority. 
-        
+        (e.g. "healthy", "blight", "mold") in the labels listed above, we'll
+        use 1/12 as the lower end of our threshold. This is the minimum
+        confidence the model must have for one of the conditions above to
+        take majority.
+
         The upper end of our threshold is set arbitrarily at
         10% - I'm not really sure if it's the best number, however since the
         model is not 100% accurate we know we at least need to have an
@@ -95,7 +95,7 @@ class MachineLearning(models.Model):
                 status = statuses[1]  # stands for "Healthy"
             else:  # the model has confidence that the plant is not healthy
                 status = statuses[2]
-        return [status, condition, confidence]  
+        return [status, condition, confidence]
 
     def image_from_s3(self, img_url):
         """Returns an image stored as an object on AWS S3, as a Tensor.
@@ -104,18 +104,18 @@ class MachineLearning(models.Model):
         img_url(str): an HTTPS address where the leaf image was saved on S3
 
         Returns: file-like object: the image stored in S3
-        """ 
+        """
         # init AWS-relevant info
-        s3 = boto3.resource('s3')
+        s3 = boto3.resource("s3")
         bucket = s3.Bucket(settings.AWS_STORAGE_BUCKET_NAME)
         # get the path to the image on S3, leaving out the rest
-        start_path = img_url.find("garden") 
+        start_path = img_url.find("garden")
         end_path = img_url.find("?")
         path = img_url[start_path:end_path]
         # get the image data and return it
         object = bucket.Object(path)
         response = object.get()
-        return response['Body']
+        return response["Body"]
 
     def predict_health(self, leaf):
         """Predicts the status and condition of a Leaf, returns the confidence

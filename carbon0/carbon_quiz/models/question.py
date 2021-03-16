@@ -34,9 +34,7 @@ class Question(models.Model):
         blank=True,
     )
     # save static files related to this model in app subdirectory
-    UPLOAD_LOCATION = os.path.join(
-        "carbon_quiz", "static", "carbon_quiz", "images"
-    )
+    UPLOAD_LOCATION = os.path.join("carbon_quiz", "static", "carbon_quiz", "images")
     learn_image = models.ImageField(
         upload_to=UPLOAD_LOCATION,
         null=True,
