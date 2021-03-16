@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import ModelForm
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -177,10 +179,21 @@ class PlantCreate(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class HarvestView(LoginRequiredMixin, UpdateView):
+class HarvestView(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
     """User is able to earn points for growing their own produce."""
     
     model = Plant
     form_class = HarvestForm
     template_name = "garden/plant/harvest.html"
     queryset = Plant.objects.filter(is_edible=True)
+    success_message = "Huzzah! We've lowered your carbon  \
+                      footprint in honor of your harvest."
+
+    def get(self, request, slug):
+        plant = self.queryset.filter(slug=slug)
+        form = self.form_class()
+        context = {
+            "plant": plant,
+            "form": form
+        }
+        return render(request, self.template_name, context)

@@ -45,15 +45,7 @@ class Plant(models.Model):
         help_text="The user who owns this plant.",
     )
     created = models.DateTimeField(auto_now=True)
-    UNITS = [
-        ("kg", "Kilograms"),
-        ("lbs", "English Pounds")
-    ]
-    measuring_unit = models.CharField(
-        choices=UNITS, default="kg", max_length=3,
-        help_text="The unit the gardener measures produce in."
-    )
-    amount_harvested = models.FloatField(
+    amount_harvested_total = models.FloatField(
         default=0,
         help_text="How much produce did you harvest this \
         season from your garden (in pounds)?"
