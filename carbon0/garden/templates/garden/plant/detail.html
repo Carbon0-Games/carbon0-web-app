@@ -19,16 +19,33 @@
                         <p class="row text-dark">Type: {{ plant.common_name }}</p>
                         <p class="row text-dark">Conditions: {{ plant.description }}</p>
                     <div class="row justify-content-center">
-                        <!-- Health Check Button -->
-                        <div class="col-md-6 my-2">
-                            <a href="{% url 'garden:leaf_create' plant.id %}" class="btn btn-success">Add Health Check</a>
-                        </div>
-                        <!-- Back Buttons -->
-                        <div class="col-md-6 my-2">
-                            <a href="{% url 'garden:plant_list' %}" class="btn btn-info">
-                                Back to Plant List
-                            </a>
-                        </div>
+                        {% if plant.is_edible %}
+                            <!-- Health Check Button -->
+                            <div class="col-md-4 my-2">
+                                <a href="{% url 'garden:leaf_create' plant.id %}" class="btn btn-success">Add Health Check</a>
+                            </div>
+                            <!-- Harvest Button: only for edible plants -->
+                            <div class="col-md-4 my-2">
+                                <a href="{% url 'garden:harvest' plant.slug %}" class="btn btn-primary">Record Harvest</a>
+                            </div>
+                            <!-- Back Buttons -->
+                            <div class="col-md-4 my-2">
+                                <a href="{% url 'garden:plant_list' %}" class="btn btn-info">
+                                    Back to Plant List
+                                </a>
+                            </div>
+                        {% else %}  <!-- when the plant is not edible, don't show the harvest button -->
+                            <!-- Health Check Button -->
+                            <div class="col-md-6 my-2">
+                                <a href="{% url 'garden:leaf_create' plant.id %}" class="btn btn-success">Add Health Check</a>
+                            </div>
+                            <!-- Back Buttons -->
+                            <div class="col-md-6 my-2">
+                                <a href="{% url 'garden:plant_list' %}" class="btn btn-info">
+                                    Back to Plant List
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
                     <!-- TODO: Update and Delete Plant Buttons -->
                 </div>
