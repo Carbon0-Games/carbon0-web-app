@@ -40,7 +40,6 @@ All while having fun!
 - [Git](https://git-scm.com/doc) and [GitHub](https://www.github.com) - for Version Control and Team Collaboration
 - [WebXR](https://developers.google.com/web/updates/2018/05/welcome-to-immersive) - for displaying AR characters in the browser, with no external hardware required
 - [Chart.js](https://www.chartjs.org/) - for making visualizations the carbon footprints of the players
-- [Tensorflow and Keras](https://www.tensorflow.org/) - for classifying leaf images as healthy using deep learning
 
 <br /><br />
 
