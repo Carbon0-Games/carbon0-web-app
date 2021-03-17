@@ -339,7 +339,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         if len(missions) == 0:
             missions = get_non_improvement_missions(latest_achievement)
         # if failure, try to grab missions randomly
-        if len(missions) == 0: 
+        if len(missions) == 0:
             missions = random.sample(set(self.mission_queryset), 3)
             is_random = True
         # return the missions
@@ -419,8 +419,10 @@ class MissionTrackerComplete(View):
         tracking_missions = list()
         # B: filter all the tracking Missions
         tracking_missions = Mission.objects.filter(
-            needs_auth=True, needs_scan=True, 
-            question__category=category, plant__isnull=True
+            needs_auth=True,
+            needs_scan=True,
+            question__category=category,
+            plant__isnull=True,
         )
         # C: return the missions
         return tracking_missions

@@ -284,7 +284,7 @@ class QuizDetail(UpdateView):
 
 class MissionList(ListView):
     """Displays all the Missions not yet completed by the user,
-       and are separate from the gardening missions.
+    and are separate from the gardening missions.
     """
 
     model = Mission

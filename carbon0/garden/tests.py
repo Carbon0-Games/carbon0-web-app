@@ -165,7 +165,7 @@ class PlantCreateTests(TestCase):
             question_info="A 2016 UC ANR study found that...",
             carbon_value=0,
             category="D",
-            is_quiz_question=False
+            is_quiz_question=False,
         )
         question.save()
 

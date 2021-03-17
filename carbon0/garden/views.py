@@ -165,7 +165,7 @@ class PlantCreate(LoginRequiredMixin, CreateView):
     queryset = Plant.objects.all()
 
     def associate_mission(self, plant):
-        '''Adds a Tracking Mission to remind the user about their plant.'''
+        """Adds a Tracking Mission to remind the user about their plant."""
         # A: NOTE: be careful if there is more than 1 non-quiz question!
         non_quiz_questions = Question.objects.filter(is_quiz_question=False)
         garden_question = non_quiz_questions.order_by("id").first()
@@ -174,7 +174,9 @@ class PlantCreate(LoginRequiredMixin, CreateView):
             title=f"Taking Care of {plant.nickname}",
             action=f"Make sure to check-in on {plant.nickname}!",
             question=garden_question,
-            plant=plant, needs_auth=True, needs_scan=True
+            plant=plant,
+            needs_auth=True,
+            needs_scan=True,
         )
         new_mission.save()
 
@@ -182,7 +184,7 @@ class PlantCreate(LoginRequiredMixin, CreateView):
         """Saves the associated plant model and mission, and
         redirects the player.
 
-        Parameters: 
+        Parameters:
         form(ModelForm): contains the data needed to make a new Plant
         request(HttpRequest): encapsulates the user who owns the Plant
 
