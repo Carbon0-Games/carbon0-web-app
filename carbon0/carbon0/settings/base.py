@@ -15,7 +15,6 @@ import django_heroku
 import dj_database_url
 import os
 from pathlib import Path
-from sentry_sdk.integrations.django import DjangoIntegration
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

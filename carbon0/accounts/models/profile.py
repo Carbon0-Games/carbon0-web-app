@@ -2,7 +2,6 @@ import os
 
 from django.conf import settings
 from django.db import models
-from django.utils import tree
 
 from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question

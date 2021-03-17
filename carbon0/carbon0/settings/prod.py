@@ -1,5 +1,6 @@
 import os
 import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 from carbon0.settings.base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
