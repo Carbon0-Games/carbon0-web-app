@@ -30,6 +30,7 @@ class MissionAdmin(admin.ModelAdmin):
                     "requires_answer",
                     "needs_auth",
                     "needs_scan",
+                    "plant",
                 ]
             },
         ),
