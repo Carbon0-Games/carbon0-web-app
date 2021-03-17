@@ -84,9 +84,9 @@ class Achievement(models.Model):
         help_text="The text-answer which completed the mission.",
     )
     harvest_decrease = models.FloatField(
-        default=0, 
+        default=0,
         help_text="If the achievement is for a harvest, \
-            this is the amount of CO2 that was sequestered."
+            this is the amount of CO2 that was sequestered.",
     )
 
     def __str__(self):
@@ -234,7 +234,7 @@ class Achievement(models.Model):
         if self.profile is not None:
             update_player_level()
             # also update the player' carbon footprint on some Achievements
-            if self.mission is not None: 
+            if self.mission is not None:
                 if "learning" not in self.mission.title.lower():
                     update_profile_footprint()
         return super(Achievement, self).save(*args, **kwargs)

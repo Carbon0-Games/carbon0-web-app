@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('carbon_quiz', '0092_auto_20210224_0927'),
+        ("carbon_quiz", "0092_auto_20210224_0927"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='achievement',
-            name='harvest_decrease',
-            field=models.FloatField(default=0, help_text='If the achievement is for a harvest,             this is the amount of CO2 that was sequestered.'),
+            model_name="achievement",
+            name="harvest_decrease",
+            field=models.FloatField(
+                default=0,
+                help_text="If the achievement is for a harvest,             this is the amount of CO2 that was sequestered.",
+            ),
         ),
     ]

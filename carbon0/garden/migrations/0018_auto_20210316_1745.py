@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('garden', '0017_auto_20210316_1708'),
+        ("garden", "0017_auto_20210316_1708"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='plant',
-            name='amount_harvested_total',
-            field=models.FloatField(default=0, help_text='How much produce did you harvest this         season from your garden (in kilograms)? 1 kg = 2.20462262 lbs.'),
+            model_name="plant",
+            name="amount_harvested_total",
+            field=models.FloatField(
+                default=0,
+                help_text="How much produce did you harvest this         season from your garden (in kilograms)? 1 kg = 2.20462262 lbs.",
+            ),
         ),
     ]

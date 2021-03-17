@@ -11,7 +11,7 @@ from django.views.generic import ListView
 from carbon_quiz.models.achievement import Achievement
 from .forms import (
     HarvestForm,
-    LeafForm, 
+    LeafForm,
     PlantForm,
 )
 from .models.leaf import Leaf
@@ -179,7 +179,7 @@ class PlantCreate(LoginRequiredMixin, CreateView):
 
 class HarvestView(LoginRequiredMixin, TemplateView):
     """User is able to earn points for growing their own produce."""
-    
+
     model = Plant
     form_class = HarvestForm
     template_name = "garden/plant/harvest.html"
@@ -199,10 +199,7 @@ class HarvestView(LoginRequiredMixin, TemplateView):
         """
         plant = self.queryset.get(slug=slug)
         form = self.form_class()
-        context = {
-            "plant": plant,
-            "form": form
-        }
+        context = {"plant": plant, "form": form}
         return render(request, self.template_name, context)
 
     def form_valid(self, slug, form) -> HttpResponseRedirect:
@@ -228,16 +225,16 @@ class HarvestView(LoginRequiredMixin, TemplateView):
         user.save()
         # D: add a Achievement for the harvest, give it the diet category
         new_achievement = Achievement.objects.create(
-            profile=user, 
+            profile=user,
             harvest_decrease=new_harvest_amount,
-            zeron_image_url=Achievement.ZERONS[0][0]
+            zeron_image_url=Achievement.ZERONS[0][0],
         )
         new_achievement.save()
-        # E: redirect to the PlantDetail view    
+        # E: redirect to the PlantDetail view
         return HttpResponseRedirect(plant.get_absolute_url())
 
     def post(self, request, slug):
-        """Processes the form submission and updates the 
+        """Processes the form submission and updates the
         Player and Plant profiles accordingly.
 
         Parameters:
@@ -250,14 +247,10 @@ class HarvestView(LoginRequiredMixin, TemplateView):
         """
         # A: instanitate the form
         form = self.form_class(request.POST)
-        # B: validate the form 
+        # B: validate the form
         if form.is_valid():
             # add a success message
-            messages.add_message(request, messages.SUCCESS, 
-                                 self.success_message)
+            messages.add_message(request, messages.SUCCESS, self.success_message)
             # process the form as appropiate
             return self.form_valid(slug, form)
         return self.form_invalid(form)
-
-
-
