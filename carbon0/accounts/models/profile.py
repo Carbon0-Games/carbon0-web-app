@@ -3,7 +3,6 @@ import os
 from django.conf import settings
 from django.db import models
 
-from carbon_quiz.models.mission import Mission
 from carbon_quiz.models.question import Question
 
 
@@ -21,7 +20,7 @@ class Profile(models.Model):
     )
     diet_level = models.IntegerField(
         default=0,
-        choices=Mission.PRIORITIES,
+        choices=settings.PLAYER_LEVELS,
         help_text=("Which level of Diet Missions to recommend" + " for this player."),
     )
     diet_missions_completed = models.IntegerField(
@@ -35,7 +34,7 @@ class Profile(models.Model):
     )
     transit_level = models.IntegerField(
         default=0,
-        choices=Mission.PRIORITIES,
+        choices=settings.PLAYER_LEVELS,
         help_text=(
             "Which level of Transit Missions to recommend" + " for this player."
         ),
@@ -51,7 +50,7 @@ class Profile(models.Model):
     )
     recycling_level = models.IntegerField(
         default=0,
-        choices=Mission.PRIORITIES,
+        choices=settings.PLAYER_LEVELS,
         help_text=(
             "Which level of Recycling Missions to recommend" + " for this player."
         ),
@@ -67,7 +66,7 @@ class Profile(models.Model):
     )
     offsets_level = models.IntegerField(
         default=0,
-        choices=Mission.PRIORITIES,
+        choices=settings.PLAYER_LEVELS,
         help_text=(
             "Which level of Airlines-Utilities Missions to recommend"
             + " for this player."
@@ -84,7 +83,7 @@ class Profile(models.Model):
     )
     utilities_level = models.IntegerField(
         default=0,
-        choices=Mission.PRIORITIES,
+        choices=settings.PLAYER_LEVELS,
         help_text=(
             "Which level of Utilities Missions to recommend" + " for this player."
         ),

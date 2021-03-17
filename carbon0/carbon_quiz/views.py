@@ -109,8 +109,9 @@ def get_missions_for_journey(missions, player_level, category):
 
     """
     # get all Questions related to the category
-    category_questions = Question.objects.filter(category=category, 
-                                                 is_quiz_question=True)
+    category_questions = Question.objects.filter(
+        category=category, is_quiz_question=True
+    )
     # keep only Missions related those Questions
     missions = [
         m
@@ -131,8 +132,9 @@ class QuizCreate(CreateView):
 
     def generate_random_question(self, category):
         """Gets a Question model in a specific category randomly."""
-        category_questions = Question.objects.filter(category=category, 
-                                                     is_quiz_question=True)
+        category_questions = Question.objects.filter(
+            category=category, is_quiz_question=True
+        )
         return random.sample(set(category_questions), 1)[0]
 
     def form_valid(self, form):

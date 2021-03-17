@@ -1,5 +1,5 @@
 import random
-from django.contrib.postgres.fields import ArrayField
+from django.conf import settings
 from django.db import models
 
 from .question import Question
@@ -46,14 +46,10 @@ class Mission(models.Model):
     requires_answer = models.BooleanField(
         default=False, help_text="Does this mission need a text answer?"
     )
-    PRIORITIES = [
-        (0, "Beginner Level"),
-        (1, "Intermediate Level"),
-        (2, "Advanced Level"),
-        (3, "Expert Level"),
-    ]
     priority_level = models.IntegerField(
-        default=0, help_text="The stage at which a player is ready for this mission."
+        default=0,
+        help_text="The stage at which a player is ready for this mission.",
+        choices=settings.PLAYER_LEVELS,
     )
     CATEGORIES = [
         "Diet-Category",
