@@ -2,6 +2,7 @@ import random
 from django.conf import settings
 from django.db import models
 
+from garden.models.plant import Plant
 from .question import Question
 
 
@@ -63,6 +64,14 @@ class Mission(models.Model):
     )
     needs_scan = models.BooleanField(
         default=False, help_text="Is the mission completed by scanning a QR code."
+    )
+    plant = models.OneToOneField(
+        Plant,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        help_text="Specific Plant instance to \
+             which the mission may be related.",
     )
 
     def __str__(self):
