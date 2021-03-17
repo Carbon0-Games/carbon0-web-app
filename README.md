@@ -91,7 +91,7 @@ With that, feel free to run the command in Step 1 once more!
     - Do any db migrations that might be needed, using `python manage.py migrate`
     - Also migrate the initial data for the database, using the `loaddata` command:
         ```
-        python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json
+        python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json garden/fixtures/machine_learning_data.json
         ```
 
 ### __Running Locally__

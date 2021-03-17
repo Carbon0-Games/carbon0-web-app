@@ -1,0 +1,9 @@
+[
+  {
+    "model": "garden.machinelearning",
+    "pk": 4,
+    "fields": {
+      "purpose": "V"
+    }
+  }
+]

@@ -21,7 +21,7 @@ export DJANGO_SETTINGS_MODULE=carbon0.settings.local
 # migrate data and SQL schema
 python manage.py collectstatic --noinput
 python manage.py migrate --noinput
-python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json
+python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json garden/fixtures/machine_learning_data.json
 
 # Make a superuser account if not already available, and add a Profile for it
 echo "
