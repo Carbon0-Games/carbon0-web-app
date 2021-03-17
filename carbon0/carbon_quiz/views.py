@@ -109,7 +109,9 @@ def get_missions_for_journey(missions, player_level, category):
 
     """
     # get all Questions related to the category
-    category_questions = Question.objects.filter(category=category)
+    category_questions = Question.objects.filter(
+        category=category, is_quiz_question=True
+    )
     # keep only Missions related those Questions
     missions = [
         m
@@ -126,11 +128,13 @@ class QuizCreate(CreateView):
     model = Quiz
     fields = []
     template_name = "carbon_quiz/quiz/create.html"
-    queryset = Question.objects.all()
+    queryset = Question.objects.filter(is_quiz_question=True)
 
     def generate_random_question(self, category):
         """Gets a Question model in a specific category randomly."""
-        category_questions = Question.objects.filter(category=category)
+        category_questions = Question.objects.filter(
+            category=category, is_quiz_question=True
+        )
         return random.sample(set(category_questions), 1)[0]
 
     def form_valid(self, form):
@@ -279,10 +283,12 @@ class QuizDetail(UpdateView):
 
 
 class MissionList(ListView):
-    """Displays all the Missions not yet completed by the user."""
+    """Displays all the Missions not yet completed by the user,
+    and are separate from the gardening missions.
+    """
 
     model = Mission
-    queryset = Mission.objects.all()
+    queryset = Mission.objects.filter(plant__isnull=True)
     # reuse the QuizDetail template, for when question is not in the context
     template_name = "carbon_quiz/mission/list.html"
 
@@ -513,7 +519,9 @@ class MissionTracker(View):
             zip(Question.get_category_abbreviations(), Mission.CATEGORIES)
         )
         # C: filter all the tracking Missions
-        tracking_missions = Mission.objects.filter(needs_auth=True, needs_scan=True)
+        tracking_missions = Mission.objects.filter(
+            needs_auth=True, needs_scan=True, plant__isnull=True
+        )
         # D: see which Mission categories have tracking missions
         for question_category in categories.keys():
             # look up tracking missions in this cateogory
@@ -538,6 +546,8 @@ class MissionTracker(View):
         # init the context
         context = dict()
         context["domain"] = get_domain(request)
-        context["missions"] = Mission.objects.filter(needs_scan=True, needs_auth=True)
+        context["missions"] = Mission.objects.filter(
+            needs_scan=True, needs_auth=True
+        )
         # return the context
         return render(request, self.template_name, context)

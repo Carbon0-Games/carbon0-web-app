@@ -9,6 +9,7 @@ from django.test.client import RequestFactory
 from django.urls import reverse
 
 from accounts.models.profile import Profile
+from carbon_quiz.models.question import Question
 from .models.leaf import Leaf
 from .models.ml import MachineLearning
 from .models.plant import Plant
@@ -158,6 +159,15 @@ class PlantCreateTests(TestCase):
         # make a profile for the user
         self.profile = Profile.objects.create(user=self.user)
         self.profile.save()
+        # Save a question for making an associated Mission for the Plant
+        question = Question.objects.create(
+            question_text="Do you take care of any garden plants?",
+            question_info="A 2016 UC ANR study found that...",
+            carbon_value=0,
+            category="D",
+            is_quiz_question=False,
+        )
+        question.save()
 
     def test_get_create_form(self):
         """A user visits the PlantCreate form and gets a response."""

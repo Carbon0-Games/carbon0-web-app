@@ -130,7 +130,8 @@ class Quiz(models.Model):
         does not necessarily need to improve.
         """
         # get all the ids of all Questions, removing affirmative ones
-        not_improvement_questions = Question.objects.exclude(pk__in=self.questions)
+        queryset = Question.objects.filter(is_quiz_question=True)
+        not_improvement_questions = queryset.exclude(pk__in=self.questions)
         # randomly sample missions
         missions = list()
         for question_obj in not_improvement_questions:

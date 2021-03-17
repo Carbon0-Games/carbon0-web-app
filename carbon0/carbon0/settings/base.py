@@ -15,7 +15,6 @@ import django_heroku
 import dj_database_url
 import os
 from pathlib import Path
-from sentry_sdk.integrations.django import DjangoIntegration
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -119,6 +118,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": VAL_4},
 ]
 
+# These are the levels a player can be at - used for scoring and
+# recommendation algorithms
+PLAYER_LEVELS = [
+    (0, "Beginner Level"),
+    (1, "Intermediate Level"),
+    (2, "Advanced Level"),
+    (3, "Expert Level"),
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

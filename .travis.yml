@@ -15,5 +15,5 @@ script:
   - export DJANGO_SETTINGS_MODULE=carbon0.settings.local
   - python manage.py collectstatic --noinput
   - python manage.py migrate
-  - python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json  
+  - python manage.py loaddata carbon_quiz/fixtures/mission_link_data.json carbon_quiz/fixtures/question_data.json garden/fixtures/machine_learning_data.json   
   - python manage.py test

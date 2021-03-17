@@ -9,9 +9,11 @@ from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 
 from carbon_quiz.models.achievement import Achievement
+from carbon_quiz.models.mission import Mission
+from carbon_quiz.models.question import Question
 from .forms import (
     HarvestForm,
-    LeafForm, 
+    LeafForm,
     PlantForm,
 )
 from .models.leaf import Leaf
@@ -162,12 +164,42 @@ class PlantCreate(LoginRequiredMixin, CreateView):
     template_name = "garden/plant/create.html"
     queryset = Plant.objects.all()
 
-    def form_valid(self, form: ModelForm, request: HttpRequest):
-        """Ensures the new Plant instance is connected to the user,
-        and that the is_edible field is boolean."""
+    def associate_mission(self, plant):
+        """Adds a Tracking Mission to remind the user about their plant."""
+        # A: NOTE: be careful if there is more than 1 non-quiz question!
+        non_quiz_questions = Question.objects.filter(is_quiz_question=False)
+        garden_question = non_quiz_questions.order_by("id").first()
+        # B: instanitate and save the new Mission model
+        new_mission = Mission.objects.create(
+            title=f"Taking Care of {plant.nickname}",
+            action=f"Make sure to check-in on {plant.nickname}!",
+            question=garden_question,
+            plant=plant,
+            needs_auth=True,
+            needs_scan=True,
+        )
+        new_mission.save()
+
+    def form_valid(self, form: PlantForm, request: HttpRequest):
+        """Saves the associated plant model and mission, and
+        redirects the player.
+
+        Parameters:
+        form(ModelForm): contains the data needed to make a new Plant
+        request(HttpRequest): encapsulates the user who owns the Plant
+
+        Returns: HttpResponseRedirect: player goes to the PlantDetail view
+        """
+        # A: the new Plant instance must be connected to the user
         form.instance.profile = request.user.profile
+        # B: the is_edible field must be  boolean
         form.instance.is_edible = form.instance.is_edible == True
-        return super().form_valid(form)
+        # C: saving the new Plant
+        self.object = form.save()
+        # D: saving a Mission associated to the Plant
+        self.associate_mission(self.object)
+        # E: redirect the user
+        return HttpResponseRedirect(super().get_success_url())
 
     def post(self, request: HttpRequest):
         """Submits the new Plant instance to the db, if the form validates."""
@@ -179,7 +211,7 @@ class PlantCreate(LoginRequiredMixin, CreateView):
 
 class HarvestView(LoginRequiredMixin, TemplateView):
     """User is able to earn points for growing their own produce."""
-    
+
     model = Plant
     form_class = HarvestForm
     template_name = "garden/plant/harvest.html"
@@ -199,10 +231,7 @@ class HarvestView(LoginRequiredMixin, TemplateView):
         """
         plant = self.queryset.get(slug=slug)
         form = self.form_class()
-        context = {
-            "plant": plant,
-            "form": form
-        }
+        context = {"plant": plant, "form": form}
         return render(request, self.template_name, context)
 
     def form_valid(self, slug, form) -> HttpResponseRedirect:
@@ -228,16 +257,16 @@ class HarvestView(LoginRequiredMixin, TemplateView):
         user.save()
         # D: add a Achievement for the harvest, give it the diet category
         new_achievement = Achievement.objects.create(
-            profile=user, 
+            profile=user,
             harvest_decrease=new_harvest_amount,
-            zeron_image_url=Achievement.ZERONS[0][0]
+            zeron_image_url=Achievement.ZERONS[0][0],
         )
         new_achievement.save()
-        # E: redirect to the PlantDetail view    
+        # E: redirect to the PlantDetail view
         return HttpResponseRedirect(plant.get_absolute_url())
 
     def post(self, request, slug):
-        """Processes the form submission and updates the 
+        """Processes the form submission and updates the
         Player and Plant profiles accordingly.
 
         Parameters:
@@ -250,14 +279,10 @@ class HarvestView(LoginRequiredMixin, TemplateView):
         """
         # A: instanitate the form
         form = self.form_class(request.POST)
-        # B: validate the form 
+        # B: validate the form
         if form.is_valid():
             # add a success message
-            messages.add_message(request, messages.SUCCESS, 
-                                 self.success_message)
+            messages.add_message(request, messages.SUCCESS, self.success_message)
             # process the form as appropiate
             return self.form_valid(slug, form)
         return self.form_invalid(form)
-
-
-

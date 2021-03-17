@@ -50,6 +50,9 @@ class Question(models.Model):
             + "to this area of their carbon footprint."
         ),
     )
+    is_quiz_question = models.BooleanField(
+        default=True, help_text="Will the question appear on a Quiz at all."
+    )
 
     def __str__(self):
         """Returns the category of the Question, and it's id."""

@@ -281,6 +281,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     """
 
     template_name = "accounts/auth/profile.html"
+    # these are the missions to pick from randomly if needed
+    mission_queryset = Mission.objects.filter(plant__isnull=True)
 
     def _suggest_missions(self, user):
         """Return uncompleted missions the User will most likely enjoy,
@@ -338,7 +340,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             missions = get_non_improvement_missions(latest_achievement)
         # if failure, try to grab missions randomly
         if len(missions) == 0:
-            missions = random.sample(set(Mission.objects.all()), 3)
+            missions = random.sample(set(self.mission_queryset), 3)
             is_random = True
         # return the missions
         return is_random, missions
@@ -417,7 +419,10 @@ class MissionTrackerComplete(View):
         tracking_missions = list()
         # B: filter all the tracking Missions
         tracking_missions = Mission.objects.filter(
-            needs_auth=True, needs_scan=True, question__category=category
+            needs_auth=True,
+            needs_scan=True,
+            question__category=category,
+            plant__isnull=True,
         )
         # C: return the missions
         return tracking_missions
