@@ -158,7 +158,7 @@ class QuizDetail(UpdateView):
     model = Quiz
     quiz_template_name = "carbon_quiz/quiz/detail.html"
     mission_template_name = "carbon_quiz/mission/results.html"
-    queryset = Quiz.objects.filter(is_quiz_question=True)
+    queryset = Quiz.objects.all()
     form_class = QuizForm
 
     def get(self, request, slug, question_number):

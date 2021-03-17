@@ -42,9 +42,6 @@ class Quiz(models.Model):
         default=list,
     )
     previous_carbon_value = models.FloatField(blank=True, default=1, editable=False)
-    is_quiz_question = models.BooleanField(
-        default=True, help_text="Will the question appear on a Quiz at all."
-    )
 
     def __str__(self):
         """Returns human-readable name of the Quiz."""
