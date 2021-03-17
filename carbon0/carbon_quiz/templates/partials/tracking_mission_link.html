@@ -46,9 +46,17 @@
 <div class="card" style="border-radius: 16px;">
     <!-- The "src" attribute of the images below is set to request from the QR Code Generator API: http://goqr.me/api/doc/create-qr-code/#quickstart -->
     <div class="row justify-content-center card-img-top mt-1 mx-1">
-        <img id="{{ mission.question.category }}-Sign-{{mission.id}}-image"
-            src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ domain }}{% url 'api:mission_tracking_achievement' mission.id %}&color=0-150-4&format=png"
-            alt="A sign for tracking {{mission.question.category }} missions" style="max-height: 25vh" class="mt-2 px-2" />
+        <!-- QR code for tracking missions (not related to the user's garden) -->
+        {% if mission.plant is None %}
+            <img id="{{ mission.question.category }}-Sign-{{mission.id}}-image"
+                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ domain }}{% url 'api:mission_tracking_achievement' mission.id %}&color=0-150-4&format=png"
+                alt="A sign for tracking {{mission.question.category }} missions" style="max-height: 25vh" class="mt-2 px-2" />
+        <!-- QR code for tracking missions related to the user's garden -->
+        {% else %}
+            <img id="{{ mission.question.category }}-Sign-{{mission.id}}-image"
+                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ domain }}{% url 'garden:plant_detail' mission.plant.slug %}&color=0-150-4&format=png"
+                alt="A sign for tracking {{ mission.plant.nickname }}" style="max-height: 25vh" class="mt-2 px-2" />
+        {% endif %}
     </div>
     <div class="card-title mt-2 ml-2">
         <h3 id="{mission.question.category}}-Sign-{{mission.id}}-id" class="text-dark">{{ mission.action }}</h3>

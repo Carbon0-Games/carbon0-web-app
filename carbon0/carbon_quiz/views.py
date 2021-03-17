@@ -547,7 +547,7 @@ class MissionTracker(View):
         context = dict()
         context["domain"] = get_domain(request)
         context["missions"] = Mission.objects.filter(
-            needs_scan=True, needs_auth=True, plant__isnull=True
+            needs_scan=True, needs_auth=True
         )
         # return the context
         return render(request, self.template_name, context)
