@@ -121,7 +121,8 @@ class Quiz(models.Model):
                     question=question_obj, priority_level__lte=level_threshold
                 ).first()
                 # add it to the list of Missions
-                missions.append(mission)
+                if mission is not None:
+                    missions.append(mission)
         return missions
 
     def get_unrelated_missions(self):
