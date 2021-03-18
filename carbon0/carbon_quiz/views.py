@@ -212,10 +212,8 @@ class QuizDetail(UpdateView):
                 missions = quiz.get_related_missions(request.user.profile)
                 # finally, take out missions completed before
                 missions = filter_completed_missions(missions, request.user)
-                print("Got user mission!", missions)
             # choose missions randomly for site visitors, or as a fallback
             if is_logged_in is False or len(missions) == 0: 
-                print("randomized mmissions", missions)
                 # if no missions to suggest, give 3 randomly (don't require auth)
                 missions = Mission.objects.filter(needs_auth=False)
                 missions = random.sample(set(missions), 3)
