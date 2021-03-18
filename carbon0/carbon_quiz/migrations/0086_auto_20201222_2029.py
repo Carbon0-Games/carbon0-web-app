@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name="mission",
-            name="needs_scan",
+            name="needs_photo",
             field=models.BooleanField(
                 default=False, help_text="Is the mission completed by taking a photo."
             ),
