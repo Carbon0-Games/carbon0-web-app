@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.forms import ModelForm
+from django.db.models.query import QuerySet
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
@@ -116,6 +116,11 @@ class PersonalPlantList(LoginRequiredMixin, ListView):
     queryset = Plant.objects.all()
     template_name = "garden/plant/list.html"
 
+    def get_queryset(self, user) -> QuerySet:
+        '''Returns only the Plant objects related to the user's profile.'''
+        personal_plants = self.queryset.filter(profile=user.profile)
+        return personal_plants
+
     def get(self, request: HttpRequest) -> HttpResponse:
         """Where the user can see all their registered plants.
 
@@ -125,7 +130,7 @@ class PersonalPlantList(LoginRequiredMixin, ListView):
         Response: HttpResponse: the view of the template
         """
         # define the context
-        context = {"plants": self.get_queryset()}
+        context = {"plants": self.get_queryset(request.user)}
         # return the response
         return render(request, self.template_name, context)
 

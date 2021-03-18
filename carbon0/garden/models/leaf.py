@@ -13,7 +13,7 @@ class Leaf(models.Model):
     # save static files related to this model in app subdirectory
     UPLOAD_LOCATION = os.path.join("garden", "images")
     image = models.ImageField(
-        upload_to=UPLOAD_LOCATION, null=True, blank=True, help_text="Image of the leaf."
+        upload_to=UPLOAD_LOCATION, null=True, blank=True,
     )
     STATUSES = [
         ("M", "Moderate"),  # can also set this option when the model is unsure

@@ -93,11 +93,13 @@ class PersonalPlantListTests(TestCase):
         self.client = Client()
         self.factory = RequestFactory()
         self.url = reverse("garden:plant_list")
+        # create a user with a profile
         self.user = get_user_model().objects.create_user(
             "testing_user456",  # username
             "test@email.com",  # email
             "carbon0_ftw123",  # password
         )
+        profile = Profile.objects.create(user=self.user).save()
 
     def test_get_list_page_authenticated(self):
         """A user requests the PersonalPlantList view and gets a valid response."""
