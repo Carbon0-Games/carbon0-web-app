@@ -202,20 +202,22 @@ class QuizDetail(UpdateView):
             is_random = False
             missions = list()
             # if the user is logged in, acculmulate their total footprint
-            if request.user.is_authenticated is True:
+            is_logged_in = request.user.is_authenticated
+            if is_logged_in is True:
                 # get the User profile
                 profile = Profile.objects.get(user=user)
                 # update their profile's footprint
                 profile.increase_user_footprint(quiz)
                 # find the missions the user can choose
                 missions = quiz.get_related_missions(request.user.profile)
-            else:  # choose missions randomly for site visitors
+                # finally, take out missions completed before
+                missions = filter_completed_missions(missions, request.user)
+            # choose missions randomly for site visitors, or as a fallback
+            if is_logged_in is False or len(missions) == 0: 
                 # if no missions to suggest, give 3 randomly (don't require auth)
                 missions = Mission.objects.filter(needs_auth=False)
                 missions = random.sample(set(missions), 3)
                 is_random = True
-            # finally, take out missions completed before
-            missions = filter_completed_missions(missions, request.user)
             # set the additional key value pairs
             key_value_pairs = [
                 ("missions", missions),  # possible missions for the user
