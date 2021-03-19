@@ -33,3 +33,7 @@ UTIL_ZERON_PATHS = [str(os.getenv("UTIL_GLB")), str(os.getenv("UTIL_USDZ"))]
 
 # Mixpanel Project Token
 MP_PROJECT_TOKEN = str(os.getenv("MP_PROJECT_TOKEN", ""))
+
+# Using Upgraded Authorization for S3 objects: 
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_S3_SIGNATURE_VERSION = 's3v4'
