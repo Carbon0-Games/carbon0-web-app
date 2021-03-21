@@ -1,0 +1,42 @@
+<!-- carbon0/garden/templates/garden/plant/delete.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    <style>
+        /* form fields are in black */
+        label, span {
+            color: black;
+        }
+    </style>
+    <div class="main">
+        <div class="container">
+            <!-- Header -->
+            <div class="row mt-5 mb-2 ml-3">
+                <h1 class="blue-header">Delete Your Plant</h1>
+            </div>
+            <!-- Plant Registration Form -->
+            <div class="card">
+                <div class="card-title">
+                    <p class="text-dark">
+                        Please confirm you are deleting your plant below.
+                    </p>
+                </div>
+                <form class="form-group card-body" method="post">
+                    {% csrf_token %}
+                    <div class="text-dark">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="row justify-content-center">
+                        <input class="mr-5 btn btn-danger" type="submit" value="Delete!">
+                        <a class="btn btn-warning" href="{% url 'garden:plant_detail' plant.slug %}">
+                            Back to My Plant
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
