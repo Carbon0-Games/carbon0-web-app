@@ -5,7 +5,12 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from django.views.generic.edit import (
+    CreateView,
+    DeleteView,
+    UpdateView,
+)
 from django.views.generic import ListView
 
 from carbon_quiz.models.achievement import Achievement
@@ -291,3 +296,19 @@ class HarvestView(LoginRequiredMixin, TemplateView):
             # process the form as appropiate
             return self.form_valid(slug, form)
         return self.form_invalid(form)
+
+    
+class PlantUpdate(LoginRequiredMixin, UpdateView):
+    """User is able to edit the information about their garden plant."""
+    model = Plant
+    form_class = PlantForm
+    template_name = "garden/plant/update.html"
+    queryset = Plant.objects.all()
+
+
+class PlantDelete(LoginRequiredMixin, DeleteView):
+    """User is able to remove their garden plant from the game."""
+    model = Plant
+    template_name = "garden/plant/delete.html"
+    success_url = reverse_lazy("garden:plant_list")
+    queryset = Plant.objects.all()

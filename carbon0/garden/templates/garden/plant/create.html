@@ -4,39 +4,39 @@
 
 {% block content %}
 
-<style>
-    /* form fields are in black */
-    label, span {
-        color: black;
-    }
-</style>
+    <style>
+        /* form fields are in black */
+        label, span {
+            color: black;
+        }
+    </style>
     <div class="main">
         <div class="container">
-        <!-- Header -->
-        <div class="row mt-5 mb-2 ml-3">
-            <h1 class="blue-header">Add a Plant</h1>
-        </div>
-        <!-- Plant Registration Form -->
-        <div class="card">
-            <div class="card-title">
-                <p class="text-dark">
-                    Please fill out the form below.
-                </p>
+            <!-- Header -->
+            <div class="row mt-5 mb-2 ml-3">
+                <h1 class="blue-header">Add a Plant</h1>
             </div>
-            <form class="form-group card-body" method="post">
-                {% csrf_token %}
-                <div class="text-dark">
-                    {{ form.as_p }}
+            <!-- Plant Registration Form -->
+            <div class="card">
+                <div class="card-title">
+                    <p class="text-dark">
+                        Please fill out the form below.
+                    </p>
                 </div>
-                <div class="row justify-content-center">
-                    <input class="mr-5 btn btn-success" type="submit" value="All Done!">
-                    <a class="btn btn-warning" href="{% url 'garden:plant_list' %}">
-                        Back to My Garden
-                    </a>
-                </div>
-            </form>
+                <form class="form-group card-body" method="post">
+                    {% csrf_token %}
+                    <div class="text-dark">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="row justify-content-center">
+                        <input class="mr-5 btn btn-success" type="submit" value="All Done!">
+                        <a class="btn btn-warning" href="{% url 'garden:plant_list' %}">
+                            Back to My Garden
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
     </div>
 
 {% endblock %}
