@@ -1,4 +1,4 @@
-<!-- carbon0/garden/templates/garden/plant/create.html -->
+<!-- carbon0/garden/templates/garden/plant/update.html -->
 
 {% extends "base.html" %}
 
@@ -14,13 +14,13 @@
         <div class="container">
             <!-- Header -->
             <div class="row mt-5 mb-2 ml-3">
-                <h1 class="blue-header">Add a Plant</h1>
+                <h1 class="blue-header">Edit Your Plant</h1>
             </div>
             <!-- Plant Registration Form -->
             <div class="card">
                 <div class="card-title">
                     <p class="text-dark">
-                        Please fill out the form below.
+                        Please change your plant details using the form below.
                     </p>
                 </div>
                 <form class="form-group card-body" method="post">
@@ -30,8 +30,8 @@
                     </div>
                     <div class="row justify-content-center">
                         <input class="mr-5 btn btn-success" type="submit" value="All Done!">
-                        <a class="btn btn-warning" href="{% url 'garden:plant_list' %}">
-                            Back to My Garden
+                        <a class="btn btn-warning" href="{% url 'garden:plant_detail' plant.slug %}">
+                            Back to My Plant
                         </a>
                     </div>
                 </form>
